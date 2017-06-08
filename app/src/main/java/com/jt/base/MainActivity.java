@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
         //加载背景图片
         Glide.with(this)
-                .load("http://123.206.89.244/ty/10752.jpg")
+                .load("https://ws1.sinaimg.cn/large/610dc034ly1ffv3gxs37oj20u011i0vk.jpg")
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

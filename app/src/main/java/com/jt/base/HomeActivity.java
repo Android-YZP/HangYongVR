@@ -20,7 +20,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         int[] sdkver = TXLivePusher.getSDKVersion();
         if (sdkver != null && sdkver.length >= 3) {
             Log.e("rtmpsdk", "rtmp sdk version is:" + sdkver[0] + "." + sdkver[1] + "." + sdkver[2]);

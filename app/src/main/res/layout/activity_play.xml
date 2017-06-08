@@ -4,7 +4,7 @@
     android:layout_height="match_parent" 
     android:id="@+id/id_root_layout"
     android:background="#FF000000">
-    <com.example.m1762.testvr.vrplayer.SnailPlayerVideoView
+    <com.jt.base.vrplayer.SnailPlayerVideoView
         android:id="@+id/id_videoview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
