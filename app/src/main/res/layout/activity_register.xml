@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fl_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
-    tools:context=".videoDetails.MainActivity">
+    tools:context="com.jt.base.login.RegisterActivity">
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
-        android:id="@+id/pano_view"
+        android:id="@+id/pano_view_register"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="@null" />
 
-    <com.jt.base.ui.VerticalViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</FrameLayout>
+</LinearLayout>

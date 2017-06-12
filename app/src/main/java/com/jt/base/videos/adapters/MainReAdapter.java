@@ -1,4 +1,4 @@
-package com.jt.base.mainfragments.adapters;
+package com.jt.base.videos.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

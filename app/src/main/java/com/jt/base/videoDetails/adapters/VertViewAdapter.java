@@ -1,9 +1,11 @@
-package com.jt.base;
+package com.jt.base.videoDetails.adapters;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.jt.base.videoDetails.VideoDetailsFragment;
 
 /**
  * Created by m1762 on 2017/5/25.
@@ -19,11 +21,11 @@ public class VertViewAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        BlankFragment blankFragment = new BlankFragment();
+        VideoDetailsFragment videoDetailsFragment = new VideoDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("Data",Data);
-        blankFragment.setArguments(bundle);
-        return blankFragment;
+        videoDetailsFragment.setArguments(bundle);
+        return videoDetailsFragment;
     }
 
     @Override

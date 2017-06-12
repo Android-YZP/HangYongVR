@@ -1,4 +1,4 @@
-package com.jt.base;
+package com.jt.base.videoDetails;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +20,12 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
+import com.jt.base.HomeActivity;
+import com.jt.base.utils.ImageUtil;
+import com.jt.base.videoDetails.adapters.VertViewAdapter;
+import com.jt.base.videos.VideoActivity;
+import com.jt.base.R;
+import com.jt.base.ui.VerticalViewPager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             public void onMove(boolean isRight) {
                 if (isRight) {
                     Log.e("滑动333", "向右滑动");
-                    startActivity(new Intent(MainActivity.this, ItemActivity.class));
+                    startActivity(new Intent(MainActivity.this, VideoActivity.class));
                 } else {
                     Log.e("滑动333", "向左滑动");
                     startActivity(new Intent(MainActivity.this, HomeActivity.class));

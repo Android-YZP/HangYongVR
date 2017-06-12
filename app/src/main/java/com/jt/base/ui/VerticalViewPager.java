@@ -1,4 +1,4 @@
-package com.jt.base;
+package com.jt.base.ui;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

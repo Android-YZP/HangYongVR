@@ -1,4 +1,4 @@
-package com.jt.base.mainfragments;
+package com.jt.base.videos;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
