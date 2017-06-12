@@ -23,6 +23,8 @@ import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.File;
+
 public class RegisterActivity extends AppCompatActivity {
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
@@ -72,10 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
         RequestParams requestParams = new RequestParams(HttpURL.Register);
         requestParams.addHeader("token", HttpURL.Token);
         //包装请求参数
-        requestParams.addBodyParameter("phone", phone);//用户名
-        requestParams.addBodyParameter("yzm", yzm);//用户名
-        requestParams.addBodyParameter("psw", psw);//用户名
-        requestParams.addBodyParameter("psw1", psw1);//用户名
+        requestParams.addBodyParameter("phone", phone);//手机号
+        requestParams.addBodyParameter("yzm", yzm);//验证码
+        requestParams.addBodyParameter("psw", psw);//密码
+        requestParams.addBodyParameter("psw1", psw1);//密码2
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
 
@@ -133,9 +135,40 @@ public class RegisterActivity extends AppCompatActivity {
                 UIUtils.showTip(ex.getMessage());
             }
         });
+    }
 
+
+    public void upLoadFile( File file) {
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.SendYzm);
+        requestParams.addHeader("token", HttpURL.Token);
+        //包装请求参数
+//        requestParams.addBodyParameter("phone", );//用户名
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
+                LogUtil.i(loginBean.getMsg()+"");
+                if (loginBean.getMsg().equals("success")){
+
+
+                }else {
+                    UIUtils.showTip(loginBean.getMsg());
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip(ex.getMessage());
+            }
+        });
 
     }
+
 
 
 

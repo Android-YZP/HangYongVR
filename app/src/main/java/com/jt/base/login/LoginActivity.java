@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        HttpLogin("18115756528", "123456");
+        HttpLogin("17625017026", "123456");
         initPanorama();
     }
 
