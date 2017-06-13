@@ -11,6 +11,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.jt.base.R;
 import com.jt.base.login.LoginActivity;
+import com.jt.base.login.PersonalActivity;
 import com.jt.base.login.RegisterActivity;
 import com.jt.base.vrplayer.VpMainAdapter;
 
@@ -54,6 +55,7 @@ public class VideoActivity extends AppCompatActivity {
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .setFirstSelectedPosition(0)
                 .initialise();
 
@@ -65,6 +67,8 @@ public class VideoActivity extends AppCompatActivity {
                     startActivity(new Intent(VideoActivity.this, LoginActivity.class));
                 }else if (position == 4){
                     startActivity(new Intent(VideoActivity.this, RegisterActivity.class));
+                }else if (position == 5){
+                    startActivity(new Intent(VideoActivity.this, PersonalActivity.class));
                 }
             }
 

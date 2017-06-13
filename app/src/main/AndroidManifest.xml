@@ -77,7 +77,21 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".videos.VideoActivity" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".login.RegisterActivity"></activity>
+        <activity android:name=".login.RegisterActivity" />
+        <activity android:name=".login.takepic.PermissionsActivity" />
+        <activity android:name=".login.PersonalActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.jt.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity android:name=".login.ForgetActivity"></activity>
     </application>
 
 </manifest>
