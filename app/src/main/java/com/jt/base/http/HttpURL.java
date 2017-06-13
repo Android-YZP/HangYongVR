@@ -24,7 +24,7 @@ public class HttpURL {
     /**
      * 上传头像
      */
-    public static String UpdateHeadPic = Host +"user/update/android/img";
+    public static String UpdateHeadPic = "http://192.168.1.99:8080/api/" +"user/update/android/img";
     /**
      * 更新密码
      */
