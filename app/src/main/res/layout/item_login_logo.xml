@@ -23,7 +23,7 @@
             android:cursorVisible="false"
             android:gravity="center_vertical"
             android:hint="手机号"
-           android:inputType="number"
+            android:inputType="number"
             android:maxLines="1"
             android:textSize="18sp" />
 
@@ -32,14 +32,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
-            android:gravity="center_vertical"
             android:layout_weight="1"
             android:background="@null"
-            android:inputType="textPassword"
             android:cursorVisible="false"
-            android:paddingBottom="7dp"
+            android:gravity="center_vertical"
             android:hint="密码"
+            android:inputType="textPassword"
             android:maxLines="1"
+            android:paddingBottom="7dp"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -51,10 +51,10 @@
             android:id="@+id/checkBox"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginLeft="55dp"
+            android:layout_marginLeft="50dp"
             android:background="@drawable/selector_login_check"
             android:button="@null"
-            android:gravity="center" />
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/item_login_tv"
@@ -83,8 +83,9 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="15dp"
-        android:background="#06b9d7"
+        android:background="@drawable/btn_vr_login"
         android:gravity="center"
         android:text="登录"
+        android:textColor="#fff"
         android:textSize="25sp" />
 </LinearLayout>
