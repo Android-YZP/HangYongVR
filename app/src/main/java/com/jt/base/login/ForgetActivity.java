@@ -2,10 +2,16 @@ package com.jt.base.login;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -16,16 +22,32 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
+import com.jt.base.http.responsebean.ResetPasswordBean;
+import com.jt.base.utils.StringUtils;
 import com.jt.base.utils.UIUtils;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-public class ForgetActivity extends AppCompatActivity {
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class ForgetActivity extends AppCompatActivity implements View.OnClickListener {
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
+    private EditText mEtForgetPhone;
+    private EditText mEtForgetYZM;
+    private EditText mEtForgetPassword;
+    private EditText mEtForgetNewPassword;
+    private TextView mTvForgetYZM;
+    private Button mTvForgetCommit;
+    private boolean isSendSms = false;
+    private Timer mTimer;
+    private TimerTask task;
+    private int recLen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -35,6 +57,24 @@ public class ForgetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget);
         initPanorama();
+        initView();
+        initListener();
+    }
+
+    private void initListener() {
+        mTvForgetYZM.setOnClickListener(this);
+        mTvForgetCommit.setOnClickListener(this);
+    }
+
+    private void initView() {
+        mEtForgetPhone = (EditText) findViewById(R.id.et_forget_phone);
+        mEtForgetYZM = (EditText) findViewById(R.id.et_forget_yzm);
+        mEtForgetPassword = (EditText) findViewById(R.id.et_forget_password);
+        mEtForgetNewPassword = (EditText) findViewById(R.id.et_forget_new_password);
+        mTvForgetYZM = (TextView) findViewById(R.id.tv_forger_yzm);
+        mTvForgetCommit = (Button) findViewById(R.id.btn_activity_forget_commit);
+
+
     }
 
     /**
@@ -63,6 +103,56 @@ public class ForgetActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            /**
+             * 重置密码
+             */
+            case R.id.tv_forger_yzm:
+
+                if (isSendSms) {
+                    return;
+                }
+                String smsPhone = mEtForgetPhone.getText().toString();
+                if (StringUtils.isPhone(smsPhone)) {//判断手机号是不是手机号
+                    HttpResetPassWordYZM(smsPhone);
+                    timekeeping();
+                } else {
+                    UIUtils.showTip("请填入正确的手机号");
+                }
+
+                break;
+
+            /**
+             * 重置密码
+             */
+            case R.id.btn_activity_forget_commit:
+                String forgetPhone = mEtForgetPhone.getText().toString();
+                String forgetYZM = mEtForgetYZM.getText().toString();
+                String forgetPassword = mEtForgetPassword.getText().toString();
+                String forgetPassword2 = mEtForgetNewPassword.getText().toString();
+                if (!StringUtils.isPhone(forgetPhone)) {
+                    UIUtils.showTip("请输入正确的手机号码");
+                    return;
+                }
+                if (TextUtils.isEmpty(forgetYZM)) {
+                    UIUtils.showTip("请输入验证码");
+                    return;
+                }
+                if (TextUtils.isEmpty(forgetPassword) || TextUtils.isEmpty(forgetPassword2)) {
+                    UIUtils.showTip("请输入密码");
+                    return;
+                }
+                if (!forgetPassword.equals(forgetPassword2)) {
+                    UIUtils.showTip("二次密码输入不一致");
+                    return;
+                }
+                HttpResetPassWord(forgetPhone, forgetYZM, forgetPassword, forgetPassword2);
+                break;
+        }
+    }
+
     /**
      * 重置密码
      */
@@ -81,8 +171,13 @@ public class ForgetActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-
-
+                ResetPasswordBean resetPasswordBean = new Gson().fromJson(result, ResetPasswordBean.class);
+                if (resetPasswordBean.getMsg().equals("success")) {
+                    UIUtils.showTip("密码重置成功");
+                    finish();
+                } else {
+                    UIUtils.showTip(resetPasswordBean.getMsg());
+                }
             }
 
             @Override
@@ -119,6 +214,37 @@ public class ForgetActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     * 计时重新发送验证码
+     */
+    private void timekeeping() {
+        recLen = 120;
+        mTimer = new Timer();
+        // UI thread
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {      // UI thread
+                    @Override
+                    public void run() {
+                        recLen--;
+                        mTvForgetYZM.setText("已发送  " + recLen);
+                        if (recLen < 0) {
+                            mTimer.cancel();
+                            isSendSms = false;//时间到了就可以再次发送了
+                            mTvForgetYZM.setText("短信验证码");
+                        }
+                    }
+                });
+            }
+        };
+        //从现在起过10毫秒以后，每隔1000毫秒执行一次。
+        mTimer.schedule(task, 10, 1000);    // timeTask
+        isSendSms = true;//不能再发验证码了
+    }
+
 
     /**
      * Listen to the important events from widget.
