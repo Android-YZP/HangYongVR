@@ -29,10 +29,14 @@ import com.jt.base.http.JsonCallBack;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.StringUtils;
 import com.jt.base.utils.UIUtils;
+import com.tencent.cos.task.Task;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private VrPanoramaView panoWidgetView;
@@ -44,7 +48,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CheckBox mCheckBox;
     private Button mLoginButton;
     private ProgressDialog mProgressDialog;
+    private TextView mTvRegister;
+    private TextView mTvLogin;
+    private LinearLayout mRootRegisterView;
+    private LinearLayout mRootLoginView;
+    private EditText mRegisterPhone;
+    private EditText mRegisterPassword;
+    private EditText mRegisterPassword2;
+    private EditText mRegisterYZM;
+    private TextView mRegisterSms;
+    private Button mRegister;
+    private Boolean isSendSms = false;
 
+    private TimerTask task;
+    private int recLen = 120;
+    private Timer mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +74,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         initPanorama();
         initView();
+        initListener();
 
+    }
+
+    private void initListener() {
         mLoginButton.setOnClickListener(this);
+        mTvRegister.setOnClickListener(this);
+        mTvLogin.setOnClickListener(this);
+        mRegister.setOnClickListener(this);
+        mRegisterSms.setOnClickListener(this);
     }
 
     private void initView() {
-        LinearLayout rootView = (LinearLayout) findViewById(R.id.root_login_register);
-        mEtPhone = (EditText) rootView.findViewById(R.id.et_phone_item_login);
-        mEtPassWord = (EditText) rootView.findViewById(R.id.et_password_item_login);
-        mTvRemPassWord = (TextView) rootView.findViewById(R.id.tv_login_rem_password);
-        mCheckBox = (CheckBox) rootView.findViewById(R.id.cb_login_checkBox);
-        mLoginButton = (Button) rootView.findViewById(R.id.item_login_btn);
+        mRootRegisterView = (LinearLayout) findViewById(R.id.root_login_register);
+        mRegisterPhone = (EditText) mRootRegisterView.findViewById(R.id.et_item_register_phone);
+        mRegisterYZM = (EditText) mRootRegisterView.findViewById(R.id.et_item_register_yzm);
+        mRegisterSms = (TextView) mRootRegisterView.findViewById(R.id.tv_item_register_sms);
+        mRegisterPassword = (EditText) mRootRegisterView.findViewById(R.id.et_item_register_password);
+        mRegisterPassword2 = (EditText) mRootRegisterView.findViewById(R.id.et_item_register_password2);
+        mRegister = (Button) mRootRegisterView.findViewById(R.id.btn_register);
+
+        mRootLoginView = (LinearLayout) findViewById(R.id.root_login_login);
+        mTvRegister = (TextView) findViewById(R.id.tv_login_register);
+        mTvLogin = (TextView) findViewById(R.id.tv_login_login);
+        mEtPhone = (EditText) mRootLoginView.findViewById(R.id.et_phone_item_login);
+        mEtPassWord = (EditText) mRootLoginView.findViewById(R.id.et_password_item_login);
+        mTvRemPassWord = (TextView) mRootLoginView.findViewById(R.id.tv_login_rem_password);
+        mCheckBox = (CheckBox) mRootLoginView.findViewById(R.id.cb_login_checkBox);
+        mLoginButton = (Button) mRootLoginView.findViewById(R.id.item_login_btn);
     }
 
 
@@ -88,7 +124,65 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     UIUtils.showTip("请输入正确的手机号");
                 }
+                break;
+            case R.id.tv_login_register:
+                mRootRegisterView.setVisibility(View.VISIBLE);
+                mRootLoginView.setVisibility(View.GONE);
+                break;
+            case R.id.tv_login_login:
+                mRootRegisterView.setVisibility(View.GONE);
+                mRootLoginView.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btn_register:
+                String registerPhone = mRegisterPhone.getText().toString();
+                String registerYZM = mRegisterYZM.getText().toString();
+                String registerPassword = mRegisterPassword.getText().toString();
+                String registerPassword2 = mRegisterPassword2.getText().toString();
+
+
+                break;
+            case R.id.tv_item_register_sms:
+                if (isSendSms) {
+                    return;
+                }
+                String smsPhone = mRegisterPhone.getText().toString();
+                if (StringUtils.isPhone(smsPhone)) {//判断手机号是不是手机号
+                    HttpYzm(smsPhone);
+                    timekeeping();
+                } else {
+                    UIUtils.showTip("请填入正确的手机号");
+                }
+                break;
         }
+    }
+
+
+    /**
+     * 计时重新发送验证码
+     */
+    private void timekeeping() {
+        mTimer = new Timer();
+        // UI thread
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {      // UI thread
+                    @Override
+                    public void run() {
+                        recLen--;
+                        mRegisterSms.setText("已发送  "+recLen);
+                        if(recLen < 0){
+                            mTimer.cancel();
+                            isSendSms = false;//时间到了就可以再次发送了
+                            mRegisterSms.setText("短信验证码");
+                        }
+                    }
+                });
+            }
+        };
+        //从现在起过10毫秒以后，每隔1000毫秒执行一次。
+        mTimer.schedule(task, 10, 1000);    // timeTask
+        isSendSms = true;//不能再发验证码了
     }
 
     /**
@@ -134,6 +228,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         panoWidgetView.shutdown();
         super.onDestroy();
     }
+
+
+    /**
+     * 验证码
+     */
+    private void HttpYzm(String phone) {
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.SendYzm);
+        requestParams.addHeader("token", HttpURL.Token);
+        //包装请求参数
+        requestParams.addBodyParameter("phone", phone);//用户名
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip(ex.getMessage());
+            }
+
+
+        });
+    }
+
 
     /**
      * 向网络发起登录

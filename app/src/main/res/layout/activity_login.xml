@@ -47,18 +47,18 @@
             android:layout_marginBottom="5dp">
 
             <TextView
-                android:id="@+id/login_login_tv"
+                android:id="@+id/tv_login_login"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="登陆"
                 android:paddingLeft="15dp"
+                android:text="登陆"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/login_login_TV1"
+                android:id="@+id/tv_login_register"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -70,9 +70,20 @@
 
         </LinearLayout>
 
-        <include
-            android:id="@+id/root_login_register"
-            layout="@layout/item_login_logo" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/root_login_login"
+                layout="@layout/item_login_logo"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/root_login_register"
+                layout="@layout/item_register" />
+
+        </FrameLayout>
 
 
     </LinearLayout>
