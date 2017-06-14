@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.jt.base.R;
+import com.jt.base.login.ForgetActivity;
 import com.jt.base.login.LoginActivity;
 import com.jt.base.login.PersonalActivity;
 import com.jt.base.login.RegisterActivity;
@@ -66,7 +67,7 @@ public class VideoActivity extends AppCompatActivity {
                 if (position == 3){
                     startActivity(new Intent(VideoActivity.this, LoginActivity.class));
                 }else if (position == 4){
-                    startActivity(new Intent(VideoActivity.this, RegisterActivity.class));
+                    startActivity(new Intent(VideoActivity.this, ForgetActivity.class));
                 }else if (position == 5){
                     startActivity(new Intent(VideoActivity.this, PersonalActivity.class));
                 }
