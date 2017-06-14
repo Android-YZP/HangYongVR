@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.jt.base.R;
 import com.jt.base.application.User;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
+import com.jt.base.http.responsebean.RegisterBean;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.StringUtils;
 import com.jt.base.utils.UIUtils;
@@ -59,10 +61,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView mRegisterSms;
     private Button mRegister;
     private Boolean isSendSms = false;
+    private Boolean isCheckedAgree = true;//默认勾选用户协议
 
     private TimerTask task;
     private int recLen = 120;
     private Timer mTimer;
+    private CheckBox mRegisterCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mTvLogin.setOnClickListener(this);
         mRegister.setOnClickListener(this);
         mRegisterSms.setOnClickListener(this);
+        mRegisterCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCheckedAgree = isChecked;
+            }
+        });
     }
 
     private void initView() {
@@ -94,6 +104,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRegisterPassword = (EditText) mRootRegisterView.findViewById(R.id.et_item_register_password);
         mRegisterPassword2 = (EditText) mRootRegisterView.findViewById(R.id.et_item_register_password2);
         mRegister = (Button) mRootRegisterView.findViewById(R.id.btn_register);
+        mRegisterCheckBox = (CheckBox) mRootRegisterView.findViewById(R.id.cb_register_checkBox);
 
         mRootLoginView = (LinearLayout) findViewById(R.id.root_login_login);
         mTvRegister = (TextView) findViewById(R.id.tv_login_register);
@@ -138,7 +149,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String registerYZM = mRegisterYZM.getText().toString();
                 String registerPassword = mRegisterPassword.getText().toString();
                 String registerPassword2 = mRegisterPassword2.getText().toString();
-
+                if (!StringUtils.isPhone(registerPhone)) {
+                    UIUtils.showTip("请输入正确的手机号码");
+                    return;
+                }
+                if (TextUtils.isEmpty(registerYZM)) {
+                    UIUtils.showTip("请输入验证码");
+                    return;
+                }
+                if (TextUtils.isEmpty(registerPassword) || TextUtils.isEmpty(registerPassword2)) {
+                    UIUtils.showTip("请输入密码");
+                    return;
+                }
+                if (!registerPassword.equals(registerPassword2)) {
+                    UIUtils.showTip("二次密码输入不一致");
+                    return;
+                }
+                if (!isCheckedAgree) {
+                    UIUtils.showTip("您未同意协议");
+                    return;
+                }
+                HttpRegister(registerPhone, registerYZM, registerPassword, registerPassword2);
 
                 break;
             case R.id.tv_item_register_sms:
@@ -161,6 +192,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 计时重新发送验证码
      */
     private void timekeeping() {
+        recLen = 120;
         mTimer = new Timer();
         // UI thread
         task = new TimerTask() {
@@ -170,8 +202,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void run() {
                         recLen--;
-                        mRegisterSms.setText("已发送  "+recLen);
-                        if(recLen < 0){
+                        mRegisterSms.setText("已发送  " + recLen);
+                        if (recLen < 0) {
                             mTimer.cancel();
                             isSendSms = false;//时间到了就可以再次发送了
                             mRegisterSms.setText("短信验证码");
@@ -245,7 +277,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-
             }
 
             @Override
@@ -253,10 +284,47 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 UIUtils.showTip(ex.getMessage());
             }
 
-
         });
     }
 
+
+    /**
+     * 注册
+     */
+    private void HttpRegister(final String phone, String yzm, final String psw, String psw1) {
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.Register);
+        requestParams.addHeader("token", HttpURL.Token);
+        //包装请求参数
+        requestParams.addBodyParameter("phone", phone);//手机号
+        requestParams.addBodyParameter("yzm", yzm);//验证码
+        requestParams.addBodyParameter("psw", psw);//密码
+        requestParams.addBodyParameter("psw1", psw1);//密码2
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+                RegisterBean registerBean = new Gson().fromJson(result, RegisterBean.class);
+                if (registerBean.getMsg().equals("success")) {
+                    //注册成功之后直接登录
+                    HttpLogin(phone,psw);
+
+                } else {
+                    UIUtils.showTip(registerBean.getMsg());
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip(ex.getMessage());
+            }
+        });
+
+
+    }
 
     /**
      * 向网络发起登录
@@ -279,6 +347,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LogUtil.i(userBean.getMsg() + "");
                 if (userBean.getMsg().equals("success")) {
                     SPUtil.putUser(userBean);
+                    finish();
                 } else {
                     UIUtils.showTip(userBean.getMsg());
                 }
@@ -298,8 +367,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-
-
     }
 
     /**

@@ -101,6 +101,7 @@
             android:layout_marginLeft="55dp"
             android:background="@drawable/selector_login_check"
             android:button="@null"
+            android:checked="true"
             android:gravity="center" />
 
         <TextView
