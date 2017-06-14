@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -47,6 +48,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
     private Timer mTimer;
     private TimerTask task;
     private int recLen;
+    private ImageView mTvForgetChacha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
     private void initListener() {
         mTvForgetYZM.setOnClickListener(this);
         mTvForgetCommit.setOnClickListener(this);
+        mTvForgetChacha.setOnClickListener(this);
     }
 
     private void initView() {
@@ -73,6 +76,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         mEtForgetNewPassword = (EditText) findViewById(R.id.et_forget_new_password);
         mTvForgetYZM = (TextView) findViewById(R.id.tv_forger_yzm);
         mTvForgetCommit = (Button) findViewById(R.id.btn_activity_forget_commit);
+        mTvForgetChacha = (ImageView) findViewById(R.id.img_forget_return);
 
 
     }
@@ -123,9 +127,14 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 break;
-
             /**
-             * 重置密码
+             * 退出
+             */
+            case R.id.img_forget_return:
+                finish();
+                break;
+            /**
+             * 提交请求
              */
             case R.id.btn_activity_forget_commit:
                 String forgetPhone = mEtForgetPhone.getText().toString();
