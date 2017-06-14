@@ -6,17 +6,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_height="160dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:background="@mipmap/item_register_1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <EditText
             android:id="@+id/et_item_register_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="45dp"
+            android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:background="@null"
             android:cursorVisible="false"
@@ -24,7 +25,8 @@
             android:hint="手机号"
             android:inputType="number"
             android:maxLines="1"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColorHint="@color/white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +38,7 @@
                 android:id="@+id/et_item_register_yzm"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="45dp"
+                android:layout_marginLeft="50dp"
                 android:layout_weight="1"
                 android:background="@null"
                 android:inputType="number"
@@ -44,24 +46,26 @@
                 android:gravity="center_vertical"
                 android:hint="验证码"
                 android:maxLines="1"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textColorHint="@color/white"/>
 
             <TextView
                 android:id="@+id/tv_item_register_sms"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="35dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/more_bg"
                 android:gravity="center"
                 android:text="短信验证码"
-                android:textSize="18sp" />
+                android:textSize="14sp"
+                android:textColor="#217081" />
         </LinearLayout>
 
         <EditText
             android:id="@+id/et_item_register_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="45dp"
+            android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:background="@null"
             android:cursorVisible="false"
@@ -70,14 +74,15 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:paddingBottom="5dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColorHint="@color/white"/>
 
         <EditText
             android:id="@+id/et_item_register_password2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/item_register_et2"
-            android:layout_marginLeft="45dp"
+            android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:background="@null"
             android:inputType="textPassword"
@@ -85,19 +90,20 @@
             android:hint="确认密码"
             android:maxLines="1"
             android:paddingBottom="6dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColorHint="@color/white"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/cb_register_checkBox"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="55dp"
             android:background="@drawable/selector_login_check"
             android:button="@null"
@@ -108,10 +114,11 @@
             android:id="@+id/item_register_tv1"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
             android:gravity="center_vertical"
             android:text="我已阅读并同意《天焱TV用户使用协议》"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 
@@ -119,12 +126,13 @@
         android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp"
-        android:background="#06b9d7"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="注册"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:background="@drawable/btn_vr_login"
+        android:textColor="@color/white"/>
 
 </LinearLayout>
