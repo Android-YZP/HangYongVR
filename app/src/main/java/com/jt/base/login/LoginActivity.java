@@ -1,13 +1,20 @@
 package com.jt.base.login;
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -16,18 +23,29 @@ import com.google.gson.Gson;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.application.User;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.LoginBean;
+import com.jt.base.utils.SPUtil;
+import com.jt.base.utils.StringUtils;
 import com.jt.base.utils.UIUtils;
+
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
+    private EditText mEtPhone;
+    private EditText mEtPassWord;
+    private TextView mTvRemPassWord;
+    private CheckBox mCheckBox;
+    private Button mLoginButton;
+    private ProgressDialog mProgressDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -37,9 +55,41 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initPanorama();
-        HttpLogin("17625017026", "888888");
+        initView();
+
+        mLoginButton.setOnClickListener(this);
     }
 
+    private void initView() {
+        LinearLayout rootView = (LinearLayout) findViewById(R.id.root_login_register);
+        mEtPhone = (EditText) rootView.findViewById(R.id.et_phone_item_login);
+        mEtPassWord = (EditText) rootView.findViewById(R.id.et_password_item_login);
+        mTvRemPassWord = (TextView) rootView.findViewById(R.id.tv_login_rem_password);
+        mCheckBox = (CheckBox) rootView.findViewById(R.id.cb_login_checkBox);
+        mLoginButton = (Button) rootView.findViewById(R.id.item_login_btn);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            /**
+             * 登录操作
+             */
+            case R.id.item_login_btn:
+                String phone = mEtPhone.getText().toString();
+                String password = mEtPassWord.getText().toString();
+                if (StringUtils.isPhone(phone)) {//判断手机号是不是手机号
+                    if (!TextUtils.isEmpty(password)) {
+                        HttpLogin(phone, password);
+                    } else {
+                        UIUtils.showTip("密码不能为空");
+                    }
+                } else {
+                    UIUtils.showTip("请输入正确的手机号");
+                }
+        }
+    }
 
     /**
      * 初始化全景图播放器
@@ -89,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
      * 向网络发起登录
      */
     private void HttpLogin(String phone, String password) {
+        mProgressDialog = ProgressDialog.show(LoginActivity.this, null, "正在登录...", true, true);
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.Login);
         requestParams.addHeader("token", HttpURL.Token);
@@ -101,13 +152,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
-                LogUtil.i(loginBean.getMsg()+"");
-                if (loginBean.getMsg().equals("success")){
-
-
-                }else {
-                    UIUtils.showTip(loginBean.getMsg());
+                User userBean = new Gson().fromJson(result, User.class);
+                LogUtil.i(userBean.getMsg() + "");
+                if (userBean.getMsg().equals("success")) {
+                    SPUtil.putUser(userBean);
+                } else {
+                    UIUtils.showTip(userBean.getMsg());
                 }
 
             }
@@ -115,6 +165,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIUtils.showTip(ex.getMessage());
+            }
+
+            @Override
+            public void onFinished() {
+                super.onFinished();
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                }
             }
         });
 

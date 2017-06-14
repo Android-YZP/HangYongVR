@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.LoginBean;
 import com.jt.base.utils.UIUtils;
 
 import org.xutils.common.util.LogUtil;
@@ -43,14 +42,7 @@ public class ForgetActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
-                LogUtil.i(loginBean.getMsg()+"");
-                if (loginBean.getMsg().equals("success")){
 
-
-                }else {
-                    UIUtils.showTip(loginBean.getMsg());
-                }
 
             }
 
@@ -78,14 +70,7 @@ public class ForgetActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
-                LogUtil.i(loginBean.getMsg()+"");
-                if (loginBean.getMsg().equals("success")){
 
-
-                }else {
-                    UIUtils.showTip(loginBean.getMsg());
-                }
 
             }
 

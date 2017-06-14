@@ -16,7 +16,6 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.LoginBean;
 import com.jt.base.utils.UIUtils;
 
 import org.xutils.common.util.LogUtil;
@@ -35,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initPanorama();
-        HttpRegister("17625017026","037426","123456","123456");
+        HttpRegister("17625017026", "037426", "123456", "123456");
 //        HttpYzm("17625017026");
     }
 
@@ -84,14 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
-                LogUtil.i(loginBean.getMsg()+"");
-                if (loginBean.getMsg().equals("success")){
 
-
-                }else {
-                    UIUtils.showTip(loginBean.getMsg());
-                }
 
             }
 
@@ -119,14 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
-                LogUtil.i(loginBean.getMsg()+"");
-                if (loginBean.getMsg().equals("success")){
 
-
-                }else {
-                    UIUtils.showTip(loginBean.getMsg());
-                }
 
             }
 
@@ -138,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    public void upLoadFile( File file) {
+    public void upLoadFile(File file) {
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.SendYzm);
         requestParams.addHeader("token", HttpURL.Token);
@@ -150,14 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
-                LogUtil.i(loginBean.getMsg()+"");
-                if (loginBean.getMsg().equals("success")){
 
-
-                }else {
-                    UIUtils.showTip(loginBean.getMsg());
-                }
 
             }
 
@@ -168,10 +146,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
-
-
-
-
 
 
     @Override

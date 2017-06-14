@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.LoginBean;
 import com.jt.base.login.takepic.PermissionsActivity;
 import com.jt.base.login.takepic.PermissionsChecker;
 import com.jt.base.login.takepic.PhotoUtil;
@@ -137,14 +136,7 @@ public class PersonalActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
-                LogUtil.i(loginBean.getMsg() + "");
-                if (loginBean.getMsg().equals("success")) {
 
-
-                } else {
-                    UIUtils.showTip(loginBean.getMsg());
-                }
 
             }
 
@@ -172,14 +164,7 @@ public class PersonalActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                LoginBean loginBean = new Gson().fromJson(result, LoginBean.class);
-                LogUtil.i(loginBean.getMsg() + "");
-                if (loginBean.getMsg().equals("success")) {
 
-
-                } else {
-                    UIUtils.showTip(loginBean.getMsg());
-                }
 
             }
 

@@ -6,7 +6,7 @@ package com.jt.base.http;
 
 public class HttpURL {
     //服务器地址
-    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
+    private static String Host = "http://192.168.1.99:8080/api/";
     public static String Token = "C47B1071";
 
     /**

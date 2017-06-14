@@ -71,6 +71,7 @@
         </LinearLayout>
 
         <include
+            android:id="@+id/root_login_register"
             layout="@layout/item_login_logo" />
 
 

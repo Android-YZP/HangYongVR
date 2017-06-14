@@ -106,7 +106,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/item_login_but"
+        android:id="@+id/item_login_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="50dp"
