@@ -9,6 +9,7 @@
         android:layout_height="160dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_marginTop="1dp"
         android:background="@mipmap/item_register_1"
         android:orientation="vertical"
         >
