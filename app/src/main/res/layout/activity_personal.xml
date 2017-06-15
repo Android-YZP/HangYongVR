@@ -12,7 +12,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/tv_personal_return"
