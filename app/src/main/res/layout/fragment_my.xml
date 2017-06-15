@@ -155,6 +155,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/my_button_nor"
+        style="?android:attr/borderlessButtonStyle"
         android:text="退出登录" />
 
 </LinearLayout>
