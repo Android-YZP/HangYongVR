@@ -274,4 +274,27 @@
         <item name="android:scrollHorizontally">true</item>
     </style>
 
+
+
+
+    <style name="Anim_Video_Details" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/fade_video_details</item>
+    </style>
+    <style name="fade_video_details" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_out</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/anim_out</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_out</item>
+    </style>
+
+    <style name="Anim_Video" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/fade_video</item>
+    </style>
+    <style name="fade_video" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_out</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/anim_out</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_out</item>
+    </style>
+
 </resources>

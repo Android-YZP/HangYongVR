@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isRight) {
                     Log.e("滑动333", "向右滑动");
                     startActivity(new Intent(MainActivity.this, VideoActivity.class));
+                    overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
                 } else {
                     Log.e("滑动333", "向左滑动");
                     startActivity(new Intent(MainActivity.this, HomeActivity.class));

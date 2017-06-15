@@ -65,7 +65,7 @@
                     android:layout_height="56dp">
 
                     <ImageView
-                        android:id="@+id/img_personal_photo"
+                        android:id="@+id/img_personal_head"
                         android:layout_width="39dp"
                         android:layout_height="39dp"
                         android:layout_alignParentEnd="true"
@@ -91,14 +91,14 @@
                         android:id="@+id/tv_personal_head_portrait"
                         android:layout_width="wrap_content"
                         android:layout_height="43dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="21dp"
+                        android:layout_marginStart="20dp"
                         android:gravity="center"
                         android:text="头像"
                         android:textColor="#000000"
-                        android:textSize="15sp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="20dp" />
+                        android:textSize="15sp" />
                 </RelativeLayout>
 
                 <View
@@ -121,7 +121,7 @@
                         android:gravity="center"
                         android:text="手机号"
                         android:textColor="#000000"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_num"
@@ -181,7 +181,7 @@
                         android:gravity="center"
                         android:text="夏夏"
                         android:textColor="#999999"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue2"
@@ -228,7 +228,7 @@
                         android:gravity="center"
                         android:text="男"
                         android:textColor="#999999"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue3"
@@ -310,7 +310,7 @@
                         android:gravity="center"
                         android:text="职业"
                         android:textColor="#000000"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_zy"
@@ -358,7 +358,7 @@
                         android:gravity="center"
                         android:text="邮箱"
                         android:textColor="#000000"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_email_num"
@@ -383,6 +383,7 @@
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
                         android:textColor="#48e9c7" />
+
                 </RelativeLayout>
 
                 <View

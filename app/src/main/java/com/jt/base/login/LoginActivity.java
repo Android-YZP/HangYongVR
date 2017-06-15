@@ -220,7 +220,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.tv_item_forget:
-              startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+              startActivity(new Intent(LoginActivity.this,ForgetActivity.class));
                 break;
         }
     }
@@ -392,6 +392,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LogUtil.i(userBean.getMsg() + "");
                 if (userBean.getMsg().equals("success")) {
                     SPUtil.putUser(userBean);
+                    SPUtil.put(LoginActivity.this, "isLogin", true);
+                    UIUtils.showTip("登录成功");
                     finish();
                 } else {
                     UIUtils.showTip(userBean.getMsg());
