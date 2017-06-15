@@ -16,18 +16,23 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jt.base.R;
+import com.jt.base.application.BaseActivity;
+import com.jt.base.application.User;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.login.takepic.PermissionsActivity;
 import com.jt.base.login.takepic.PermissionsChecker;
 import com.jt.base.login.takepic.PhotoUtil;
+import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
+import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.io.BufferedOutputStream;
@@ -55,6 +60,14 @@ public class PersonalActivity extends AppCompatActivity {
             Manifest.permission.CAMERA};
     private PhotoUtil photoUtil;
     private Uri imageUri;
+    private ImageView mIvPersonalhead;
+    private ImageOptions options;
+    private TextView mTvPersonalNum;
+    private TextView mTvPersonalName;
+    private TextView mTvPersonalSax;
+    private TextView mTvPersonalDay;
+    private TextView mTvPersonalZy;
+    private TextView mTvPersonalEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +76,9 @@ public class PersonalActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_personal);
+            initView();
+            initData();
+            initListener();
         }
 
 
@@ -248,4 +264,37 @@ public class PersonalActivity extends AppCompatActivity {
 //    }
 
     }
+
+    public void initView() {
+        mIvPersonalhead = (ImageView)findViewById(R.id.img_personal_head);
+        mTvPersonalNum = (TextView)findViewById(R.id.tv_personal_num);
+        mTvPersonalName = (TextView)findViewById(R.id.tv_personal_name);
+        mTvPersonalSax = (TextView)findViewById(R.id.tv_personal_xb);
+        mTvPersonalDay = (TextView)findViewById(R.id.tv_personal_day);
+        mTvPersonalZy = (TextView)findViewById(R.id.tv_personal_zy);
+        mTvPersonalEmail = (TextView)findViewById(R.id.tv_personal_email_num);
+    }
+
+    public void initListener() {
+
+    }
+
+    public void initData() {
+        User user = SPUtil.getUser();
+        UIUtils.showTip(user.getResult().getUser().getPhone()+"v发的v是v");
+        bindCircularImage(mIvPersonalhead,user.getResult().getUser().getHead());
+        mTvPersonalNum.setText(user.getResult().getUser().getPhone());
+    }
+
+    /**
+     * 圆形图片显示
+     *
+     * @param iv
+     * @param url
+     */
+    public void bindCircularImage(ImageView iv, String url) {
+            options = new ImageOptions.Builder().setLoadingDrawableId(R.drawable.my_head).setFailureDrawableId(R.drawable.my_head).setCircular(true).build();
+            x.image().bind(iv, url, options);
+    }
+
 }

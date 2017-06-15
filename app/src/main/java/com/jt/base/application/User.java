@@ -96,16 +96,16 @@ public class User {
             private int uid;
             private int grade;
             private String phone;
-            private Object head;
+            private String head;
             private String username;
-            private Object sex;
+            private String sex;
             private String password;
-            private Object email;
-            private Object profession;
-            private Object birthday;
+            private String email;
+            private String profession;
+            private String birthday;
             private int status;
             private String created;
-            private Object updatetime;
+            private String updatetime;
             private String token;
 
             public int getUid() {
@@ -132,11 +132,11 @@ public class User {
                 this.phone = phone;
             }
 
-            public Object getHead() {
+            public String getHead() {
                 return head;
             }
 
-            public void setHead(Object head) {
+            public void setHead(String head) {
                 this.head = head;
             }
 
@@ -148,11 +148,11 @@ public class User {
                 this.username = username;
             }
 
-            public Object getSex() {
+            public String getSex() {
                 return sex;
             }
 
-            public void setSex(Object sex) {
+            public void setSex(String sex) {
                 this.sex = sex;
             }
 
@@ -164,27 +164,27 @@ public class User {
                 this.password = password;
             }
 
-            public Object getEmail() {
+            public String getEmail() {
                 return email;
             }
 
-            public void setEmail(Object email) {
+            public void setEmail(String email) {
                 this.email = email;
             }
 
-            public Object getProfession() {
+            public String getProfession() {
                 return profession;
             }
 
-            public void setProfession(Object profession) {
+            public void setProfession(String profession) {
                 this.profession = profession;
             }
 
-            public Object getBirthday() {
+            public String getBirthday() {
                 return birthday;
             }
 
-            public void setBirthday(Object birthday) {
+            public void setBirthday(String birthday) {
                 this.birthday = birthday;
             }
 
@@ -204,11 +204,11 @@ public class User {
                 this.created = created;
             }
 
-            public Object getUpdatetime() {
+            public String getUpdatetime() {
                 return updatetime;
             }
 
-            public void setUpdatetime(Object updatetime) {
+            public void setUpdatetime(String updatetime) {
                 this.updatetime = updatetime;
             }
 

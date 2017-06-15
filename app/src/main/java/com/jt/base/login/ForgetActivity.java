@@ -1,5 +1,6 @@
 package com.jt.base.login;
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -21,9 +22,12 @@ import com.google.gson.Gson;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.application.User;
+import com.jt.base.application.VrApplication;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.ResetPasswordBean;
+import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.StringUtils;
 import com.jt.base.utils.UIUtils;
 
@@ -49,6 +53,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
     private TimerTask task;
     private int recLen;
     private ImageView mTvForgetChacha;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         initPanorama();
         initView();
         initListener();
+        VrApplication.contexts.add(this);
     }
 
     private void initListener() {
@@ -77,7 +83,6 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         mTvForgetYZM = (TextView) findViewById(R.id.tv_forger_yzm);
         mTvForgetCommit = (Button) findViewById(R.id.btn_activity_forget_commit);
         mTvForgetChacha = (ImageView) findViewById(R.id.img_forget_return);
-
 
     }
 
@@ -165,7 +170,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * 重置密码
      */
-    private void HttpResetPassWord(String phone, String yzm, String psw, String psw1) {
+    private void HttpResetPassWord(final String phone, String yzm, final String psw, String psw1) {
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.UpdatePassWord);
         requestParams.addHeader("token", HttpURL.Token);
@@ -182,8 +187,8 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
                 LogUtil.i(result);
                 ResetPasswordBean resetPasswordBean = new Gson().fromJson(result, ResetPasswordBean.class);
                 if (resetPasswordBean.getMsg().equals("success")) {
-                    UIUtils.showTip("密码重置成功");
-                    finish();
+
+                    HttpLogin(phone, psw);
                 } else {
                     UIUtils.showTip(resetPasswordBean.getMsg());
                 }
@@ -196,6 +201,54 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         });
 
 
+    }
+
+    /**
+     * 向网络发起登录
+     */
+    private void HttpLogin(String phone, String password) {
+        mProgressDialog = ProgressDialog.show(ForgetActivity.this, null, "请稍后...", true, true);
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.Login);
+        requestParams.addHeader("token", HttpURL.Token);
+        //包装请求参数
+        requestParams.addBodyParameter("phone", phone);//用户名
+        requestParams.addBodyParameter("password", password);//用户名
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+                User userBean = new Gson().fromJson(result, User.class);
+                LogUtil.i(userBean.getMsg() + "");
+                if (userBean.getMsg().equals("success")) {
+                    SPUtil.putUser(userBean);
+                    SPUtil.put(ForgetActivity.this, "isLogin", true);
+                    UIUtils.showTip("密码重置成功");
+                    //连续退出二个界面
+                    for (int i = 0; i < VrApplication.contexts.size(); i++) {
+                        VrApplication.contexts.get(i).finish();
+                    }
+                } else {
+                    UIUtils.showTip(userBean.getMsg());
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip(ex.getMessage());
+            }
+
+            @Override
+            public void onFinished() {
+                super.onFinished();
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                }
+            }
+        });
     }
 
     /**

@@ -24,6 +24,10 @@ public class SPUtil {
         put(UIUtils.getContext(), "user", userString);
     }
 
+    public static void clearUser() {
+        put(UIUtils.getContext(), "user", "");
+    }
+
 
     /**
      * 保存在手机里面的文件名

@@ -32,6 +32,7 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.application.User;
+import com.jt.base.application.VrApplication;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.RegisterBean;
@@ -90,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initView();
         initData();
         initListener();
+        VrApplication.contexts.add(LoginActivity.this);
 
     }
 
@@ -220,7 +222,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.tv_item_forget:
-              startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+              startActivity(new Intent(LoginActivity.this,ForgetActivity.class));
                 break;
         }
     }
@@ -392,6 +394,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LogUtil.i(userBean.getMsg() + "");
                 if (userBean.getMsg().equals("success")) {
                     SPUtil.putUser(userBean);
+                    SPUtil.put(LoginActivity.this, "isLogin", true);
+                    UIUtils.showTip("登录成功");
                     finish();
                 } else {
                     UIUtils.showTip(userBean.getMsg());

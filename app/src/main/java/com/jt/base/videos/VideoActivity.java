@@ -17,6 +17,7 @@ import com.jt.base.login.ForgetActivity;
 import com.jt.base.login.LoginActivity;
 import com.jt.base.login.PersonalActivity;
 import com.jt.base.login.RegisterActivity;
+import com.jt.base.videoDetails.MainActivity;
 import com.jt.base.vrplayer.VpMainAdapter;
 
 public class VideoActivity extends AppCompatActivity {
@@ -56,9 +57,9 @@ public class VideoActivity extends AppCompatActivity {
     private void setNavigationBar() {
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.main_bottom_navigation_bar);
         mBottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
+                .addItem(new BottomNavigationItem(R.mipmap.search_press, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.search)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
+                .addItem(new BottomNavigationItem(R.mipmap.home_press, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.home)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
+                .addItem(new BottomNavigationItem(R.mipmap.personal_press, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.personal)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
@@ -69,11 +70,11 @@ public class VideoActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(int position) {
                 mVpMain.setCurrentItem(position, false);
-                if (position == 3){
+                if (position == 3) {
                     startActivity(new Intent(VideoActivity.this, LoginActivity.class));
-                }else if (position == 4){
+                } else if (position == 4) {
                     startActivity(new Intent(VideoActivity.this, ForgetActivity.class));
-                }else if (position == 5){
+                } else if (position == 5) {
                     startActivity(new Intent(VideoActivity.this, PersonalActivity.class));
                 }
             }
@@ -86,5 +87,12 @@ public class VideoActivity extends AppCompatActivity {
             public void onTabReselected(int position) {
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.anim_detial_in, R.anim.anim_detial_out);
     }
 }
