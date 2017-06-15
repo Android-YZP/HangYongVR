@@ -1,11 +1,14 @@
 package com.jt.base.videos;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -25,6 +28,10 @@ public class VideoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         setContentView(R.layout.activity_item);
         initView();
         initViewPager();
@@ -33,6 +40,7 @@ public class VideoActivity extends AppCompatActivity {
 
     private void initView() {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer.setScrimColor(Color.TRANSPARENT);
     }
 
 
@@ -47,9 +55,6 @@ public class VideoActivity extends AppCompatActivity {
 
     private void setNavigationBar() {
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.main_bottom_navigation_bar);
-        mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
-        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
-        mBottomNavigationBar.setBarBackgroundColor(R.color.white);//set background color for navigation bar
         mBottomNavigationBar
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.clip_title).setInactiveIcon(ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))

@@ -17,7 +17,8 @@
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/main_bottom_navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        style="@style/Theme.AppCompat.NoActionBar"
         android:layout_alignParentBottom="true" />
 
 
