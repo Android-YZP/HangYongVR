@@ -24,7 +24,8 @@
             android:inputType="number"
             android:maxLines="1"
             android:textSize="18sp"
-            android:textColorHint="@color/white"/>
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
 
         <EditText
             android:id="@+id/et_password_item_login"
@@ -39,7 +40,8 @@
             android:maxLines="1"
             android:paddingBottom="7dp"
             android:textSize="18sp"
-            android:textColorHint="@color/white"/>
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
     </LinearLayout>
 
     <LinearLayout

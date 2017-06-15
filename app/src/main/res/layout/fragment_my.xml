@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="20dp"
-            android:background="@drawable/my_information" />
+            android:background="@drawable/persional_arrow_jump" />
 
     </LinearLayout>
 
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="20dp"
-            android:background="@drawable/my_information" />
+            android:background="@drawable/persional_arrow_jump" />
 
     </LinearLayout>
 
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="20dp"
-            android:background="@drawable/my_information" />
+            android:background="@drawable/persional_arrow_jump" />
 
     </LinearLayout>
 
