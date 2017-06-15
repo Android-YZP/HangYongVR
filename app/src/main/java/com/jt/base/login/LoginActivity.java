@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -78,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CheckBox mRegisterCheckBox;
     private InputMethodManager mImm;
     private TextView mTvforget;
+    private ImageView mTvLoginChacha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRegister.setOnClickListener(this);
         mRegisterSms.setOnClickListener(this);
         mTvforget.setOnClickListener(this);
+        mTvLoginChacha.setOnClickListener(this);
         mRegisterCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -133,6 +136,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mTvRemPassWord = (TextView) mRootLoginView.findViewById(R.id.tv_login_rem_password);
         mCheckBox = (CheckBox) mRootLoginView.findViewById(R.id.cb_login_checkBox);
         mLoginButton = (Button) mRootLoginView.findViewById(R.id.item_login_btn);
+        mTvLoginChacha = (ImageView) findViewById(R.id.login_return_img);
+
     }
 
 
@@ -223,6 +228,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.tv_item_forget:
               startActivity(new Intent(LoginActivity.this,ForgetActivity.class));
+                break;
+            case R.id.login_return_img:
+                finish();
                 break;
         }
     }
