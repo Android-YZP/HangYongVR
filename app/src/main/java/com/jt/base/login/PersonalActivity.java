@@ -63,6 +63,9 @@ public class PersonalActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_personal);
+
+
+
         }
 
 

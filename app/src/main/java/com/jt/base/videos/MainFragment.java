@@ -15,7 +15,6 @@ import com.jt.base.videos.adapters.MainReAdapter;
 //rtmp://9250.liveplay.myqcloud.com/live/9250_0601HK
 public class MainFragment extends Fragment {
 
-
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecycler;
 
