@@ -1,6 +1,12 @@
 package com.jt.base.login;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -10,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -62,11 +69,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button mRegister;
     private Boolean isSendSms = false;
     private Boolean isCheckedAgree = true;//默认勾选用户协议
+    private Boolean isLogin = true;//是否是登录界面
 
     private TimerTask task;
     private int recLen = 120;
     private Timer mTimer;
     private CheckBox mRegisterCheckBox;
+    private InputMethodManager mImm;
+    private TextView mTvforget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +88,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         initPanorama();
         initView();
+        initData();
         initListener();
 
+    }
+
+    private void initData() {
+        mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     private void initListener() {
@@ -88,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mTvLogin.setOnClickListener(this);
         mRegister.setOnClickListener(this);
         mRegisterSms.setOnClickListener(this);
+        mTvforget.setOnClickListener(this);
         mRegisterCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -110,6 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mTvRegister = (TextView) findViewById(R.id.tv_login_register);
         mTvLogin = (TextView) findViewById(R.id.tv_login_login);
         mEtPhone = (EditText) mRootLoginView.findViewById(R.id.et_phone_item_login);
+        mTvforget = (TextView) mRootLoginView.findViewById(R.id.tv_item_forget);
         mEtPassWord = (EditText) mRootLoginView.findViewById(R.id.et_password_item_login);
         mTvRemPassWord = (TextView) mRootLoginView.findViewById(R.id.tv_login_rem_password);
         mCheckBox = (CheckBox) mRootLoginView.findViewById(R.id.cb_login_checkBox);
@@ -138,11 +155,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.tv_login_register:
                 mRootRegisterView.setVisibility(View.VISIBLE);
+
                 mRootLoginView.setVisibility(View.GONE);
+                mTvLogin.setTextColor(Color.parseColor("#99ffffff"));
+                mTvRegister.setTextColor(Color.parseColor("#ffffffff"));
+
+                //隐藏键盘
+                if (isLogin){
+                    mImm.hideSoftInputFromWindow(mEtPhone.getWindowToken(), 0);
+                    isLogin = false;
+                }
                 break;
             case R.id.tv_login_login:
                 mRootRegisterView.setVisibility(View.GONE);
                 mRootLoginView.setVisibility(View.VISIBLE);
+                mTvLogin.setTextColor(Color.parseColor("#ffffffff"));
+                mTvRegister.setTextColor(Color.parseColor("#99ffffff"));
+
+                //隐藏键盘
+                if (!isLogin){
+                    mImm.hideSoftInputFromWindow(mRegisterPhone.getWindowToken(), 0);
+                    isLogin = true;
+                }
+
                 break;
             case R.id.btn_register:
                 String registerPhone = mRegisterPhone.getText().toString();
@@ -183,6 +218,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     UIUtils.showTip("请填入正确的手机号");
                 }
+                break;
+            case R.id.tv_item_forget:
+              startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
                 break;
         }
     }
@@ -231,15 +269,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         panoWidgetView.setOnTouchListener(null);//禁用手势滑动
         panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
         //加载背景图片
-        Glide.with(this)
-                .load("https://ws1.sinaimg.cn/large/610dc034ly1ffv3gxs37oj20u011i0vk.jpg")
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        BitmapDrawable bd = (BitmapDrawable) resource;
-                        panoWidgetView.loadImageFromBitmap(bd.getBitmap(), panoOptions);
-                    }
-                });
+//        Glide.with(this)
+//                .load("https://ws1.sinaimg.cn/large/610dc034ly1ffv3gxs37oj20u011i0vk.jpg")
+//                .into(new SimpleTarget<Drawable>() {
+//                    @Override
+//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+//                        BitmapDrawable bd = (BitmapDrawable) resource;
+//                        panoWidgetView.loadImageFromBitmap(bd.getBitmap(), panoOptions);
+//                    }
+//                });
+
+        //本地资源转换成bitmap
+        Drawable drawable = getResources().getDrawable(R.mipmap.img179041);
+        BitmapDrawable bd = (BitmapDrawable) drawable;
+        final Bitmap bmm = bd.getBitmap();
+        panoWidgetView.loadImageFromBitmap(bmm, panoOptions);
+
     }
 
     @Override
@@ -309,7 +354,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 RegisterBean registerBean = new Gson().fromJson(result, RegisterBean.class);
                 if (registerBean.getMsg().equals("success")) {
                     //注册成功之后直接登录
-                    HttpLogin(phone,psw);
+                    HttpLogin(phone, psw);
 
                 } else {
                     UIUtils.showTip(registerBean.getMsg());
