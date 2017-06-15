@@ -29,7 +29,7 @@
                 android:layout_centerInParent="true"
                 android:text="个人信息"
                 android:textColor="#000000"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/re_personal_save"
@@ -43,7 +43,7 @@
                 android:gravity="center"
                 android:text="保存"
                 android:textColor="#48e9c7"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <View
@@ -62,15 +62,15 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="62dp">
+                    android:layout_height="56dp">
 
                     <ImageView
                         android:id="@+id/img_personal_photo"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
+                        android:layout_width="39dp"
+                        android:layout_height="39dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="63dp"
+                        android:layout_marginEnd="57dp"
                         android:background="@drawable/img_persional_photo"
                         android:text="个人信息"
                         android:textSize="25sp" />
@@ -95,7 +95,7 @@
                         android:gravity="center"
                         android:text="头像"
                         android:textColor="#000000"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="20dp" />
@@ -110,7 +110,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="62dp">
+                    android:layout_height="56dp">
 
                     <TextView
                         android:id="@+id/tv_personal_phone"
@@ -121,7 +121,7 @@
                         android:gravity="center"
                         android:text="手机号"
                         android:textColor="#000000"
-                        android:textSize="18sp"/>
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:id="@+id/tv_personal_num"
@@ -129,12 +129,12 @@
                         android:layout_height="43dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="54dp"
+                        android:layout_marginEnd="48dp"
                         android:gravity="center"
                         android:inputType="number"
                         android:text="18726863593"
                         android:textColor="#999999"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue1"
@@ -158,7 +158,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="62dp">
+                    android:layout_height="56dp">
 
                     <TextView
                         android:id="@+id/tv_personal_nickname"
@@ -169,7 +169,7 @@
                         android:gravity="center"
                         android:text="昵称"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_name"
@@ -177,11 +177,11 @@
                         android:layout_height="43dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="54dp"
+                        android:layout_marginEnd="48dp"
                         android:gravity="center"
                         android:text="夏夏"
                         android:textColor="#999999"
-                        android:textSize="15sp"/>
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_personal_continue2"
@@ -205,7 +205,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="62dp">
+                    android:layout_height="56dp">
 
                     <TextView
                         android:id="@+id/tv_personal_gender"
@@ -216,7 +216,7 @@
                         android:gravity="center"
                         android:text="性别"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_xb"
@@ -224,11 +224,11 @@
                         android:layout_height="43dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="54dp"
+                        android:layout_marginEnd="48dp"
                         android:gravity="center"
                         android:text="男"
                         android:textColor="#999999"
-                        android:textSize="15sp"/>
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_personal_continue3"
@@ -252,7 +252,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="62dp">
+                    android:layout_height="56dp">
 
                     <TextView
                         android:id="@+id/tv_personal_birthday"
@@ -263,7 +263,7 @@
                         android:gravity="center"
                         android:text="生日"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_day"
@@ -271,11 +271,11 @@
                         android:layout_height="43dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="54dp"
+                        android:layout_marginEnd="48dp"
                         android:gravity="center"
                         android:text="1月1日"
                         android:textColor="#999999"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue4"
@@ -299,7 +299,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="62dp">
+                    android:layout_height="56dp">
 
                     <TextView
                         android:id="@+id/tv_personal_professional"
@@ -310,7 +310,7 @@
                         android:gravity="center"
                         android:text="职业"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:id="@+id/tv_personal_zy"
@@ -318,11 +318,11 @@
                         android:layout_height="43dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="54dp"
+                        android:layout_marginEnd="48dp"
                         android:gravity="center"
                         android:text="快递小妹"
                         android:textColor="#999999"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue5"
@@ -347,7 +347,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="62dp">
+                    android:layout_height="56dp">
 
                     <TextView
                         android:id="@+id/tv_personal_email"
@@ -358,7 +358,7 @@
                         android:gravity="center"
                         android:text="邮箱"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="15sp"/>
 
                     <TextView
                         android:id="@+id/tv_personal_email_num"
@@ -366,11 +366,11 @@
                         android:layout_height="43dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="54dp"
+                        android:layout_marginEnd="48dp"
                         android:gravity="center"
                         android:text="233211122@qq.com"
                         android:textColor="#999999"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue6"

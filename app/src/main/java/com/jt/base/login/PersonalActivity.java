@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -57,9 +58,12 @@ public class PersonalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal);
-    }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_personal);
+        }
 
 
 //        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
@@ -243,4 +247,5 @@ public class PersonalActivity extends AppCompatActivity {
 //        }
 //    }
 
+    }
 }

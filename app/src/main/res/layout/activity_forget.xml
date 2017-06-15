@@ -67,6 +67,7 @@
             android:layout_marginLeft="45dp"
             android:layout_weight="1"
             android:hint="手机号"
+            android:textColorHint="@color/white"
             android:maxLines="1"
             android:cursorVisible="false"
             android:gravity="center_vertical"
@@ -92,7 +93,8 @@
                 android:hint="验证码"
                 android:textSize="18sp"
                 android:cursorVisible="false"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
             <TextView
                 android:id="@+id/tv_forger_yzm"
                 android:layout_width="80dp"
@@ -117,7 +119,8 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:textSize="18sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"/>
 
         <EditText
             android:id="@+id/et_forget_new_password"
@@ -131,7 +134,8 @@
             android:hint="确认密码"
             android:textSize="18sp"
             android:inputType="textPassword"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"/>
     </LinearLayout>
 
     <Button
