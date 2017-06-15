@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private InputMethodManager mImm;
     private TextView mTvforget;
     private ImageView mTvLoginChacha;
+    private Boolean isLoginChecked = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initData() {
+        String phone = (String) SPUtil.get(LoginActivity.this, "phone", "");
+        String password = (String) SPUtil.get(LoginActivity.this, "password", "");
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mEtPhone.setText(phone);
+        mEtPassWord.setText(password);
     }
 
     private void initListener() {
@@ -113,6 +118,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 isCheckedAgree = isChecked;
+            }
+        });
+
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isLoginChecked = isChecked;
+
             }
         });
     }
@@ -153,6 +166,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (StringUtils.isPhone(phone)) {//判断手机号是不是手机号
                     if (!TextUtils.isEmpty(password)) {
                         HttpLogin(phone, password);
+                        if (isLoginChecked) {//勾选记住密码
+                            SPUtil.put(LoginActivity.this, "phone", mEtPhone.getText().toString());
+                            SPUtil.put(LoginActivity.this, "password", mEtPassWord.getText().toString());
+                        } else {
+                            SPUtil.put(LoginActivity.this, "phone", "");
+                            SPUtil.put(LoginActivity.this, "password", "");
+                        }
+
                     } else {
                         UIUtils.showTip("密码不能为空");
                     }
@@ -162,13 +183,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.tv_login_register:
                 mRootRegisterView.setVisibility(View.VISIBLE);
-
                 mRootLoginView.setVisibility(View.GONE);
                 mTvLogin.setTextColor(Color.parseColor("#99ffffff"));
                 mTvRegister.setTextColor(Color.parseColor("#ffffffff"));
 
                 //隐藏键盘
-                if (isLogin){
+                if (isLogin) {
                     mImm.hideSoftInputFromWindow(mEtPhone.getWindowToken(), 0);
                     isLogin = false;
                 }
@@ -180,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mTvRegister.setTextColor(Color.parseColor("#99ffffff"));
 
                 //隐藏键盘
-                if (!isLogin){
+                if (!isLogin) {
                     mImm.hideSoftInputFromWindow(mRegisterPhone.getWindowToken(), 0);
                     isLogin = true;
                 }
