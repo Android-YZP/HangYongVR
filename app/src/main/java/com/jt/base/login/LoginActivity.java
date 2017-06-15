@@ -32,6 +32,7 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.application.User;
+import com.jt.base.application.VrApplication;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.RegisterBean;
@@ -90,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initView();
         initData();
         initListener();
+        VrApplication.contexts.add(LoginActivity.this);
 
     }
 

@@ -23,6 +23,9 @@ public class MyFragment extends Fragment {
     private Button mBtnLogin;
     private boolean isLogin;
     private LinearLayout mRootPersonInfo;
+    private LinearLayout mRootUnLogin;
+    private LinearLayout mRootLogined;
+    private LinearLayout mRootGoLogin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,9 +39,15 @@ public class MyFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my, container, false);
         initView(view);
-        initData();
+
         initListener();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initListener() {
@@ -49,14 +58,14 @@ public class MyFragment extends Fragment {
                 SPUtil.clearUser();//清除缓存
                 SPUtil.put(getActivity(), "isLogin", false);
                 UIUtils.showTip("退出成功");
-
+               initData();
             }
         });
 
         mRootPersonInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean isLogin = (Boolean) SPUtil.get(getActivity(), "isLogin", false);
+
                 if (isLogin) {
                     startActivity(new Intent(getActivity(), PersonalActivity.class));
                 } else {
@@ -64,17 +73,38 @@ public class MyFragment extends Fragment {
                 }
             }
         });
+
+        mRootGoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+            }
+        });
     }
 
     private void initData() {
+        isLogin = (Boolean) SPUtil.get(getActivity(), "isLogin", false);
 
+        refreshUI();
+    }
 
+    private void refreshUI() {
+        if (isLogin) {
+            mRootLogined.setVisibility(View.VISIBLE);
+            mRootUnLogin.setVisibility(View.GONE);
+        } else {
+            mRootLogined.setVisibility(View.GONE);
+            mRootUnLogin.setVisibility(View.VISIBLE);
+        }
     }
 
 
     private void initView(View view) {
         mBtnLogin = (Button) view.findViewById(R.id.btn_my_login);
         mRootPersonInfo = (LinearLayout) view.findViewById(R.id.ll_root_my_personal_info);
+        mRootLogined = (LinearLayout) view.findViewById(R.id.my_logined);
+        mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
+        mRootGoLogin = (LinearLayout) mRootUnLogin.findViewById(R.id.ll_root_login);
     }
 
 
