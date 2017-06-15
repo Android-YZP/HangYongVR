@@ -66,7 +66,10 @@ public class MyFragment extends Fragment {
         });
     }
 
-    private void initData()  vb
+    private void initData() {
+
+
+    }
 
 
     private void initView(View view) {
