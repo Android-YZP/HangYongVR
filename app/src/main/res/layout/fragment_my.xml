@@ -26,6 +26,7 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
                     android:background="@drawable/img_persional_photo_default" />
 
                 <TextView
