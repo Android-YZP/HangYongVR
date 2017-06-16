@@ -11,7 +11,11 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -124,6 +128,131 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
+
+        //登录眼镜
+        mTvLoginChacha.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN://叉叉按下看手机号
+                        HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
+                        mEtPassWord.setTransformationMethod(method);
+                        break;
+                    case MotionEvent.ACTION_UP://手机号隐藏
+                        TransformationMethod method1 = PasswordTransformationMethod.getInstance();
+                        mEtPassWord.setTransformationMethod(method1);
+                        break;
+                    case MotionEvent.ACTION_CANCEL://手机号隐藏
+                        TransformationMethod method2 = PasswordTransformationMethod.getInstance();
+                        mEtPassWord.setTransformationMethod(method2);
+                        break;
+                }
+
+                return false;
+            }
+        });
+
+        //注册眼镜1
+        mTvLoginChacha.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN://叉叉按下看手机号
+                        HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
+                        mRegisterPassword.setTransformationMethod(method);
+                        break;
+                    case MotionEvent.ACTION_UP://手机号隐藏
+                        TransformationMethod method1 = PasswordTransformationMethod.getInstance();
+                        mRegisterPassword.setTransformationMethod(method1);
+                        break;
+                    case MotionEvent.ACTION_CANCEL://手机号隐藏
+                        TransformationMethod method2 = PasswordTransformationMethod.getInstance();
+                        mRegisterPassword.setTransformationMethod(method2);
+                        break;
+                }
+
+                return false;
+            }
+        });
+
+        //注册眼镜2
+        mTvLoginChacha.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN://叉叉按下看手机号
+                        HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
+                        mRegisterPassword2.setTransformationMethod(method);
+                        break;
+                    case MotionEvent.ACTION_UP://手机号隐藏
+                        TransformationMethod method1 = PasswordTransformationMethod.getInstance();
+                        mRegisterPassword2.setTransformationMethod(method1);
+                        break;
+                    case MotionEvent.ACTION_CANCEL://手机号隐藏
+                        TransformationMethod method2 = PasswordTransformationMethod.getInstance();
+                        mRegisterPassword2.setTransformationMethod(method2);
+                        break;
+                }
+
+                return false;
+            }
+        });
+
+        //登录手机号叉叉,清空数据
+        mTvLoginChacha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEtPhone.setText("");
+            }
+        });
+
+        //注册手机号叉叉,清空数据
+        mTvLoginChacha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        //手机好监测
+        mEtPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (isLogin){
+                    if (hasFocus) {//获得焦点
+
+                    } else {//失去焦点
+                        if (!StringUtils.isPhone(mEtPhone.getText().toString())) {
+                            UIUtils.showTip("请输入正确的手机号");
+                        }
+
+                    }
+                }
+
+
+            }
+        });
+
+       //手机好监测
+        mRegisterPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!isLogin){
+                    if (hasFocus) {//获得焦点
+
+                    } else {//失去焦点
+                        if (!StringUtils.isPhone(mEtPhone.getText().toString())) {
+                            UIUtils.showTip("请输入正确的手机号");
+                        }
+
+                    }
+                }
+            }
+        });
+
     }
 
     private void initView() {
@@ -185,8 +314,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //隐藏键盘
                 if (isLogin) {
                     mImm.hideSoftInputFromWindow(mEtPhone.getWindowToken(), 0);
-                    isLogin = false;
                 }
+                isLogin = false;
                 break;
             case R.id.tv_login_login:
                 mRootRegisterView.setVisibility(View.GONE);
@@ -197,8 +326,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //隐藏键盘
                 if (!isLogin) {
                     mImm.hideSoftInputFromWindow(mRegisterPhone.getWindowToken(), 0);
-                    isLogin = true;
                 }
+                isLogin = true;
 
                 break;
             case R.id.btn_register:
@@ -224,7 +353,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     return;
                 }
 
-                if (registerPassword.length()<6) {
+                if (registerPassword.length() < 6) {
                     UIUtils.showTip("最少需要输入6位密码");
                     return;
                 }
@@ -283,7 +412,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         };
         //从现在起过10毫秒以后，每隔1000毫秒执行一次。
         mTimer.schedule(task, 10, 1000);    // timeTask
-        isSendSms = true;//不能再发验证码了
+
     }
 
     /**
@@ -342,7 +471,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 验证码
      */
     private void HttpYzm(String phone) {
-        if (!NetUtil.isOpenNetwork()){
+        if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
         }
@@ -361,9 +490,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 if (forgetYzmBean.getMsg().equals("用户已存在")) {
                     UIUtils.showTip("用户已存在");
-                } else if (forgetYzmBean.getMsg().equals("已发送!")){
+                } else if (forgetYzmBean.getMsg().equals("已发送!")) {
                     timekeeping();
-                }else if (forgetYzmBean.getMsg().equals("验证失败!")){
+                } else if (forgetYzmBean.getMsg().equals("验证失败!")) {
                     UIUtils.showTip("验证码有误");
                 }
 
@@ -383,7 +512,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 注册
      */
     private void HttpRegister(final String phone, String yzm, final String psw, String psw1) {
-        if (!NetUtil.isOpenNetwork()){
+        if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
         }
@@ -403,7 +532,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LogUtil.i(result);
                 RegisterBean registerBean = new Gson().fromJson(result, RegisterBean.class);
                 if (registerBean.getMsg().equals("success")) {
-
 
                     //注册成功之后直接登录
                     HttpLogin(phone, psw);
