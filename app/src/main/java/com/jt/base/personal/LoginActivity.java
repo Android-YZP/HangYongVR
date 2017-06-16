@@ -15,6 +15,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.TransformationMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -72,6 +74,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Boolean isSendSms = false;
     private Boolean isCheckedAgree = true;//默认勾选用户协议
     private Boolean isLogin = true;//是否是登录界面
+    private boolean isRegisterYZM = true;
+
 
     private TimerTask task;
     private int recLen;
@@ -81,6 +85,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView mTvforget;
     private ImageView mTvLoginChacha;
     private Boolean isLoginChecked = true;
+    private Boolean isLoginEye = true;
+    private Boolean isRegisterEye1 = true;
+    private Boolean isRegisterEye2 = true;
+    private ImageView mEtLoginCha;
+    private ImageView mTvLoginEyeClose;
+    private ImageView mTvLoginEyeOpen;
+    private ImageView mRegisterCha;
+    private ImageView mRegisterClose;
+    private ImageView mRegisterOpen;
+    private ImageView mRegisterClose1;
+    private ImageView mRegisterOpen1;
+    private FrameLayout mflRootChacha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +120,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mEtPhone.setText(phone);
         mEtPassWord.setText(password);
+        Boolean rememberPassword = (Boolean) SPUtil.get(LoginActivity.this, "rememberPassword", true);
+        mCheckBox.setChecked(rememberPassword);
     }
 
     private void initListener() {
@@ -113,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRegister.setOnClickListener(this);
         mRegisterSms.setOnClickListener(this);
         mTvforget.setOnClickListener(this);
-        mTvLoginChacha.setOnClickListener(this);
+        mflRootChacha.setOnClickListener(this);
         mRegisterCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -125,81 +143,74 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 isLoginChecked = isChecked;
-
+                SPUtil.put(LoginActivity.this, "rememberPassword", isChecked);
             }
         });
 
-        //登录眼镜
-        mTvLoginChacha.setOnTouchListener(new View.OnTouchListener() {
+
+        mTvLoginEyeClose.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN://叉叉按下看手机号
-                        HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
-                        mEtPassWord.setTransformationMethod(method);
-                        break;
-                    case MotionEvent.ACTION_UP://手机号隐藏
-                        TransformationMethod method1 = PasswordTransformationMethod.getInstance();
-                        mEtPassWord.setTransformationMethod(method1);
-                        break;
-                    case MotionEvent.ACTION_CANCEL://手机号隐藏
-                        TransformationMethod method2 = PasswordTransformationMethod.getInstance();
-                        mEtPassWord.setTransformationMethod(method2);
-                        break;
-                }
-
-                return false;
+            public void onClick(View v) {
+                HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
+                mEtPassWord.setTransformationMethod(method);
+                mTvLoginEyeClose.setVisibility(View.GONE);
+                mTvLoginEyeOpen.setVisibility(View.VISIBLE);
             }
         });
-
-        //注册眼镜1
-        mTvLoginChacha.setOnTouchListener(new View.OnTouchListener() {
+        mTvLoginEyeOpen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN://叉叉按下看手机号
-                        HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
-                        mRegisterPassword.setTransformationMethod(method);
-                        break;
-                    case MotionEvent.ACTION_UP://手机号隐藏
-                        TransformationMethod method1 = PasswordTransformationMethod.getInstance();
-                        mRegisterPassword.setTransformationMethod(method1);
-                        break;
-                    case MotionEvent.ACTION_CANCEL://手机号隐藏
-                        TransformationMethod method2 = PasswordTransformationMethod.getInstance();
-                        mRegisterPassword.setTransformationMethod(method2);
-                        break;
-                }
-
-                return false;
+            public void onClick(View v) {
+                TransformationMethod method1 = PasswordTransformationMethod.getInstance();
+                mEtPassWord.setTransformationMethod(method1);
+                mTvLoginEyeClose.setVisibility(View.VISIBLE);
+                mTvLoginEyeOpen.setVisibility(View.GONE);
             }
         });
 
-        //注册眼镜2
-        mTvLoginChacha.setOnTouchListener(new View.OnTouchListener() {
+
+        mRegisterClose.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN://叉叉按下看手机号
-                        HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
-                        mRegisterPassword2.setTransformationMethod(method);
-                        break;
-                    case MotionEvent.ACTION_UP://手机号隐藏
-                        TransformationMethod method1 = PasswordTransformationMethod.getInstance();
-                        mRegisterPassword2.setTransformationMethod(method1);
-                        break;
-                    case MotionEvent.ACTION_CANCEL://手机号隐藏
-                        TransformationMethod method2 = PasswordTransformationMethod.getInstance();
-                        mRegisterPassword2.setTransformationMethod(method2);
-                        break;
-                }
-
-                return false;
+            public void onClick(View v) {
+                HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
+                mRegisterPassword.setTransformationMethod(method);
+                mRegisterClose.setVisibility(View.GONE);
+                mRegisterOpen.setVisibility(View.VISIBLE);
             }
         });
+        mRegisterOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransformationMethod method1 = PasswordTransformationMethod.getInstance();
+                mRegisterPassword.setTransformationMethod(method1);
+                mRegisterClose.setVisibility(View.VISIBLE);
+                mRegisterOpen.setVisibility(View.GONE);
+            }
+        });
+
+
+        mRegisterClose1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
+                mRegisterPassword2.setTransformationMethod(method);
+                mRegisterClose1.setVisibility(View.GONE);
+                mRegisterOpen1.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mRegisterOpen1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransformationMethod method1 = PasswordTransformationMethod.getInstance();
+                mRegisterPassword2.setTransformationMethod(method1);
+                mRegisterClose1.setVisibility(View.VISIBLE);
+                mRegisterOpen1.setVisibility(View.GONE);
+            }
+        });
+
 
         //登录手机号叉叉,清空数据
-        mTvLoginChacha.setOnClickListener(new View.OnClickListener() {
+        mEtLoginCha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mEtPhone.setText("");
@@ -207,10 +218,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 
         //注册手机号叉叉,清空数据
-        mTvLoginChacha.setOnClickListener(new View.OnClickListener() {
+        mRegisterCha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mRegisterPhone.setText("");
             }
         });
 
@@ -220,7 +231,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (isLogin){
+                if (isLogin) {
                     if (hasFocus) {//获得焦点
 
                     } else {//失去焦点
@@ -235,16 +246,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-       //手机好监测
+        //手机好监测
         mRegisterPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!isLogin){
+                if (!isLogin) {
                     if (hasFocus) {//获得焦点
 
                     } else {//失去焦点
-                        if (!StringUtils.isPhone(mEtPhone.getText().toString())) {
+                        if (!StringUtils.isPhone(mRegisterPhone.getText().toString())) {
                             UIUtils.showTip("请输入正确的手机号");
                         }
 
@@ -264,17 +275,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRegisterPassword2 = (EditText) mRootRegisterView.findViewById(R.id.et_item_register_password2);
         mRegister = (Button) mRootRegisterView.findViewById(R.id.btn_register);
         mRegisterCheckBox = (CheckBox) mRootRegisterView.findViewById(R.id.cb_register_checkBox);
+        mRegisterCha = (ImageView) mRootRegisterView.findViewById(R.id.img_register_delete_cha);
+
+        mRegisterClose = (ImageView) mRootRegisterView.findViewById(R.id.img_register_close);
+        mRegisterOpen = (ImageView) mRootRegisterView.findViewById(R.id.img_register_open);
+        mRegisterClose1 = (ImageView) mRootRegisterView.findViewById(R.id.img_register_open1);
+        mRegisterOpen1 = (ImageView) mRootRegisterView.findViewById(R.id.img_register_close1);
 
         mRootLoginView = (LinearLayout) findViewById(R.id.root_login_login);
         mTvRegister = (TextView) findViewById(R.id.tv_login_register);
         mTvLogin = (TextView) findViewById(R.id.tv_login_login);
         mEtPhone = (EditText) mRootLoginView.findViewById(R.id.et_phone_item_login);
+        mEtLoginCha = (ImageView) mRootLoginView.findViewById(R.id.img_login_delete_cha);
         mTvforget = (TextView) mRootLoginView.findViewById(R.id.tv_item_forget);
         mEtPassWord = (EditText) mRootLoginView.findViewById(R.id.et_password_item_login);
         mTvRemPassWord = (TextView) mRootLoginView.findViewById(R.id.tv_login_rem_password);
         mCheckBox = (CheckBox) mRootLoginView.findViewById(R.id.cb_login_checkBox);
         mLoginButton = (Button) mRootLoginView.findViewById(R.id.item_login_btn);
         mTvLoginChacha = (ImageView) findViewById(R.id.login_return_img);
+        mflRootChacha = (FrameLayout) findViewById(R.id.fl_root_back);
+        mTvLoginEyeClose = (ImageView) findViewById(R.id.img_login_close);
+        mTvLoginEyeOpen = (ImageView) findViewById(R.id.img_login_open);
 
     }
 
@@ -288,6 +309,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.item_login_btn:
                 String phone = mEtPhone.getText().toString();
                 String password = mEtPassWord.getText().toString();
+                if (!NetUtil.isOpenNetwork()) {
+                    UIUtils.showTip("请打开网络");
+                    return;
+                }
+
                 if (StringUtils.isPhone(phone)) {//判断手机号是不是手机号
                     if (!TextUtils.isEmpty(password)) {
                         HttpLogin(phone, password);
@@ -306,6 +332,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.tv_login_register:
+                isLogin = false;
                 mRootRegisterView.setVisibility(View.VISIBLE);
                 mRootLoginView.setVisibility(View.GONE);
                 mTvLogin.setTextColor(Color.parseColor("#2fffffff"));
@@ -315,9 +342,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (isLogin) {
                     mImm.hideSoftInputFromWindow(mEtPhone.getWindowToken(), 0);
                 }
-                isLogin = false;
+
                 break;
             case R.id.tv_login_login:
+                isLogin = true;
                 mRootRegisterView.setVisibility(View.GONE);
                 mRootLoginView.setVisibility(View.VISIBLE);
                 mTvLogin.setTextColor(Color.parseColor("#ffffffff"));
@@ -327,7 +355,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (!isLogin) {
                     mImm.hideSoftInputFromWindow(mRegisterPhone.getWindowToken(), 0);
                 }
-                isLogin = true;
+
 
                 break;
             case R.id.btn_register:
@@ -335,7 +363,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String registerYZM = mRegisterYZM.getText().toString();
                 String registerPassword = mRegisterPassword.getText().toString();
                 String registerPassword2 = mRegisterPassword2.getText().toString();
-
+                if (!NetUtil.isOpenNetwork()) {
+                    UIUtils.showTip("请打开网络");
+                    return;
+                }
                 if (!StringUtils.isPhone(registerPhone)) {
                     UIUtils.showTip("请输入正确的手机号码");
                     return;
@@ -364,12 +395,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 HttpRegister(registerPhone, registerYZM, registerPassword, registerPassword2);
 
                 break;
-            case R.id.tv_item_register_sms:
+            case R.id.tv_item_register_sms:////////////////////////////////////////////////////////////////////////////////////////
+                if (!NetUtil.isOpenNetwork()) {
+                    UIUtils.showTip("请打开网络");
+                    return;
+                }
                 if (isSendSms) {
+                    // mRegisterSms.setTextColor(Color.parseColor("#"));
                     return;
                 }
                 String smsPhone = mRegisterPhone.getText().toString();
                 if (StringUtils.isPhone(smsPhone)) {//判断手机号是不是手机号
+
+                    if (!isRegisterYZM) {
+                        return;
+                    }
+                    mRegisterSms.setTextColor(Color.parseColor("#2fffffff"));
+                    isRegisterYZM = false;
                     HttpYzm(smsPhone);
 
                 } else {
@@ -379,7 +421,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tv_item_forget:
                 startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
                 break;
-            case R.id.login_return_img:
+            case R.id.fl_root_back:
                 finish();
                 break;
         }
@@ -490,18 +532,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 if (forgetYzmBean.getMsg().equals("用户已存在")) {
                     UIUtils.showTip("用户已存在");
+
                 } else if (forgetYzmBean.getMsg().equals("已发送!")) {
                     timekeeping();
                 } else if (forgetYzmBean.getMsg().equals("验证失败!")) {
                     UIUtils.showTip("验证码有误");
+                } else if (forgetYzmBean.getMsg().equals("success")) {
+                    UIUtils.showTip("发送成功 ");
+                    timekeeping();
+                } else {
+                    UIUtils.showTip(forgetYzmBean.getMsg());
                 }
-
 
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip(ex.getMessage());
+                UIUtils.showTip("服务端连接失败");
+            }
+
+            @Override
+            public void onFinished() {
+                mRegisterSms.setTextColor(Color.parseColor("#217081"));
+                isRegisterYZM = true;
             }
 
         });
@@ -544,7 +597,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip(ex.getMessage());
+                UIUtils.showTip("服务端连接失败");
+
             }
         });
 
@@ -583,7 +637,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip(ex.getMessage());
+                UIUtils.showTip("服务端连接失败");
             }
 
             @Override

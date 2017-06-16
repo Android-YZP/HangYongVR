@@ -1,17 +1,22 @@
 package com.jt.base.personal;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,12 +55,19 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
     private EditText mEtForgetNewPassword;
     private TextView mTvForgetYZM;
     private Button mTvForgetCommit;
+    private boolean isForgetYZM = true;
     private boolean isSendSms = false;
     private Timer mTimer;
     private TimerTask task;
     private int recLen;
     private ImageView mTvForgetChacha;
     private ProgressDialog mProgressDialog;
+    private ImageView mForgetClose;
+    private ImageView mForgetOpen;
+    private ImageView mForgetClose1;
+    private ImageView mForgetOpen1;
+    private ImageView mForgetCha;
+    private FrameLayout mFlRootChacha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +86,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
     private void initListener() {
         mTvForgetYZM.setOnClickListener(this);
         mTvForgetCommit.setOnClickListener(this);
-        mTvForgetChacha.setOnClickListener(this);
+        mFlRootChacha.setOnClickListener(this);
 
         //手机号监测
         mEtForgetPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -91,6 +103,54 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
+
+        mForgetClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
+                mEtForgetPassword.setTransformationMethod(method);
+                mForgetClose.setVisibility(View.GONE);
+                mForgetOpen.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mForgetOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransformationMethod method1 = PasswordTransformationMethod.getInstance();
+                mEtForgetPassword.setTransformationMethod(method1);
+                mForgetClose.setVisibility(View.VISIBLE);
+                mForgetOpen.setVisibility(View.GONE);
+            }
+        });
+
+        mForgetClose1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HideReturnsTransformationMethod method = HideReturnsTransformationMethod.getInstance();
+                mEtForgetNewPassword.setTransformationMethod(method);
+                mForgetClose1.setVisibility(View.GONE);
+                mForgetOpen1.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mForgetOpen1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransformationMethod method1 = PasswordTransformationMethod.getInstance();
+                mEtForgetNewPassword.setTransformationMethod(method1);
+                mForgetClose1.setVisibility(View.VISIBLE);
+                mForgetOpen1.setVisibility(View.GONE);
+            }
+        });
+
+        mForgetCha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               mEtForgetPhone.setText("");
+            }
+        });
+
     }
 
     private void initView() {
@@ -101,6 +161,13 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         mTvForgetYZM = (TextView) findViewById(R.id.tv_forger_yzm);
         mTvForgetCommit = (Button) findViewById(R.id.btn_activity_forget_commit);
         mTvForgetChacha = (ImageView) findViewById(R.id.img_forget_return);
+        mFlRootChacha = (FrameLayout) findViewById(R.id.fl_root_back);
+
+        mForgetClose = (ImageView) findViewById(R.id.img_forget_close);
+        mForgetClose1 = (ImageView) findViewById(R.id.img_forget_close1);
+        mForgetOpen = (ImageView) findViewById(R.id.img_forget_open);
+        mForgetOpen1 = (ImageView) findViewById(R.id.img_forget_open1);
+        mForgetCha = (ImageView) findViewById(R.id.img_forget_delete_cha);
 
     }
 
@@ -137,14 +204,23 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
              * 重置密码
              */
             case R.id.tv_forger_yzm:
+                if (!NetUtil.isOpenNetwork()) {
+                    UIUtils.showTip("请打开网络");
+                    return;
+                }
 
                 if (isSendSms) {
                     return;
                 }
                 String smsPhone = mEtForgetPhone.getText().toString();
                 if (StringUtils.isPhone(smsPhone)) {//判断手机号是不是手机号
+                    if (!isForgetYZM) {
+                        return;
+                    }
+                    mTvForgetYZM.setTextColor(Color.parseColor("#2fffffff"));
+                    isForgetYZM = false;
                     HttpResetPassWordYZM(smsPhone);
-                    timekeeping();
+
                 } else {
                     UIUtils.showTip("请填入正确的手机号码");
                 }
@@ -153,7 +229,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
             /**
              * 退出
              */
-            case R.id.img_forget_return:
+            case R.id.fl_root_back:
                 finish();
                 break;
             /**
@@ -164,6 +240,12 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
                 String forgetYZM = mEtForgetYZM.getText().toString();
                 String forgetPassword = mEtForgetPassword.getText().toString();
                 String forgetPassword2 = mEtForgetNewPassword.getText().toString();
+                if (!NetUtil.isOpenNetwork()) {
+                    UIUtils.showTip("请打开网络");
+                    return;
+                }
+
+
                 if (!StringUtils.isPhone(forgetPhone)) {
                     UIUtils.showTip("请输入正确的手机号码");
                     return;
@@ -177,7 +259,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
                     return;
                 }
                 if (!forgetPassword.equals(forgetPassword2)) {
-                    UIUtils.showTip("二次密码输入不一致");
+                    UIUtils.showTip("两次密码输入不一致");
                     return;
                 }
                 if (forgetPassword.length() < 6) {
@@ -223,7 +305,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip(ex.getMessage());
+                UIUtils.showTip("服务端连接失败");
             }
         });
 
@@ -269,7 +351,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip(ex.getMessage());
+                UIUtils.showTip("服务端连接失败");
             }
 
             @Override
@@ -286,10 +368,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
      * 重置密码的验证码
      */
     private void HttpResetPassWordYZM(String phone) {
-        if (!NetUtil.isOpenNetwork()) {
-            UIUtils.showTip("请打开网络");
-            return;
-        }
+
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.RestPassWordYZM);
         requestParams.addHeader("token", HttpURL.Token);
@@ -304,16 +383,27 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
                 ForgetYzmBean forgetYzmBean = new Gson().fromJson(result, ForgetYzmBean.class);
                 if (forgetYzmBean.getMsg().equals("用户不存在")) {
                     UIUtils.showTip("用户不存在");
-                } else if (forgetYzmBean.getMsg().equals("已发送!")) {
-                    timekeeping();
+                } else if (forgetYzmBean.getMsg().equals("success")) {
+                    UIUtils.showTip("发送成功");
                 } else if (forgetYzmBean.getMsg().equals("验证失败!")) {
                     UIUtils.showTip("验证码有误");
+                }else if (forgetYzmBean.getMsg().equals("发送成功!")) {
+                    timekeeping();
+                    UIUtils.showTip("发送成功");
+                } else {
+                    UIUtils.showTip(forgetYzmBean.getMsg());
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip(ex.getMessage());
+                UIUtils.showTip("服务端连接失败");
+            }
+
+            @Override
+            public void onFinished() {
+                mTvForgetYZM.setTextColor(Color.parseColor("#217081"));
+                isForgetYZM = true;
             }
         });
     }
@@ -323,7 +413,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
      * 计时重新发送验证码
      */
     private void timekeeping() {
-        recLen = 120;
+        recLen = 60;
         mTimer = new Timer();
         // UI thread
         task = new TimerTask() {

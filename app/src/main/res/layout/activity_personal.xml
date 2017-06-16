@@ -8,20 +8,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
-            <TextView
-                android:id="@+id/tv_personal_return"
-                android:layout_width="10dp"
-                android:layout_height="15dp"
+            <LinearLayout
+                android:id="@+id/ll_root_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="21dp"
-                android:background="@drawable/persional_arrow_return" />
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_personal_return"
+                    android:layout_width="10dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/persional_arrow_return"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/re_personal_ifm"
@@ -45,7 +59,7 @@
                 android:text="保存"
                 android:textColor="#48e9c7"
                 android:textSize="15sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </RelativeLayout>
 
         <View
@@ -65,6 +79,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp">
+
                     <TextView
                         android:id="@+id/tv_personal_head_portrait"
                         android:layout_width="wrap_content"
@@ -76,19 +91,20 @@
                         android:gravity="center"
                         android:text="头像"
                         android:textColor="#000000"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
+
                     <ImageView
                         android:id="@+id/img_personal_head"
                         android:layout_width="39dp"
                         android:layout_height="39dp"
                         android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/tv_personal_head_portrait"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="25dp"
                         android:layout_marginRight="25dp"
+                        android:layout_toStartOf="@+id/tv_personal_continue"
                         android:background="@drawable/img_persional_photo_default"
-                        android:textSize="25sp"
-                        android:layout_alignTop="@+id/tv_personal_head_portrait"
-                        android:layout_toStartOf="@+id/tv_personal_continue" />
+                        android:textSize="25sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue"
@@ -101,8 +117,7 @@
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
                         android:textColor="#48e9c7"
-                        android:visibility="gone"
-                        />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -152,7 +167,7 @@
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
                         android:textColor="#48e9c7"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <View
@@ -200,7 +215,7 @@
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
                         android:textColor="#48e9c7"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <View
@@ -208,8 +223,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
-                    android:background="#d9d9d9"
-                    />
+                    android:background="#d9d9d9" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -258,7 +272,7 @@
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
                     android:background="#d9d9d9"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -307,7 +321,7 @@
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
                     android:background="#d9d9d9"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -357,7 +371,7 @@
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
                     android:background="#d9d9d9"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -407,7 +421,7 @@
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
                     android:background="#d9d9d9"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </LinearLayout>
         </ScrollView>
