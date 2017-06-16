@@ -1,16 +1,14 @@
 package com.jt.base.videoDetails;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.util.Pair;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,39 +18,16 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
-import com.jt.base.HomeActivity;
-import com.jt.base.utils.ImageUtil;
-import com.jt.base.videoDetails.adapters.VertViewAdapter;
-import com.jt.base.videos.VideoActivity;
 import com.jt.base.R;
-import com.jt.base.ui.VerticalViewPager;
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.jt.base.videoDetails.fragments.VideoDetailsFragment;
+import com.jt.base.videos.VideosFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private static final float FLING_MIN_DISTANCE = 10;
-    /**
-     * Actual panorama widget.
-     **/
+
     private VrPanoramaView panoWidgetView;
-    /**
-     * Arbitrary variable to track load status. In this example, this variable should only be accessed
-     * on the UI thread. In a real app, this variable would be code that performs some UI actions when
-     * the panorama is fully loaded.
-     */
     public boolean loadImageSuccessful;
-    /**
-     * Tracks the file to be loaded across the lifetime of this app.
-     **/
-    private String fileUri = "aaaa.png";
-    /**
-     * Configuration information for the panorama.
-     **/
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
-    private ImageLoaderTask backgroundImageLoaderTask;
-    private VerticalViewPager verticalViewPager;
+    private ViewPager mViewpager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,51 +41,13 @@ public class MainActivity extends AppCompatActivity {
         initViewPager();
     }
 
-    private void initViewPager() {
-        verticalViewPager = (VerticalViewPager) findViewById(R.id.view_pager);
-        verticalViewPager.setAdapter(new VertViewAdapter(getSupportFragmentManager(), "nihaodhsadiasdoiasodiasofefe fe fewfwe few few few fwe few few few few fefewf ew few few few few few fwe few few few few fedhaosihdoiasoi"));
-        verticalViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (ViewPager.SCROLL_STATE_IDLE == state) {//停止状态---显示图片
-                    initPanorama();
-
-                } else {//其他状态---不显示图片
-                    panoWidgetView.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-        //监测左右滑动事件
-        verticalViewPager.setOnMoveListener(new VerticalViewPager.OnMoveListener() {
-            @Override
-            public void onMove(boolean isRight) {
-                if (isRight) {
-                    Log.e("滑动333", "向右滑动");
-                    startActivity(new Intent(MainActivity.this, VideoActivity.class));
-                    overridePendingTransition(R.anim.anim_in,R.anim.anim_out);
-                } else {
-                    Log.e("滑动333", "向左滑动");
-                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                }
-            }
-        });
-    }
-
 
     /**
      * 初始化全景图播放器
      */
     private void initPanorama() {
         loadImageSuccessful = false;//初始化图片状态
-        panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view);
+        panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
         panoWidgetView.setEventListener(new ActivityEventListener());
         //影藏三個界面的按鈕
         panoWidgetView.setFullscreenButtonEnabled(false);
@@ -130,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+
+    //
+    private void initViewPager() {
+        mViewpager = (ViewPager) findViewById(R.id.vp_viewpager);
+        mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager()));
+    }
+
+
     @Override
     protected void onPause() {
         panoWidgetView.pauseRendering();
@@ -146,39 +91,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         // Destroy the widget and free memory.
         panoWidgetView.shutdown();
-        // The background task has a 5 second timeout so it can potentially stay alive for 5 seconds
-        // after the activity is destroyed unless it is explicitly cancelled.
-        if (backgroundImageLoaderTask != null) {
-            backgroundImageLoaderTask.cancel(true);
-        }
         super.onDestroy();
     }
-
-    //异步任务
-    class ImageLoaderTask extends AsyncTask<Pair<String, VrPanoramaView.Options>, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(Pair<String, VrPanoramaView.Options>... fileInformation) {//真正写项目根据情况添加条件判断吧
-            InputStream istr = null;
-            try {
-
-                istr = getAssets().open(fileInformation[0].first);//获取图片的输入流
-            } catch (IOException e) {
-                Log.e(TAG, "Could not decode default bitmap: " + e);
-                return false;
-            }
-            Bitmap bitmap = BitmapFactory.decodeStream(istr);//创建bitmap
-            Log.e("dflefseofjsdopfj", "Could not decode default bitmap: ");
-//            panoWidgetView.loadImageFromBitmap(bitmap, fileInformation[0].second);//参数一为图片的bitmap，参数二为 VrPanoramaView 所需要的设置
-            panoWidgetView.loadImageFromBitmap(ImageUtil.returnBitmap("http://123.206.89.244/ty/10752.jpg"), panoOptions);
-            try {
-                istr.close();//关闭InputStream
-            } catch (IOException e) {
-                Log.e(TAG, "Could not close input stream: " + e);
-            }
-            return true;
-        }
-    }
-
 
     /**
      * Listen to the important events from widget.
@@ -203,4 +117,30 @@ public class MainActivity extends AppCompatActivity {
             loadImageSuccessful = false;
         }
     }
+
+
+    class pagerAdapter extends FragmentPagerAdapter {
+
+        public pagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = new Fragment();
+            if (position == 0) {
+                fragment = new VideosFragment();
+            } else if (position == 1) {
+                fragment = new VideoDetailsFragment();
+            }
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+    }
+
+
 }

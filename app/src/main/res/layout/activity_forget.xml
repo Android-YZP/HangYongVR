@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jt.base.login.LoginActivity">
+    tools:context="com.jt.base.personal.LoginActivity">
 
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView

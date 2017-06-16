@@ -1,11 +1,9 @@
-package com.jt.base.login;
+package com.jt.base.personal;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -25,9 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
@@ -40,7 +35,6 @@ import com.jt.base.http.responsebean.RegisterBean;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.StringUtils;
 import com.jt.base.utils.UIUtils;
-import com.tencent.cos.task.Task;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;

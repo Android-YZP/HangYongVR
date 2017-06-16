@@ -1,4 +1,4 @@
-package com.jt.base.videos;
+package com.jt.base.videos.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jt.base.R;
-import com.jt.base.login.LoginActivity;
-import com.jt.base.login.PersonalActivity;
+import com.jt.base.personal.LoginActivity;
+import com.jt.base.personal.PersonalActivity;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 

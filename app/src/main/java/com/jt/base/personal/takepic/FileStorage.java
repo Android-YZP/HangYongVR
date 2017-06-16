@@ -1,4 +1,4 @@
-package com.jt.base.login.takepic;
+package com.jt.base.personal.takepic;
 
 import android.os.Environment;
 

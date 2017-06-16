@@ -69,12 +69,12 @@
                         android:id="@+id/img_personal_head"
                         android:layout_width="39dp"
                         android:layout_height="39dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="57dp"
+                        android:layout_marginEnd="22dp"
                         android:background="@drawable/img_persional_photo"
                         android:text="个人信息"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"
+                        android:layout_alignTop="@+id/tv_personal_head_portrait"
+                        android:layout_toStartOf="@+id/tv_personal_continue" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue"

@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.jt.base.videos.MainFragment;
-import com.jt.base.videos.MyFragment;
-import com.jt.base.videos.SearchFragment;
+import com.jt.base.videos.fragments.MainFragment;
+import com.jt.base.videos.fragments.MyFragment;
+import com.jt.base.videos.fragments.SearchFragment;
 
 
 /**

@@ -75,11 +75,9 @@
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".videos.VideoActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".login.RegisterActivity" />
-        <activity android:name=".login.takepic.PermissionsActivity" />
-        <activity android:name=".login.PersonalActivity" />
+        <activity android:name=".personal.LoginActivity" />
+        <activity android:name=".personal.takepic.PermissionsActivity" />
+        <activity android:name=".personal.PersonalActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -91,7 +89,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".login.ForgetActivity"></activity>
+        <activity android:name=".personal.ForgetActivity" />
     </application>
 
 </manifest>

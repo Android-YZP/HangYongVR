@@ -1,4 +1,4 @@
-package com.jt.base.login;
+package com.jt.base.personal;
 
 import android.app.ProgressDialog;
 import android.graphics.drawable.BitmapDrawable;

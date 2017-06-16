@@ -1,50 +1,27 @@
-package com.jt.base.login;
+package com.jt.base.personal;
 
 import android.Manifest;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.jt.base.R;
-import com.jt.base.application.BaseActivity;
 import com.jt.base.application.User;
-import com.jt.base.http.HttpURL;
-import com.jt.base.http.JsonCallBack;
-import com.jt.base.login.takepic.PermissionsActivity;
-import com.jt.base.login.takepic.PermissionsChecker;
-import com.jt.base.login.takepic.PhotoUtil;
+import com.jt.base.personal.takepic.PermissionsChecker;
+import com.jt.base.personal.takepic.PhotoUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 
-import org.xutils.common.util.LogUtil;
-import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-
 import static android.os.Environment.getExternalStorageState;
-import static com.jt.base.login.takepic.PhotoUtil.compressScale;
 
 public class PersonalActivity extends AppCompatActivity {
     private ImageView iv;
