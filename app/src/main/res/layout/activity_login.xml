@@ -68,7 +68,7 @@
                 android:gravity="center"
                 android:paddingRight="15dp"
                 android:text="注册"
-                android:textColor="#2fffffff"
+                android:textColor="#3fffffff"
                 android:textSize="22sp" />
 
         </LinearLayout>
@@ -79,14 +79,14 @@
             android:layout_marginTop="15dp">
 
             <include
-                android:id="@+id/root_login_login"
-                layout="@layout/item_login_logo"
-                />
-
-            <include
                 android:id="@+id/root_login_register"
                 android:visibility="gone"
                 layout="@layout/item_register" />
+
+            <include
+                android:id="@+id/root_login_login"
+                layout="@layout/item_login_logo"
+                />
 
         </FrameLayout>
 
