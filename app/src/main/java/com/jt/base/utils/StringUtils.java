@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class StringUtils {
 
     public static boolean isPhone(String value) {
-        String regExp = "^((13[0-9])|(15[^4,\\D])|(18[0,2-9])|(14[0,0-9])|(17[0,5-9]))\\d{8}$";
+        String regExp = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9])|(14[0,0-9])|(17[0,5-9]))\\d{8}$";
         Pattern p = Pattern.compile(regExp);
         Matcher m = p.matcher(value);
         return m.find();

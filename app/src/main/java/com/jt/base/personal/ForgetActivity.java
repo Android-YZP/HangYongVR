@@ -26,7 +26,9 @@ import com.jt.base.application.User;
 import com.jt.base.application.VrApplication;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
+import com.jt.base.http.responsebean.ForgetYzmBean;
 import com.jt.base.http.responsebean.ResetPasswordBean;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.StringUtils;
 import com.jt.base.utils.UIUtils;
@@ -128,7 +130,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
                     HttpResetPassWordYZM(smsPhone);
                     timekeeping();
                 } else {
-                    UIUtils.showTip("请填入正确的手机号");
+                    UIUtils.showTip("请填入正确的手机号码");
                 }
 
                 break;
@@ -162,6 +164,10 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
                     UIUtils.showTip("二次密码输入不一致");
                     return;
                 }
+                if (forgetPassword.length()<6) {
+                    UIUtils.showTip("最少需要输入6位密码");
+                    return;
+                }
                 HttpResetPassWord(forgetPhone, forgetYZM, forgetPassword, forgetPassword2);
                 break;
         }
@@ -171,6 +177,11 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
      * 重置密码
      */
     private void HttpResetPassWord(final String phone, String yzm, final String psw, String psw1) {
+        if (!NetUtil.isOpenNetwork()){
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.UpdatePassWord);
         requestParams.addHeader("token", HttpURL.Token);
@@ -207,6 +218,10 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
      * 向网络发起登录
      */
     private void HttpLogin(String phone, String password) {
+        if (!NetUtil.isOpenNetwork()){
+            UIUtils.showTip("请打开网络");
+            return;
+        }
         mProgressDialog = ProgressDialog.show(ForgetActivity.this, null, "请稍后...", true, true);
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.Login);
@@ -255,6 +270,10 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
      * 重置密码的验证码
      */
     private void HttpResetPassWordYZM(String phone) {
+        if (!NetUtil.isOpenNetwork()){
+            UIUtils.showTip("请打开网络");
+            return;
+        }
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.RestPassWordYZM);
         requestParams.addHeader("token", HttpURL.Token);
@@ -266,8 +285,14 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-
-
+                ForgetYzmBean forgetYzmBean = new Gson().fromJson(result, ForgetYzmBean.class);
+                if (forgetYzmBean.getMsg().equals("用户不存在")) {
+                    UIUtils.showTip("用户不存在");
+                } else if (forgetYzmBean.getMsg().equals("已发送!")){
+                    timekeeping();
+                }else if (forgetYzmBean.getMsg().equals("验证失败!")){
+                    UIUtils.showTip("验证码有误");
+                }
             }
 
             @Override

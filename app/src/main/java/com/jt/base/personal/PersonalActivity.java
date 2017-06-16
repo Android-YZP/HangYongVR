@@ -265,7 +265,7 @@ public class PersonalActivity extends AppCompatActivity {
 
     public void initData() {
         User user = SPUtil.getUser();
-        bindCircularImage(mIvPersonalhead,user.getResult().getUser().getHead());
+//        bindCircularImage(mIvPersonalhead,user.getResult().getUser().getHead());
         mTvPersonalNum.setText(user.getResult().getUser().getPhone());
     }
 

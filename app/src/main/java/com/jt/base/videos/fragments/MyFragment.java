@@ -88,6 +88,7 @@ public class MyFragment extends Fragment {
         isLogin = (Boolean) SPUtil.get(getActivity(), "isLogin", false);
         if (isLogin)
             mTvName.setText(SPUtil.getUser().getResult().getUser().getUsername());
+
         refreshUI();
     }
 
