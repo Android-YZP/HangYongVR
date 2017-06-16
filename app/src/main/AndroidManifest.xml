@@ -60,7 +60,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".videoDetails.MainActivity">
+        <activity android:name=".videoDetails.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,9 +75,9 @@
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".personal.LoginActivity" />
+        <activity android:name=".personal.LoginActivity" android:screenOrientation="portrait"/>
         <activity android:name=".personal.takepic.PermissionsActivity" />
-        <activity android:name=".personal.PersonalActivity" />
+        <activity android:name=".personal.PersonalActivity" android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

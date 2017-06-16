@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jt.base.R;
@@ -46,6 +47,7 @@ public class PersonalActivity extends AppCompatActivity {
     private TextView mTvPersonalZy;
     private TextView mTvPersonalEmail;
     private TextView mTvReturn;
+    private LinearLayout mRootReturn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,10 +254,11 @@ public class PersonalActivity extends AppCompatActivity {
         mTvPersonalZy = (TextView)findViewById(R.id.tv_personal_zy);
         mTvPersonalEmail = (TextView)findViewById(R.id.tv_personal_email_num);
         mTvReturn = (TextView)findViewById(R.id.tv_personal_return);
+        mRootReturn = (LinearLayout)findViewById(R.id.ll_root_back);
     }
 
     public void initListener() {
-        mTvReturn.setOnClickListener(new View.OnClickListener() {
+        mRootReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -267,6 +270,7 @@ public class PersonalActivity extends AppCompatActivity {
         User user = SPUtil.getUser();
 //        bindCircularImage(mIvPersonalhead,user.getResult().getUser().getHead());
         mTvPersonalNum.setText(user.getResult().getUser().getPhone());
+        mTvPersonalName.setText(user.getResult().getUser().getPhone());
     }
 
     /**
