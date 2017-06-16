@@ -31,7 +31,9 @@ import com.jt.base.application.User;
 import com.jt.base.application.VrApplication;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
+import com.jt.base.http.responsebean.ForgetYzmBean;
 import com.jt.base.http.responsebean.RegisterBean;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.StringUtils;
 import com.jt.base.utils.UIUtils;
@@ -68,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Boolean isLogin = true;//是否是登录界面
 
     private TimerTask task;
-    private int recLen = 120;
+    private int recLen;
     private Timer mTimer;
     private CheckBox mRegisterCheckBox;
     private InputMethodManager mImm;
@@ -164,7 +166,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             SPUtil.put(LoginActivity.this, "phone", mEtPhone.getText().toString());
                             SPUtil.put(LoginActivity.this, "password", mEtPassWord.getText().toString());
                         } else {
-                            SPUtil.put(LoginActivity.this, "phone", "");
                             SPUtil.put(LoginActivity.this, "password", "");
                         }
 
@@ -178,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tv_login_register:
                 mRootRegisterView.setVisibility(View.VISIBLE);
                 mRootLoginView.setVisibility(View.GONE);
-                mTvLogin.setTextColor(Color.parseColor("#99ffffff"));
+                mTvLogin.setTextColor(Color.parseColor("#2fffffff"));
                 mTvRegister.setTextColor(Color.parseColor("#ffffffff"));
 
                 //隐藏键盘
@@ -191,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mRootRegisterView.setVisibility(View.GONE);
                 mRootLoginView.setVisibility(View.VISIBLE);
                 mTvLogin.setTextColor(Color.parseColor("#ffffffff"));
-                mTvRegister.setTextColor(Color.parseColor("#99ffffff"));
+                mTvRegister.setTextColor(Color.parseColor("#2fffffff"));
 
                 //隐藏键盘
                 if (!isLogin) {
@@ -205,6 +206,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String registerYZM = mRegisterYZM.getText().toString();
                 String registerPassword = mRegisterPassword.getText().toString();
                 String registerPassword2 = mRegisterPassword2.getText().toString();
+
                 if (!StringUtils.isPhone(registerPhone)) {
                     UIUtils.showTip("请输入正确的手机号码");
                     return;
@@ -218,11 +220,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     return;
                 }
                 if (!registerPassword.equals(registerPassword2)) {
-                    UIUtils.showTip("二次密码输入不一致");
+                    UIUtils.showTip("两次密码输入不一致");
+                    return;
+                }
+
+                if (registerPassword.length()<6) {
+                    UIUtils.showTip("最少需要输入6位密码");
                     return;
                 }
                 if (!isCheckedAgree) {
-                    UIUtils.showTip("您未同意协议");
+                    UIUtils.showTip("请先阅读用户协议");
                     return;
                 }
                 HttpRegister(registerPhone, registerYZM, registerPassword, registerPassword2);
@@ -241,7 +248,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.tv_item_forget:
-              startActivity(new Intent(LoginActivity.this,ForgetActivity.class));
+                startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
                 break;
             case R.id.login_return_img:
                 finish();
@@ -254,7 +261,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 计时重新发送验证码
      */
     private void timekeeping() {
-        recLen = 3;
+        recLen = 60;
         mTimer = new Timer();
         // UI thread
         task = new TimerTask() {
@@ -335,6 +342,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 验证码
      */
     private void HttpYzm(String phone) {
+        if (!NetUtil.isOpenNetwork()){
+            UIUtils.showTip("请打开网络");
+            return;
+        }
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.SendYzm);
         requestParams.addHeader("token", HttpURL.Token);
@@ -346,7 +357,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                timekeeping();
+                ForgetYzmBean forgetYzmBean = new Gson().fromJson(result, ForgetYzmBean.class);
+
+                if (forgetYzmBean.getMsg().equals("用户已存在")) {
+                    UIUtils.showTip("用户已存在");
+                } else if (forgetYzmBean.getMsg().equals("已发送!")){
+                    timekeeping();
+                }else if (forgetYzmBean.getMsg().equals("验证失败!")){
+                    UIUtils.showTip("验证码有误");
+                }
+
+
             }
 
             @Override
@@ -362,6 +383,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 注册
      */
     private void HttpRegister(final String phone, String yzm, final String psw, String psw1) {
+        if (!NetUtil.isOpenNetwork()){
+            UIUtils.showTip("请打开网络");
+            return;
+        }
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.Register);
         requestParams.addHeader("token", HttpURL.Token);
@@ -378,6 +403,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LogUtil.i(result);
                 RegisterBean registerBean = new Gson().fromJson(result, RegisterBean.class);
                 if (registerBean.getMsg().equals("success")) {
+
+
                     //注册成功之后直接登录
                     HttpLogin(phone, psw);
 
