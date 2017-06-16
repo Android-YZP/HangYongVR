@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jt.base.R;
 import com.jt.base.login.LoginActivity;
@@ -26,6 +27,7 @@ public class MyFragment extends Fragment {
     private LinearLayout mRootUnLogin;
     private LinearLayout mRootLogined;
     private LinearLayout mRootGoLogin;
+    private TextView mTvName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class MyFragment extends Fragment {
                 SPUtil.clearUser();//清除缓存
                 SPUtil.put(getActivity(), "isLogin", false);
                 UIUtils.showTip("退出成功");
-               initData();
+                initData();
             }
         });
 
@@ -84,7 +86,8 @@ public class MyFragment extends Fragment {
 
     private void initData() {
         isLogin = (Boolean) SPUtil.get(getActivity(), "isLogin", false);
-
+        if (isLogin)
+            mTvName.setText(SPUtil.getUser().getResult().getUser().getUsername());
         refreshUI();
     }
 
@@ -104,6 +107,7 @@ public class MyFragment extends Fragment {
         mRootPersonInfo = (LinearLayout) view.findViewById(R.id.ll_root_my_personal_info);
         mRootLogined = (LinearLayout) view.findViewById(R.id.my_logined);
         mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
+        mTvName = (TextView) view.findViewById(R.id.tv_my_name);
         mRootGoLogin = (LinearLayout) mRootUnLogin.findViewById(R.id.ll_root_login);
     }
 

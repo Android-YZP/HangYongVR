@@ -68,6 +68,7 @@ public class PersonalActivity extends AppCompatActivity {
     private TextView mTvPersonalDay;
     private TextView mTvPersonalZy;
     private TextView mTvPersonalEmail;
+    private TextView mTvReturn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,10 +274,16 @@ public class PersonalActivity extends AppCompatActivity {
         mTvPersonalDay = (TextView)findViewById(R.id.tv_personal_day);
         mTvPersonalZy = (TextView)findViewById(R.id.tv_personal_zy);
         mTvPersonalEmail = (TextView)findViewById(R.id.tv_personal_email_num);
+        mTvReturn = (TextView)findViewById(R.id.tv_personal_return);
     }
 
     public void initListener() {
-
+        mTvReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void initData() {

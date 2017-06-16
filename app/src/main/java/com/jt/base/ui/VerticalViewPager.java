@@ -105,11 +105,11 @@ public class VerticalViewPager extends ViewPager {
                 mCurPosY = ev.getY();
 
                 if (mCurPosX - mPosX > 0
-                        && (Math.abs(mCurPosX - mPosX) > 350) && Math.abs(mCurPosY - mPosY) < 100) {
+                        && (Math.abs(mCurPosX - mPosX) > 350) && Math.abs(mCurPosY - mPosY) < 200) {
                     mOnMoveListener.onMove(true);//向左滑动
 
                     Log.e("滑动", mCurPosY - mPosY + "");
-                } else if (mCurPosX - mPosX < 0 && (Math.abs(mCurPosX - mPosX) > 350) && Math.abs(mCurPosY - mPosY) < 100) {
+                } else if (mCurPosX - mPosX < 0 && (Math.abs(mCurPosX - mPosX) > 350) && Math.abs(mCurPosY - mPosY) < 200) {
                     mOnMoveListener.onMove(false);//向右滑动
                     Log.e("滑动", mCurPosY - mPosY + "");
                 }
