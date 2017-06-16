@@ -235,7 +235,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String smsPhone = mRegisterPhone.getText().toString();
                 if (StringUtils.isPhone(smsPhone)) {//判断手机号是不是手机号
                     HttpYzm(smsPhone);
-                    timekeeping();
+
                 } else {
                     UIUtils.showTip("请填入正确的手机号");
                 }
@@ -254,7 +254,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 计时重新发送验证码
      */
     private void timekeeping() {
-        recLen = 120;
+        recLen = 3;
         mTimer = new Timer();
         // UI thread
         task = new TimerTask() {
@@ -346,6 +346,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
+                timekeeping();
             }
 
             @Override

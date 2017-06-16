@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f00"
-    tools:context="com.jt.base.personal.LoginActivity">
+    android:background="@drawable/login_background">
 
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/pano_view_login"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent"
         android:scrollbars="@null" />
 
@@ -33,7 +33,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/item_login_return" />
+                android:background="@mipmap/item_login_return"/>
             <ImageView
                 android:id="@+id/login_logo_img"
                 android:layout_width="90dp"
@@ -56,9 +56,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:text="登陆"
+                android:text="登录"
                 android:textColor="#ffff"
-                android:textSize="25sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/tv_login_register"
@@ -68,8 +68,8 @@
                 android:gravity="center"
                 android:paddingRight="15dp"
                 android:text="注册"
-                android:textColor="#9fff"
-                android:textSize="25sp" />
+                android:textColor="#2fffffff"
+                android:textSize="22sp" />
 
         </LinearLayout>
 

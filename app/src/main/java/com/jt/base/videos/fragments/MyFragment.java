@@ -59,7 +59,7 @@ public class MyFragment extends Fragment {
             public void onClick(View v) {
                 SPUtil.clearUser();//清除缓存
                 SPUtil.put(getActivity(), "isLogin", false);
-                UIUtils.showTip("退出成功");
+                UIUtils.showTip("登出成功");
                 initData();
             }
         });

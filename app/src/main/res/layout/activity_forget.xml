@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jt.base.personal.LoginActivity">
+    android:background="@drawable/login_background">
+
 
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/pano_view_login"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent"
         android:scrollbars="@null" />
 
@@ -45,19 +47,19 @@
              android:layout_width="match_parent"
              android:layout_height="45dp"
              android:text="忘记密码"
-             android:textSize="25sp"
+             android:textSize="22sp"
              android:gravity="center"
              android:textColor="@color/white"
              android:id="@+id/textView" />
 
         <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:background="@mipmap/item_register_1"
+        android:layout_height="170dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"
+        android:background="@drawable/item_register_1"
         android:orientation="vertical"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="5dp">
 
         <EditText
             android:id="@+id/et_forget_phone"
@@ -66,13 +68,13 @@
             android:layout_marginLeft="45dp"
             android:layout_weight="1"
             android:hint="手机号"
-            android:textColorHint="@color/white"
             android:maxLines="1"
             android:cursorVisible="false"
             android:gravity="center_vertical"
             android:background="@null"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:inputType="number"
+            android:textColorHint="#3fffffff"
             android:textColor="@color/white"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,17 +92,18 @@
                 android:background="@null"
                 android:gravity="center_vertical"
                 android:hint="验证码"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:cursorVisible="false"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"/>
+                android:textColorHint="#3fffffff"/>
             <TextView
                 android:id="@+id/tv_forger_yzm"
-                android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_width="90dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="短信验证码"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:background="@drawable/more_bg"
                 android:layout_marginRight="10dp"
                 android:textColor="#217081" />
@@ -117,9 +120,9 @@
             android:hint="新密码"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
+            android:textColorHint="#3fffffff"/>
 
         <EditText
             android:id="@+id/et_forget_new_password"
@@ -131,21 +134,21 @@
             android:background="@null"
             android:gravity="center_vertical"
             android:hint="确认密码"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:inputType="textPassword"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
+            android:textColorHint="#3fffffff"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_activity_forget_commit"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"
         android:text="提交"
         android:gravity="center"
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:layout_marginTop="50dp"
         android:textColor="@color/white"
         android:background="@drawable/btn_vr_login"/>

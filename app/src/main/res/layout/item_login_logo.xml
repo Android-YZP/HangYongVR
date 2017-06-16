@@ -9,7 +9,7 @@
         android:layout_height="100dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:background="@mipmap/item_login_1"
+        android:background="@drawable/item_login_1"
         android:orientation="vertical">
 
         <EditText

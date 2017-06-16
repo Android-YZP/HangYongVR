@@ -265,7 +265,6 @@ public class PersonalActivity extends AppCompatActivity {
 
     public void initData() {
         User user = SPUtil.getUser();
-        UIUtils.showTip(user.getResult().getUser().getPhone()+"v发的v是v");
         bindCircularImage(mIvPersonalhead,user.getResult().getUser().getHead());
         mTvPersonalNum.setText(user.getResult().getUser().getPhone());
     }
