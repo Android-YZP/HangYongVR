@@ -5,6 +5,11 @@
     android:background="@color/white"
     tools:context=".videos.fragments.MyFragment">
 
+    <include
+        android:id="@+id/my_un_login"
+        layout="@layout/fragment_my_item"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/my_logined"
         android:layout_width="match_parent"
@@ -170,11 +175,6 @@
             android:textColor="#afafaf" />
 
     </LinearLayout>
-
-    <include
-        android:id="@+id/my_un_login"
-        layout="@layout/fragment_my_item"
-        android:visibility="gone" />
 
 
 </FrameLayout>
