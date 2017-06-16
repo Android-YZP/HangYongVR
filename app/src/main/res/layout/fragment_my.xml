@@ -18,14 +18,19 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:background="@drawable/my_bg">
+            android:layout_height="250dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@drawable/my_bg" />
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="110dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -50,7 +55,8 @@
             android:id="@+id/ll_root_my_personal_info"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="20dp">
 
             <ImageView
                 android:layout_width="25dp"
@@ -162,11 +168,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="70dp"
-            android:textColor="#afafaf"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:background="@drawable/my_button_nor"
-            android:text="退出登录" />
+            android:text="退出登录"
+            android:textColor="#afafaf" />
 
     </LinearLayout>
 
