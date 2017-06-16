@@ -49,15 +49,15 @@ public class PersonalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            透明状态栏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_personal);
             initView();
             initData();
             initListener();
-        }
+
 
 
 //        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {

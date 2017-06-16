@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="10dp">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,7 +44,8 @@
                 android:gravity="center"
                 android:text="保存"
                 android:textColor="#48e9c7"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <View
@@ -64,14 +65,27 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp">
-
+                    <TextView
+                        android:id="@+id/tv_personal_head_portrait"
+                        android:layout_width="wrap_content"
+                        android:layout_height="43dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="21dp"
+                        android:layout_marginStart="20dp"
+                        android:gravity="center"
+                        android:text="头像"
+                        android:textColor="#000000"
+                        android:textSize="15sp"/>
                     <ImageView
                         android:id="@+id/img_personal_head"
                         android:layout_width="39dp"
                         android:layout_height="39dp"
-                        android:layout_marginEnd="22dp"
-                        android:background="@drawable/img_persional_photo"
-                        android:text="个人信息"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginRight="25dp"
+                        android:background="@drawable/img_persional_photo_default"
                         android:textSize="25sp"
                         android:layout_alignTop="@+id/tv_personal_head_portrait"
                         android:layout_toStartOf="@+id/tv_personal_continue" />
@@ -86,20 +100,10 @@
                         android:layout_marginRight="25dp"
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
-                        android:textColor="#48e9c7" />
+                        android:textColor="#48e9c7"
+                        android:visibility="gone"
+                        />
 
-                    <TextView
-                        android:id="@+id/tv_personal_head_portrait"
-                        android:layout_width="wrap_content"
-                        android:layout_height="43dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="21dp"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="头像"
-                        android:textColor="#000000"
-                        android:textSize="15sp" />
                 </RelativeLayout>
 
                 <View
@@ -130,7 +134,7 @@
                         android:layout_height="43dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="48dp"
+                        android:layout_marginEnd="25dp"
                         android:gravity="center"
                         android:inputType="number"
                         android:text="18726863593"
@@ -147,7 +151,8 @@
                         android:layout_marginRight="25dp"
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
-                        android:textColor="#48e9c7" />
+                        android:textColor="#48e9c7"
+                        android:visibility="gone"/>
                 </RelativeLayout>
 
                 <View
@@ -178,7 +183,7 @@
                         android:layout_height="43dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="48dp"
+                        android:layout_marginEnd="25dp"
                         android:gravity="center"
                         android:text="夏夏"
                         android:textColor="#999999"
@@ -194,7 +199,8 @@
                         android:layout_marginRight="25dp"
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
-                        android:textColor="#48e9c7" />
+                        android:textColor="#48e9c7"
+                        android:visibility="gone"/>
                 </RelativeLayout>
 
                 <View
@@ -203,7 +209,7 @@
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
                     android:background="#d9d9d9"
-                    android:visibility="gone"/>
+                    />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

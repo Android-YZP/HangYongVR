@@ -26,7 +26,7 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/my_head" />
+                    android:background="@drawable/img_persional_photo_default" />
 
                 <TextView
                     android:layout_width="wrap_content"
