@@ -50,7 +50,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/img_forget_delete_cha"
+                    android:id="@+id/img_login_delete_cha"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_alignParentEnd="true"
@@ -99,7 +99,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/img_forget_close1"
+                    android:id="@+id/img_login_close"
                     android:layout_width="18dp"
                     android:layout_height="10dp"
                     android:layout_alignParentEnd="true"
@@ -107,6 +107,17 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="15dp"
                     android:background="@mipmap/login_close_eye" />
+                <ImageView
+                    android:id="@+id/img_login_open"
+                    android:layout_width="18dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="15dp"
+                    android:background="@mipmap/login_open_eye"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 </LinearLayout>
     </LinearLayout>
