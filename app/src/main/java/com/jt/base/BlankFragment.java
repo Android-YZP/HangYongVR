@@ -37,7 +37,7 @@ public class BlankFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(),"进入播放器",Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getContext(),PlayActivity.class);
-                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_1111112111");
+                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_0601HK");
                 SPUtils.put(getContext(),Definition.HISTORY_URL,"rtmp://9250.liveplay.myqcloud.com/live/9250_1111112111");
                 getContext().startActivity(i);
 
