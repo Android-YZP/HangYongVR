@@ -22,6 +22,8 @@ import com.jt.base.R;
 import com.jt.base.videoDetails.fragments.VideoDetailsFragment;
 import com.jt.base.videos.VideosFragment;
 
+import org.xutils.common.util.LogUtil;
+
 public class MainActivity extends AppCompatActivity {
 
     private VrPanoramaView panoWidgetView;
@@ -37,8 +39,39 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initPanorama();
+        initView();
+//        initPanorama();
         initViewPager();
+        initListenter();
+    }
+
+    private void initView() {
+        panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
+    }
+
+    private void initListenter() {
+        mViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                LogUtil.i(position+""+positionOffset+"F"+positionOffsetPixels);
+                if (position == 1){
+                    initPanorama();
+                }else {
+                    panoWidgetView.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
@@ -47,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initPanorama() {
         loadImageSuccessful = false;//初始化图片状态
-        panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
+
         panoWidgetView.setEventListener(new ActivityEventListener());
         //影藏三個界面的按鈕
         panoWidgetView.setFullscreenButtonEnabled(false);
@@ -93,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         panoWidgetView.shutdown();
         super.onDestroy();
     }
+
 
     /**
      * Listen to the important events from widget.
