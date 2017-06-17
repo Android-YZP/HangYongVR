@@ -70,7 +70,7 @@ public class MainReAdapter extends RecyclerView.Adapter<MainReAdapter.MainReView
 
     @Override
     public int getItemCount() {
-        return 50;
+        return 10;
     }
 
 
