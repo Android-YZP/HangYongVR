@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jt.base.R;
@@ -26,7 +27,7 @@ public class MyFragment extends Fragment {
     private LinearLayout mRootPersonInfo;
     private LinearLayout mRootUnLogin;
     private LinearLayout mRootLogined;
-    private LinearLayout mRootGoLogin;
+    private RelativeLayout mRootGoLogin;
     private TextView mTvName;
 
     @Override
@@ -109,7 +110,7 @@ public class MyFragment extends Fragment {
         mRootLogined = (LinearLayout) view.findViewById(R.id.my_logined);
         mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
         mTvName = (TextView) view.findViewById(R.id.tv_my_name);
-        mRootGoLogin = (LinearLayout) mRootUnLogin.findViewById(R.id.ll_root_login);
+        mRootGoLogin = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login);
     }
 
 
