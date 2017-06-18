@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidVR.iml" filepath="$PROJECT_DIR$/AndroidVR.iml" />
       <module fileurl="file://$PROJECT_DIR$/HangYongVR.iml" filepath="$PROJECT_DIR$/HangYongVR.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

@@ -486,14 +486,14 @@ public class SnailPlayerVideoView extends SurfaceView implements
 			if (!folder.exists()) {
 				folder.mkdirs();
 			}
-			if (!folder.isDirectory()) {
-				throw new IllegalArgumentException("The logcat folder path is not a directory: " + folderPath);
-			}
+//			if (!folder.isDirectory()) {
+//			throw new IllegalArgumentException("The logcat folder path is not a directory: " + folderPath);
+//		}
 
-			folderPath += "/snail-sdk-test.log";
+//			folderPath += "/snail-sdk-test.log";
 
 
-			DebugLog.setLogFile(folderPath, 2*1024 * 1024);
+//			DebugLog.setLogFile(folderPath, 2*1024 * 1024);
 
 			//	LogcatFileManager.getInstance().startLogcatManager(mContext);
 			//}
