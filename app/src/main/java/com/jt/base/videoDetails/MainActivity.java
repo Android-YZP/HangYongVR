@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
         mViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                LogUtil.i(position+""+positionOffset+"F"+positionOffsetPixels);
-                if (position == 1){
+                LogUtil.i(position + "" + positionOffset + "F" + positionOffsetPixels);
+                if (position == 1) {
                     initPanorama();
-                }else {
+                } else {
                     panoWidgetView.setVisibility(View.GONE);
                 }
 
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     //
     private void initViewPager() {
         mViewpager = (ViewPager) findViewById(R.id.vp_viewpager);
-        mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager()));
+        mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager(), panoWidgetView));
     }
 
 
@@ -154,9 +154,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     class pagerAdapter extends FragmentPagerAdapter {
-
-        public pagerAdapter(FragmentManager fm) {
+        VrPanoramaView panoWidgetView;
+        public pagerAdapter(FragmentManager fm, VrPanoramaView panoWidgetView) {
             super(fm);
+            this.panoWidgetView = panoWidgetView;
         }
 
         @Override
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             if (position == 0) {
                 fragment = new VideosFragment();
             } else if (position == 1) {
-                fragment = new VideoDetailsFragment();
+                fragment = new VideoDetailsFragment(panoWidgetView);
             }
             return fragment;
         }

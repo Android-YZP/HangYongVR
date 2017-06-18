@@ -6,6 +6,12 @@ import android.animation.ValueAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+
+import com.google.vr.sdk.widgets.pano.VrPanoramaView;
+
+import org.xutils.common.util.LogUtil;
 
 /**
  * 实现RecycleView分页滚动的工具类
@@ -15,7 +21,7 @@ import android.view.View;
 public class PagingScrollHelper {
 
     RecyclerView mRecyclerView = null;
-
+    VrPanoramaView panoWidgetView;
     private MyOnScrollListener mOnScrollListener = new MyOnScrollListener();
 
     private MyOnFlingListener mOnFlingListener = new MyOnFlingListener();
@@ -24,6 +30,10 @@ public class PagingScrollHelper {
 
     int startY = 0;
     int startX = 0;
+
+    public PagingScrollHelper(VrPanoramaView panoWidgetView) {
+        this.panoWidgetView = panoWidgetView;
+    }
 
 
     enum ORIENTATION {
@@ -75,6 +85,7 @@ public class PagingScrollHelper {
 
         @Override
         public boolean onFling(int velocityX, int velocityY) {
+
             if (mOrientation == ORIENTATION.NULL) {
                 return false;
             }
@@ -155,13 +166,12 @@ public class PagingScrollHelper {
     public class MyOnScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            if (newState == 0){
 
-            }
-
+            LogUtil.i(newState+"2");
 
             //newState==0表示滚动停止，此时需要处理回滚
             if (newState == 0 && mOrientation != ORIENTATION.NULL) {
+                panoWidgetView.setVisibility(View.VISIBLE);
                 boolean move;
                 int vX = 0, vY = 0;
                 if (mOrientation == ORIENTATION.VERTICAL) {
@@ -169,22 +179,18 @@ public class PagingScrollHelper {
                     //如果滑动的距离超过屏幕的一半表示需要滑动到下一页
                     move = absY > recyclerView.getHeight() / 2;
                     vY = 0;
-
                     if (move) {
                         vY = offsetY - startY < 0 ? -1000 : 1000;
                     }
-
                 } else {
+                    panoWidgetView.setVisibility(View.GONE);
                     int absX = Math.abs(offsetX - startX);
                     move = absX > recyclerView.getWidth() / 2;
                     if (move) {
                         vX = offsetX - startX < 0 ? -1000 : 1000;
                     }
-
                 }
-
                 mOnFlingListener.onFling(vX, vY);
-
             }
 
         }
@@ -208,6 +214,8 @@ public class PagingScrollHelper {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 startY = offsetY;
                 startX = offsetX;
+            }else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                panoWidgetView.setVisibility(View.GONE);
             }
             return false;
         }

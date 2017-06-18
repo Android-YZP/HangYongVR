@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.ui.verticalpager.HorizontalPageLayoutManager;
 import com.jt.base.ui.verticalpager.PagingItemDecoration;
@@ -21,7 +22,6 @@ import org.xutils.common.util.LogUtil;
 
 public class VideoDetailsFragment extends Fragment implements PagingScrollHelper.onPageChangeListener {
     private RecyclerView recyclerView;
-    PagingScrollHelper scrollHelper = new PagingScrollHelper();
     private RecyclerView.ItemDecoration lastItemDecoration = null;
     private HorizontalPageLayoutManager horizontalPageLayoutManager = null;
     private LinearLayoutManager hLinearLayoutManager = null;
@@ -31,16 +31,20 @@ public class VideoDetailsFragment extends Fragment implements PagingScrollHelper
     private PagingItemDecoration pagingItemDecoration = null;
     private ViewPager viewpager;
     private MyAdapter myAdapter;
+    VrPanoramaView panoWidgetView;
+    PagingScrollHelper scrollHelper ;
+
+    public VideoDetailsFragment(VrPanoramaView panoWidgetView) {
+        this.panoWidgetView = panoWidgetView;
+    }
 
     /**
-     *   Toast.makeText(getActivity(),"进入播放器",Toast.LENGTH_SHORT).show();
-         Intent i = new Intent(getContext(),PlayActivity.class);
-          i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_0601HK");
-         SPUtils.put(getContext(),Definition.HISTORY_URL,"rtmp://9250.liveplay.myqcloud.com/live/9250_1111112111");
-        getContext().startActivity(i);
+     * Toast.makeText(getActivity(),"进入播放器",Toast.LENGTH_SHORT).show();
+     * Intent i = new Intent(getContext(),PlayActivity.class);
+     * i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_0601HK");
+     * SPUtils.put(getContext(),Definition.HISTORY_URL,"rtmp://9250.liveplay.myqcloud.com/live/9250_1111112111");
+     * getContext().startActivity(i);
      */
-
-
 
 
     @Override
@@ -52,11 +56,11 @@ public class VideoDetailsFragment extends Fragment implements PagingScrollHelper
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_details, container, false);
+        scrollHelper = new PagingScrollHelper(panoWidgetView);
         init(view);
         initListenter();
         return view;
     }
-
 
 
     private void initListenter() {
@@ -99,5 +103,8 @@ public class VideoDetailsFragment extends Fragment implements PagingScrollHelper
     @Override
     public void onPageChange(int index) {
 
+        panoWidgetView.setVisibility(View.VISIBLE);
     }
+
+
 }

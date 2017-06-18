@@ -52,6 +52,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int HTTP_SUCCESS = 0;
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
@@ -316,7 +317,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 if (StringUtils.isPhone(phone)) {//判断手机号是不是手机号
                     if (!TextUtils.isEmpty(password)) {
-                        HttpLogin(phone, password);
+                        HttpLogin(phone, password,false);
                         if (isLoginChecked) {//勾选记住密码
                             SPUtil.put(LoginActivity.this, "phone", mEtPhone.getText().toString());
                             SPUtil.put(LoginActivity.this, "password", mEtPassWord.getText().toString());
@@ -332,31 +333,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.tv_login_register:
+                //隐藏键盘
+                if (isLogin) {
+                    mImm.hideSoftInputFromWindow(mEtPhone.getWindowToken(), 0);
+                }
                 isLogin = false;
                 mRootRegisterView.setVisibility(View.VISIBLE);
                 mRootLoginView.setVisibility(View.GONE);
                 mTvLogin.setTextColor(Color.parseColor("#2fffffff"));
                 mTvRegister.setTextColor(Color.parseColor("#ffffffff"));
 
-                //隐藏键盘
-                if (isLogin) {
-                    mImm.hideSoftInputFromWindow(mEtPhone.getWindowToken(), 0);
-                }
 
                 break;
             case R.id.tv_login_login:
+                //隐藏键盘
+                if (!isLogin) {
+                    mImm.hideSoftInputFromWindow(mRegisterPhone.getWindowToken(), 0);
+                }
                 isLogin = true;
                 mRootRegisterView.setVisibility(View.GONE);
                 mRootLoginView.setVisibility(View.VISIBLE);
                 mTvLogin.setTextColor(Color.parseColor("#ffffffff"));
                 mTvRegister.setTextColor(Color.parseColor("#2fffffff"));
-
-                //隐藏键盘
-                if (!isLogin) {
-                    mImm.hideSoftInputFromWindow(mRegisterPhone.getWindowToken(), 0);
-                }
-
-
                 break;
             case R.id.btn_register:
                 String registerPhone = mRegisterPhone.getText().toString();
@@ -533,11 +531,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (forgetYzmBean.getMsg().equals("用户已存在")) {
                     UIUtils.showTip("用户已存在");
 
-                } else if (forgetYzmBean.getMsg().equals("已发送!")) {
-                    timekeeping();
-                } else if (forgetYzmBean.getMsg().equals("验证失败!")) {
+                }  else if (forgetYzmBean.getMsg().equals("验证失败!")) {
                     UIUtils.showTip("验证码有误");
-                } else if (forgetYzmBean.getMsg().equals("success")) {
+                } else  if (forgetYzmBean.getCode() == HTTP_SUCCESS)  {
                     UIUtils.showTip("发送成功 ");
                     timekeeping();
                 } else {
@@ -584,10 +580,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onSuccess(String result) {
                 LogUtil.i(result);
                 RegisterBean registerBean = new Gson().fromJson(result, RegisterBean.class);
-                if (registerBean.getMsg().equals("success")) {
-
+                if (registerBean.getCode() == HTTP_SUCCESS) {
                     //注册成功之后直接登录
-                    HttpLogin(phone, psw);
+                    HttpLogin(phone, psw ,true);
 
                 } else {
                     UIUtils.showTip(registerBean.getMsg());
@@ -608,7 +603,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * 向网络发起登录
      */
-    private void HttpLogin(String phone, String password) {
+    private void HttpLogin(String phone, String password, final boolean isRegist) {
         mProgressDialog = ProgressDialog.show(LoginActivity.this, null, "正在登录...", true, true);
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.Login);
@@ -621,13 +616,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onSuccess(String result) {
-                LogUtil.i(result);
                 User userBean = new Gson().fromJson(result, User.class);
                 LogUtil.i(userBean.getMsg() + "");
-                if (userBean.getMsg().equals("success")) {
+                LogUtil.i(result);
+                if (userBean.getCode() == HTTP_SUCCESS)  {
                     SPUtil.putUser(userBean);
                     SPUtil.put(LoginActivity.this, "isLogin", true);
-                    UIUtils.showTip("登录成功");
+                    if (isRegist){//判断用户是注册还是登陆
+                        UIUtils.showTip("注册成功");
+                    }else {
+                        UIUtils.showTip("登陆成功");
+                    }
+
                     finish();
                 } else {
                     UIUtils.showTip(userBean.getMsg());

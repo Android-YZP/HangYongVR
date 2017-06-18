@@ -46,6 +46,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ForgetActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int HTTP_SUCCESS = 0;
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
@@ -147,7 +148,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         mForgetCha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mEtForgetPhone.setText("");
+                mEtForgetPhone.setText("");
             }
         });
 
@@ -295,7 +296,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
             public void onSuccess(String result) {
                 LogUtil.i(result);
                 ResetPasswordBean resetPasswordBean = new Gson().fromJson(result, ResetPasswordBean.class);
-                if (resetPasswordBean.getMsg().equals("success")) {
+                if (resetPasswordBean.getCode() == HTTP_SUCCESS){
 
                     HttpLogin(phone, psw);
                 } else {
@@ -332,10 +333,9 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onSuccess(String result) {
-                LogUtil.i(result);
+                LogUtil.i("LOGIN=" + result);
                 User userBean = new Gson().fromJson(result, User.class);
-                LogUtil.i(userBean.getMsg() + "");
-                if (userBean.getMsg().equals("success")) {
+                if (userBean.getCode() == HTTP_SUCCESS) {
                     SPUtil.putUser(userBean);
                     SPUtil.put(ForgetActivity.this, "isLogin", true);
                     UIUtils.showTip("密码重置成功");
@@ -379,15 +379,13 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onSuccess(String result) {
-                LogUtil.i(result);
+                LogUtil.i("YZM=" + result);
                 ForgetYzmBean forgetYzmBean = new Gson().fromJson(result, ForgetYzmBean.class);
                 if (forgetYzmBean.getMsg().equals("用户不存在")) {
                     UIUtils.showTip("用户不存在");
-                } else if (forgetYzmBean.getMsg().equals("success")) {
-                    UIUtils.showTip("发送成功");
                 } else if (forgetYzmBean.getMsg().equals("验证失败!")) {
                     UIUtils.showTip("验证码有误");
-                }else if (forgetYzmBean.getMsg().equals("发送成功!")) {
+                } else if (forgetYzmBean.getCode() == HTTP_SUCCESS) {
                     timekeeping();
                     UIUtils.showTip("发送成功");
                 } else {
