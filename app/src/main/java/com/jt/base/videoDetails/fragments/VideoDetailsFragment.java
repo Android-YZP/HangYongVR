@@ -16,6 +16,8 @@ import com.jt.base.ui.verticalpager.PagingItemDecoration;
 import com.jt.base.ui.verticalpager.PagingScrollHelper;
 import com.jt.base.videoDetails.adapters.MyAdapter;
 
+import org.xutils.common.util.LogUtil;
+
 
 public class VideoDetailsFragment extends Fragment implements PagingScrollHelper.onPageChangeListener {
     private RecyclerView recyclerView;
@@ -51,7 +53,22 @@ public class VideoDetailsFragment extends Fragment implements PagingScrollHelper
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_details, container, false);
         init(view);
+        initListenter();
         return view;
+    }
+
+
+
+    private void initListenter() {
+//        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                LogUtil.i(newState+"");
+//
+//            }
+//        });
+
     }
 
     private void init(View view) {
