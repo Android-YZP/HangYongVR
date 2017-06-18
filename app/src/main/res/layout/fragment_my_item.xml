@@ -33,6 +33,7 @@
         </LinearLayout>
     </RelativeLayout>
          <RelativeLayout
+             android:id="@+id/lll_root_login"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:gravity="center">
