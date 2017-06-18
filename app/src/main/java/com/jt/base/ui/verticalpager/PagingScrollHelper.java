@@ -155,6 +155,11 @@ public class PagingScrollHelper {
     public class MyOnScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            if (newState == 0){
+
+            }
+
+
             //newState==0表示滚动停止，此时需要处理回滚
             if (newState == 0 && mOrientation != ORIENTATION.NULL) {
                 boolean move;
