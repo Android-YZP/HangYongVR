@@ -28,6 +28,7 @@ public class MyFragment extends Fragment {
     private LinearLayout mRootUnLogin;
     private LinearLayout mRootLogined;
     private RelativeLayout mRootGoLogin;
+    private RelativeLayout mRootGoLogin1;
     private TextView mTvName;
 
     @Override
@@ -83,6 +84,12 @@ public class MyFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
+        mRootGoLogin1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+            }
+        });
     }
 
     private void initData() {
@@ -111,6 +118,7 @@ public class MyFragment extends Fragment {
         mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
         mTvName = (TextView) view.findViewById(R.id.tv_my_name);
         mRootGoLogin = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login);
+        mRootGoLogin1 = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login1);
     }
 
 
