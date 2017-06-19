@@ -19,7 +19,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
-import com.jt.base.videoDetails.fragments.VideoDetailsFragment;
+import com.jt.base.videoDetails.fragments.VideoDetailFragment;
 import com.jt.base.videos.VideosFragment;
 
 import org.xutils.common.util.LogUtil;
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             if (position == 0) {
                 fragment = new VideosFragment();
             } else if (position == 1) {
-                fragment = new VideoDetailsFragment(panoWidgetView);
+                fragment = new VideoDetailFragment(panoWidgetView);
             }
             return fragment;
         }
