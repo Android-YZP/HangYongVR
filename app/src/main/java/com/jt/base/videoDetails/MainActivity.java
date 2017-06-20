@@ -1,7 +1,5 @@
 package com.jt.base.videoDetails;
 
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,17 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.videoDetails.fragments.VideoDetailFragment;
 import com.jt.base.videos.VideosFragment;
-
-import org.xutils.common.util.LogUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-//        initPanorama();
+        initPanorama();
         initViewPager();
         initListenter();
     }
@@ -53,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
         mViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                LogUtil.i(position + "" + positionOffset + "F" + positionOffsetPixels);
                 if (position == 1) {
-                    initPanorama();
+                    panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
                 } else {
                     panoWidgetView.setVisibility(View.GONE);
                 }
@@ -80,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initPanorama() {
         loadImageSuccessful = false;//初始化图片状态
-
         panoWidgetView.setEventListener(new ActivityEventListener());
         //影藏三個界面的按鈕
         panoWidgetView.setFullscreenButtonEnabled(false);
@@ -88,16 +78,6 @@ public class MainActivity extends AppCompatActivity {
         panoWidgetView.setStereoModeButtonEnabled(false);
         panoWidgetView.setOnTouchListener(null);//禁用手势滑动
         panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
-        //加载背景图片
-        Glide.with(this)
-                .load("https://ws1.sinaimg.cn/large/610dc034ly1ffv3gxs37oj20u011i0vk.jpg")
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        BitmapDrawable bd = (BitmapDrawable) resource;
-                        panoWidgetView.loadImageFromBitmap(bd.getBitmap(), panoOptions);
-                    }
-                });
     }
 
 
@@ -166,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             if (position == 0) {
                 fragment = new VideosFragment();
             } else if (position == 1) {
-                fragment = new VideoDetailFragment(panoWidgetView);
+                fragment = new VideoDetailFragment(panoWidgetView,panoOptions);
             }
             return fragment;
         }
