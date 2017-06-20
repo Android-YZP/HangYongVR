@@ -8,7 +8,9 @@ public class HttpURL {
     //服务器地址
 //    private static String Host = "http://192.168.1.100:8080/hyplatform/api/";
 //    private static String Host = "http://118.89.246.194:8080/api/";
-    private static String Host = "http://192.168.1.122:8080/hyplatform/api/";
+//    private static String Host = "http://192.168.1.122:8080/hyplatform/api/";
+//    private static String Host = "http://192.168.1.135:8080/hyplatform/api/";
+    private static String Host = "http://192.168.1.116:8080/hyplatform/api/";
     public static String Token = "C47B1071";
 
     /**

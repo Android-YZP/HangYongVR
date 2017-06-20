@@ -3,7 +3,9 @@ package com.jt.base.videoDetails.fragments;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,10 +25,11 @@ import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.adapters.RvAdapter;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,8 @@ public class VideoDetailFragment extends Fragment {
     private List<String> mDatas = new ArrayList<>();
     private VrPanoramaView panoWidgetView;
     private VrPanoramaView.Options panoOptions;
+    private SwipyRefreshLayout mSwipyRefresh;
+
     public VideoDetailFragment() {
     }
 
@@ -56,16 +61,31 @@ public class VideoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_detail, container, false);
         initView(view);
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         initData();
         initListenter();
-        return view;
     }
 
     private void initView(View view) {
         mRvVideoDetaillist = (RecyclerViewPager) view.findViewById(R.id.rv_video_detail_list);
+        mSwipyRefresh = (SwipyRefreshLayout) view.findViewById(R.id.sf_detail_SwipeRefreshLayout);
     }
 
     private void initData() {
+
+        initRecyclerViewPager();
+        HttpRoomList("1", "10");
+        //初始化全景图
+        initPanorama();
+    }
+
+    private void initRecyclerViewPager() {
         for (int i = 0; i < 21; i++) {
             mDatas.add("" + i);
         }
@@ -74,10 +94,8 @@ public class VideoDetailFragment extends Fragment {
         mRvVideoDetaillist.setLayoutManager(layout);
         mRvVideoDetaillist.setAdapter(new RvAdapter(getContext(), mDatas));
         //从网络获取数据
-        HttpRoomList("1", "10");
-        //初始化全景图
-        initPanorama();
     }
+
 
     private void initListenter() {
         //控制全景图的显示和影藏
@@ -93,6 +111,7 @@ public class VideoDetailFragment extends Fragment {
             }
         });
 
+
         //选中的页面
         mRvVideoDetaillist.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
             @Override
@@ -103,6 +122,14 @@ public class VideoDetailFragment extends Fragment {
             }
         });
 
+        //刷新和下拉加载的监听
+        mSwipyRefresh.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+                LogUtil.i(direction+"");
+
+            }
+        });
 
 
     }
@@ -123,9 +150,6 @@ public class VideoDetailFragment extends Fragment {
                     }
                 });
     }
-
-
-
 
     /**
      * 直播列表
@@ -163,9 +187,10 @@ public class VideoDetailFragment extends Fragment {
 
             }
         });
-
-
     }
+
+
+
 
 
 }

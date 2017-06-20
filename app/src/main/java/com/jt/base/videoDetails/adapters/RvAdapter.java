@@ -1,6 +1,8 @@
 package com.jt.base.videoDetails.adapters;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.jt.base.HomeActivity;
 import com.jt.base.R;
+import com.jt.base.utils.UIUtils;
 
 import java.util.List;
 
@@ -20,9 +23,11 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
     private Context context;
     List<String> mDatas;
 
+
     public RvAdapter(Context context, List<String> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
+
     }
 
     @Override
@@ -33,13 +38,34 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tv.setText(mDatas.get(position));
+        holder.tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               payDialog();
+            }
+        });
+
+
     }
 
     @Override
     public int getItemCount() {
         return mDatas.size();
+    }
+
+
+    /**
+     * 对话框
+     */
+
+    private void payDialog() {
+        Builder mPayDialog = new AlertDialog.Builder(context,R.style.MyDialogStyle);
+        final View dialogView = LayoutInflater.from(context)
+                .inflate(R.layout.dialog_pay_item, null);
+        mPayDialog.setView(dialogView);
+        mPayDialog.show();
     }
 
 
