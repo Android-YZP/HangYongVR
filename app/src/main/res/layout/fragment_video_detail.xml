@@ -1,27 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.jt.base.videoDetails.fragments.VideoDetailFragment">
+
     <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/sf_detail_SwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        app:srl_direction="both"
-        >
+        app:srl_direction="both">
+
         <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
             android:id="@+id/rv_video_detail_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:rvp_triggerOffset="0.2"
+            android:clipToPadding="true"
             app:rvp_singlePageFling="true"
-            android:clipToPadding="true"/>
+            app:rvp_triggerOffset="0.2" />
 
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
-
-
 
 
 </RelativeLayout>

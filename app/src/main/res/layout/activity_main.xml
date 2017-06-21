@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
+    android:background="#000"
     tools:context="com.jt.base.videoDetails.MainActivity">
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView

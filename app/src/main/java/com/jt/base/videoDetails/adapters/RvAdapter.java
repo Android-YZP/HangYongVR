@@ -1,17 +1,26 @@
 package com.jt.base.videoDetails.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.jt.base.HomeActivity;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
+import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.vrplayer.Definition;
+import com.jt.base.vrplayer.PlayActivity;
+import com.jt.base.vrplayer.utils.SPUtils;
+import org.xutils.common.Callback;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -21,12 +30,12 @@ import java.util.List;
 
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
     private Context context;
-    List<String> mDatas;
 
+    private List<GetRoomBean.ResultBean> mRoomLists;
 
-    public RvAdapter(Context context, List<String> mDatas) {
+    public RvAdapter(Context context, List<GetRoomBean.ResultBean> mRoomLists) {
         this.context = context;
-        this.mDatas = mDatas;
+        this.mRoomLists = mRoomLists;
 
     }
 
@@ -38,44 +47,104 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.tv.setText(mDatas.get(position));
-        holder.tv.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        holder.mTvPlayer.setText((String) mRoomLists.get(position).getChannelName());
+        //加载圆形头像
+        ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
+        x.image().bind(holder.mIvRoomHead, HttpURL.IV_HOST + mRoomLists.get(position).getHead(), imageOptions, new Callback.CommonCallback<Drawable>() {
             @Override
-            public void onClick(View v) {
-               payDialog();
+            public void onSuccess(Drawable result) {
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("背景图片加载失败,请刷新重试");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+            }
+
+            @Override
+            public void onFinished() {
             }
         });
-
-
+        holder.mTvPersonName.setText((String) mRoomLists.get(position).getChannelName());
+        //是否付费
+        if (mRoomLists.get(position).getPrice() == 0) {
+            holder.mTvRoomPay.setVisibility(View.GONE);
+        } else {
+            holder.mTvRoomPay.setVisibility(View.VISIBLE);
+        }
+        holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payDialog(position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return mRoomLists.size();
     }
 
 
     /**
      * 对话框
+     *
+     * @param position
      */
 
-    private void payDialog() {
-        Builder mPayDialog = new AlertDialog.Builder(context,R.style.MyDialogStyle);
+    private void payDialog(final int position) {
+//        final Builder mPayDialog = new Builder(context, R.style.MyDialogStyle);
+        final AlertDialog.Builder mPayDialog = new AlertDialog.Builder(context, R.style.MyDialogStyle);
+
         final View dialogView = LayoutInflater.from(context)
                 .inflate(R.layout.dialog_pay_item, null);
+        ImageView ivPayChacha = (ImageView) dialogView.findViewById(R.id.iv_pay_chacha);
+        Button btnGoPay = (Button) dialogView.findViewById(R.id.btn_go_pay);
+
+        //进入播放器
+        btnGoPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, PlayActivity.class);
+                i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+//                i.putExtra(Definition.KEY_PLAY_URL,"rtmp://9250.liveplay.myqcloud.com/live/9250_5abd74327f47431884bfc1ff14b7a5b0");
+                SPUtils.put(context, Definition.HISTORY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_5abd74327f47431884bfc1ff14b7a5b0");
+                context.startActivity(i);
+            }
+        });
+
         mPayDialog.setView(dialogView);
-        mPayDialog.show();
+        final AlertDialog show = mPayDialog.show();
+        //点击消失
+        ivPayChacha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show.dismiss();
+            }
+        });
+
     }
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv;
+        TextView mTvPlayer;
+        private TextView mTvPersonName;
+        private TextView mTvRoomPay;
+        private ImageView mIvRoomHead;
 
         MyViewHolder(View view) {
             super(view);
-            tv = (TextView) view.findViewById(R.id.title);
+            mTvPlayer = (TextView) view.findViewById(R.id.title);
+            mTvPersonName = (TextView) view.findViewById(R.id.tv_room_person_name);
+            mTvRoomPay = (TextView) view.findViewById(R.id.tv_pay);
+            mIvRoomHead = (ImageView) view.findViewById(R.id.iv_room_head);
+
+
         }
     }
 

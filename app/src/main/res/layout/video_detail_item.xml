@@ -17,16 +17,17 @@
     <LinearLayout
         android:id="@+id/ll_root_room_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="33dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/pay_statu_bg"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/iv_room_head"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:background="@mipmap/detail_head" />
 
         <LinearLayout
@@ -34,31 +35,34 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_room_person_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="小贱"
+                android:maxLength="4"
+                android:ellipsize="end"
                 android:textColor="#fff"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 android:text="正在直播"
                 android:textColor="#fff"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_pay"
             android:layout_width="40dp"
             android:layout_height="19dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="付费"
             android:textColor="#fff"

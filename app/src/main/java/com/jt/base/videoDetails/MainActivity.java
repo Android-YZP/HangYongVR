@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.fragments.VideoDetailFragment;
 import com.jt.base.videos.VideosFragment;
 
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     panoWidgetView.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         public void onLoadError(String errorMessage) {
             Log.e("dflefseofjsdopfj", "Could not decode default bitmap: 3");
             loadImageSuccessful = false;
+            UIUtils.showTip("图片加载错误");
         }
     }
 
