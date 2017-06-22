@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetRoomBean;
@@ -18,6 +19,7 @@ import com.jt.base.utils.UIUtils;
 import com.jt.base.vrplayer.Definition;
 import com.jt.base.vrplayer.PlayActivity;
 import com.jt.base.vrplayer.utils.SPUtils;
+
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -48,7 +50,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.mTvPlayer.setText((String) mRoomLists.get(position).getChannelName());
         //加载圆形头像
         ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
         x.image().bind(holder.mIvRoomHead, HttpURL.IV_HOST + mRoomLists.get(position).getHead(), imageOptions, new Callback.CommonCallback<Drawable>() {
@@ -103,16 +104,21 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         final View dialogView = LayoutInflater.from(context)
                 .inflate(R.layout.dialog_pay_item, null);
         ImageView ivPayChacha = (ImageView) dialogView.findViewById(R.id.iv_pay_chacha);
+        TextView TvPayDiaprice = (TextView) dialogView.findViewById(R.id.tv_play_dia_price);
+        TvPayDiaprice.setText("价格： " + mRoomLists.get(position).getPrice() + "元");
+        TextView TvPayId = (TextView) dialogView.findViewById(R.id.tv_play_dia_id);
+        TvPayId.setText("房间ID：" + mRoomLists.get(position).getChannelId() + "");
+        TextView TvPayName = (TextView) dialogView.findViewById(R.id.tv_play_dia_name);
+        TvPayName.setText("当前直播：" + mRoomLists.get(position).getChannelName());
         Button btnGoPay = (Button) dialogView.findViewById(R.id.btn_go_pay);
-
         //进入播放器
         btnGoPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, PlayActivity.class);
-                i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-//                i.putExtra(Definition.KEY_PLAY_URL,"rtmp://9250.liveplay.myqcloud.com/live/9250_5abd74327f47431884bfc1ff14b7a5b0");
-                SPUtils.put(context, Definition.HISTORY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_5abd74327f47431884bfc1ff14b7a5b0");
+//                i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
+                SPUtils.put(context, Definition.HISTORY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
                 context.startActivity(i);
             }
         });

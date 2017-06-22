@@ -12,6 +12,10 @@
         android:bottomRightRadius="22dp"
         android:topLeftRadius="0dp"
         android:topRightRadius="22dp" /> <!-- 设置四个角的半径 -->
+    <!-- 描边 -->
+    <stroke
+        android:width="1px"
+        android:color="@android:color/white" />
 
     <size
     android:width="30dp"

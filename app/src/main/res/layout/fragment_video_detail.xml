@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context="com.jt.base.videoDetails.fragments.VideoDetailFragment">
 
+    <ImageView
+        android:id="@+id/iv_detial_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/detail_pay_bg"
+        android:visibility="gone" />
+
     <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/sf_detail_SwipeRefreshLayout"
         android:layout_width="match_parent"

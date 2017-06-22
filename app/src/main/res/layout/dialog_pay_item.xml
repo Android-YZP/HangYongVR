@@ -40,6 +40,7 @@
             android:background="@mipmap/pay_icon" />
 
         <TextView
+            android:id="@+id/tv_play_dia_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -50,19 +51,23 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_play_dia_id"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:layout_marginTop="12dp"
+            android:maxLines="1"
             android:text="房间ID：123456789456"
             android:textColor="#999999"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_play_dia_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:maxLines="1"
             android:text="当前直播：辣眼睛"
             android:textColor="#999999"
             android:textSize="14sp" />

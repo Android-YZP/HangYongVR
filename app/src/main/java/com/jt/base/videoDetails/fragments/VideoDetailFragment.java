@@ -8,10 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -32,6 +34,7 @@ import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirec
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
 import java.util.List;
 
 public class VideoDetailFragment extends Fragment {
@@ -47,6 +50,7 @@ public class VideoDetailFragment extends Fragment {
     private RvAdapter mRvAdapter;
     private GetRoomBean mRoomListBean;
     private int mCurrentPage = 0;
+    private ImageView mIvDetialErrorBg;
 
 
     public VideoDetailFragment() {
@@ -80,12 +84,13 @@ public class VideoDetailFragment extends Fragment {
     }
 
     private void initView(View view) {
-        mRvVideoDetaillist = (RecyclerViewPager) view.findViewById(R.id.rv_video_detail_list);
         mSwipyRefresh = (SwipyRefreshLayout) view.findViewById(R.id.sf_detail_SwipeRefreshLayout);
+        mRvVideoDetaillist = (RecyclerViewPager) view.findViewById(R.id.rv_video_detail_list);
+        mIvDetialErrorBg = (ImageView) view.findViewById(R.id.iv_detial_bg);
+
     }
 
     private void initData() {
-
         initRecyclerViewPager();
         HttpRoomList(mPager + "", false);
     }
@@ -106,11 +111,42 @@ public class VideoDetailFragment extends Fragment {
                 if (newState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     panoWidgetView.setVisibility(View.GONE);
                 } else if (newState == OnScrollListener.SCROLL_STATE_IDLE) {
-                    //滑动结束之后就加载图片
-                    initPanorama(HttpURL.IV_HOST + mRoomLists.get(mCurrentPage).getImg());
+
+                    /**
+                     * 得到当前显示的位置，判别背景图显示那一张？
+                     */
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    //判断是当前layoutManager是否为LinearLayoutManager
+                    // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
+                    if (layoutManager instanceof LinearLayoutManager) {
+                        LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+                        //获取第一个可见view的位置
+                        int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+                        if (mRoomLists == null) return;
+                        initPanorama(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg());
+                    }
                 }
             }
         });
+
+
+        mRvVideoDetaillist.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LogUtil.i(dx + "," + dy);
+
+
+            }
+        });
+
 
         //选中的页面
         mRvVideoDetaillist.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
@@ -131,6 +167,7 @@ public class VideoDetailFragment extends Fragment {
                     mPager = 1;
                     HttpRoomList(mPager + "", false);
                 } else if (direction.equals(SwipyRefreshLayoutDirection.BOTTOM)) {
+                    if (mRoomListBean == null) return;
                     mPager++;
                     if (mPager >= mRoomListBean.getPage().getTotalPage()) {
                         UIUtils.showTip("没有数据了");
@@ -140,7 +177,6 @@ public class VideoDetailFragment extends Fragment {
                         LogUtil.i(mPager + "");
                     }
                 }
-
             }
         });
 
@@ -172,6 +208,9 @@ public class VideoDetailFragment extends Fragment {
     private void HttpRoomList(String pager, final Boolean isLodingMore) {
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
+            mIvDetialErrorBg.setVisibility(View.VISIBLE);
+            panoWidgetView.setVisibility(View.GONE);
+            mRvVideoDetaillist.setVisibility(View.GONE);
             return;
         }
         mSwipyRefresh.setRefreshing(true);
@@ -190,6 +229,10 @@ public class VideoDetailFragment extends Fragment {
                 LogUtil.i(result);
                 mRoomListBean = new Gson().fromJson(result, GetRoomBean.class);
                 if (mRoomListBean.getCode() == HTTP_SUCCESS) {
+                    mIvDetialErrorBg.setVisibility(View.GONE);
+                    panoWidgetView.setVisibility(View.VISIBLE);
+                    mRvVideoDetaillist.setVisibility(View.VISIBLE);
+
                     if (isLodingMore) {//加载更多
                         mRoomLists.addAll(mRoomListBean.getResult());
                         mRvAdapter.notifyDataSetChanged();
@@ -201,8 +244,6 @@ public class VideoDetailFragment extends Fragment {
                         //第一次加载背景图片从这里加载
                         initPanorama(HttpURL.IV_HOST + mRoomListBean.getResult().get(0).getImg());
                     }
-
-
                 } else {
                     UIUtils.showTip(mRoomListBean.getMsg());
                 }
@@ -212,7 +253,9 @@ public class VideoDetailFragment extends Fragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIUtils.showTip("服务端连接失败");
-
+                mIvDetialErrorBg.setVisibility(View.VISIBLE);
+                panoWidgetView.setVisibility(View.GONE);
+                mRvVideoDetaillist.setVisibility(View.GONE);
             }
 
             @Override

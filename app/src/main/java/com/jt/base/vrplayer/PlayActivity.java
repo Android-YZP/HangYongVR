@@ -24,15 +24,20 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jt.base.R;
+import com.jt.base.vrplayer.SnailNetReceiver.NetStateChangedListener;
 import com.jt.base.vrplayer.seekbar.DiscreteSeekBar;
 import com.jt.base.vrplayer.utils.DialogUtils;
+import com.snail.media.player.IMediaPlayer;
 import com.snail.media.player.ISnailPlayer;
 import com.snail.media.player.ISnailPlayer.EventType;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerErrorNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerEventNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
+
+import org.xutils.common.util.LogUtil;
 
 import java.util.Locale;
 
@@ -72,9 +77,9 @@ public class PlayActivity extends Activity {
 	public static final int SNVR_NAVIGATION_BOTH = 2;
 
 
-    public static final int SCALE_05 = 0;
-    public static final int SCALE_10 = 1;
-    public static final int SCALE_20 = 2;
+	public static final int SCALE_05 = 0;
+	public static final int SCALE_10 = 1;
+	public static final int SCALE_20 = 2;
 
 	public static final int SNVR_SINGLE_EYES_MODE = 0;
 	public static final int SNVR_DOUBLE_EYES_MODE = 1;
@@ -91,16 +96,25 @@ public class PlayActivity extends Activity {
 	private boolean mShowing = true;
 
 	private AudioManager mAudioManager;
-	
-    private static final int SHOW_PROGRESS = 2;
 
-	/** 最大声音 */
+	private static final int SHOW_PROGRESS = 2;
+	int mReloading = 1;
+
+	/**
+	 * 最大声音
+	 */
 	private int mMaxVolume;
-	/** 当前声音 */
+	/**
+	 * 当前声音
+	 */
 	private int mVolume = -1;
-	/** 当前亮度 */
+	/**
+	 * 当前亮度
+	 */
 	private float mBrightness = -1f;
-	/** 调节亮度和声音的控件 */
+	/**
+	 * 调节亮度和声音的控件
+	 */
 	private RelativeLayout mOperLayout;
 	private ImageView mOperationBg;
 	private TextView mOperTextView;
@@ -114,39 +128,38 @@ public class PlayActivity extends Activity {
 	private ImageView mImageView_ResetAngle;
 	private TextView mTextView_MediaInfo;
 
-    private TextView mErroText;
-
-	// 网络处理
-//	private SnailNetReceiver mNetReceiver;
-//	private NetStateChangedListener mNetChangedListener;
+	private TextView mErroText;
 
 	private RelativeLayout mLayoutPlayerControllerFull;
 
 	private SeekBar mSeekBar;
 	private TextView mCurrentTime;
 	private TextView mEndTime;
-    private int mDuration;
-    private boolean mDragging;
+	private int mDuration;
+	private boolean mDragging;
 
 
 	private int mFov;
 	private int mProjectionType = PlayActivity.SNVR_PROJ_PLANE;
 	private int mVideoSpliceFormat = PlayActivity.SNVR_VIDEO_SPLICE_FMT_2D;
 	private int mNavigationMode = PlayActivity.SNVR_NAVIGATION_BOTH;
-	private int mEyesMode = PlayActivity.SNVR_DOUBLE_EYES_MODE;
+	private int mEyesMode = PlayActivity.SNVR_SINGLE_EYES_MODE;
 
-    private int mScale = SCALE_10;
+	private int mScale = SCALE_10;
 
 	private int pausePostion;
 
-    public static final int FOV_DEFAULT = 90;
+	public static final int FOV_DEFAULT = 90;
+	private SnailNetReceiver mNetReceiver;
+	private NetStateChangedListener mNetChangedListener;
+	private AlertDialog show;
 
 
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.d(TAG,"surfaceCreated");
+		Log.d(TAG, "surfaceCreated");
 		mPlayUrl = getIntent().getStringExtra(Definition.KEY_PLAY_URL);
 		mFov = uiutils.getPreferenceKeyIntValue(getApplicationContext(),
 				Definition.KEY_FOV, 90);
@@ -168,83 +181,68 @@ public class PlayActivity extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		//直播界面是竖屏显示,//播放器界面是横屏显示
-//		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
-//
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
-
-
-
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
 		setContentView(R.layout.activity_play);
-		
-		
 		getWindow().getDecorView().setSystemUiVisibility(
-		            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-		            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-		            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-		            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-		            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
+				View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+						| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+						| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 		mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
 		mVideoView.setVideoPlayerType(ISnailPlayer.PlayerType.PLAYER_TYPE_SNAIL_VR);
 		mVideoView.setPlayFov(mFov);
 		mVideoView.setProjectionType(mProjectionType);
 		mVideoView.setNavigationmode(mNavigationMode);
 		mVideoView.setVideoSpliceFormat(mVideoSpliceFormat);
-
 		mVideoView.setScale(PlayActivity.SCALE_10);
-
-        mErroText = (TextView)findViewById(R.id.txt_view_erro);
-
+		mErroText = (TextView) findViewById(R.id.txt_view_erro);
 		mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
-		getActionBar().setDisplayShowHomeEnabled(false);
-		getActionBar().setTitle("Back");
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 
+//        getActionBar().setDisplayShowHomeEnabled(false);
+//        getActionBar().setTitle("Back");
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().hide();
 		mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
 		mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
 		mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
 		mSeekBar.setThumbOffset(1);
 		//mSeekBar.setMax(1000);
 		mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				 mVideoView.seekTo(seekBar.getProgress());
-				 mHandler.removeMessages(SHOW_PROGRESS);
-				 mDragging = false;
-				 mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
-				 mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+				mVideoView.seekTo(seekBar.getProgress());
+				mHandler.removeMessages(SHOW_PROGRESS);
+				mDragging = false;
+				mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
+				mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
 			}
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
-                                          boolean fromUser) {
+										  boolean fromUser) {
 				if (!fromUser)
-	                return;
+					return;
 				//int newposition = (mDuration * progress) / 1000;
 				String time = generateTime(progress);
 				if (mCurrentTime != null)
 					mCurrentTime.setText(time);
-				
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-	            mHandler.removeMessages(SHOW_PROGRESS);
-	            mDragging = true;
-	            mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+				mHandler.removeMessages(SHOW_PROGRESS);
+				mDragging = true;
+				mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
 			}
-
 		});
-
-
 
 		mVideoView.setOnStatListener(new ISnailPlayerStateChangeNotification() {
 			@Override
 			public void notify(ISnailPlayer player, ISnailPlayer.State state) {
 
-				if(state == ISnailPlayer.State.PLAYER_STARTED){
-
+				if (state == ISnailPlayer.State.PLAYER_STARTED) {
 					mVideoView.start();
 					mImageView_PlayPause
 							.setBackgroundResource(R.drawable.btn_selector_player_pause_big);
@@ -259,31 +257,23 @@ public class PlayActivity extends Activity {
 						mSeekBar.setEnabled(true);
 					}
 					mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
-
 					Log.d(TAG, "player duration :" + mDuration);
-
 				}
-
 			}
 		});
-
-
 
 		mVideoView.setOnEventListener(new ISnailPlayerEventNotification() {
 
 			@Override
 			public boolean notify(ISnailPlayer mp, ISnailPlayer.EventType what, int extra) {
-
-
-				if(what == EventType.PLAYER_EVENT_BUFFERING){
-
+				if (what == EventType.PLAYER_EVENT_BUFFERING) {
 					Log.i(TAG, "PLAYER_EVENT_BUFFERING");
 					mBufferingView.setVisibility(View.VISIBLE);
-				}else if(what == EventType.PLAYER_EVENT_BUFFERED){
+				} else if (what == EventType.PLAYER_EVENT_BUFFERED) {
 
 					Log.i(TAG, "PLAYER_EVENT_BUFFERED");
 					mBufferingView.setVisibility(View.GONE);
-				}else if(what == EventType.PLAYER_EVENT_FINISHED){
+				} else if (what == EventType.PLAYER_EVENT_FINISHED) {
 					Log.d(TAG, "PLAYER_EVENT_FINISHED ");
 					mIsPrepared = false;
 					mBufferingView.setVisibility(View.GONE);
@@ -297,16 +287,23 @@ public class PlayActivity extends Activity {
 			@Override
 
 			public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
+				if (mReloading < 4) {//循环4次加载50秒
+					mReloading++;
+					LogUtil.i("11111111111" + mReloading);
+					mp.resetUrl(mPlayUrl);
+				} else {
+//                    mErroText.setText("error code:(" + error + "," + extra + ")");
+//                    mErroText.setVisibility(View.VISIBLE);
+					mBufferingView.setVisibility(View.GONE);
+					showErrorDialog();
+					mIsPrepared = false;
+				}
 
-                mErroText.setText("error code:(" + error + "," + extra + ")");
-                mErroText.setVisibility(View.VISIBLE);
-//				Toast.makeText(PlayActivity.this,
-//						"error code:(" + error + "," + extra + ")",
-//						Toast.LENGTH_LONG).show();
-				mBufferingView.setVisibility(View.GONE);
-				mIsPrepared = false;
+
 			}
 		});
+
+
 //
 //		mVideoView
 //				.setOnBufferingUpdateListener(new OnBufferingUpdateListener() {
@@ -318,7 +315,8 @@ public class PlayActivity extends Activity {
 //					}
 //				});
 //
-//		mVideoView.setOnCompletionListener(new OnCompletionListener() {
+
+//		mVideoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
 //			@Override
 //			public void onCompletion(IMediaPlayer mp) {
 //				mIsPrepared = false;
@@ -337,7 +335,7 @@ public class PlayActivity extends Activity {
 //					}
 //				});
 
-		mImageView_Back = (ImageView) findViewById(R.id.id_player_top_back_full);
+		mImageView_Back = (ImageView) findViewById(R.id.iv_play_back);
 		mImageView_Back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -393,15 +391,15 @@ public class PlayActivity extends Activity {
 
 			@Override
 			public boolean onSingleTapUp(MotionEvent e) {
-				toggleMediaControlsVisiblity();
-              //  if (mErroText.getVisibility() == View.VISIBLE)
-               //     mErroText.setVisibility(View.GONE);
+//                toggleMediaControlsVisiblity();
+				//  if (mErroText.getVisibility() == View.VISIBLE)
+				//     mErroText.setVisibility(View.GONE);
 				return true;
 			}
 
 			@Override
 			public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                                    float distanceX, float distanceY) {
+									float distanceX, float distanceY) {
 				Log.i(TAG, "onScroll");
 
 				float nFristX = e1.getX();
@@ -468,7 +466,7 @@ public class PlayActivity extends Activity {
 
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2,
-                                   float velocityX, float velocityY) {
+								   float velocityX, float velocityY) {
 				return false;
 			}
 		});
@@ -515,59 +513,56 @@ public class PlayActivity extends Activity {
 				mVideoView.setOriginalAngle();
 			}
 		});
-/*
+
+
 		mNetReceiver = SnailNetReceiver.getInstance();
 		mNetChangedListener = new NetStateChangedListener() {
 
 			@Override
-			public void onNetStateChanged(NetState netCode) {
+			public void onNetStateChanged(SnailNetReceiver.NetState netCode) {
 				switch (netCode) {
-				case NET_NO:
-					// Log.i(Constants.LOG_TAG, "网络断了");
-					Toast.makeText(PlayActivity.this,
-							"network changed: no network available!",
-							Toast.LENGTH_SHORT).show();
-					break;
-				case NET_2G:
-					// Log.i(Constants.LOG_TAG, "2g网络");
-					Toast.makeText(PlayActivity.this,
-							"network changed: 2g network!", Toast.LENGTH_SHORT)
-							.show();
-					break;
-				case NET_3G:
-					// Log.i(Constants.LOG_TAG, "3g网络");
-					Toast.makeText(PlayActivity.this,
-							"network changed: 3g network!", Toast.LENGTH_SHORT)
-							.show();
-					break;
-				case NET_4G:
-					// Log.i(Constants.LOG_TAG, "4g网络");
-					Toast.makeText(PlayActivity.this,
-							"network changed: 4g network!", Toast.LENGTH_SHORT)
-							.show();
-					break;
-				case NET_WIFI:
-					// Log.i(Constants.LOG_TAG, "WIFI网络");
-					Toast.makeText(PlayActivity.this,
-							"network changed: wifi network!",
-							Toast.LENGTH_SHORT).show();
-					break;
+					case NET_NO:
+						Toast.makeText(PlayActivity.this,
+								"network changed: no network available!",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case NET_2G:
+						Toast.makeText(PlayActivity.this,
+								"network changed: 2g network!", Toast.LENGTH_SHORT)
+								.show();
+						break;
+					case NET_3G:
+						Toast.makeText(PlayActivity.this,
+								"network changed: 3g network!", Toast.LENGTH_SHORT)
+								.show();
+						break;
+					case NET_4G:
+						Toast.makeText(PlayActivity.this,
+								"network changed: 4g network!", Toast.LENGTH_SHORT)
+								.show();
+						break;
+					case NET_WIFI:
+						// Log.i(Constants.LOG_TAG, "WIFI网络");
+						Toast.makeText(PlayActivity.this,
+								"network changed: wifi network!",
+								Toast.LENGTH_SHORT).show();
+						break;
 
-				case NET_UNKNOWN:
-					// Log.i(Constants.LOG_TAG, "未知网络");
-					Toast.makeText(PlayActivity.this,
-							"network changed: unknown network!",
-							Toast.LENGTH_SHORT).show();
-					break;
-				default:
-					// Log.i(Constants.LOG_TAG, "不知道什么情况~>_<~");
-					Toast.makeText(PlayActivity.this,
-							"network changed: unknown conditions ???",
-							Toast.LENGTH_SHORT).show();
+					case NET_UNKNOWN:
+						// Log.i(Constants.LOG_TAG, "未知网络");
+						Toast.makeText(PlayActivity.this,
+								"network changed: unknown network!",
+								Toast.LENGTH_SHORT).show();
+						break;
+					default:
+						// Log.i(Constants.LOG_TAG, "不知道什么情况~>_<~");
+						Toast.makeText(PlayActivity.this,
+								"network changed: unknown conditions ???",
+								Toast.LENGTH_SHORT).show();
 				}
 			}
 		};
-	*/
+		LogUtil.i(mPlayUrl+"");
 		mVideoView.setVideoPath(mPlayUrl);
 
 	}
@@ -625,85 +620,85 @@ public class PlayActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		switch (id) {
-		case android.R.id.home:
-			finish();
-			break;
-		case R.id.projection_type:
-			popProjectionTypeDialog(item);
-			break;
-		case R.id.vsplice_format:
-			popDisplayModeDialog(item);
-			break;
-		case R.id.vn_eyesmode:
-            popEyesModeDialog(item);
-			break;
-		case R.id.sensor_mode:
-			popSensorModeDialog(item);
-			break;
-            case R.id.fov_set:
-                popFovSetDialog(item);
-                break;
+			case android.R.id.home:
+				finish();
+				break;
+			case R.id.projection_type:
+				popProjectionTypeDialog(item);
+				break;
+			case R.id.vsplice_format:
+				popDisplayModeDialog(item);
+				break;
+			case R.id.vn_eyesmode:
+				popEyesModeDialog(item);
+				break;
+			case R.id.sensor_mode:
+				popSensorModeDialog(item);
+				break;
+			case R.id.fov_set:
+				popFovSetDialog(item);
+				break;
 			case R.id.scale_set:
 				popScaleDialog(item);
 				break;
-		default:
-			break;
+			default:
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-    private void popFovSetDialog(final MenuItem item) {
+	private void popFovSetDialog(final MenuItem item) {
 
-            DialogUtils.showSelectFovDialog(this, new DiscreteSeekBar.OnProgressChangeListener() {
-                        @Override
-                        public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
-							if(fromUser) {
-								mVideoView.setPlayFov(value);
-							}
+		DialogUtils.showSelectFovDialog(this, new DiscreteSeekBar.OnProgressChangeListener() {
+					@Override
+					public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+						if (fromUser) {
+							mVideoView.setPlayFov(value);
+						}
 
-                        }
+					}
 
-                        @Override
-                        public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-                        }
+					@Override
+					public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+					}
 
-                        @Override
-                        public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+					@Override
+					public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
 //                            mVideoView.setPlayFov(seekBar.getValue());
-                        }
-                    }, new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int angle = (int) v.getTag();
-                            mFov = angle;
-                            mVideoView.setPlayFov(mFov);
-                        }
-                    }
-                    , new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mVideoView.setPlayFov(mFov);
-                        }
-                    });
+					}
+				}, new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						int angle = (int) v.getTag();
+						mFov = angle;
+						mVideoView.setPlayFov(mFov);
+					}
+				}
+				, new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						mVideoView.setPlayFov(mFov);
+					}
+				});
 
-    }
+	}
 
 
 	private void popScaleDialog(final MenuItem item) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setSingleChoiceItems(new String[] { "X0.5", "X1.0",
-						"X2.0" }, mScale,
+		builder.setSingleChoiceItems(new String[]{"X0.5", "X1.0",
+						"X2.0"}, mScale,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						if (0 == which) {
 							item.setIcon(R.drawable.x_05);
-                        } else if (1 == which) {
+						} else if (1 == which) {
 							item.setIcon(R.drawable.x_10);
-                        } else if (2 == which) {
+						} else if (2 == which) {
 							item.setIcon(R.drawable.x_20);
 						}
-                        mScale = which;
+						mScale = which;
 						mVideoView.setScale(mScale);
 						uiutils.setPreferenceKeyIntValue(
 								getApplicationContext(),
@@ -720,8 +715,8 @@ public class PlayActivity extends Activity {
 
 	private void popSensorModeDialog(final MenuItem item) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setSingleChoiceItems(new String[] { "Sensor", "Touch",
-				"Double Sensor" }, mNavigationMode,
+		builder.setSingleChoiceItems(new String[]{"Sensor", "Touch",
+						"Double Sensor"}, mNavigationMode,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						if (PlayActivity.SNVR_NAVIGATION_TOUCH == which) {
@@ -748,8 +743,8 @@ public class PlayActivity extends Activity {
 
 	private void popEyesModeDialog(final MenuItem item) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setSingleChoiceItems(new String[] { "single eyes",
-				"double eyes" }, mEyesMode,
+		builder.setSingleChoiceItems(new String[]{"single eyes",
+						"double eyes"}, mEyesMode,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						if (PlayActivity.SNVR_SINGLE_EYES_MODE == which) {
@@ -773,7 +768,7 @@ public class PlayActivity extends Activity {
 	private void popProjectionTypeDialog(final MenuItem item) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setSingleChoiceItems(
-				new String[] { "Plane", "Sphere", "Dome" }, mProjectionType,
+				new String[]{"Plane", "Sphere", "Dome"}, mProjectionType,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						if (PlayActivity.SNVR_PROJ_PLANE == which) {
@@ -802,8 +797,8 @@ public class PlayActivity extends Activity {
 
 	private void popDisplayModeDialog(final MenuItem item) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setSingleChoiceItems(new String[] { "2D", "3D Side By Side",
-				"3D Over/Under" }, mVideoSpliceFormat,
+		builder.setSingleChoiceItems(new String[]{"2D", "3D Side By Side",
+						"3D Over/Under"}, mVideoSpliceFormat,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						if (PlayActivity.SNVR_VIDEO_SPLICE_FMT_2D == which) {
@@ -828,6 +823,22 @@ public class PlayActivity extends Activity {
 		myDialog.show();
 	}
 
+	private void showErrorDialog() {
+		AlertDialog.Builder normalDialog =
+				new AlertDialog.Builder(PlayActivity.this);
+		normalDialog.setMessage("播放结束,谢谢观看...");
+		normalDialog.setPositiveButton("确定",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						show.dismiss();
+						PlayActivity.this.finish();
+					}
+				});
+		show = normalDialog.show();
+	}
+
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -836,17 +847,16 @@ public class PlayActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-//		mNetReceiver.registNetBroadCast(this);
-//		mNetReceiver.addNetStateChangeListener(mNetChangedListener);
+		mNetReceiver.registNetBroadCast(this);
+		mNetReceiver.addNetStateChangeListener(mNetChangedListener);
 
 
-
-		if(mVideoView != null){
+		if (mVideoView != null) {
 
 			mVideoView.setPlayFov(mFov);
 			mVideoView.setScale(mScale);
-
-			if(mVideoView.IsSurfaceHolderValid()){
+			mVideoView.setEyesMode(mEyesMode);
+			if (mVideoView.IsSurfaceHolderValid()) {
 
 				mVideoView.resetUrl();
 			}
@@ -858,9 +868,9 @@ public class PlayActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-//		mNetReceiver.remoteNetStateChangeListener(mNetChangedListener);
-//		mNetReceiver.unRegistNetBroadCast(this);
-		Log.d(TAG,"onPause()");
+		mNetReceiver.remoteNetStateChangeListener(mNetChangedListener);
+		mNetReceiver.unRegistNetBroadCast(this);
+		Log.d(TAG, "onPause()");
 //		pausePostion = mVideoView.getCurrentPosition();
 //		mVideoView.pause();
 		super.onPause();
@@ -868,9 +878,9 @@ public class PlayActivity extends Activity {
 
 	@Override
 	protected void onStop() {
-//		mNetReceiver.remoteNetStateChangeListener(mNetChangedListener);
-//		mNetReceiver.unRegistNetBroadCast(this);
-		Log.d(TAG,"onPause()");
+//        mNetReceiver.remoteNetStateChangeListener(mNetChangedListener);
+//        mNetReceiver.unRegistNetBroadCast(this);
+		Log.d(TAG, "onPause()");
 		pausePostion = mVideoView.getCurrentPosition();
 		mVideoView.stop();
 		super.onStop();
@@ -879,11 +889,11 @@ public class PlayActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-        mHandler.removeMessages(SHOW_PROGRESS);
-		if (mVideoView != null) {			
+		mHandler.removeMessages(SHOW_PROGRESS);
+		if (mVideoView != null) {
 			mVideoView.stopPlayback();
 			mVideoView = null;
-		}		
+		}
 	}
 
 	@Override
@@ -901,9 +911,9 @@ public class PlayActivity extends Activity {
 		if (mGestureDetector.onTouchEvent(event))
 			return true;
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
-		case MotionEvent.ACTION_UP:
-			endGesture();
-			return true;
+			case MotionEvent.ACTION_UP:
+				endGesture();
+				return true;
 		}
 		return super.onTouchEvent(event);
 	}
@@ -938,7 +948,7 @@ public class PlayActivity extends Activity {
 
 	/**
 	 * 滑动改变声音大小
-	 * 
+	 *
 	 * @param percent
 	 */
 	private void onVolumeSlide(float percent) {
@@ -968,7 +978,7 @@ public class PlayActivity extends Activity {
 
 	/**
 	 * 滑动改变亮度
-	 * 
+	 *
 	 * @param percent
 	 */
 	private void onBrightnessSlide(float percent) {
@@ -1002,13 +1012,13 @@ public class PlayActivity extends Activity {
 			mLayoutPlayerControllerFull.setVisibility(View.GONE);
 			getActionBar().hide();
 			mShowing = false;
-            mHandler.removeMessages(SHOW_PROGRESS);
+			mHandler.removeMessages(SHOW_PROGRESS);
 		} else {
 			mLayoutPlayerControllerFull.setVisibility(View.VISIBLE);
 			getActionBar().show();
 			mShowing = true;
-	        updatePausePlay();
-	        mHandler.sendEmptyMessage(SHOW_PROGRESS);
+			updatePausePlay();
+			mHandler.sendEmptyMessage(SHOW_PROGRESS);
 		}
 	}
 
@@ -1027,33 +1037,32 @@ public class PlayActivity extends Activity {
 					.toString();
 		}
 	}
-	
-    private void updatePausePlay() {
-        if (mVideoView.isPlaying()) {
-            mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_pause_big);
-        }
-        else {
-        	mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_play_big);
-        }
-    }
 
-	
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            long pos;
-            if (msg.what == SHOW_PROGRESS) {
-                pos = setProgress();
+	private void updatePausePlay() {
+		if (mVideoView.isPlaying()) {
+			mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_pause_big);
+		} else {
+			mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_play_big);
+		}
+	}
+
+
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			long pos;
+			if (msg.what == SHOW_PROGRESS) {
+				pos = setProgress();
 				mSeekBar.setMax(mVideoView.getDuration());
-                if (!mDragging && mShowing) {
-                    msg = obtainMessage(SHOW_PROGRESS);
-                    sendMessageDelayed(msg, 1000 - (pos % 1000));
-                    updatePausePlay();
-                }
-           
-            }
-        }
-    };
+				if (!mDragging && mShowing) {
+					msg = obtainMessage(SHOW_PROGRESS);
+					sendMessageDelayed(msg, 1000 - (pos % 1000));
+					updatePausePlay();
+				}
+
+			}
+		}
+	};
 
 	private long setProgress() {
 		if (mVideoView == null || mDragging)
@@ -1079,18 +1088,19 @@ public class PlayActivity extends Activity {
 
 		return position;
 	}
-	
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
-	        super.onWindowFocusChanged(hasFocus);
-	    if (hasFocus) {
-	        getWindow().getDecorView().setSystemUiVisibility(
-	                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-	                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-	                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-	                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-	                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			getWindow().getDecorView().setSystemUiVisibility(
+					View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+							| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+							| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+							| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+							| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+		}
 	}
-	
+
 
 }
