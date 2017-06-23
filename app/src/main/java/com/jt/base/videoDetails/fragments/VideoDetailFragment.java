@@ -1,14 +1,13 @@
 package com.jt.base.videoDetails.fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.List;
-
+@SuppressLint("ValidFragment")
 public class VideoDetailFragment extends Fragment {
 
     private static final int HTTP_SUCCESS = 0;

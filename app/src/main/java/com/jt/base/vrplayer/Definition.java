@@ -71,4 +71,5 @@ public class Definition {
 
     public static final String LOG_SETTING                  = "log_setting";
     public static final String HISTORY_URL                  = "history_url";
+    public static final String PLEAR_MODE                  = "plear_mode";
 }

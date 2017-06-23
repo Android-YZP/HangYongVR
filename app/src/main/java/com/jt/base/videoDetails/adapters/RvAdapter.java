@@ -16,6 +16,7 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.Definition;
 import com.jt.base.vrplayer.PlayActivity;
 import com.jt.base.vrplayer.utils.SPUtils;
@@ -116,9 +117,14 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, PlayActivity.class);
-//                i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
-                SPUtils.put(context, Definition.HISTORY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
+                int isall = mRoomLists.get(position).getIsall();
+                if (isall == VedioContants.TWO_D_VEDIO){
+                    i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+                }else if (isall == VedioContants.ALL_VIEW_VEDIO){
+                    i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                }
+                i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+//                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
                 context.startActivity(i);
             }
         });
