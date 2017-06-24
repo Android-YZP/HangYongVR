@@ -35,6 +35,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.List;
+
 @SuppressLint("ValidFragment")
 public class VideoDetailFragment extends Fragment {
 
@@ -228,6 +229,10 @@ public class VideoDetailFragment extends Fragment {
                 LogUtil.i(result);
                 mRoomListBean = new Gson().fromJson(result, GetRoomBean.class);
                 if (mRoomListBean.getCode() == HTTP_SUCCESS) {
+                    if (mRoomListBean.getResult().size() < 1) {
+                        UIUtils.showTip("当前没有直播。。。。");
+                        return;
+                    }
                     mIvDetialErrorBg.setVisibility(View.GONE);
                     panoWidgetView.setVisibility(View.VISIBLE);
                     mRvVideoDetaillist.setVisibility(View.VISIBLE);
