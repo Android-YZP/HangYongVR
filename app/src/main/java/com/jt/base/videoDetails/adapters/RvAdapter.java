@@ -36,6 +36,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
     private Context context;
 
     private List<GetRoomBean.ResultBean> mRoomLists;
+    private AlertDialog show;
 
     public RvAdapter(Context context, List<GetRoomBean.ResultBean> mRoomLists) {
         this.context = context;
@@ -95,7 +96,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
 
     /**
      * 对话框
-     *
      * @param position
      */
 
@@ -128,11 +128,12 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                 i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
 //                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
                 context.startActivity(i);
+                show.dismiss();
             }
         });
 
         mPayDialog.setView(dialogView);
-        final AlertDialog show = mPayDialog.show();
+        show = mPayDialog.show();
         //点击消失
         ivPayChacha.setOnClickListener(new View.OnClickListener() {
             @Override
