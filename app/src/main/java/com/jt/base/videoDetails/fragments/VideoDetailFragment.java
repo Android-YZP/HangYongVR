@@ -142,8 +142,6 @@ public class VideoDetailFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LogUtil.i(dx + "," + dy);
-
-
             }
         });
 
@@ -241,7 +239,7 @@ public class VideoDetailFragment extends Fragment {
                         mRoomLists.addAll(mRoomListBean.getResult());
                         mRvAdapter.notifyDataSetChanged();
                     } else {//刷新数据
-                        if (mRoomLists != null) mRoomLists.clear();//刷新的时候清除原有数据
+
                         mRoomLists = mRoomListBean.getResult();
                         mRvAdapter = new RvAdapter(getContext(), mRoomLists);
                         mRvVideoDetaillist.setAdapter(mRvAdapter);

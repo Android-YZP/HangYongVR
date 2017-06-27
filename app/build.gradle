@@ -9,7 +9,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        ndk { abiFilters 'armeabi-v7a' }//完美填坑CUP不同手机的崩溃问题
+//        ndk { abiFilters 'armeabi-v7a' }//完美填坑CUP不同手机的崩溃问题
     }
     sourceSets {
         main {
@@ -21,7 +21,8 @@ android {
         release {
             minifyEnabled false
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
         }
     }
 }

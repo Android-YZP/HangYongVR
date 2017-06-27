@@ -120,9 +120,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                 int isall = mRoomLists.get(position).getIsall();
                 if (isall == VedioContants.TWO_D_VEDIO){
                     i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-                }else if (isall == VedioContants.ALL_VIEW_VEDIO){
-                    i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-                }
+                }else if (isall == VedioContants.ALL_VIEW_VEDIO)
                 i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
 //                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
                 context.startActivity(i);
@@ -155,8 +153,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             mTvPersonName = (TextView) view.findViewById(R.id.tv_room_person_name);
             mTvRoomPay = (TextView) view.findViewById(R.id.tv_pay);
             mIvRoomHead = (ImageView) view.findViewById(R.id.iv_room_head);
-
-
         }
     }
 

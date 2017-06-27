@@ -170,11 +170,6 @@ public class PlayActivity extends Activity {
         mVideoSpliceFormat = uiutils.getPreferenceKeyIntValue(
                 getApplicationContext(), Definition.KEY_VIDEOSPLICEFORMAT,
                 PlayActivity.SNVR_VIDEO_SPLICE_FMT_2D);
-        // mNavigationMode = uiutils.getPreferenceKeyIntValue(
-        // getApplicationContext(), Definition.KEY_SENSORMODE,
-        // PlayActivity.SNVR_NAVIGATION_SENSOR);
-
-        // requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -201,15 +196,11 @@ public class PlayActivity extends Activity {
         mErroText = (TextView) findViewById(R.id.txt_view_erro);
         mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
 
-//        getActionBar().setDisplayShowHomeEnabled(false);
-//        getActionBar().setTitle("Back");
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().hide();
         mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
         mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
         mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
         mSeekBar.setThumbOffset(1);
-        //mSeekBar.setMax(1000);
         mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -284,57 +275,21 @@ public class PlayActivity extends Activity {
         });
 
         mVideoView.setOnErrorListener(new ISnailPlayerErrorNotification() {
-
             @Override
-
             public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
+
                 if (mReloading < 4) {//循环4次加载50秒
                     mReloading++;
                     LogUtil.i("11111111111" + mReloading);
                     mp.resetUrl(mPlayUrl);
                 } else {
-//                    mErroText.setText("error code:(" + error + "," + extra + ")");
-//                    mErroText.setVisibility(View.VISIBLE);
                     mBufferingView.setVisibility(View.GONE);
                     showErrorDialog();
                     mIsPrepared = false;
                 }
 
-
             }
         });
-
-
-//
-//		mVideoView
-//				.setOnBufferingUpdateListener(new OnBufferingUpdateListener() {
-//
-//					@Override
-//					public void onBufferingUpdate(IMediaPlayer mp, int percent) {
-//						Log.i(TAG, "percent is:" + percent);
-//						mTextViewBufferPercent.setText(percent + "%");
-//					}
-//				});
-//
-
-//		mVideoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
-//			@Override
-//			public void onCompletion(IMediaPlayer mp) {
-//				mIsPrepared = false;
-//				mBufferingView.setVisibility(View.GONE);
-//			}
-//		});
-//
-
-//
-//		mVideoView
-//				.setOnVideoSizeChangedListener(new OnVideoSizeChangedListener() {
-//					@Override
-//					public void onVideoSizeChanged(IMediaPlayer mp, int width,
-//							int height, int sar_num, int sar_den) {
-//						// TODO Auto-generated method stub
-//					}
-//				});
 
         mImageView_Back = (ImageView) findViewById(R.id.iv_play_back);
         mImageView_Back.setOnClickListener(new OnClickListener() {
@@ -387,38 +342,23 @@ public class PlayActivity extends Activity {
         mOperLayout.setVisibility(View.GONE);
         mOperationBg = (ImageView) findViewById(R.id.video_player_voiceortranparent_img);
         mOperTextView = (TextView) findViewById(R.id.video_player_voiceortranparent_value);
-
         mGestureDetector = new GestureDetector(this, new OnGestureListener() {
-
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
-//                toggleMediaControlsVisiblity();
-                //  if (mErroText.getVisibility() == View.VISIBLE)
-                //     mErroText.setVisibility(View.GONE);
                 return true;
             }
-
             @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                                    float distanceX, float distanceY) {
-                Log.i(TAG, "onScroll");
-
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
                 float nFristX = e1.getX();
                 float nFristY = e1.getY();
-
-                // Log.i(TAG, " nFristX:" + nFristX + " nFristY:" + nFristY);
-
                 int video_width = mVideoView.getWidth();
                 int video_height = mVideoView.getHeight();
                 Log.i(TAG, " video_width:" + video_width);
-
                 float nCurrentX = e2.getRawX();
                 float nCurrentY = e2.getRawY();
 
                 int movePosX = (int) Math.abs(distanceX);
                 int movePosY = (int) Math.abs(distanceY);
-
-                // Log.i(TAG, "movePosX:" + movePosX + " movePosY:" + movePosY);
 
                 if (mNavigationMode != SNVR_NAVIGATION_SENSOR) {
                     float phi = distanceX * 360 / video_width;
@@ -436,7 +376,6 @@ public class PlayActivity extends Activity {
                             onVolumeSlide(_percent);
                         } else {
                             Log.i(TAG, "Left");
-//							onBrightnessSlide(_percent);
                         }
                     } else if (cur_gesture_type == GESTURE_TYPE_HRO) {
                         Log.i(TAG, "横向移动");
@@ -449,19 +388,19 @@ public class PlayActivity extends Activity {
 
             @Override
             public boolean onDown(MotionEvent e) {
-                // TODO Auto-generated method stub
+
                 return true;
             }
 
             @Override
             public void onShowPress(MotionEvent e) {
-                // TODO Auto-generated method stub
+
 
             }
 
             @Override
             public void onLongPress(MotionEvent e) {
-                // TODO Auto-generated method stub
+
 
             }
 
@@ -567,6 +506,7 @@ public class PlayActivity extends Activity {
         initPlayMode();
         mVideoView.setVideoPath(mPlayUrl);
 
+
     }
 
     //初始化播放器模式
@@ -585,7 +525,6 @@ public class PlayActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.play, menu);
         return true;
     }
