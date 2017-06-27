@@ -115,6 +115,7 @@ public class VideoDetailFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     panoWidgetView.setVisibility(View.GONE);
+                    mIvTwoDBg.setVisibility(View.GONE);//显示2D图片
                 } else if (newState == OnScrollListener.SCROLL_STATE_IDLE) {
                     /**
                      * 得到当前显示的位置，判别背景图显示那一张？

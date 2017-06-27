@@ -83,7 +83,11 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                payDialog(position);
+                if (mRoomLists.get(position).getPrice() == 0) {
+                    goToPlay(position);
+                }else {
+                    payDialog(position);
+                }
             }
         });
     }
@@ -117,18 +121,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         btnGoPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, PlayActivity.class);
-                int isall = mRoomLists.get(position).getIsall();
-                if (isall == VedioContants.TWO_D_VEDIO){
-                    i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-                }else if (isall == VedioContants.ALL_VIEW_VEDIO){
-                    i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-                }
-                LogUtil.i(mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-                i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-//                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
-                context.startActivity(i);
                 show.dismiss();
+                goToPlay(position);
             }
         });
 
@@ -141,6 +135,20 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                 show.dismiss();
             }
         });
+    }
+
+    private void goToPlay(int position) {
+        Intent i = new Intent(context, PlayActivity.class);
+        int isall = mRoomLists.get(position).getIsall();
+        if (isall == VedioContants.TWO_D_VEDIO){
+            i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+        }else if (isall == VedioContants.ALL_VIEW_VEDIO){
+            i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+        }
+        LogUtil.i(mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+        i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+//                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
+        context.startActivity(i);
     }
 
 

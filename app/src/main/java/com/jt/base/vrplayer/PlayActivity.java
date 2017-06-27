@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jt.base.R;
+import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.SnailNetReceiver.NetStateChangedListener;
 import com.jt.base.vrplayer.seekbar.DiscreteSeekBar;
@@ -461,44 +462,17 @@ public class PlayActivity extends Activity {
             @Override
             public void onNetStateChanged(SnailNetReceiver.NetState netCode) {
                 switch (netCode) {
-                    case NET_NO:
-                        Toast.makeText(PlayActivity.this,
-                                "network changed: no network available!",
-                                Toast.LENGTH_SHORT).show();
-                        break;
                     case NET_2G:
-                        Toast.makeText(PlayActivity.this,
-                                "network changed: 2g network!", Toast.LENGTH_SHORT)
-                                .show();
-                        break;
                     case NET_3G:
-                        Toast.makeText(PlayActivity.this,
-                                "network changed: 3g network!", Toast.LENGTH_SHORT)
-                                .show();
-                        break;
                     case NET_4G:
-                        Toast.makeText(PlayActivity.this,
-                                "network changed: 4g network!", Toast.LENGTH_SHORT)
-                                .show();
+                        UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
                         break;
-                    case NET_WIFI:
-                        // Log.i(Constants.LOG_TAG, "WIFI网络");
-                        Toast.makeText(PlayActivity.this,
-                                "network changed: wifi network!",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-
                     case NET_UNKNOWN:
                         // Log.i(Constants.LOG_TAG, "未知网络");
-                        Toast.makeText(PlayActivity.this,
-                                "network changed: unknown network!",
-                                Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         // Log.i(Constants.LOG_TAG, "不知道什么情况~>_<~");
-                        Toast.makeText(PlayActivity.this,
-                                "network changed: unknown conditions ???",
-                                Toast.LENGTH_SHORT).show();
+
                 }
             }
         };
