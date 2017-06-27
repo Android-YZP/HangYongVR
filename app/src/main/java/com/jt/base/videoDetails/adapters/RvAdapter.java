@@ -22,6 +22,7 @@ import com.jt.base.vrplayer.PlayActivity;
 import com.jt.base.vrplayer.utils.SPUtils;
 
 import org.xutils.common.Callback;
+import org.xutils.common.util.LogUtil;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -120,7 +121,12 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                 int isall = mRoomLists.get(position).getIsall();
                 if (isall == VedioContants.TWO_D_VEDIO){
                     i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-                }else if (isall == VedioContants.ALL_VIEW_VEDIO)
+                }else if (isall == VedioContants.ALL_VIEW_VEDIO){
+                    i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                }
+
+                LogUtil.i(mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+
                 i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
 //                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
                 context.startActivity(i);
