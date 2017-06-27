@@ -60,8 +60,8 @@
         </LinearLayout>
         <TextView
             android:id="@+id/tv_pay"
-            android:layout_width="40dp"
-            android:layout_height="19dp"
+            android:layout_width="45dp"
+            android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:text="付费"
@@ -76,13 +76,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_root_room_name"
         android:layout_marginTop="8dp"
-        android:background="@mipmap/video_detail_name_bg">
+        android:background="@drawable/pay_layer_list_bg">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="网红决赛"
+            android:text="企业直播"
+            android:layout_margin="5dp"
             android:textColor="#fff"
             android:textSize="11sp" />
 

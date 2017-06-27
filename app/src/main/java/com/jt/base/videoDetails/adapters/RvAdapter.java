@@ -124,9 +124,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                 }else if (isall == VedioContants.ALL_VIEW_VEDIO){
                     i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
                 }
-
                 LogUtil.i(mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-
                 i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
 //                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
                 context.startActivity(i);
@@ -142,7 +140,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                 show.dismiss();
             }
         });
-
     }
 
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -25,7 +26,9 @@ import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videoDetails.adapters.RvAdapter;
+import com.jt.base.vrplayer.PlayActivity;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -50,7 +53,8 @@ public class VideoDetailFragment extends Fragment {
     private RvAdapter mRvAdapter;
     private GetRoomBean mRoomListBean;
     private int mCurrentPage = 0;
-    private ImageView mIvDetialErrorBg;
+    private LinearLayout mIvDetialErrorBg;
+    private ImageView mIvTwoDBg;
 
 
     public VideoDetailFragment() {
@@ -86,7 +90,8 @@ public class VideoDetailFragment extends Fragment {
     private void initView(View view) {
         mSwipyRefresh = (SwipyRefreshLayout) view.findViewById(R.id.sf_detail_SwipeRefreshLayout);
         mRvVideoDetaillist = (RecyclerViewPager) view.findViewById(R.id.rv_video_detail_list);
-        mIvDetialErrorBg = (ImageView) view.findViewById(R.id.iv_detial_bg);
+        mIvDetialErrorBg = (LinearLayout) view.findViewById(R.id.iv_detial_bg);
+        mIvTwoDBg = (ImageView) view.findViewById(R.id.iv_two_bg);
 
     }
 
@@ -111,7 +116,6 @@ public class VideoDetailFragment extends Fragment {
                 if (newState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     panoWidgetView.setVisibility(View.GONE);
                 } else if (newState == OnScrollListener.SCROLL_STATE_IDLE) {
-
                     /**
                      * 得到当前显示的位置，判别背景图显示那一张？
                      */
@@ -123,7 +127,18 @@ public class VideoDetailFragment extends Fragment {
                         //获取第一个可见view的位置
                         int firstItemPosition = linearManager.findFirstVisibleItemPosition();
                         if (mRoomLists == null) return;
-                        initPanorama(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg());
+
+                        //判断是不是全景图片，来显示到底要不要显示全景图片
+                        int isall = mRoomLists.get(firstItemPosition).getIsall();
+                        if (isall == VedioContants.ALL_VIEW_VEDIO) {
+                            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                            initPanorama(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg());
+                        } else if (isall == VedioContants.TWO_D_VEDIO) {
+                            mIvTwoDBg.setVisibility(View.VISIBLE);//显示2D图片
+                            initTwoD(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg(), mIvTwoDBg);
+                        }
+
+
                     }
                 }
             }
@@ -164,6 +179,12 @@ public class VideoDetailFragment extends Fragment {
                     //刷新列表
                     mPager = 1;
                     HttpRoomList(mPager + "", false);
+                    if (mRoomLists != null) {
+                        mRoomLists.clear();
+                        mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                        mRvAdapter.notifyDataSetChanged();
+
+                    }
                 } else if (direction.equals(SwipyRefreshLayoutDirection.BOTTOM)) {
                     if (mRoomListBean == null) return;
                     mPager++;
@@ -201,6 +222,15 @@ public class VideoDetailFragment extends Fragment {
     }
 
     /**
+     * 初始化2D图播放器
+     */
+    private void initTwoD(String url, ImageView imageView) {
+        Glide.with(this)
+                .load(url)
+                .into(imageView);
+    }
+
+    /**
      * 直播列表
      */
     private void HttpRoomList(String pager, final Boolean isLodingMore) {
@@ -209,6 +239,7 @@ public class VideoDetailFragment extends Fragment {
             mIvDetialErrorBg.setVisibility(View.VISIBLE);
             panoWidgetView.setVisibility(View.GONE);
             mRvVideoDetaillist.setVisibility(View.GONE);
+            mSwipyRefresh.setRefreshing(false);
             return;
         }
         mSwipyRefresh.setRefreshing(true);
@@ -239,12 +270,23 @@ public class VideoDetailFragment extends Fragment {
                         mRoomLists.addAll(mRoomListBean.getResult());
                         mRvAdapter.notifyDataSetChanged();
                     } else {//刷新数据
-
+                        //刷新数据
                         mRoomLists = mRoomListBean.getResult();
                         mRvAdapter = new RvAdapter(getContext(), mRoomLists);
                         mRvVideoDetaillist.setAdapter(mRvAdapter);
                         //第一次加载背景图片从这里加载
-                        initPanorama(HttpURL.IV_HOST + mRoomListBean.getResult().get(0).getImg());
+//                        initPanorama(HttpURL.IV_HOST + mRoomListBean.getResult().get(0).getImg());
+
+                        int isall = mRoomListBean.getResult().get(0).getIsall();
+                        if (isall == VedioContants.ALL_VIEW_VEDIO) {
+                            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                            initPanorama(HttpURL.IV_HOST + mRoomListBean.getResult().get(0).getImg());
+                        } else if (isall == VedioContants.TWO_D_VEDIO) {
+
+                            mIvTwoDBg.setVisibility(View.VISIBLE);//显示2D图片
+                            initTwoD(HttpURL.IV_HOST + mRoomListBean.getResult().get(0).getImg(), mIvTwoDBg);
+                        }
+
                     }
                 } else {
                     UIUtils.showTip(mRoomListBean.getMsg());

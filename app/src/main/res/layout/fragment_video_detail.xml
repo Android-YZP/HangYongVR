@@ -5,11 +5,41 @@
     android:layout_height="match_parent"
     tools:context="com.jt.base.videoDetails.fragments.VideoDetailFragment">
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/iv_detial_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#fff"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="150dp"
+            android:background="@mipmap/vedio_detial_no_net" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:text="网络被掳走,请下拉刷新"
+            android:textColor="#bbbbbb"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_two_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
         android:background="@mipmap/detail_pay_bg"
+        android:scaleType="fitXY"
         android:visibility="gone" />
 
     <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
