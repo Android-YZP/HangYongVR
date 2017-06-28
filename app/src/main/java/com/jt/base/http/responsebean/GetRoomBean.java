@@ -246,7 +246,7 @@ public class GetRoomBean {
          * sort : null
          */
 
-        private Object id;
+        private int id;
         private Object uid;
         private Object username;
         private String channelName;
@@ -280,11 +280,11 @@ public class GetRoomBean {
         private Object type;
         private Object sort;
 
-        public Object getId() {
+        public int getId() {
             return id;
         }
 
-        public void setId(Object id) {
+        public void setId(int id) {
             this.id = id;
         }
 

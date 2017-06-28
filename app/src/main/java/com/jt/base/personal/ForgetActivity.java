@@ -1,6 +1,7 @@
 package com.jt.base.personal;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,8 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
@@ -188,13 +189,14 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         //加载背景图片
         Glide.with(this)
                 .load("https://ws1.sinaimg.cn/large/610dc034ly1ffv3gxs37oj20u011i0vk.jpg")
-                .into(new SimpleTarget<Drawable>() {
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
                     @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        BitmapDrawable bd = (BitmapDrawable) resource;
-                        panoWidgetView.loadImageFromBitmap(bd.getBitmap(), panoOptions);
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        panoWidgetView.loadImageFromBitmap(resource, panoOptions);
                     }
                 });
+
     }
 
 

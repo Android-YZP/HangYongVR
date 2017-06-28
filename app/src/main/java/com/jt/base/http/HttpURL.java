@@ -48,6 +48,10 @@ public class HttpURL {
      * 房间列表
      */
     public static String RoomList = Host + "login/getApiRooms";
+    /**
+     * 房间在线人数
+     */
+    public static String RoomOnLineNumber = Host + "login/edit/online";
 
 
 }

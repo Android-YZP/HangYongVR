@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="#fff"
-        android:visibility="gone"
         android:orientation="vertical">
 
         <ImageView
@@ -38,9 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:background="@mipmap/detail_pay_bg"
         android:scaleType="fitXY"
-        android:visibility="gone" />
+        />
 
     <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/sf_detail_SwipeRefreshLayout"

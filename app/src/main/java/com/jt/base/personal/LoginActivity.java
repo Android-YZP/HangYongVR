@@ -76,8 +76,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Boolean isCheckedAgree = true;//默认勾选用户协议
     private Boolean isLogin = true;//是否是登录界面
     private boolean isRegisterYZM = true;
-
-
     private TimerTask task;
     private int recLen;
     private Timer mTimer;
@@ -522,12 +520,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         requestParams.addBodyParameter("phone", phone);//用户名
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
-
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
                 ForgetYzmBean forgetYzmBean = new Gson().fromJson(result, ForgetYzmBean.class);
-
                 if (forgetYzmBean.getMsg().equals("用户已存在")) {
                     UIUtils.showTip("用户已存在");
 
@@ -539,7 +535,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     UIUtils.showTip(forgetYzmBean.getMsg());
                 }
-
             }
 
             @Override
@@ -575,7 +570,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         requestParams.addBodyParameter("psw1", psw1);//密码2
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
-
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
@@ -596,8 +590,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
-
-
     }
 
     /**

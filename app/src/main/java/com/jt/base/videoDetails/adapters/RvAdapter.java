@@ -115,9 +115,9 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         TextView TvPayDiaprice = (TextView) dialogView.findViewById(R.id.tv_play_dia_price);
         TvPayDiaprice.setText("价格： " + mRoomLists.get(position).getPrice() + "元");
         TextView TvPayId = (TextView) dialogView.findViewById(R.id.tv_play_dia_id);
-        TvPayId.setText("房间ID：" + mRoomLists.get(position).getId() + "");
+        TvPayId.setText("房间ID：" + mRoomLists.get(position).getId());
         TextView TvPayName = (TextView) dialogView.findViewById(R.id.tv_play_dia_name);
-        TvPayName.setText("当前直播：" + mRoomLists.get(position).getChannelName());
+        TvPayName.setText("当前直播：" + mRoomLists.get(position).getUsername());
         Button btnGoPay = (Button) dialogView.findViewById(R.id.btn_go_pay);
         //进入播放器
         btnGoPay.setOnClickListener(new View.OnClickListener() {

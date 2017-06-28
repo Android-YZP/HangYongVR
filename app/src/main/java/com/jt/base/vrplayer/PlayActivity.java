@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -27,8 +28,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
+import com.jt.base.http.JsonCallBack;
+import com.jt.base.http.responsebean.ForgetYzmBean;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.SnailNetReceiver.NetStateChangedListener;
@@ -43,6 +48,7 @@ import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -50,6 +56,7 @@ import java.util.Locale;
 
 public class PlayActivity extends Activity {
     private static final String TAG = "PlayActivity";
+    private static final int HTTP_SUCCESS = 0;
 
     private SnailPlayerVideoView mVideoView;
 
@@ -490,6 +497,46 @@ public class PlayActivity extends Activity {
 
     }
 
+
+    /******************************************我是华丽的分割线**********************************************************************
+     * 设置在线人数
+     */
+
+    /**
+     * 在线人数
+     * id 房间id
+     * number 0,查看在线人数，-1，退出，1，进入
+     */
+    private void HttpOnLineNumber(int id, int number) {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.RoomOnLineNumber);
+        requestParams.addHeader("token", HttpURL.Token);
+        //包装请求参数
+        requestParams.addBodyParameter("id", id + "");//用户名
+        requestParams.addBodyParameter("num", number + "");//用户名
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("服务端连接失败");
+            }
+
+            @Override
+            public void onFinished() {}
+
+        });
+    }
+
+
     private void initInfo() {
         ImageView ivHead = (ImageView) findViewById(R.id.iv_room_head);
         TextView tvUserName = (TextView) findViewById(R.id.tv_room_person_name);
@@ -854,6 +901,7 @@ public class PlayActivity extends Activity {
         super.onDestroy();
         mHandler.removeMessages(SHOW_PROGRESS);
         if (mVideoView != null) {
+            mVideoView.stop();
             mVideoView.stopPlayback();
             mVideoView = null;
         }
