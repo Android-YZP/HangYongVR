@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
     private ViewPager mViewpager;
+    private ImageView mIvTwoDBg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
+        mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
     }
 
     private void initListenter() {
@@ -48,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (position == 1) {
                     panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
+                    mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
                 } else {
                     panoWidgetView.setVisibility(View.GONE);
+                    mIvTwoDBg.setVisibility(View.GONE);
                 }
             }
 
@@ -84,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     //
     private void initViewPager() {
         mViewpager = (ViewPager) findViewById(R.id.vp_viewpager);
-        mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager(), panoWidgetView));
+        mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager(), panoWidgetView, mIvTwoDBg));
     }
 
 
@@ -136,9 +142,12 @@ public class MainActivity extends AppCompatActivity {
 
     class pagerAdapter extends FragmentPagerAdapter {
         VrPanoramaView panoWidgetView;
-        public pagerAdapter(FragmentManager fm, VrPanoramaView panoWidgetView) {
+        ImageView mIvTwoDBg;
+
+        public pagerAdapter(FragmentManager fm, VrPanoramaView panoWidgetView, ImageView mIvTwoDBg) {
             super(fm);
             this.panoWidgetView = panoWidgetView;
+            this.mIvTwoDBg = mIvTwoDBg;
         }
 
         @Override
@@ -147,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
             if (position == 0) {
                 fragment = new VideosFragment();
             } else if (position == 1) {
-                fragment = new VideoDetailFragment(panoWidgetView,panoOptions);
+                fragment = new VideoDetailFragment(panoWidgetView, panoOptions,mIvTwoDBg);
             }
             return fragment;
         }

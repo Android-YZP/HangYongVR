@@ -67,9 +67,11 @@ public class VideoDetailFragment extends Fragment {
     public VideoDetailFragment() {
     }
 
-    public VideoDetailFragment(VrPanoramaView panoWidgetView, VrPanoramaView.Options panoOptions) {
+    public VideoDetailFragment(VrPanoramaView panoWidgetView, VrPanoramaView.Options panoOptions, ImageView mIvTwoDBg) {
         this.panoWidgetView = panoWidgetView;
         this.panoOptions = panoOptions;
+        this.mIvTwoDBg = mIvTwoDBg;
+
     }
 
 
@@ -98,7 +100,7 @@ public class VideoDetailFragment extends Fragment {
         mSwipyRefresh = (SwipyRefreshLayout) view.findViewById(R.id.sf_detail_SwipeRefreshLayout);
         mRvVideoDetaillist = (RecyclerViewPager) view.findViewById(R.id.rv_video_detail_list);
         mIvDetialErrorBg = (LinearLayout) view.findViewById(R.id.iv_detial_bg);
-        mIvTwoDBg = (ImageView) view.findViewById(R.id.iv_two_bg);
+
 
     }
 
@@ -112,7 +114,6 @@ public class VideoDetailFragment extends Fragment {
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRvVideoDetaillist.setLayoutManager(layout);
     }
-
 
     private void initListenter() {
         //控制全景图的显示和影藏
@@ -147,22 +148,17 @@ public class VideoDetailFragment extends Fragment {
             }
         });
 
-
         mRvVideoDetaillist.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
-
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
             }
         });
-
 
         //选中的页面
         mRvVideoDetaillist.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
@@ -197,8 +193,6 @@ public class VideoDetailFragment extends Fragment {
                 }
             }
         });
-
-
     }
 
 
@@ -222,13 +216,7 @@ public class VideoDetailFragment extends Fragment {
                             }
                         });
             }
-        },400);
-
-
-
-
-
-
+        }, 400);
     }
 
     /**
@@ -246,7 +234,7 @@ public class VideoDetailFragment extends Fragment {
                         .crossFade()
                         .into(imageView);
             }
-        },400);
+        }, 400);
         mIvTwoDBg.setImageBitmap(null);
         mIvTwoDBg.setVisibility(View.VISIBLE);//隐藏2D图片
     }
