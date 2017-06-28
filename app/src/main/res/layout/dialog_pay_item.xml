@@ -14,29 +14,12 @@
         android:background="#fff"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="购买本片"
-            android:textColor="#15bc8c"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="本次直播是收费的哟~"
-            android:textColor="#15bc8c"
-            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
             android:background="@mipmap/pay_icon" />
 
         <TextView
@@ -54,8 +37,8 @@
             android:id="@+id/tv_play_dia_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="12dp"
+            android:gravity="center"
             android:maxLines="1"
             android:text="房间ID：123456789456"
             android:textColor="#999999"
@@ -74,6 +57,7 @@
 
         <Button
             android:id="@+id/btn_go_pay"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginBottom="25dp"

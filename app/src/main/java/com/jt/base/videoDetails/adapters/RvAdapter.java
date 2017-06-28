@@ -73,7 +73,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             public void onFinished() {
             }
         });
-        holder.mTvPersonName.setText((String) mRoomLists.get(position).getChannelName());
+        holder.mTvPersonName.setText((String) mRoomLists.get(position).getUsername());
+        holder.mTvChannelName.setText(mRoomLists.get(position).getChannelName());
         //是否付费
         if (mRoomLists.get(position).getPrice() == 0) {
             holder.mTvRoomPay.setVisibility(View.GONE);
@@ -85,7 +86,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             public void onClick(View v) {
                 if (mRoomLists.get(position).getPrice() == 0) {
                     goToPlay(position);
-                }else {
+                } else {
                     payDialog(position);
                 }
             }
@@ -100,6 +101,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
 
     /**
      * 对话框
+     *
      * @param position
      */
 
@@ -113,7 +115,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         TextView TvPayDiaprice = (TextView) dialogView.findViewById(R.id.tv_play_dia_price);
         TvPayDiaprice.setText("价格： " + mRoomLists.get(position).getPrice() + "元");
         TextView TvPayId = (TextView) dialogView.findViewById(R.id.tv_play_dia_id);
-        TvPayId.setText("房间ID：" + mRoomLists.get(position).getChannelId() + "");
+        TvPayId.setText("房间ID：" + mRoomLists.get(position).getId() + "");
         TextView TvPayName = (TextView) dialogView.findViewById(R.id.tv_play_dia_name);
         TvPayName.setText("当前直播：" + mRoomLists.get(position).getChannelName());
         Button btnGoPay = (Button) dialogView.findViewById(R.id.btn_go_pay);
@@ -140,13 +142,17 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
     private void goToPlay(int position) {
         Intent i = new Intent(context, PlayActivity.class);
         int isall = mRoomLists.get(position).getIsall();
-        if (isall == VedioContants.TWO_D_VEDIO){
+        if (isall == VedioContants.TWO_D_VEDIO) {
             i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-        }else if (isall == VedioContants.ALL_VIEW_VEDIO){
+        } else if (isall == VedioContants.ALL_VIEW_VEDIO) {
             i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
         }
         LogUtil.i(mRoomLists.get(position).getRtmpDownstreamAddress() + "");
         i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+        i.putExtra(Definition.KEY_PLAY_HEAD,HttpURL.IV_HOST + mRoomLists.get(position).getHead() + "");
+        i.putExtra(Definition.KEY_PLAY_USERNAME,mRoomLists.get(position).getUsername() + "");
+
+
 //                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
         context.startActivity(i);
     }
@@ -157,12 +163,14 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         TextView mTvPlayer;
         private TextView mTvPersonName;
         private TextView mTvRoomPay;
+        private TextView mTvChannelName;
         private ImageView mIvRoomHead;
 
         MyViewHolder(View view) {
             super(view);
             mTvPlayer = (TextView) view.findViewById(R.id.title);
             mTvPersonName = (TextView) view.findViewById(R.id.tv_room_person_name);
+            mTvChannelName = (TextView) view.findViewById(R.id.tv_play_channelName);
             mTvRoomPay = (TextView) view.findViewById(R.id.tv_pay);
             mIvRoomHead = (ImageView) view.findViewById(R.id.iv_room_head);
         }

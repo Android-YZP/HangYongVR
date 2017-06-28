@@ -128,7 +128,6 @@ public class VideoDetailFragment extends Fragment {
                         //获取第一个可见view的位置
                         int firstItemPosition = linearManager.findFirstVisibleItemPosition();
                         if (mRoomLists == null) return;
-
                         //判断是不是全景图片，来显示到底要不要显示全景图片
                         int isall = mRoomLists.get(firstItemPosition).getIsall();
                         if (isall == VedioContants.ALL_VIEW_VEDIO) {
@@ -138,8 +137,6 @@ public class VideoDetailFragment extends Fragment {
                             mIvTwoDBg.setVisibility(View.VISIBLE);//显示2D图片
                             initTwoD(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg(), mIvTwoDBg);
                         }
-
-
                     }
                 }
             }

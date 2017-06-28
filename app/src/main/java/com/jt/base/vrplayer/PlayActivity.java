@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.SnailNetReceiver.NetStateChangedListener;
@@ -39,7 +41,10 @@ import com.snail.media.player.ISnailPlayer.ISnailPlayerErrorNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerEventNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
 
+import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.util.Locale;
 
@@ -348,6 +353,7 @@ public class PlayActivity extends Activity {
             public boolean onSingleTapUp(MotionEvent e) {
                 return true;
             }
+
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
                 float nFristX = e1.getX();
@@ -478,9 +484,38 @@ public class PlayActivity extends Activity {
         };
         LogUtil.i(mPlayUrl + "");
         initPlayMode();
+        initInfo();
         mVideoView.setVideoPath(mPlayUrl);
 
 
+    }
+
+    private void initInfo() {
+        ImageView ivHead = (ImageView) findViewById(R.id.iv_room_head);
+        TextView tvUserName = (TextView) findViewById(R.id.tv_room_person_name);
+
+        String HeadImg = getIntent().getStringExtra(Definition.KEY_PLAY_HEAD);
+        String UserName = getIntent().getStringExtra(Definition.KEY_PLAY_USERNAME);
+        ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
+        x.image().bind(ivHead, HeadImg, imageOptions, new Callback.CommonCallback<Drawable>() {
+            @Override
+            public void onSuccess(Drawable result) {
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("头像加载失败");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+            }
+
+            @Override
+            public void onFinished() {
+            }
+        });
+        tvUserName.setText(UserName);
     }
 
     //初始化播放器模式

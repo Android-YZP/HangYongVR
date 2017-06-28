@@ -64,7 +64,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:text="付费"
+            android:text="收费"
             android:textColor="#fff"
             android:gravity="center"
             android:background="@mipmap/detail_pay_bg"
@@ -79,6 +79,7 @@
         android:background="@drawable/pay_layer_list_bg">
 
         <TextView
+            android:id="@+id/tv_play_channelName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

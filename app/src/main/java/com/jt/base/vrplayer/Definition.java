@@ -32,20 +32,20 @@ public class Definition {
     public static final String PREFIX_RTSP                  = "rtsp://";
     public static final String PREFIX_MEDIAFILE_MTV         = "mtv://";
     public static final String[] PREFIX_SUGGEST            =  { "www.", "http://www.", "https://www.", "rtsp://", "http://winserver1/test/"};
-    
+
     public static final String SUFFIX_HTM                   = ".htm";
     public static final String SUFFIX_HTML                  = ".html";
     public static final String SUFFIX_PHP                   = ".php";
     public static final String SUFFIX_ASP                   = ".asp";
     public static final String SUFFIX_ASPX                  = ".aspx";
-    
+
     public static final String STOP                         = "Stop";
     public static final String START                        = "Start";
     public static final String PAUSE                        = "Pause";
     public static final String RUN                          = "Run";
     public static final String MUTE                         = "Mute";
     public static final String UNMUTE                       = "Unmute";
-    
+
     public static final String ZOOM_MODE_ORIGINAL           = "Original";
     public static final String ZOOM_MODE_LETTERBOX          = "LetterBox";
     public static final String ZOOM_MODE_PANSCAN            = "PanScan";
@@ -58,13 +58,15 @@ public class Definition {
     public static final String ASPECT_RATIO_169             = "16 : 9";
     public static final String ASPECT_RATIO_21              = "2 : 1";
     public static final String ASPECT_RATIO_2331            = "2.33 : 1";
-    
+
     public static final String MOTION                       = "Motion";
     public static final String TOUCH                        = "Touch";
     public static final String KEY_FOV                     	= "Fov";
     public static final String KEY_PROJECTIONTYPE          	= "ProjectionType";
     public static final String KEY_VIDEOSPLICEFORMAT     	= "VidepSpliceFormat";
     public static final String KEY_PLAY_URL                 = "play_url";
+    public static final String KEY_PLAY_HEAD                = "play_HEAD";
+    public static final String KEY_PLAY_USERNAME            = "play_username";
     public static final String KEY_SENSORMODE               = "sensormode";
     public static final String KEY_SCALE                    = "scale";
 
