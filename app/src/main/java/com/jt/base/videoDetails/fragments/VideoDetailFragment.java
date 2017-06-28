@@ -85,7 +85,6 @@ public class VideoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_detail, container, false);
         initView(view);
-
         return view;
     }
 
@@ -133,7 +132,7 @@ public class VideoDetailFragment extends Fragment {
                         LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                         //获取第一个可见view的位置
                         int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-                        if (mRoomLists == null) return;
+                        if (mRoomLists == null || mRoomLists.size() < 1) return;
                         //判断是不是全景图片，来显示到底要不要显示全景图片
                         int isall = mRoomLists.get(firstItemPosition).getIsall();
                         if (isall == VedioContants.ALL_VIEW_VEDIO) {
@@ -262,6 +261,7 @@ public class VideoDetailFragment extends Fragment {
 
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.RoomList);
+        requestParams.setConnectTimeout(1000 * 6);
         requestParams.addHeader("token", HttpURL.Token);
         //包装请求参数
         requestParams.addBodyParameter("page", pager);//页数
@@ -319,6 +319,12 @@ public class VideoDetailFragment extends Fragment {
                 panoWidgetView.setVisibility(View.GONE);
                 mRvVideoDetaillist.setVisibility(View.VISIBLE);
                 mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                if (mRoomLists != null) {
+                    mRoomLists.clear();
+                    mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                    mRvAdapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override
