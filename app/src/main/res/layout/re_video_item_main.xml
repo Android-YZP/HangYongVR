@@ -4,14 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_video_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.RecyclerView>
-
-
-
-
+<ImageView
+    android:id="@+id/iv_video_img"
+    android:background="@drawable/ic_beautiful"
+    android:layout_width="150dp"
+    android:layout_height="150dp" />
 </LinearLayout>

@@ -257,6 +257,7 @@ public class VideoDetailFragment extends Fragment {
                 mRoomListBean = new Gson().fromJson(result, GetRoomBean.class);
                 if (mRoomListBean.getCode() == HTTP_SUCCESS) {
                     if (mRoomListBean.getResult().size() < 1) {
+                        panoWidgetView.setVisibility(View.GONE);
                         UIUtils.showTip("当前没有直播。。。。");
                         return;
                     }
