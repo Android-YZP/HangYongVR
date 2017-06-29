@@ -10,13 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jt.base.R;
-import com.jt.base.videos.adapters.MainReAdapter;
+import com.jt.base.videos.adapters.MainAdapter;
+import com.jt.base.videos.adapters.MainPicListAdapter;
+import com.jt.base.videos.adapters.SpacesItemDecoration;
+import com.lsjwzh.widget.recyclerviewpager.LoopRecyclerViewPager;
+
 
 //rtmp://9250.liveplay.myqcloud.com/live/9250_0601HK
 public class MainFragment extends Fragment {
 
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecycler;
+    private MainAdapter mMainAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,26 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initRecycleView();
-
     }
 
     private void initRecycleView() {
-        mRecycler.setAdapter(new MainReAdapter(getActivity(),mRecycler));
+        mMainAdapter = new MainAdapter(getActivity());
+        mRecycler.setAdapter(mMainAdapter);
+        setHeaderView(mRecycler);
+    }
+
+    /**
+     * 设置头布局
+     */
+    private void setHeaderView(RecyclerView view){
+        View header = LayoutInflater.from(getActivity()).inflate(R.layout.my_head_view, view, false);
+        LoopRecyclerViewPager  mHeadPicRecycler = (LoopRecyclerViewPager) header.findViewById(R.id.lrvp_viewpager);
+        LinearLayoutManager layout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mHeadPicRecycler.setLayoutManager(layout);
+        mHeadPicRecycler.setAdapter(new MainPicListAdapter(getActivity()));
+        mHeadPicRecycler.setHasFixedSize(true);
+        mHeadPicRecycler.setLongClickable(true);
+        mHeadPicRecycler.addItemDecoration(new SpacesItemDecoration(0, mHeadPicRecycler.getAdapter().getItemCount()));
+        mMainAdapter.setHeaderView(header);
     }
 }

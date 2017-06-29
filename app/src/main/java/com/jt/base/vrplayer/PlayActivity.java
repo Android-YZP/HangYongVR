@@ -569,22 +569,18 @@ public class PlayActivity extends Activity {
                     int RoomNumber = roomNumberBean.getResult();
                     mTvRoomNumber.setText("在线人数 " + RoomNumber);
                 }
-
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIUtils.showTip("服务端连接失败");
             }
-
             @Override
             public void onFinished() {
                 super.onFinished();
                 timekeeping();
             }
         });
-
-
     }
 
 

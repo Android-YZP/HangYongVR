@@ -5,9 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.jt.base.R;
 
@@ -15,19 +13,17 @@ import com.jt.base.R;
  * Created by m1762 on 2017/6/8.
  */
 
-public class MainVideoListAdapter extends RecyclerView.Adapter<MainVideoListAdapter.MainReViewHolder> {
+public class MainPicListAdapter extends RecyclerView.Adapter<MainPicListAdapter.MainReViewHolder> {
     public Context context;
-    private RecyclerView recyclerView;
 
-    public MainVideoListAdapter(Context context, RecyclerView recyclerView) {
+    public MainPicListAdapter(Context context) {
         this.context = context;
-        this.recyclerView = recyclerView;
     }
 
     @Override
     public MainReViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
-                context).inflate(R.layout.re_video_item_main, parent,
+                context).inflate(R.layout.re_pic_item_main, parent,
                 false);
         MainReViewHolder holder = new MainReViewHolder(view);
         return holder;
@@ -35,6 +31,7 @@ public class MainVideoListAdapter extends RecyclerView.Adapter<MainVideoListAdap
 
     @Override
     public void onBindViewHolder(MainReViewHolder holder, final int position) {
+//        holder.mivVideoImg
 
 
     }

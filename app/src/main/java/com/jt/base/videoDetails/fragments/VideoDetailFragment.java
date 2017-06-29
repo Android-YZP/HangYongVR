@@ -324,7 +324,6 @@ public class VideoDetailFragment extends Fragment {
                     mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
                     mRvAdapter.notifyDataSetChanged();
                 }
-
             }
 
             @Override
