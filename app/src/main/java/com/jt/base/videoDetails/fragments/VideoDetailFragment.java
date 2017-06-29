@@ -58,11 +58,9 @@ public class VideoDetailFragment extends Fragment {
     private List<GetRoomBean.ResultBean> mRoomLists;
     private RvAdapter mRvAdapter;
     private GetRoomBean mRoomListBean;
-    private int mCurrentPage = 0;
     private LinearLayout mIvDetialErrorBg;
     private ImageView mIvTwoDBg;
     private Handler handler = new Handler();
-    private boolean isScrolled;
 
     public VideoDetailFragment() {
     }
@@ -163,7 +161,6 @@ public class VideoDetailFragment extends Fragment {
             @Override
             public void OnPageChanged(int i, final int i1) {
                 LogUtil.i(i + "=" + i1);
-                mCurrentPage = i1;
             }
         });
 

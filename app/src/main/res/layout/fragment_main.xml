@@ -7,16 +7,18 @@
     android:orientation="vertical"
     tools:context=".videos.fragments.MainFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/srl_main_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:scrollbars="vertical"
+        app:srl_direction="both">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/re_main_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
 </LinearLayout>

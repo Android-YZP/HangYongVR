@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.jt.base.R;
 import com.jt.base.videos.adapters.MainAdapter;
 import com.jt.base.videos.adapters.MainPicListAdapter;
