@@ -43,10 +43,16 @@
                 android:layout_height="wrap_content"
                 android:text="小贱"
                 android:maxLength="4"
-                android:ellipsize="end"
                 android:layout_marginTop="5dp"
                 android:textColor="#fff"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                />
 
 
             <TextView
@@ -78,15 +84,20 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/pay_layer_list_bg">
 
-        <TextView
+        <com.jt.base.ui.MaequeeText
             android:id="@+id/tv_play_channelName"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="企业直播"
             android:layout_margin="5dp"
             android:textColor="#fff"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            />
 
     </RelativeLayout>
 

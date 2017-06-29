@@ -33,6 +33,8 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.ForgetYzmBean;
+import com.jt.base.http.responsebean.ResetPasswordBean;
+import com.jt.base.http.responsebean.RoomNumberBean;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
@@ -53,6 +55,8 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PlayActivity extends Activity {
     private static final String TAG = "PlayActivity";
@@ -167,7 +171,12 @@ public class PlayActivity extends Activity {
     private SnailNetReceiver mNetReceiver;
     private NetStateChangedListener mNetChangedListener;
     private AlertDialog show;
-
+    private TextView mTvRoomNumber;
+    private String mRoomId;
+    private Timer mTimer;
+    private TimerTask task;
+    private int recLen;
+    private boolean isRoomNumberOut = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,16 +300,10 @@ public class PlayActivity extends Activity {
             @Override
             public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
 
-                if (mReloading < 4) {//循环4次加载50秒
-                    mReloading++;
-                    LogUtil.i("11111111111" + mReloading);
-                    mp.resetUrl(mPlayUrl);
-                } else {
-                    mBufferingView.setVisibility(View.GONE);
+                if (error.equals("PLAYER_ERROR_EXIT")) {
+                    LogUtil.i("11111111111" + error);
                     showErrorDialog();
-                    mIsPrepared = false;
                 }
-
             }
         });
 
@@ -482,9 +485,14 @@ public class PlayActivity extends Activity {
                         break;
                     case NET_UNKNOWN:
                         // Log.i(Constants.LOG_TAG, "未知网络");
+                        UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
+                        break;
+                    case NET_NO:
+                        // Log.i(Constants.LOG_TAG, "未知网络");
+                        showNetErrorDialog();
                         break;
                     default:
-                        // Log.i(Constants.LOG_TAG, "不知道什么情况~>_<~");
+
 
                 }
             }
@@ -503,11 +511,43 @@ public class PlayActivity extends Activity {
      */
 
     /**
+     * 计时重新请求人数
+     */
+    private void timekeeping() {
+        if (isRoomNumberOut) return;
+        recLen = 10;
+        mTimer = new Timer();
+        // UI thread
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {      // UI thread
+                    @Override
+                    public void run() {
+                        recLen--;
+                        if (recLen < 0) {
+                            mTimer.cancel();
+                            HttpOnLineNumber(mRoomId, 0);
+                        }
+                    }
+                });
+            }
+        };
+        //从现在起过10毫秒以后，每隔1000毫秒执行一次。
+        mTimer.schedule(task, 10, 1000);    // timeTask
+    }
+
+
+    /**
      * 在线人数
      * id 房间id
      * number 0,查看在线人数，-1，退出，1，进入
      */
-    private void HttpOnLineNumber(int id, int number) {
+    private void HttpOnLineNumber(String id, int number) {
+        mTvRoomNumber = (TextView) findViewById(R.id.tv_play_room_number);
+        /**
+         * 重置密码
+         */
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
@@ -516,13 +556,20 @@ public class PlayActivity extends Activity {
         RequestParams requestParams = new RequestParams(HttpURL.RoomOnLineNumber);
         requestParams.addHeader("token", HttpURL.Token);
         //包装请求参数
-        requestParams.addBodyParameter("id", id + "");//用户名
         requestParams.addBodyParameter("num", number + "");//用户名
+        requestParams.addBodyParameter("id", id);//验证码
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
+
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
+                RoomNumberBean roomNumberBean = new Gson().fromJson(result, RoomNumberBean.class);
+                if (roomNumberBean.getCode() == HTTP_SUCCESS) {
+                    int RoomNumber = roomNumberBean.getResult();
+                    mTvRoomNumber.setText("在线人数 " + RoomNumber);
+                }
+
             }
 
             @Override
@@ -531,9 +578,13 @@ public class PlayActivity extends Activity {
             }
 
             @Override
-            public void onFinished() {}
-
+            public void onFinished() {
+                super.onFinished();
+                timekeeping();
+            }
         });
+
+
     }
 
 
@@ -543,6 +594,7 @@ public class PlayActivity extends Activity {
 
         String HeadImg = getIntent().getStringExtra(Definition.KEY_PLAY_HEAD);
         String UserName = getIntent().getStringExtra(Definition.KEY_PLAY_USERNAME);
+        mRoomId = getIntent().getStringExtra(Definition.KEY_PLAY_ID);
         ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
         x.image().bind(ivHead, HeadImg, imageOptions, new Callback.CommonCallback<Drawable>() {
             @Override
@@ -563,6 +615,10 @@ public class PlayActivity extends Activity {
             }
         });
         tvUserName.setText(UserName);
+
+        //获取在线人数
+        HttpOnLineNumber(mRoomId, 1);
+
     }
 
     //初始化播放器模式
@@ -835,7 +891,9 @@ public class PlayActivity extends Activity {
 
     private void showErrorDialog() {
         AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(PlayActivity.this);
+                new AlertDialog.Builder(PlayActivity.this, R.style.MyDialogStyle);
+        normalDialog.setCancelable(false);
+        normalDialog.setInverseBackgroundForced(true);
         normalDialog.setMessage("播放结束,谢谢观看...");
         normalDialog.setPositiveButton("确定",
                 new DialogInterface.OnClickListener() {
@@ -848,6 +906,21 @@ public class PlayActivity extends Activity {
         show = normalDialog.show();
     }
 
+    private void showNetErrorDialog() {
+        AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(PlayActivity.this, R.style.MyDialogStyle);
+        normalDialog.setCancelable(false);
+        normalDialog.setMessage("网络被拐走了...");
+        normalDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        show.dismiss();
+                        PlayActivity.this.finish();
+                    }
+                });
+        show = normalDialog.show();
+    }
 
     @Override
     protected void onStart() {
@@ -905,7 +978,11 @@ public class PlayActivity extends Activity {
             mVideoView.stopPlayback();
             mVideoView = null;
         }
+        //退出房间
+        isRoomNumberOut = true;//退出房间,结束获取在线人数
+        HttpOnLineNumber(mRoomId, -1);
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

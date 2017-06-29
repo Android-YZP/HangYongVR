@@ -139,7 +139,6 @@ public class VideoDetailFragment extends Fragment {
                             mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
                             initPanorama(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg());
                         } else if (isall == VedioContants.TWO_D_VEDIO) {
-
                             initTwoD(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg(), mIvTwoDBg);
                         }
                     }
@@ -276,6 +275,7 @@ public class VideoDetailFragment extends Fragment {
                 if (mRoomListBean.getCode() == HTTP_SUCCESS) {
                     if (mRoomListBean.getResult().size() < 1) {
                         panoWidgetView.setVisibility(View.GONE);
+
                         UIUtils.showTip("当前没有直播。。。。");
                         return;
                     }

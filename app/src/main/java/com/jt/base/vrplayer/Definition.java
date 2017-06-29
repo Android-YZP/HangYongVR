@@ -67,6 +67,7 @@ public class Definition {
     public static final String KEY_PLAY_URL                 = "play_url";
     public static final String KEY_PLAY_HEAD                = "play_HEAD";
     public static final String KEY_PLAY_USERNAME            = "play_username";
+    public static final String KEY_PLAY_ID                  = "play_id";
     public static final String KEY_SENSORMODE               = "sensormode";
     public static final String KEY_SCALE                    = "scale";
 

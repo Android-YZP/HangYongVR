@@ -151,6 +151,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
         i.putExtra(Definition.KEY_PLAY_HEAD,HttpURL.IV_HOST + mRoomLists.get(position).getHead() + "");
         i.putExtra(Definition.KEY_PLAY_USERNAME,mRoomLists.get(position).getUsername() + "");
+        i.putExtra(Definition.KEY_PLAY_ID,mRoomLists.get(position).getId() + "");
 
 
 //                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
