@@ -48,10 +48,13 @@ public class VideosFragment extends Fragment {
 
 
     private void setNavigationBar() {
+        mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
+        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         mBottomNavigationBar
                 .addItem(new BottomNavigationItem(R.mipmap.search_press, "搜索").setInactiveIcon(ContextCompat.getDrawable(getContext(), R.mipmap.search)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.home_press, "主页").setInactiveIcon(ContextCompat.getDrawable(getContext(), R.mipmap.home)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.personal_press, "我的").setInactiveIcon(ContextCompat.getDrawable(getContext(), R.mipmap.personal)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
+
                 .setFirstSelectedPosition(0)
                 .initialise();
         mBottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {

@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorGray3"
-        app:bnbBackgroundStyle="background_style_static"
         android:layout_alignParentBottom="true" />
+
+
 
 
 </FrameLayout>
