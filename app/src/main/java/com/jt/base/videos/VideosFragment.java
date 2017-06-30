@@ -55,7 +55,7 @@ public class VideosFragment extends Fragment {
                 .addItem(new BottomNavigationItem(R.mipmap.home_press, "主页").setInactiveIcon(ContextCompat.getDrawable(getContext(), R.mipmap.home)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
                 .addItem(new BottomNavigationItem(R.mipmap.personal_press, "我的").setInactiveIcon(ContextCompat.getDrawable(getContext(), R.mipmap.personal)).setActiveColorResource(R.color.circle_select_color).setInActiveColorResource(R.color.circle_unselect_color))
 
-                .setFirstSelectedPosition(0)
+                .setFirstSelectedPosition(1)
                 .initialise();
         mBottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -71,6 +71,7 @@ public class VideosFragment extends Fragment {
             public void onTabReselected(int position) {
             }
         });
+        mBottomNavigationBar.setVisibility(View.GONE);
     }
 
 }

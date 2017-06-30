@@ -9,16 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.TextView;
 
 import com.jt.base.R;
 import com.jt.base.videos.adapters.MainAdapter;
 import com.jt.base.videos.adapters.MainPicListAdapter;
 import com.jt.base.videos.adapters.SpacesItemDecoration;
-import com.jt.base.videos.ui.MyLoopRecyclerViewPager;
 import com.lsjwzh.widget.recyclerviewpager.LoopRecyclerViewPager;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
-
 import org.xutils.common.util.LogUtil;
 
 
@@ -50,10 +49,21 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initRecycleView();
+        initListener();
+    }
+
+    private void initListener() {
+        mRecyclerfreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+                LogUtil.i(direction + "");
+                mRecyclerfreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void initRecycleView() {
-        mMainAdapter = new MainAdapter(getActivity(),mRecyclerfreshLayout);
+        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout);
         mRecycler.setAdapter(mMainAdapter);
         setHeaderView(mRecycler);
     }
@@ -64,18 +74,12 @@ public class MainFragment extends Fragment {
     private void setHeaderView(RecyclerView view) {
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.my_head_view, view, false);
         LoopRecyclerViewPager mHeadPicRecycler = (LoopRecyclerViewPager) header.findViewById(R.id.lrvp_viewpager);
-        LinearLayoutManager layout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
+        LinearLayoutManager layout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mHeadPicRecycler.setLayoutManager(layout);
         mHeadPicRecycler.setAdapter(new MainPicListAdapter(getActivity()));
         mHeadPicRecycler.setHasFixedSize(true);
         mHeadPicRecycler.setLongClickable(true);
         mHeadPicRecycler.addItemDecoration(new SpacesItemDecoration(0, mHeadPicRecycler.getAdapter().getItemCount()));
-
         //修复滑动事件的冲突
         mHeadPicRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -88,9 +92,9 @@ public class MainFragment extends Fragment {
                     mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
                 }
             }
-
         });
-
         mMainAdapter.setHeaderView(header);
+        TextView EmptyView = new TextView(getActivity());//修复下拉刷新不能出来的BUG
+        mMainAdapter.setFooterView(EmptyView);
     }
 }

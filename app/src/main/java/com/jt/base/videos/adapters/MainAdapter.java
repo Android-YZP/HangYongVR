@@ -53,10 +53,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mFooterView;
     }
 
+
+
     public void setFooterView(View footerView) {
         mFooterView = footerView;
         notifyItemInserted(getItemCount() - 1);
     }
+
+
+
 
     /**
      * 重写这个方法，很重要，是加入Header和Footer的关键，我们通过判断item的类型，从而绑定不同的view    *
@@ -147,15 +152,17 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return 20;
+            return 3;
         } else if (mHeaderView == null && mFooterView != null) {
-            return 20;
+            return 4;
         } else if (mHeaderView != null && mFooterView == null) {
-            return 30;
+            return 5;
         } else {
-            return 20;
+            return 5;
         }
     }
+
+
 
 
 }
