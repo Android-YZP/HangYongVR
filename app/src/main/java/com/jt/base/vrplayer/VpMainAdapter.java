@@ -22,9 +22,9 @@ public class VpMainAdapter extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         Fragment fragment = null;
         if (position == 0){
-            return new MainFragment();
-        }else if (position == 1){
             return new SearchFragment();
+        }else if (position == 1){
+            return new MainFragment();
         }else if (position == 2){
             return new MyFragment();
         }

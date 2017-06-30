@@ -1,13 +1,19 @@
 package com.jt.base.videos.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.jt.base.R;
+import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.utils.XUtilsImageUtils;
 
 /**
  * Created by m1762 on 2017/6/8.
@@ -31,8 +37,11 @@ public class MainPicListAdapter extends RecyclerView.Adapter<MainPicListAdapter.
 
     @Override
     public void onBindViewHolder(MainReViewHolder holder, final int position) {
-//        holder.mivVideoImg
-
+//        XUtilsImageUtils.display(,"http://118.89.246.194:8080/head/ff601521-6c79-4a5f-9389-47ba8f09db28.jpg",10);
+        Glide.with(context)
+                .load("http://118.89.246.194:8080/head/ff601521-6c79-4a5f-9389-47ba8f09db28.jpg")
+                .asBitmap()
+                .into(holder.mivVideoImg);
 
     }
 
@@ -43,12 +52,12 @@ public class MainPicListAdapter extends RecyclerView.Adapter<MainPicListAdapter.
 
 
     public class MainReViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mivVideoImg;
+        private XCRoundRectImageView mivVideoImg;
 
 
         public MainReViewHolder(View itemView) {
             super(itemView);
-            mivVideoImg = (ImageView) itemView.findViewById(R.id.iv_video_img);
+            mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
         }
     }
 }

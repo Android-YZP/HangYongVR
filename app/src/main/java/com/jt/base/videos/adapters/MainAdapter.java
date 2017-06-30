@@ -103,6 +103,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                 ((ListHolder) holder).mRvVideoList.setAdapter(new MainVideoListAdapter(context, ((ListHolder) holder).mRvVideoList));
 

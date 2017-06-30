@@ -92,12 +92,17 @@ public class MainFragment extends Fragment {
                     mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
                 } else {
                     mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
-
                 }
             }
         });
         mMainAdapter.setHeaderView(header);
         TextView EmptyView = new TextView(getActivity());//修复下拉刷新不能出来的BUG
         mMainAdapter.setFooterView(EmptyView);
+
+
+
+
+
+
     }
 }

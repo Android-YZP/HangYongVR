@@ -9,7 +9,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.jt.base.R;
+import com.jt.base.ui.XCRoundRectImageView;
 
 /**
  * Created by m1762 on 2017/6/8.
@@ -35,7 +37,10 @@ public class MainVideoListAdapter extends RecyclerView.Adapter<MainVideoListAdap
 
     @Override
     public void onBindViewHolder(MainReViewHolder holder, final int position) {
-
+        Glide.with(context)
+                .load("http://118.89.246.194:8080/head/ff601521-6c79-4a5f-9389-47ba8f09db28.jpg")
+                .asBitmap()
+                .into(holder.mivVideoImg);
 
     }
 
@@ -46,12 +51,12 @@ public class MainVideoListAdapter extends RecyclerView.Adapter<MainVideoListAdap
 
 
     public class MainReViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mivVideoImg;
+        private XCRoundRectImageView mivVideoImg;
 
 
         public MainReViewHolder(View itemView) {
             super(itemView);
-            mivVideoImg = (ImageView) itemView.findViewById(R.id.iv_video_img);
+            mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
         }
     }
 }
