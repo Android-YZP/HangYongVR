@@ -12,12 +12,14 @@ import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.jt.base.R;
+import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.adapters.MainAdapter;
 import com.jt.base.videos.adapters.MainPicListAdapter;
 import com.jt.base.videos.adapters.SpacesItemDecoration;
 import com.lsjwzh.widget.recyclerviewpager.LoopRecyclerViewPager;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+
 import org.xutils.common.util.LogUtil;
 
 
@@ -63,7 +65,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initRecycleView() {
-        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout);
+        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout,mRecycler);
         mRecycler.setAdapter(mMainAdapter);
         setHeaderView(mRecycler);
     }
@@ -90,6 +92,7 @@ public class MainFragment extends Fragment {
                     mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
                 } else {
                     mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
+
                 }
             }
         });

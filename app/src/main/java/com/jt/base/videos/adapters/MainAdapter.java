@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.jt.base.R;
+import com.jt.base.utils.UIUtils;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -31,12 +32,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private View mFooterView;
     private Context context;
     private SwipyRefreshLayout mRecyclerfreshLayout;
+    private RecyclerView mRecycler;
     //构造函数
 
 
-    public MainAdapter(Context context, SwipyRefreshLayout mRecyclerfreshLayout) {
+    public MainAdapter(Context context, SwipyRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler) {
         this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
+        this.mRecycler = mRecycler;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -54,13 +57,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-
     public void setFooterView(View footerView) {
         mFooterView = footerView;
         notifyItemInserted(getItemCount() - 1);
     }
-
-
 
 
     /**
@@ -116,6 +116,16 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
                         } else {
                             mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
+                            //解决滑动到底部的事件冲突
+                            LinearLayoutManager manager = (LinearLayoutManager) mRecycler.getLayoutManager();
+                            //获取最后一个完全显示的ItemPosition ,角标值
+                            int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+                            //所有条目,数量值
+                            int totalItemCount = manager.getItemCount();
+                            // 判断是否滚动到底部
+                            if (lastVisibleItem == (totalItemCount - 1)) {
+                                mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
+                            }
                         }
                     }
                 });
@@ -161,8 +171,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return 5;
         }
     }
-
-
 
 
 }
