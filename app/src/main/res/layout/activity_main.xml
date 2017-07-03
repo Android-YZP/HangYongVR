@@ -2,12 +2,12 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dl_main_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    android:background="#000"
-    tools:context="com.jt.base.videoDetails.MainActivity">
+    tools:context="com.jt.base.activitys.MainActivity">
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/pano_view_main"
@@ -28,7 +28,7 @@
         android:layout_height="match_parent" />
 
     <ListView
-        android:id="@+id/left_drawer"
+        android:id="@+id/left_drawer_item"
         android:layout_width="140dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

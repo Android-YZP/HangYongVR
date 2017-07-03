@@ -101,7 +101,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                };
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
@@ -115,8 +120,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         //
                         if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {//滑动停止后
                             mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
-                        } else {
-                            mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
+                        } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+
                             //解决滑动到底部的事件冲突
                             LinearLayoutManager manager = (LinearLayoutManager) mRecycler.getLayoutManager();
                             //获取最后一个完全显示的ItemPosition ,角标值
@@ -126,6 +131,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             // 判断是否滚动到底部
                             if (lastVisibleItem == (totalItemCount - 1)) {
                                 mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
+                            } else {
+                                mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
                             }
                         }
                     }

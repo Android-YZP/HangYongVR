@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.jt.base.videoDetails.MainActivity;
+import com.jt.base.activitys.MainActivity;
 import com.jt.base.R;
 import com.jt.base.vrplayer.utils.SPUtils;
 

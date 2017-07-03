@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -19,6 +21,16 @@ public class VideosFragment extends Fragment {
 
     private ViewPager mVpMain;
     private BottomBar mBottomBar;
+    private DrawerLayout mDlLayout;
+    private ListView mLvDrawerItem;
+
+    public VideosFragment() {
+    }
+
+    public VideosFragment(DrawerLayout mDlLayout, ListView mLvDrawerItem) {
+        this.mDlLayout = mDlLayout;
+        this.mLvDrawerItem = mLvDrawerItem;
+    }
 
 
     @Override
@@ -40,8 +52,9 @@ public class VideosFragment extends Fragment {
     private void initView(View view) {
         mVpMain = (ViewPager) view.findViewById(R.id.vp_main);
         mBottomBar = (BottomBar) view.findViewById(R.id.main_bottom_bar);
-        mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager()));
-        mVpMain.setCurrentItem(1,false);
+        mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager(),mLvDrawerItem,mDlLayout));
+//        mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager()));
+        mVpMain.setCurrentItem(1, false);
     }
 
 

@@ -53,5 +53,10 @@ public class HttpURL {
      */
     public static String RoomOnLineNumber = Host + "login/edit/online";
 
+    /**
+     * 房间在线人数
+     */
+    public static String VideoType = Host + "login/get/types";
+
 
 }

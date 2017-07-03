@@ -1,16 +1,18 @@
-package com.jt.base.videoDetails;
+package com.jt.base.activitys;
 
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
     private ViewPager mViewpager;
     private ImageView mIvTwoDBg;
+    private DrawerLayout mDlLayout;
+    private ListView mLvDrawerItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
+        mDlLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer);
+        mLvDrawerItem = (ListView) findViewById(R.id.left_drawer_item);
     }
 
     private void initListenter() {
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
 
@@ -154,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Fragment fragment = new Fragment();
             if (position == 0) {
-                fragment = new VideosFragment();
+                fragment = new VideosFragment(mDlLayout,mLvDrawerItem);
             } else if (position == 1) {
                 fragment = new VideoDetailFragment(panoWidgetView, panoOptions,mIvTwoDBg);
             }

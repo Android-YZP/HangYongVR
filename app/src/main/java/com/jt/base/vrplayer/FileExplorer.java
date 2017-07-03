@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup.LayoutParams;
 
 
-import com.jt.base.videoDetails.MainActivity;
+import com.jt.base.activitys.MainActivity;
 
 import java.io.File;
 import java.util.ArrayList;

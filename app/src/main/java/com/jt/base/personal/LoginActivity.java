@@ -526,7 +526,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 ForgetYzmBean forgetYzmBean = new Gson().fromJson(result, ForgetYzmBean.class);
                 if (forgetYzmBean.getMsg().equals("用户已存在")) {
                     UIUtils.showTip("用户已存在");
-
                 }  else if (forgetYzmBean.getMsg().equals("验证失败!")) {
                     UIUtils.showTip("验证码有误");
                 } else  if (forgetYzmBean.getCode() == HTTP_SUCCESS)  {
