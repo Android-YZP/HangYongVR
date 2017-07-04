@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDlLayout;
     private ListView mLvDrawerItem;
 
+    /**
+     * 在主界面创建数据模型，作为数据传输的中间桥梁
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -59,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 if (position == 1) {
                     panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
                     mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
+                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 } else {
                     panoWidgetView.setVisibility(View.GONE);
                     mIvTwoDBg.setVisibility(View.GONE);
+                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
                 }
             }
 

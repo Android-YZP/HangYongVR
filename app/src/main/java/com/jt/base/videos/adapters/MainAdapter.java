@@ -36,7 +36,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private RecyclerView mRecycler;
     //构造函数
 
-
     public MainAdapter(Context context, SwipyRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler) {
         this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
@@ -123,20 +122,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         super.onScrollStateChanged(recyclerView, newState);
                         //
                         if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {//滑动停止后
-//                            mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
                             mRecyclerfreshLayout.setEnabled(true);
                         } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                             mRecyclerfreshLayout.setEnabled(false);
-//                            //解决滑动到底部的事件冲突
-//                            LinearLayoutManager manager = (LinearLayoutManager) mRecycler.getLayoutManager();
-//                            //获取最后一个完全显示的ItemPosition ,角标值
-//                            int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
-//                            //所有条目,数量值
-//                            int totalItemCount = manager.getItemCount();
-//                            // 判断是否滚动到底部
-//                            if (lastVisibleItem == (totalItemCount - 1)) {
-//
-//                            }
                         }
                     }
                 });
@@ -146,23 +134,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction() ){
                             case MotionEvent.ACTION_DOWN:
-
                                 break;
                             case MotionEvent.ACTION_UP:
                                 break;
                             default:
-
-
                         }
                         return false;
                     }
                 });
-
                 return;
             }
             return;
         } else if (getItemViewType(position) == TYPE_HEADER) {
-
             return;
         } else {
             return;
@@ -172,7 +155,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //在这里面加载ListView中的每个item的布局
     class ListHolder extends RecyclerView.ViewHolder {
         RecyclerView mRvVideoList;
-
         public ListHolder(View itemView) {
             super(itemView);
             //如果是headerview或者是footerview,直接返回
@@ -190,15 +172,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return 3;
+            return 20;
         } else if (mHeaderView == null && mFooterView != null) {
-            return 4;
+            return 20;
         } else if (mHeaderView != null && mFooterView == null) {
-            return 5;
+            return 20;
         } else {
             return 20;
         }
     }
-
 
 }

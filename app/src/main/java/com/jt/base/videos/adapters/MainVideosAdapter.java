@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.jt.base.R;
 import com.jt.base.ui.XCRoundRectImageView;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
 import java.util.List;
 
@@ -92,29 +91,14 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
 
     @Override
     public void onBindViewHolder(ListHolder holder, int position) {
-
-//        if (position == getItemCount() - 1) {
-//            Glide.with(context)
-//                    .load("https://raw.githubusercontent.com/Android-YZP/HelloTrace/master/timg.jpg")
-//                    .asBitmap()
-//                    .into(holder.mivVideoImg);
-//        } else if (position < getItemCount() - 1) {
-//            Glide.with(context)
-//                    .load("http://118.89.246.194:8080/head/ff601521-6c79-4a5f-9389-47ba8f09db28.jpg")
-//                    .asBitmap()
-//                    .into(holder.mivVideoImg);
-//        }
-
         //图片
         if (position < getItemCount() - 2) {
             Glide.with(context)
-                    .load("https://raw.githubusercontent.com/Android-YZP/HelloTrace/master/timg.jpg")
+                    .load("https://raw.githubusercontent.com/Android-YZP/HelloTrace/master/cxzczx.jpg")
                     .asBitmap()
                     .into(holder.mivVideoImg);
         } else if (position == getItemCount() - 1) {//脚布局
-
         }
-
     }
 
     //在这里面加载ListView中的每个item的布局
@@ -131,7 +115,6 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                 return;
             }
             mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
-
         }
     }
 

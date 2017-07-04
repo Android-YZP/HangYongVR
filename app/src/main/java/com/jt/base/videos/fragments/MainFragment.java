@@ -67,7 +67,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mRecycler = (RecyclerView) view.findViewById(R.id.re_main_recycler);
-        mLayoutManager = new LinearLayoutManager(getActivity()){
+        mLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
@@ -83,7 +83,7 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initRecycleView();
         initListener();
-        initDrawer();
+        initDatas();
     }
 
     private void initListener() {
@@ -103,10 +103,11 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * 初始化侧边栏
+     * 初始化数据
      */
-    private void initDrawer() {
+    private void initDatas() {
         HttpVideoType();
+
     }
 
     /**
@@ -126,9 +127,11 @@ public class MainFragment extends Fragment {
             public void onSuccess(String result) {
                 LogUtil.i(result);
                 VideoTypeBean videoTypeBean = new Gson().fromJson(result, VideoTypeBean.class);
-                if (videoTypeBean.getCode()==HTTP_SUCCESS){//获取数据成功
+                if (videoTypeBean.getCode() == HTTP_SUCCESS) {//获取数据成功
                     List<VideoTypeBean.ResultBean> mDatas = videoTypeBean.getResult();
-                    mLvDrawerItem.setAdapter(new DrawerAdapter(mDatas,getContext()));
+                    mLvDrawerItem.setAdapter(new DrawerAdapter(mDatas, getContext()));
+                    if (mDatas.size() > 0)
+                        HttpGetVideoTopic(mDatas.get(0).getId() + "");
                 }
             }
 
@@ -139,97 +142,122 @@ public class MainFragment extends Fragment {
     }
 
 
+    /**
+     * 请求话题列表
+     */
+    private void HttpGetVideoTopic(String id) {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.GetVideoTopic);
+        requestParams.addHeader("token", HttpURL.Token);
+        requestParams.addBodyParameter("id", id);
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+            }
+        });
+    }
 
 
     /**
      * 设置头布局
      */
     private void setHeaderView(RecyclerView view) {
-        View header = LayoutInflater.from(getActivity()).inflate(R.layout.my_head_view, view, false);
-        mHeadPicRecycler = (LoopRecyclerViewPager) header.findViewById(R.id.lrvp_viewpager);
-        LinearLayoutManager layout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mHeadPicRecycler.setLayoutManager(layout);
-        mHeadPicRecycler.setAdapter(new MainPicListAdapter(getActivity()));
-        mHeadPicRecycler.setHasFixedSize(true);
-        mHeadPicRecycler.setLongClickable(true);
+//        View header = LayoutInflater.from(getActivity()).inflate(R.layout.my_head_view, view, false);
+//        mHeadPicRecycler = (LoopRecyclerViewPager) header.findViewById(R.id.lrvp_viewpager);
+//        LinearLayoutManager layout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+//        mHeadPicRecycler.setLayoutManager(layout);
+//        mHeadPicRecycler.setAdapter(new MainPicListAdapter(getActivity()));
+//        mHeadPicRecycler.setHasFixedSize(true);
+//        mHeadPicRecycler.setLongClickable(true);
+//
+//        mHeadPicRecycler.setTriggerOffset(0.15f);
+//        mHeadPicRecycler.setFlingFactor(0.25f);
+//        mHeadPicRecycler.addItemDecoration(new SpacesItemDecoration(0, mHeadPicRecycler.getAdapter().getItemCount()));
+//        //修复滑动事件的冲突
+//        mHeadPicRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                //
+//                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {//滑动停止后
+//                    mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
+//                } else {
+//                    mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
+//                }
+//            }
+//        });
+//        //设置动画效果
+//        mHeadPicRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+//                //                mPositionText.setText("First: " + mRecyclerViewPager.getFirstVisiblePosition());
+//                int childCount = mHeadPicRecycler.getChildCount();
+//                int width = mHeadPicRecycler.getChildAt(0).getWidth();
+//                int padding = (mHeadPicRecycler.getWidth() - width) / 2;
+//
+//                for (int j = 0; j < childCount; j++) {
+//                    View v = recyclerView.getChildAt(j);
+//                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+//                    float rate = 0;
+//                    if (v.getLeft() <= padding) {
+//                        if (v.getLeft() >= padding - v.getWidth()) {
+//                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+//                        } else {
+//                            rate = 1;
+//                        }
+//                        v.setScaleY(1 - rate * 0.1f);
+//                    } else {
+//                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+//                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
+//                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+//                        }
+//                        v.setScaleY(0.9f + rate * 0.1f);
+//                    }
+//                }
+//            }
+//        });
+//
+//        mHeadPicRecycler.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//            @Override
+//            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                if (mHeadPicRecycler.getChildCount() < 3) {
+//                    if (mHeadPicRecycler.getChildAt(1) != null) {
+//                        View v1 = mHeadPicRecycler.getChildAt(1);
+//                        v1.setScaleY(0.9f);
+//                    }
+//                } else {
+//                    if (mHeadPicRecycler.getChildAt(0) != null) {
+//                        View v0 = mHeadPicRecycler.getChildAt(0);
+//                        v0.setScaleY(0.9f);
+//                    }
+//                    if (mHeadPicRecycler.getChildAt(2) != null) {
+//                        View v2 = mHeadPicRecycler.getChildAt(2);
+//                        v2.setScaleY(0.9f);
+//                    }
+//                }
+//
+//            }
+//        });
 
-        mHeadPicRecycler.setTriggerOffset(0.15f);
-        mHeadPicRecycler.setFlingFactor(0.25f);
-        mHeadPicRecycler.addItemDecoration(new SpacesItemDecoration(0, mHeadPicRecycler.getAdapter().getItemCount()));
-        //修复滑动事件的冲突
-        mHeadPicRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                //
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {//滑动停止后
-                    mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
-                } else {
-                    mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
-                }
-            }
-        });
-        //设置动画效果
-        mHeadPicRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                //                mPositionText.setText("First: " + mRecyclerViewPager.getFirstVisiblePosition());
-                int childCount = mHeadPicRecycler.getChildCount();
-                int width = mHeadPicRecycler.getChildAt(0).getWidth();
-                int padding = (mHeadPicRecycler.getWidth() - width) / 2;
-
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
-                        }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                    }
-                }
-            }
-        });
-
-        mHeadPicRecycler.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (mHeadPicRecycler.getChildCount() < 3) {
-                    if (mHeadPicRecycler.getChildAt(1) != null) {
-                        View v1 = mHeadPicRecycler.getChildAt(1);
-                        v1.setScaleY(0.9f);
-                    }
-                } else {
-                    if (mHeadPicRecycler.getChildAt(0) != null) {
-                        View v0 = mHeadPicRecycler.getChildAt(0);
-                        v0.setScaleY(0.9f);
-                    }
-                    if (mHeadPicRecycler.getChildAt(2) != null) {
-                        View v2 = mHeadPicRecycler.getChildAt(2);
-                        v2.setScaleY(0.9f);
-                    }
-                }
-
-            }
-        });
-
-        TextView EmptyView = new TextView(getActivity());//修复下拉刷新不能出来的BUG
-        mMainAdapter.setHeaderView(EmptyView);//影藏轮播图
-        mMainAdapter.setFooterView(EmptyView);
+//        TextView EmptyView = new TextView(getActivity());//修复下拉刷新不能出来的BUG
+//        EmptyView.setVisibility(View.GONE);
+//        mMainAdapter.setHeaderView(EmptyView);//影藏轮播图
+//        mMainAdapter.setFooterView(EmptyView);
 
     }
 }

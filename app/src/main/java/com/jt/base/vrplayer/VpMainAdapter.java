@@ -29,7 +29,6 @@ public class VpMainAdapter extends FragmentPagerAdapter {
         this.mLvDrawerItem = mLvDrawerItem;
     }
 
-
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;
@@ -37,7 +36,6 @@ public class VpMainAdapter extends FragmentPagerAdapter {
             return new SearchFragment();
         } else if (position == 1) {
             return new MainFragment(mLvDrawerItem,  mDlLayout);
-//            return new MainFragment();
         } else if (position == 2) {
             return new MyFragment();
         }

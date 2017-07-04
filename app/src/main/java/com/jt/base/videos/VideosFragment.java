@@ -36,13 +36,11 @@ public class VideosFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_videos, container, false);
         initView(view);
         setNavigationBar();
@@ -53,13 +51,32 @@ public class VideosFragment extends Fragment {
         mVpMain = (ViewPager) view.findViewById(R.id.vp_main);
         mBottomBar = (BottomBar) view.findViewById(R.id.main_bottom_bar);
         mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager(),mLvDrawerItem,mDlLayout));
-//        mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager()));
         mVpMain.setCurrentItem(1, false);
     }
 
 
     private void setNavigationBar() {
         mBottomBar.init(mVpMain);//初始化
+        mVpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == 1) {
+                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                } else {
+                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 }
