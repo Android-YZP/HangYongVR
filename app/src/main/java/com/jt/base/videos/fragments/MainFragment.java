@@ -109,10 +109,6 @@ public class MainFragment extends Fragment {
         HttpVideoType();
     }
 
-
-
-
-
     /**
      * 请求侧边栏列表
      */

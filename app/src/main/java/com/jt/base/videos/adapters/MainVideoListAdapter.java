@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jt.base.R;
@@ -37,22 +38,29 @@ public class MainVideoListAdapter extends RecyclerView.Adapter<MainVideoListAdap
 
     @Override
     public void onBindViewHolder(MainReViewHolder holder, final int position) {
-        Glide.with(context)
-                .load("http://118.89.246.194:8080/head/ff601521-6c79-4a5f-9389-47ba8f09db28.jpg")
-                .asBitmap()
-                .into(holder.mivVideoImg);
+
+        if (position == 10){
+            Glide.with(context)
+                    .load("https://raw.githubusercontent.com/Android-YZP/HelloTrace/master/timg.jpg")
+                    .asBitmap()
+                    .into(holder.mivVideoImg);
+        }else {
+            Glide.with(context)
+                    .load("http://118.89.246.194:8080/head/ff601521-6c79-4a5f-9389-47ba8f09db28.jpg")
+                    .asBitmap()
+                    .into(holder.mivVideoImg);
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 11;
     }
 
 
     public class MainReViewHolder extends RecyclerView.ViewHolder {
         private XCRoundRectImageView mivVideoImg;
-
 
         public MainReViewHolder(View itemView) {
             super(itemView);

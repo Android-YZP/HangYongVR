@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -108,9 +109,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 };
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                ((ListHolder) holder).mRvVideoList.setAdapter(new MainVideoListAdapter(context, ((ListHolder) holder).mRvVideoList));
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, ((ListHolder) holder).mRvVideoList);
+                ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                TextView textView = new TextView(context);
+                textView.setText("更多+MORE");
+                mainVideosAdapter.setFooterView(textView);
 
                 //修复滑动事件的冲突
                 ((ListHolder) holder).mRvVideoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -119,22 +123,38 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         super.onScrollStateChanged(recyclerView, newState);
                         //
                         if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {//滑动停止后
-                            mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
+//                            mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
+                            mRecyclerfreshLayout.setEnabled(true);
                         } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-
-                            //解决滑动到底部的事件冲突
-                            LinearLayoutManager manager = (LinearLayoutManager) mRecycler.getLayoutManager();
-                            //获取最后一个完全显示的ItemPosition ,角标值
-                            int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
-                            //所有条目,数量值
-                            int totalItemCount = manager.getItemCount();
-                            // 判断是否滚动到底部
-                            if (lastVisibleItem == (totalItemCount - 1)) {
-                                mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
-                            } else {
-                                mRecyclerfreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
-                            }
+                            mRecyclerfreshLayout.setEnabled(false);
+//                            //解决滑动到底部的事件冲突
+//                            LinearLayoutManager manager = (LinearLayoutManager) mRecycler.getLayoutManager();
+//                            //获取最后一个完全显示的ItemPosition ,角标值
+//                            int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+//                            //所有条目,数量值
+//                            int totalItemCount = manager.getItemCount();
+//                            // 判断是否滚动到底部
+//                            if (lastVisibleItem == (totalItemCount - 1)) {
+//
+//                            }
                         }
+                    }
+                });
+
+                ((ListHolder) holder).mRvVideoList.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction() ){
+                            case MotionEvent.ACTION_DOWN:
+
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                break;
+                            default:
+
+
+                        }
+                        return false;
                     }
                 });
 
@@ -176,7 +196,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (mHeaderView != null && mFooterView == null) {
             return 5;
         } else {
-            return 5;
+            return 20;
         }
     }
 
