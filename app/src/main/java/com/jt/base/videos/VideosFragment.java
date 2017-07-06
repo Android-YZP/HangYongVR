@@ -1,5 +1,6 @@
 package com.jt.base.videos;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -16,20 +17,19 @@ import com.jt.base.R;
 import com.jt.base.videos.ui.BottomBar;
 import com.jt.base.vrplayer.VpMainAdapter;
 
-
+@SuppressLint("ValidFragment")
 public class VideosFragment extends Fragment {
 
     private ViewPager mVpMain;
     private BottomBar mBottomBar;
     private DrawerLayout mDlLayout;
     private ListView mLvDrawerItem;
+    private ViewPager mViewpager;
 
-    public VideosFragment() {
-    }
-
-    public VideosFragment(DrawerLayout mDlLayout, ListView mLvDrawerItem) {
+    public VideosFragment(DrawerLayout mDlLayout, ListView mLvDrawerItem, ViewPager mViewpager) {
         this.mDlLayout = mDlLayout;
         this.mLvDrawerItem = mLvDrawerItem;
+        this.mViewpager = mViewpager;
     }
 
 
@@ -50,7 +50,7 @@ public class VideosFragment extends Fragment {
     private void initView(View view) {
         mVpMain = (ViewPager) view.findViewById(R.id.vp_main);
         mBottomBar = (BottomBar) view.findViewById(R.id.main_bottom_bar);
-        mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager(),mLvDrawerItem,mDlLayout));
+        mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager(), mLvDrawerItem, mDlLayout,mViewpager));
         mVpMain.setCurrentItem(1, false);
     }
 

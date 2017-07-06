@@ -1,6 +1,8 @@
 package com.jt.base.videos.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.jt.base.R;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.videos.define.Definition;
 
 import java.util.List;
 
@@ -20,7 +23,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     public static final int TYPE_HEADER = 0;  //说明是带有Header的
     public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
     public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
-
+    private static final String ACTION = "com.jt.base.SENDBROADCAST";
     //获取从Activity中传递过来每个item的数据集合
     private List<String> mDatas;
     //HeaderView, FooterView
@@ -28,12 +31,14 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     private View mFooterView;
     private Context context;
     private RecyclerView mRecycler;
+    private ViewPager mViewpager;
     //构造函数
 
 
-    public MainVideosAdapter(Context context, RecyclerView mRecycler) {
+    public MainVideosAdapter(Context context, RecyclerView mRecycler, ViewPager mViewpager) {
         this.context = context;
         this.mRecycler = mRecycler;
+        this.mViewpager = mViewpager;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -97,8 +102,26 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                     .load("https://raw.githubusercontent.com/Android-YZP/HelloTrace/master/cxzczx.jpg")
                     .asBitmap()
                     .into(holder.mivVideoImg);
+
+
+            holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ACTION);
+                    intent.putExtra(Definition.TYPE, Definition.VideoType);
+                    intent.putExtra(Definition.POSITION, 0);
+                    context.sendBroadcast(intent);
+                    mViewpager.setCurrentItem(1,true);
+                }
+            });
+
         } else if (position == getItemCount() - 1) {//脚布局
+
+
         }
+
+
+
     }
 
     //在这里面加载ListView中的每个item的布局

@@ -88,6 +88,8 @@
         </provider>
 
         <activity android:name=".personal.ForgetActivity" />
+
+
     </application>
 
 </manifest>

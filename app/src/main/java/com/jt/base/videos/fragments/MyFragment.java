@@ -1,5 +1,6 @@
 package com.jt.base.videos.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import com.jt.base.personal.PersonalActivity;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 
-
+@SuppressLint("ValidFragment")
 public class MyFragment extends Fragment {
 
 

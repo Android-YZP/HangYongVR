@@ -1,15 +1,21 @@
 package com.jt.base.videos.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,44 +23,44 @@ import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.RegisterBean;
 import com.jt.base.http.responsebean.VideoTypeBean;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.adapters.DrawerAdapter;
 import com.jt.base.videos.adapters.MainAdapter;
-import com.jt.base.videos.adapters.MainPicListAdapter;
-import com.jt.base.videos.adapters.SpacesItemDecoration;
-import com.lsjwzh.widget.recyclerviewpager.LoopRecyclerViewPager;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+import com.jt.base.videos.define.Definition;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-
-//rtmp://9250.liveplay.myqcloud.com/live/9250_0601HK
+@SuppressLint("ValidFragment")
 public class MainFragment extends Fragment {
 
     private static final int HTTP_SUCCESS = 0;
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecycler;
     private MainAdapter mMainAdapter;
-    private SwipyRefreshLayout mRecyclerfreshLayout;
-    private LoopRecyclerViewPager mHeadPicRecycler;
+    private SwipeRefreshLayout mRecyclerfreshLayout;
     private DrawerLayout mDlLayout;
     private ListView mLvDrawerItem;
+    private HashMap<Integer, Boolean> mItemPress = new HashMap<>();
+    private DrawerAdapter mDrawerAdapter;
+    private int mPressPostion = 0;
+    private ImageButton mIbMenu;
+    private TextView mMainTitle;
+    private ViewPager mViewpager;
 
     public MainFragment() {
     }
 
-    public MainFragment(ListView mLvDrawerItem, DrawerLayout mDlLayout) {
+    public MainFragment(ListView mLvDrawerItem, DrawerLayout mDlLayout, ViewPager mViewpager) {
         this.mDlLayout = mDlLayout;
         this.mLvDrawerItem = mLvDrawerItem;
+        this.mViewpager = mViewpager;
     }
 
     @Override
@@ -74,7 +80,9 @@ public class MainFragment extends Fragment {
             }
         };
         mRecycler.setLayoutManager(mLayoutManager);
-        mRecyclerfreshLayout = (SwipyRefreshLayout) view.findViewById(R.id.srl_main_swipe_refresh);
+        mRecyclerfreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_main_swipe_refresh);
+        mIbMenu = (ImageButton) view.findViewById(R.id.ib_menu);
+        mMainTitle = (TextView) view.findViewById(R.id.tv_main_title);
         return view;
     }
 
@@ -84,30 +92,66 @@ public class MainFragment extends Fragment {
         initRecycleView();
         initListener();
         initDatas();
+
+
     }
 
     private void initListener() {
-        mRecyclerfreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+        mRecyclerfreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                LogUtil.i(direction + "");
+            public void onRefresh() {
                 mRecyclerfreshLayout.setRefreshing(false);
             }
         });
+
+        //侧边栏点击事件
+        mLvDrawerItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position != mPressPostion) mItemPress.put(mPressPostion, true);
+                mPressPostion = position;
+                //按下状态
+                mItemPress.put(position, false);
+                mDrawerAdapter.notifyDataSetChanged();
+                TextView tvTitle = (TextView) view.findViewById(R.id.tv_drawer_item_title);
+                mMainTitle.setText(tvTitle.getText());
+                mDlLayout.closeDrawer(GravityCompat.START, true);
+            }
+        });
+
+        mIbMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDlLayout.openDrawer(GravityCompat.START, true);
+            }
+        });
+
     }
 
     private void initRecycleView() {
-        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler);
+        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler,mViewpager);
         mRecycler.setAdapter(mMainAdapter);
         setHeaderView(mRecycler);
+        mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                boolean visBottom = UIUtils.isVisBottom(mRecycler);
+                if (visBottom) {
+                    UIUtils.showTip("到底部了,开始加载数据");
+                }
+            }
+        });
+
     }
 
     /**
      * 初始化数据
      */
     private void initDatas() {
-        HttpVideoType();
 
+
+        HttpVideoType();
     }
 
     /**
@@ -129,7 +173,13 @@ public class MainFragment extends Fragment {
                 VideoTypeBean videoTypeBean = new Gson().fromJson(result, VideoTypeBean.class);
                 if (videoTypeBean.getCode() == HTTP_SUCCESS) {//获取数据成功
                     List<VideoTypeBean.ResultBean> mDatas = videoTypeBean.getResult();
-                    mLvDrawerItem.setAdapter(new DrawerAdapter(mDatas, getContext()));
+                    //初始化HashMap数据
+                    mItemPress.clear();
+                    for (int i = 0; i < mDatas.size(); i++) {
+                        mItemPress.put(i, true);
+                    }
+                    mDrawerAdapter = new DrawerAdapter(mDatas, getContext(), mItemPress);
+                    mLvDrawerItem.setAdapter(mDrawerAdapter);
                     if (mDatas.size() > 0)
                         HttpGetVideoTopic(mDatas.get(0).getId() + "");
                 }
@@ -260,4 +310,7 @@ public class MainFragment extends Fragment {
 //        mMainAdapter.setFooterView(EmptyView);
 
     }
+
+
+
 }

@@ -3,6 +3,7 @@ package com.jt.base.vrplayer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 
@@ -18,15 +19,17 @@ import com.jt.base.videos.fragments.SearchFragment;
 public class VpMainAdapter extends FragmentPagerAdapter {
     private DrawerLayout mDlLayout;
     private ListView mLvDrawerItem;
-
-    public VpMainAdapter(FragmentManager fm) {
-        super(fm);
-    }
+    private ViewPager mViewpager;
 
     public VpMainAdapter(FragmentManager fm, ListView mLvDrawerItem, DrawerLayout mDlLayout) {
         super(fm);
+    }
+
+    public VpMainAdapter(FragmentManager fm, ListView mLvDrawerItem, DrawerLayout mDlLayout, ViewPager mViewpager) {
+        super(fm);
         this.mDlLayout = mDlLayout;
         this.mLvDrawerItem = mLvDrawerItem;
+        this.mViewpager = mViewpager;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class VpMainAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return new SearchFragment();
         } else if (position == 1) {
-            return new MainFragment(mLvDrawerItem,  mDlLayout);
+            return new MainFragment(mLvDrawerItem,  mDlLayout,mViewpager);
         } else if (position == 2) {
             return new MyFragment();
         }

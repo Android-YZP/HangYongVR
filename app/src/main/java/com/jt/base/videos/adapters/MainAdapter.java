@@ -1,6 +1,8 @@
 package com.jt.base.videos.adapters;
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import com.jt.base.R;
 import com.jt.base.utils.UIUtils;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+
+import org.xutils.common.util.LogUtil;
 
 import java.util.List;
 
@@ -32,14 +36,16 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private View mHeaderView;
     private View mFooterView;
     private Context context;
-    private SwipyRefreshLayout mRecyclerfreshLayout;
+    private SwipeRefreshLayout mRecyclerfreshLayout;
     private RecyclerView mRecycler;
+    private ViewPager mViewpager;
     //构造函数
 
-    public MainAdapter(Context context, SwipyRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler) {
+    public MainAdapter(Context context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager) {
         this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
         this.mRecycler = mRecycler;
+        this.mViewpager = mViewpager;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -97,7 +103,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //绑定View，这里是根据返回的这个position的类型，从而进行绑定的，   HeaderView和FooterView, 就不同绑定了
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
@@ -109,7 +115,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 };
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, ((ListHolder) holder).mRvVideoList);
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, ((ListHolder) holder).mRvVideoList,mViewpager);
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 TextView textView = new TextView(context);
                 textView.setText("更多+MORE");
@@ -120,7 +126,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     @Override
                     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                         super.onScrollStateChanged(recyclerView, newState);
-                        //
+
+
                         if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {//滑动停止后
                             mRecyclerfreshLayout.setEnabled(true);
                         } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
@@ -181,5 +188,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return 20;
         }
     }
+
+
+
 
 }

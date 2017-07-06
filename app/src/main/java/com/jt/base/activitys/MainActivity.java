@@ -57,31 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListenter() {
-        mViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == 1) {
-                    panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
-                    mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
-                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                } else {
-                    panoWidgetView.setVisibility(View.GONE);
-                    mIvTwoDBg.setVisibility(View.GONE);
-                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
-                }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
     }
 
@@ -168,9 +144,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Fragment fragment = new Fragment();
             if (position == 0) {
-                fragment = new VideosFragment(mDlLayout,mLvDrawerItem);
+                fragment = new VideosFragment(mDlLayout,mLvDrawerItem,mViewpager);
             } else if (position == 1) {
-                fragment = new VideoDetailFragment(panoWidgetView, panoOptions,mIvTwoDBg);
+                fragment = new VideoDetailFragment(panoWidgetView, panoOptions,mIvTwoDBg,mViewpager,mDlLayout);
             }
             return fragment;
         }

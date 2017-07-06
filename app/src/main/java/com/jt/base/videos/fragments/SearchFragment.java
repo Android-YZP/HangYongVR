@@ -1,5 +1,6 @@
 package com.jt.base.videos.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.jt.base.R;
 
-
+@SuppressLint("ValidFragment")
 public class SearchFragment extends Fragment {
 
     @Override
