@@ -115,10 +115,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 };
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, ((ListHolder) holder).mRvVideoList,mViewpager);
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, ((ListHolder) holder).mRvVideoList, mViewpager);
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 TextView textView = new TextView(context);
-                textView.setText("更多+MORE");
+                textView.setBackground(UIUtils.getDrawable(R.drawable.main_video_list_more));
+                textView.setPadding(30   , 0, 0, 0);
                 mainVideosAdapter.setFooterView(textView);
 
                 //修复滑动事件的冲突
@@ -139,7 +140,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mRvVideoList.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        switch (event.getAction() ){
+                        switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 break;
                             case MotionEvent.ACTION_UP:
@@ -162,6 +163,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //在这里面加载ListView中的每个item的布局
     class ListHolder extends RecyclerView.ViewHolder {
         RecyclerView mRvVideoList;
+
         public ListHolder(View itemView) {
             super(itemView);
             //如果是headerview或者是footerview,直接返回
@@ -188,8 +190,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return 20;
         }
     }
-
-
 
 
 }

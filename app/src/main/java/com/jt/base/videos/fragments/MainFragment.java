@@ -92,8 +92,6 @@ public class MainFragment extends Fragment {
         initRecycleView();
         initListener();
         initDatas();
-
-
     }
 
     private void initListener() {
@@ -149,8 +147,6 @@ public class MainFragment extends Fragment {
      * 初始化数据
      */
     private void initDatas() {
-
-
         HttpVideoType();
     }
 
@@ -204,6 +200,7 @@ public class MainFragment extends Fragment {
         RequestParams requestParams = new RequestParams(HttpURL.GetVideoTopic);
         requestParams.addHeader("token", HttpURL.Token);
         requestParams.addBodyParameter("id", id);
+        requestParams.addBodyParameter("sourceNumber","1" );
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
