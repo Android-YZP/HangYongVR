@@ -95,7 +95,7 @@
         </provider>
 
         <activity android:name=".personal.ForgetActivity" />
-        <activity android:name=".videos.VedioDeatilsActivity"></activity>
+        <activity android:name=".videos.activitys.VedioDeatilsActivity"></activity>
     </application>
 
 </manifest>

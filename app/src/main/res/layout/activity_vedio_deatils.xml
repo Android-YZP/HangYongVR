@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jt.base.videos.VedioDeatilsActivity">
+    tools:context="com.jt.base.videos.activitys.VedioDeatilsActivity">
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/pano_view_main"
@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        />
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:id="@+id/iv_detial_bg"
@@ -26,6 +25,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="#fff"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <ImageView
@@ -51,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
+        android:visibility="gone"
         app:srl_direction="both">
 
         <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
@@ -62,4 +63,12 @@
             app:rvp_triggerOffset="0.2" />
 
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+    <ImageButton
+        android:id="@+id/ib_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@null"
+        android:src="@drawable/play_start" />
 </RelativeLayout>

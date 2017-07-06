@@ -73,6 +73,7 @@ public class VideoDetailFragment extends Fragment {
     private Handler handler = new Handler();
     private int mCurrentPosition = 0;//判断这个界面的第一屏应该展示哪一个界面,默认第一页
     boolean isScroll = true;//是不是手指滑动过来的
+
     public VideoDetailFragment() {
     }
 
@@ -172,6 +173,7 @@ public class VideoDetailFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -212,35 +214,35 @@ public class VideoDetailFragment extends Fragment {
                 }
             }
         });
-
-        mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == 1) {
-                    if (isScroll){
-                        panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
-                        mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
+        if (mViewpager != null)
+            mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    if (position == 1) {
+                        if (isScroll) {
+                            panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
+                            mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
+                        }
+                        mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                    } else {
+                        panoWidgetView.setVisibility(View.GONE);
+                        mIvTwoDBg.setVisibility(View.GONE);
+                        mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     }
-                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                } else {
-                    panoWidgetView.setVisibility(View.GONE);
-                    mIvTwoDBg.setVisibility(View.GONE);
-                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 }
-            }
 
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0){
-                    isScroll = true;
+                @Override
+                public void onPageSelected(int position) {
+                    if (position == 0) {
+                        isScroll = true;
+                    }
                 }
-            }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+                @Override
+                public void onPageScrollStateChanged(int state) {
 
-            }
-        });
+                }
+            });
     }
 
     /**
@@ -312,9 +314,9 @@ public class VideoDetailFragment extends Fragment {
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIUtils.showTip("服务端连接失败");
                 mIvDetialErrorBg.setVisibility(View.VISIBLE);
-                panoWidgetView.setVisibility(View.GONE);
+                if (panoWidgetView != null) panoWidgetView.setVisibility(View.GONE);
                 mRvVideoDetaillist.setVisibility(View.VISIBLE);
-                mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                if (mIvTwoDBg != null) mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
                 if (mRoomLists != null) {
                     mRoomLists.clear();
                     mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片

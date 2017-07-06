@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -575,6 +576,7 @@ public class PlayActivity extends Activity {
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIUtils.showTip("服务端连接失败");
             }
+
             @Override
             public void onFinished() {
                 super.onFinished();
@@ -592,24 +594,25 @@ public class PlayActivity extends Activity {
         String UserName = getIntent().getStringExtra(Definition.KEY_PLAY_USERNAME);
         mRoomId = getIntent().getStringExtra(Definition.KEY_PLAY_ID);
         ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
-        x.image().bind(ivHead, HeadImg, imageOptions, new Callback.CommonCallback<Drawable>() {
-            @Override
-            public void onSuccess(Drawable result) {
-            }
+        if (!TextUtils.isEmpty(HeadImg))
+            x.image().bind(ivHead, HeadImg, imageOptions, new Callback.CommonCallback<Drawable>() {
+                @Override
+                public void onSuccess(Drawable result) {
+                }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("头像加载失败");
-            }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("头像加载失败");
+                }
 
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
+                @Override
+                public void onCancelled(CancelledException cex) {
+                }
 
-            @Override
-            public void onFinished() {
-            }
-        });
+                @Override
+                public void onFinished() {
+                }
+            });
         tvUserName.setText(UserName);
 
         //获取在线人数

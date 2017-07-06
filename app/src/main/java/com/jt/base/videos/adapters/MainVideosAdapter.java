@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.jt.base.R;
 import com.jt.base.ui.XCRoundRectImageView;
-import com.jt.base.videos.VedioDeatilsActivity;
-import com.jt.base.videos.define.Definition;
+import com.jt.base.utils.JiaUtils;
+import com.jt.base.videoDetails.VedioContants;
+import com.jt.base.videos.activitys.VedioDeatilsActivity;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,15 +33,15 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     private View mHeaderView;
     private View mFooterView;
     private Context context;
-    private RecyclerView mRecycler;
     private ViewPager mViewpager;
+    private int position;
     //构造函数
 
 
-    public MainVideosAdapter(Context context, RecyclerView mRecycler, ViewPager mViewpager) {
+    public MainVideosAdapter(Context context, ViewPager mViewpager, int position) {
         this.context = context;
-        this.mRecycler = mRecycler;
         this.mViewpager = mViewpager;
+        this.position = position;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -96,11 +98,15 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     }
 
     @Override
-    public void onBindViewHolder(ListHolder holder, int position) {
+    public void onBindViewHolder(ListHolder holder, final int position) {
+        //获取竖直条目的数据
+        HashMap<Integer, List<Integer>> Datas = JiaUtils.getJSJ();
+        final List<Integer> integers = Datas.get(this.position);
+
         //图片
-        if (position < getItemCount() - 2) {
+        if (position < getItemCount() - 1) {
             Glide.with(context)
-                    .load("https://raw.githubusercontent.com/Android-YZP/HelloTrace/master/cxzczx.jpg")
+                    .load(integers.get(position))
                     .asBitmap()
                     .into(holder.mivVideoImg);
 
@@ -108,20 +114,18 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, VedioDeatilsActivity.class);
+                    //单数点击全景，双数点击2D
+                    if (position % 2 == 0) {
+                        intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+                    } else {
+                        intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                    }
                     context.startActivity(intent);
                 }
             });
-
-
-
-
         } else if (position == getItemCount() - 1) {//脚布局
 
-
         }
-
-
-
     }
 
     //在这里面加载ListView中的每个item的布局
@@ -146,13 +150,13 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return 20;
+            return 5;
         } else if (mHeaderView == null && mFooterView != null) {
-            return 20;
+            return 6;
         } else if (mHeaderView != null && mFooterView == null) {
-            return 20;
+            return 6;
         } else {
-            return 20;
+            return 7;
         }
     }
 

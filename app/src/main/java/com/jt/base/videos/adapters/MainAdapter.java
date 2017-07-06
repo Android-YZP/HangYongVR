@@ -13,6 +13,7 @@ import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.jt.base.R;
+import com.jt.base.utils.JiaUtils;
 import com.jt.base.utils.UIUtils;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -115,20 +116,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 };
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, ((ListHolder) holder).mRvVideoList, mViewpager);
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, position);
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
-                TextView textView = new TextView(context);
-                textView.setBackground(UIUtils.getDrawable(R.drawable.main_video_list_more));
-                textView.setPadding(30   , 0, 0, 0);
-                mainVideosAdapter.setFooterView(textView);
+                ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
+                View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
+                TextView tvMore = (TextView) v.findViewById(R.id.tv_main_more);
+                mainVideosAdapter.setFooterView(v);
 
                 //修复滑动事件的冲突
                 ((ListHolder) holder).mRvVideoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                         super.onScrollStateChanged(recyclerView, newState);
-
-
                         if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {//滑动停止后
                             mRecyclerfreshLayout.setEnabled(true);
                         } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
@@ -181,13 +180,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return 20;
+            return JiaUtils.getJSJ().size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return 20;
+            return JiaUtils.getJSJ().size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return 20;
+            return JiaUtils.getJSJ().size() + 1;
         } else {
-            return 20;
+            return JiaUtils.getJSJ().size() + 2;
         }
     }
 

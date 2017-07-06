@@ -19,7 +19,7 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.fragments.VideoDetailFragment;
-import com.jt.base.videos.VideosFragment;
+import com.jt.base.videos.fragments.VideosFragment;
 
 public class MainActivity extends AppCompatActivity {
 

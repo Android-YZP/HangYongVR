@@ -1,11 +1,16 @@
-package com.jt.base.videos;
+package com.jt.base.videos.activitys;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -13,26 +18,58 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.videoDetails.VedioContants;
+import com.jt.base.vrplayer.PlayActivity;
 
-public class VedioDeatilsActivity extends AppCompatActivity {
+public class VedioDeatilsActivity extends AppCompatActivity implements View.OnClickListener {
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
     private ImageView mIvTwoDBg;
+    private ImageButton mIbPlay;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         setContentView(R.layout.activity_vedio_deatils);
         initView();
+        initListener();
         initPanorama();
+        initMode();
+
+    }
+
+    private void initListener() {
+        mIbPlay.setOnClickListener(this);
     }
 
     private void initView() {
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
+        mIbPlay = (ImageButton) findViewById(R.id.ib_play);
     }
 
+
+    //初始化播放器模式
+    private void initMode() {
+        int vedioode = getIntent().getIntExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, 4);
+        if (vedioode == VedioContants.TWO_D_VEDIO) {//2D
+            mIvTwoDBg.setImageDrawable(UIUtils.getDrawable(R.drawable.a000));
+            intent = new Intent(VedioDeatilsActivity.this, PlayActivity.class);
+            intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+            intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, "http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/75cb47a59031868222953432256/f0.f40.mp4 ");
+        } else if (vedioode == VedioContants.ALL_VIEW_VEDIO) {//全景
+            getPanorama(R.drawable.a001);
+            intent = new Intent(VedioDeatilsActivity.this, PlayActivity.class);
+            intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+            intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, "http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/3ac4951a9031868222959099874/f0.f47.mp4 ");
+        }
+    }
 
     /**
      * 初始化全景图播放器
@@ -53,7 +90,7 @@ public class VedioDeatilsActivity extends AppCompatActivity {
     /**
      * 初始化全景图播放器
      */
-    private void getPanorama(final String url) {
+    private void getPanorama(int url) {
         //加载背景图片
         Glide.with(VedioDeatilsActivity.this)
                 .load(url)
@@ -67,6 +104,29 @@ public class VedioDeatilsActivity extends AppCompatActivity {
                 });
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ib_play:
+                startActivity(intent);
+//                Intent intent = new Intent(VedioDeatilsActivity.this, VedioDeatilsActivity.class);
+//                //单数点击全景，双数点击2D
+//                if (position % 2 == 0) {
+//                    intent.putExtra(Definition.TYPE, 1);
+//                } else {
+//                    intent.putExtra(Definition.TYPE, 2);
+//                }
+//                context.startActivity(intent);
+
+
+                UIUtils.showTip("进入播放器");
+                break;
+            default:
+                break;
+        }
+
+    }
 
     @Override
     protected void onPause() {
@@ -99,7 +159,6 @@ public class VedioDeatilsActivity extends AppCompatActivity {
         public void onLoadSuccess() {
             loadImageSuccessful = true;
             Log.e("dflefseofjsdopfj", "Could not decode default bitmap: 2");
-            panoWidgetView.setVisibility(View.VISIBLE);
         }
 
         /**

@@ -1,4 +1,4 @@
-package com.jt.base.videos;
+package com.jt.base.videos.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -26,6 +26,9 @@ public class VideosFragment extends Fragment {
     private ListView mLvDrawerItem;
     private ViewPager mViewpager;
 
+    public VideosFragment() {
+    }
+
     public VideosFragment(DrawerLayout mDlLayout, ListView mLvDrawerItem, ViewPager mViewpager) {
         this.mDlLayout = mDlLayout;
         this.mLvDrawerItem = mLvDrawerItem;
@@ -50,33 +53,35 @@ public class VideosFragment extends Fragment {
     private void initView(View view) {
         mVpMain = (ViewPager) view.findViewById(R.id.vp_main);
         mBottomBar = (BottomBar) view.findViewById(R.id.main_bottom_bar);
-        mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager(), mLvDrawerItem, mDlLayout,mViewpager));
+        mVpMain.setAdapter(new VpMainAdapter(getActivity().getSupportFragmentManager(), mLvDrawerItem, mDlLayout, mViewpager));
         mVpMain.setCurrentItem(1, false);
     }
 
 
     private void setNavigationBar() {
+
         mBottomBar.init(mVpMain);//初始化
-        mVpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == 1) {
-                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                } else {
-                    mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        if (mDlLayout != null)
+            mVpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    if (position == 1) {
+                        mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                    } else {
+                        mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                    }
                 }
-            }
 
-            @Override
-            public void onPageSelected(int position) {
+                @Override
+                public void onPageSelected(int position) {
 
-            }
+                }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+                @Override
+                public void onPageScrollStateChanged(int state) {
 
-            }
-        });
+                }
+            });
     }
 
 }

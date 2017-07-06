@@ -103,19 +103,20 @@ public class MainFragment extends Fragment {
         });
 
         //侧边栏点击事件
-        mLvDrawerItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position != mPressPostion) mItemPress.put(mPressPostion, true);
-                mPressPostion = position;
-                //按下状态
-                mItemPress.put(position, false);
-                mDrawerAdapter.notifyDataSetChanged();
-                TextView tvTitle = (TextView) view.findViewById(R.id.tv_drawer_item_title);
-                mMainTitle.setText(tvTitle.getText());
-                mDlLayout.closeDrawer(GravityCompat.START, true);
-            }
-        });
+        if (mLvDrawerItem != null)
+            mLvDrawerItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (position != mPressPostion) mItemPress.put(mPressPostion, true);
+                    mPressPostion = position;
+                    //按下状态
+                    mItemPress.put(position, false);
+                    mDrawerAdapter.notifyDataSetChanged();
+                    TextView tvTitle = (TextView) view.findViewById(R.id.tv_drawer_item_title);
+                    mMainTitle.setText(tvTitle.getText());
+                    mDlLayout.closeDrawer(GravityCompat.START, true);
+                }
+            });
 
         mIbMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +128,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initRecycleView() {
-        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler,mViewpager);
+        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager);
         mRecycler.setAdapter(mMainAdapter);
         setHeaderView(mRecycler);
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -172,7 +173,11 @@ public class MainFragment extends Fragment {
                     //初始化HashMap数据
                     mItemPress.clear();
                     for (int i = 0; i < mDatas.size(); i++) {
-                        mItemPress.put(i, true);
+                        if (i==0){
+                            mItemPress.put(i, false);
+                        }else {
+                            mItemPress.put(i, true);
+                        }
                     }
                     mDrawerAdapter = new DrawerAdapter(mDatas, getContext(), mItemPress);
                     mLvDrawerItem.setAdapter(mDrawerAdapter);
@@ -200,7 +205,7 @@ public class MainFragment extends Fragment {
         RequestParams requestParams = new RequestParams(HttpURL.GetVideoTopic);
         requestParams.addHeader("token", HttpURL.Token);
         requestParams.addBodyParameter("id", id);
-        requestParams.addBodyParameter("sourceNumber","1" );
+        requestParams.addBodyParameter("sourceNumber", "1");
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
@@ -307,7 +312,6 @@ public class MainFragment extends Fragment {
 //        mMainAdapter.setFooterView(EmptyView);
 
     }
-
 
 
 }
