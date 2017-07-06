@@ -25,8 +25,8 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="#fff"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -71,4 +71,12 @@
         android:layout_centerInParent="true"
         android:background="@null"
         android:src="@drawable/play_start" />
+
+    <TextView
+        android:id="@+id/touch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:background="@mipmap/play_back" />
+
 </RelativeLayout>

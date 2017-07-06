@@ -6,10 +6,12 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -28,6 +30,10 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
     private ImageView mIvTwoDBg;
     private ImageButton mIbPlay;
     private Intent intent;
+    private TextView mTouch;
+    private float startx;
+    private float starty;
+    private float offset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +44,27 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
         }
         setContentView(R.layout.activity_vedio_deatils);
         initView();
-        initListener();
         initPanorama();
+        initListener();
         initMode();
 
     }
 
     private void initListener() {
         mIbPlay.setOnClickListener(this);
+        mTouch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initView() {
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
         mIbPlay = (ImageButton) findViewById(R.id.ib_play);
+        mTouch = (TextView) findViewById(R.id.touch);
     }
 
 

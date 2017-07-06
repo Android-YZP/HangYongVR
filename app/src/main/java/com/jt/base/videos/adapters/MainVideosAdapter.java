@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jt.base.R;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VedioDeatilsActivity;
@@ -102,6 +104,9 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
         //获取竖直条目的数据
         HashMap<Integer, List<Integer>> Datas = JiaUtils.getJSJ();
         final List<Integer> integers = Datas.get(this.position);
+        HashMap<Integer, List<String>> jsj = JiaTitleUtils.getJSJ();
+        List<String> strings = jsj.get(this.position);
+
 
         //图片
         if (position < getItemCount() - 1) {
@@ -109,7 +114,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                     .load(integers.get(position))
                     .asBitmap()
                     .into(holder.mivVideoImg);
-
+            holder.mTvVideoDesc.setText(strings.get(position));
             holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -131,6 +136,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     //在这里面加载ListView中的每个item的布局
     class ListHolder extends RecyclerView.ViewHolder {
         private XCRoundRectImageView mivVideoImg;
+        private TextView mTvVideoDesc;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -142,6 +148,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                 return;
             }
             mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
+            mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
         }
     }
 

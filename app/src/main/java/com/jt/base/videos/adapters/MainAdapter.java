@@ -13,6 +13,7 @@ import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.jt.base.R;
+import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
 import com.jt.base.utils.UIUtils;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -107,6 +108,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
+
+                ((ListHolder) holder).mTvTopicTitle.setText(JiaTitleUtils.getTopic().get(position));
+
+
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) {
                     @Override
@@ -151,6 +156,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 });
                 return;
             }
+
+
             return;
         } else if (getItemViewType(position) == TYPE_HEADER) {
             return;
@@ -162,6 +169,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //在这里面加载ListView中的每个item的布局
     class ListHolder extends RecyclerView.ViewHolder {
         RecyclerView mRvVideoList;
+        private  TextView mTvTopicTitle;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -173,6 +181,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return;
             }
             mRvVideoList = (RecyclerView) itemView.findViewById(R.id.rv_video_list);
+            mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_main_topic_title);
         }
     }
 

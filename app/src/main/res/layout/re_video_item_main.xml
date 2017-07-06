@@ -18,10 +18,12 @@
             android:src="@drawable/greens" />
 
         <TextView
+            android:id="@+id/tv_video_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:maxLines="1"
+            android:ellipsize="end"
             android:text="科幻的電影有多少"
             android:textColor="#000"
             android:textSize="14sp" />
