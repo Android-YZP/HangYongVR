@@ -14,7 +14,7 @@
         <com.jt.base.ui.XCRoundRectImageView
             android:id="@+id/iv_video_img"
             android:layout_width="140dp"
-            android:layout_height="105dp"
+            android:layout_height="83dp"
             android:src="@drawable/greens" />
 
         <TextView

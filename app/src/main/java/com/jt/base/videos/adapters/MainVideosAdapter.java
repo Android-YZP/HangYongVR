@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.jt.base.R;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.videos.VedioDeatilsActivity;
 import com.jt.base.videos.define.Definition;
 
 import java.util.List;
@@ -103,17 +104,16 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                     .asBitmap()
                     .into(holder.mivVideoImg);
 
-
             holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ACTION);
-                    intent.putExtra(Definition.TYPE, Definition.VideoType);
-                    intent.putExtra(Definition.POSITION, 0);
-                    context.sendBroadcast(intent);
-                    mViewpager.setCurrentItem(1,true);
+                    Intent intent = new Intent(context, VedioDeatilsActivity.class);
+                    context.startActivity(intent);
                 }
             });
+
+
+
 
         } else if (position == getItemCount() - 1) {//脚布局
 

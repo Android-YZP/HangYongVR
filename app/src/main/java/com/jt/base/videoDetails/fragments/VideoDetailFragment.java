@@ -172,14 +172,12 @@ public class VideoDetailFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-
             }
         });
+
 
         //选中的页面
         mRvVideoDetaillist.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
@@ -188,6 +186,7 @@ public class VideoDetailFragment extends Fragment {
                 LogUtil.i(i + "=" + i1);
             }
         });
+
 
         //刷新和下拉加载的监听
         mSwipyRefresh.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
