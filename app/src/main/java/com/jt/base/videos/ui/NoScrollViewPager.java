@@ -1,4 +1,4 @@
-package com.jt.base.vrplayer;
+package com.jt.base.videos.ui;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

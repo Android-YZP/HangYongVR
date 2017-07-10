@@ -61,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mViewpager.getCurrentItem() == 1) {
+            mViewpager.setCurrentItem(0, true);
+        } else if (mViewpager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        }
+    }
 
     /**
      * 初始化全景图播放器
@@ -144,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Fragment fragment = new Fragment();
             if (position == 0) {
-                fragment = new VideosFragment(mDlLayout,mLvDrawerItem,mViewpager);
+                fragment = new VideosFragment(mDlLayout, mLvDrawerItem, mViewpager);
             } else if (position == 1) {
-                fragment = new VideoDetailFragment(panoWidgetView, panoOptions,mIvTwoDBg,mViewpager,mDlLayout);
+                fragment = new VideoDetailFragment(panoWidgetView, panoOptions, mIvTwoDBg, mViewpager, mDlLayout);
             }
             return fragment;
         }

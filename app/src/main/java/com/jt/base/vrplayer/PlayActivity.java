@@ -398,9 +398,7 @@ public class PlayActivity extends Activity {
                     } else if (cur_gesture_type == GESTURE_TYPE_HRO) {
                         Log.i(TAG, "横向移动");
                     }
-
                 }
-
                 return true;
             }
 
@@ -412,8 +410,6 @@ public class PlayActivity extends Activity {
 
             @Override
             public void onShowPress(MotionEvent e) {
-
-
             }
 
             @Override
@@ -510,6 +506,7 @@ public class PlayActivity extends Activity {
     /******************************************我是华丽的分割线**********************************************************************
      * 设置在线人数
      */
+
 
     /**
      * 计时重新请求人数
@@ -750,7 +747,6 @@ public class PlayActivity extends Activity {
 
 
     private void popScaleDialog(final MenuItem item) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setSingleChoiceItems(new String[]{"X0.5", "X1.0",
                         "X2.0"}, mScale,
@@ -1065,7 +1061,6 @@ public class PlayActivity extends Activity {
 
     /**
      * 滑动改变亮度
-     *
      * @param percent
      */
     private void onBrightnessSlide(float percent) {

@@ -6,13 +6,11 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -21,7 +19,7 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
-import com.jt.base.vrplayer.PlayActivity;
+import com.jt.base.vrplayer.VedioPlayerActivity;
 
 public class VedioDeatilsActivity extends AppCompatActivity implements View.OnClickListener {
     private VrPanoramaView panoWidgetView;
@@ -73,12 +71,12 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
         int vedioode = getIntent().getIntExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, 4);
         if (vedioode == VedioContants.TWO_D_VEDIO) {//2D
             mIvTwoDBg.setImageDrawable(UIUtils.getDrawable(R.drawable.a000));
-            intent = new Intent(VedioDeatilsActivity.this, PlayActivity.class);
+            intent = new Intent(VedioDeatilsActivity.this, VedioPlayerActivity.class);
             intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
             intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, "http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/75cb47a59031868222953432256/f0.f40.mp4 ");
         } else if (vedioode == VedioContants.ALL_VIEW_VEDIO) {//全景
             getPanorama(R.drawable.a001);
-            intent = new Intent(VedioDeatilsActivity.this, PlayActivity.class);
+            intent = new Intent(VedioDeatilsActivity.this, VedioPlayerActivity.class);
             intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
             intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, "http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/3ac4951a9031868222959099874/f0.f47.mp4 ");
         }

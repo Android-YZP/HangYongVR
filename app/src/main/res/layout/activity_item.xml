@@ -8,7 +8,7 @@
     tools:openDrawer="start">
 
 
-    <com.jt.base.vrplayer.NoScrollViewPager
+    <com.jt.base.videos.ui.NoScrollViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

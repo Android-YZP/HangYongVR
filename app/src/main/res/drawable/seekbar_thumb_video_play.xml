@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- seekbar的滑块样式 -->
+    <item android:height="3sp" android:drawable="@drawable/thumb_selected" android:state_focused="true" />
+    <item android:height="3sp" android:drawable="@drawable/thumb_selected" android:state_focused="false" />
+</selector>
