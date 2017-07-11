@@ -164,7 +164,14 @@ public class VedioPlayerActivity extends AppCompatActivity {
 
 
     private void initListener() {
-        //
+        /**
+         *  得到视频的长度(ms)/100 = 每一份的长度
+         *  这个长度再乘以进度条的百分比.
+         */
+
+
+        //拖动播放器进度条
+        mSbPlayerControl.setThumbOffset(1);
         mSbPlayerControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
