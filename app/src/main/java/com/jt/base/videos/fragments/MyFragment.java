@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jt.base.R;
+import com.jt.base.personal.HistoryActivity;
 import com.jt.base.personal.LoginActivity;
 import com.jt.base.personal.PersonalActivity;
 import com.jt.base.utils.SPUtil;
@@ -27,6 +28,7 @@ public class MyFragment extends Fragment {
     private boolean isLogin;
     private LinearLayout mRootPersonInfo;
     private LinearLayout mRootUnLogin;
+    private LinearLayout mRootHistory;
     private LinearLayout mRootLogined;
     private RelativeLayout mRootGoLogin;
     private RelativeLayout mRootGoLogin1;
@@ -91,6 +93,12 @@ public class MyFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
+        mRootHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),HistoryActivity.class));
+            }
+        });
     }
 
     private void initData() {
@@ -115,6 +123,7 @@ public class MyFragment extends Fragment {
     private void initView(View view) {
         mBtnLogin = (Button) view.findViewById(R.id.btn_my_login);
         mRootPersonInfo = (LinearLayout) view.findViewById(R.id.ll_root_my_personal_info);
+        mRootHistory = (LinearLayout) view.findViewById(R.id.ll_root_history);
         mRootLogined = (LinearLayout) view.findViewById(R.id.my_logined);
         mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
         mTvName = (TextView) view.findViewById(R.id.tv_my_name);
