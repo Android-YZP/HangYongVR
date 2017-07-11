@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,45 +17,24 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
-
 import com.jt.base.R;
 import com.jt.base.utils.PlayUtils;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
-import com.snail.media.player.IMediaPlayer;
 import com.snail.media.player.ISnailPlayer;
-
 import org.xutils.common.util.LogUtil;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class VedioPlayerActivity extends AppCompatActivity {
     private static final int GESTURE_TYPE_NO = 0;
     private static final int GESTURE_TYPE_HRO = 1;
     private static final int GESTURE_TYPE_VER = 2;
-
     private static final int SNVR_PROJ_PLANE = 0;
     private static final int SNVR_PROJ_SPHERE = 1;
-    private static final int SNVR_PROJ_DOME = 2;
-
     private static final int SNVR_VIDEO_SPLICE_FMT_2D = 0;
-    private static final int SNVR_VIDEO_SPLICE_FMT_3D_SBS = 1;
-    private static final int SNVR_VIDEO_SPLICE_FMT_3D_OVU = 2;
-
     public static final int SNVR_NAVIGATION_SENSOR = 0;
-    public static final int SNVR_NAVIGATION_TOUCH = 1;
-    public static final int SNVR_NAVIGATION_BOTH = 2;
-
     private int mDuration;//内容时长
-    public static final int SCALE_05 = 0;
     public static final int SCALE_10 = 1;
-    public static final int SCALE_20 = 2;
-    private static final int SHOW_PROGRESS = 2;
-    private boolean mDragging;
-
     public static final int SNVR_SINGLE_EYES_MODE = 0;
-    public static final int SNVR_DOUBLE_EYES_MODE = 1;
     private SnailPlayerVideoView mVideoView;
     private int mFov = 85;
     private int mProjectionType = SNVR_PROJ_PLANE;
@@ -403,7 +381,6 @@ public class VedioPlayerActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 
     private void endGesture() {

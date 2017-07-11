@@ -137,7 +137,9 @@ public class MainFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 boolean visBottom = UIUtils.isVisBottom(mRecycler);
                 if (visBottom) {
-                    UIUtils.showTip("到底部了,开始加载数据");
+                   if (mMainAdapter.getFooterView()!=null){
+                       UIUtils.showTip("到底部了,开始加载数据");
+                   }
                 }
             }
         });

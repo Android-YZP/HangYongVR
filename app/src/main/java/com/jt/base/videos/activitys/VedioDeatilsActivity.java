@@ -6,11 +6,14 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -22,6 +25,8 @@ import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.PlayActivity;
 import com.jt.base.vrplayer.VedioPlayerActivity;
 
+import org.xutils.common.util.LogUtil;
+
 public class VedioDeatilsActivity extends AppCompatActivity implements View.OnClickListener {
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
@@ -30,9 +35,11 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
     private ImageButton mIbPlay;
     private Intent intent;
     private TextView mTouch;
-    private float startx;
-    private float starty;
-    private float offset;
+    private RelativeLayout mTRlRoot;
+    private int Downx;
+    private int DownY;
+    private int MoveX;
+    private int MoveY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,7 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+
     private void initListener() {
         mIbPlay.setOnClickListener(this);
         mTouch.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +65,32 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
                 finish();
             }
         });
+
+        mTRlRoot.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Downx = (int) event.getX();
+                        DownY = (int) event.getY();
+                        LogUtil.i("1");
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        MoveX = (int) event.getX();
+                        MoveY = (int) event.getY();
+                        LogUtil.i("2");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (MoveX - Downx > 400 && Math.abs(MoveY - DownY) < 150) {
+                           VedioDeatilsActivity.this.finish();
+                        }
+                        LogUtil.i("3");
+                        break;
+                }
+                return true;
+            }
+        });
+
     }
 
     private void initView() {
@@ -64,6 +98,7 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
         mIbPlay = (ImageButton) findViewById(R.id.ib_play);
         mTouch = (TextView) findViewById(R.id.touch);
+        mTRlRoot = (RelativeLayout) findViewById(R.id.rl_root);
     }
 
 
@@ -77,7 +112,7 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
             intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, "http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/75cb47a59031868222953432256/f0.f40.mp4 ");
         } else if (vedioode == VedioContants.ALL_VIEW_VEDIO) {//全景
             getPanorama(R.drawable.a001);
-            intent = new Intent(VedioDeatilsActivity.this, VedioPlayerActivity.class);
+            intent = new Intent(VedioDeatilsActivity.this, PlayActivity.class);
             intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
             intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, "http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/3ac4951a9031868222959099874/f0.f47.mp4 ");
         }
