@@ -2,101 +2,103 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:orientation="horizontal">
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="23dp"
+                android:background="@null"
+                android:src="@mipmap/video_player_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="泰坦尼克号"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+        </LinearLayout>
 
         <ImageButton
+            android:id="@+id/video_player_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="23dp"
-            android:background="@null"
-            android:src="@mipmap/video_player_back" />
+            android:layout_centerInParent="true"
+            android:background="@mipmap/video_player_start" />
 
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="00:00:00"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
+            <SeekBar
+                android:id="@+id/sb_video_player_control"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="3px"
+                android:minHeight="3px"
+                android:progressDrawable="@drawable/player_seekbar"
+                android:thumb="@drawable/seekbar_thumb_video_play" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="40dp"
+                android:text="00:00:00"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="泰坦尼克号"
-            android:textColor="#fff"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@mipmap/video_player_start" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:text="00:00:00"
-            android:textColor="#fff"
-            android:textSize="13sp" />
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
 
-        <SeekBar
-            android:id="@+id/sb_video_player_control"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxHeight="3px"
-            android:minHeight="3px"
-            android:progressDrawable="@drawable/player_seekbar"
-            android:thumb="@drawable/seekbar_thumb_video_play" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
-            android:text="00:00:00"
-            android:textColor="#fff"
-            android:textSize="13sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@mipmap/video_player_volume" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/video_player_volume" />
 
 
-        <com.jt.base.ui.VerticalSeekBar
-            android:id="@+id/verticalSeekBar"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"
-            android:maxHeight="3px"
-            android:minHeight="3px"
-            android:progressDrawable="@drawable/player_seekbar"
-            android:thumb="@drawable/seekbar_thumb_video_play" />
-    </LinearLayout>
-
-
+            <com.jt.base.ui.VerticalSeekBar
+                android:id="@+id/verticalSeekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:maxHeight="3px"
+                android:minHeight="3px"
+                android:progressDrawable="@drawable/player_seekbar"
+                android:thumb="@drawable/seekbar_thumb_video_play" />
+        </LinearLayout>
 
 
 </RelativeLayout>

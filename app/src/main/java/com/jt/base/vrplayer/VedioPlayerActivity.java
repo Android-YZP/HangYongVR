@@ -14,11 +14,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.jt.base.R;
+import com.jt.base.utils.PlayUtils;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.snail.media.player.IMediaPlayer;
@@ -46,7 +48,7 @@ public class VedioPlayerActivity extends AppCompatActivity {
     public static final int SNVR_NAVIGATION_TOUCH = 1;
     public static final int SNVR_NAVIGATION_BOTH = 2;
 
-
+    private int mDuration;//内容时长
     public static final int SCALE_05 = 0;
     public static final int SCALE_10 = 1;
     public static final int SCALE_20 = 2;
@@ -71,12 +73,17 @@ public class VedioPlayerActivity extends AppCompatActivity {
     private int cur_gesture_type = GESTURE_TYPE_NO;
     private SeekBar mSbPlayerControl;
     private AudioManager mAudioManager;
-
+    boolean isShowControl = false;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
         }
     };
+    private RelativeLayout mPlayerControl;
+    private RelativeLayout mRlPlayerControl;
+    private ImageButton mPlayerControlStart;
+    boolean isPlaying = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -95,7 +102,6 @@ public class VedioPlayerActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         mPlayUrl = getIntent().getStringExtra(Definition.KEY_PLAY_URL);
         initView();
@@ -159,30 +165,53 @@ public class VedioPlayerActivity extends AppCompatActivity {
         mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
         mBufferingView = (RelativeLayout) findViewById(R.id.id_mediaplay_buffering_view);
         mSbPlayerControl = (SeekBar) findViewById(R.id.sb_video_player_control);
+        mPlayerControl = (RelativeLayout) findViewById(R.id.video_player_control);
+        mPlayerControlStart = (ImageButton) findViewById(R.id.video_player_start);
 
     }
 
 
     private void initListener() {
+
+        mPlayerControlStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (isPlaying) {
+                    mPlayerControlStart.setBackground(UIUtils.getDrawable(R.mipmap.video_player_stop));
+                    isPlaying = false;
+                    mVideoView.pause();
+                } else {
+                    mPlayerControlStart.setBackground(UIUtils.getDrawable(R.mipmap.video_player_start));
+                    isPlaying = true;
+                    mVideoView.start();
+                }
+            }
+        });
+
+
         /**
          *  得到视频的长度(ms)/100 = 每一份的长度
          *  这个长度再乘以进度条的百分比.
          */
-
 
         //拖动播放器进度条
         mSbPlayerControl.setThumbOffset(1);
         mSbPlayerControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                LogUtil.i(seekBar.getProgress()+"");
+                LogUtil.i(seekBar.getProgress() + "");
                 mVideoView.seekTo(seekBar.getProgress());
+                String time = PlayUtils.generateTime(seekBar.getProgress());
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                    return;
+
+                return;
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -201,9 +230,6 @@ public class VedioPlayerActivity extends AppCompatActivity {
         mVideoView.setVideoPath(mPlayUrl);
         initPlayMode();
     }
-
-
-
 
 
     //初始化播放器模式
@@ -225,20 +251,27 @@ public class VedioPlayerActivity extends AppCompatActivity {
      * 播放器的各种监听
      */
     private void initPlayerListener() {
+
+
         //播放去状态监听
         mVideoView.setOnStatListener(new ISnailPlayer.ISnailPlayerStateChangeNotification() {
             @Override
             public void notify(ISnailPlayer player, ISnailPlayer.State state) {
 
                 if (state == ISnailPlayer.State.PLAYER_STARTED) {
-
                     mVideoView.start();
+                    mDuration = mVideoView.getDuration();
 
+
+                    if (mDuration == 0) {
+                        mSbPlayerControl.setEnabled(false);
+                    } else {
+                        mSbPlayerControl.setEnabled(true);
+                        mSbPlayerControl.setMax(mDuration);
+                    }
                 } else if (state == ISnailPlayer.State.PLAYER_STARTING) {
 
-
                 } else if (state != ISnailPlayer.State.PLAYER_STOP) {
-
                 }
 
             }
@@ -267,6 +300,8 @@ public class VedioPlayerActivity extends AppCompatActivity {
                     mBufferingView.setVisibility(View.GONE);
                 } else if (what == ISnailPlayer.EventType.PLAYER_EVENT_FINISHED) {//播放结束
                     mBufferingView.setVisibility(View.GONE);
+                    UIUtils.showTip("播放结束");
+                    mVideoView.stop();
                 }
                 return true;
             }
@@ -309,6 +344,7 @@ public class VedioPlayerActivity extends AppCompatActivity {
         mGestureDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
+                toggleMediaControlsVisiblity();
                 return true;
             }
 
@@ -417,9 +453,6 @@ public class VedioPlayerActivity extends AppCompatActivity {
     }
 
 
-
-
-
     /**
      * 滑动改变声音大小
      */
@@ -445,5 +478,14 @@ public class VedioPlayerActivity extends AppCompatActivity {
 //        int present = index * 100 / mMaxVolume;
 //        Log.i(TAG, "present is:" + present);
 //        mOperTextView.setText(String.valueOf(present) + "%");
+    }
+
+
+    private void toggleMediaControlsVisiblity() {
+        if (mPlayerControl.getVisibility() == View.VISIBLE) {
+            mPlayerControl.setVisibility(View.GONE);
+        } else {
+            mPlayerControl.setVisibility(View.VISIBLE);
+        }
     }
 }
