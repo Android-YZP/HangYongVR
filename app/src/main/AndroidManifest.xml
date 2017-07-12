@@ -98,8 +98,12 @@
         </provider>
 
         <activity android:name=".personal.ForgetActivity" />
-        <activity android:name=".videos.activitys.VedioDeatilsActivity" />
-        <activity android:name=".vrplayer.VedioPlayerActivity"></activity>
+        <activity
+            android:name=".videos.activitys.VedioDeatilsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".vrplayer.VedioPlayerActivity" />
+        <activity android:name=".videos.activitys.VideoMoreActivity" />
+        <activity android:name=".videos.activitys.VideoDetialActivity"></activity>
     </application>
 
 </manifest>

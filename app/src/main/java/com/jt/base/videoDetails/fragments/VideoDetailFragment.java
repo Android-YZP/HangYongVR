@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.OnScrollListener;
@@ -132,6 +133,8 @@ public class VideoDetailFragment extends Fragment {
         //初始化竖直的viewPager
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRvVideoDetaillist.setLayoutManager(layout);
+
+
     }
 
     private void initListenter() {
@@ -400,7 +403,6 @@ public class VideoDetailFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
             String type = intent.getStringExtra(Definition.TYPE);
             if (type.equals(Definition.VideoType)) {
                 mCurrentPosition = intent.getIntExtra(Definition.POSITION, 0);

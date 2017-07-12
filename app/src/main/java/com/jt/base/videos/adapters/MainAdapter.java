@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jt.base.R;
@@ -112,6 +113,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mTvTopicTitle.setText(JiaTitleUtils.getTopic().get(position));
 
 
+                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mViewpager.setCurrentItem(1,true);
+
+                    }
+                });
+
+
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) {
                     @Override
@@ -169,7 +179,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //在这里面加载ListView中的每个item的布局
     class ListHolder extends RecyclerView.ViewHolder {
         RecyclerView mRvVideoList;
-        private  TextView mTvTopicTitle;
+        private TextView mTvTopicTitle;
+        private RelativeLayout mRlMainMore;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -182,6 +193,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             mRvVideoList = (RecyclerView) itemView.findViewById(R.id.rv_video_list);
             mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_main_topic_title);
+            mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_more);
         }
     }
 

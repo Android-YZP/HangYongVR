@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/rl_root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jt.base.videos.activitys.VedioDeatilsActivity">
-
-    <com.google.vr.sdk.widgets.pano.VrPanoramaView
-        android:id="@+id/pano_view_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="@null" />
-
-    <ImageView
-        android:id="@+id/iv_two_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY" />
+    tools:context="com.jt.base.videos.activitys.VideoDetialActivity">
 
     <LinearLayout
         android:id="@+id/iv_detial_bg"
@@ -27,8 +12,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="#fff"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -48,12 +32,14 @@
 
     </LinearLayout>
 
+
+
+
     <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/sf_detail_SwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:visibility="gone"
         app:srl_direction="both">
 
         <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
@@ -66,19 +52,7 @@
 
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
-    <ImageButton
-        android:id="@+id/ib_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@null"
-        android:src="@drawable/play_start" />
 
-    <TextView
-        android:id="@+id/touch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:background="@mipmap/play_back" />
+
 
 </RelativeLayout>
