@@ -64,7 +64,7 @@
             android:layout_toRightOf="@id/id_imageview_play_pause_full"
             android:background="@drawable/btn_selector_player_refresh"
             android:contentDescription="@string/app_name"
-            android:visibility="gone" />
+             />
 
         <LinearLayout
             android:id="@+id/id_video_time_progress"

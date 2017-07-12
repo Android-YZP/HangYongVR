@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,6 +54,7 @@ public class MainFragment extends Fragment {
     private ImageButton mIbMenu;
     private TextView mMainTitle;
     private ViewPager mViewpager;
+    private int tote;
 
     public MainFragment() {
     }
@@ -137,13 +139,21 @@ public class MainFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 boolean visBottom = UIUtils.isVisBottom(mRecycler);
                 if (visBottom) {
-                   if (mMainAdapter.getFooterView()!=null){
-                       UIUtils.showTip("到底部了,开始加载数据");
-                   }
+
+                    if (mMainAdapter.getFooterView() == null) {
+                        tote++;
+                        UIUtils.showTip("到底部了,开始加载数据");
+                    }else {
+                        return;
+                    }
+                    if (tote == 1){
+                        View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
+                        mMainAdapter.setFooterView(v);
+                        mMainAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
-
     }
 
     /**
@@ -175,9 +185,9 @@ public class MainFragment extends Fragment {
                     //初始化HashMap数据
                     mItemPress.clear();
                     for (int i = 0; i < mDatas.size(); i++) {
-                        if (i==0){
+                        if (i == 0) {
                             mItemPress.put(i, false);
-                        }else {
+                        } else {
                             mItemPress.put(i, true);
                         }
                     }

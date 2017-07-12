@@ -1,4 +1,4 @@
-package com.jt.base.videoDetails.adapters;
+package com.jt.base.videos.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +19,6 @@ import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.Definition;
 import com.jt.base.vrplayer.PlayActivity;
-import com.jt.base.vrplayer.utils.SPUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
@@ -32,13 +31,13 @@ import java.util.List;
  * Created by Smith on 2017/6/19.
  */
 
-public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
+public class RvListAdapter extends RecyclerView.Adapter<RvListAdapter.MyViewHolder> {
     private Context context;
 
     private List<GetRoomBean.ResultBean> mRoomLists;
     private AlertDialog show;
 
-    public RvAdapter(Context context, List<GetRoomBean.ResultBean> mRoomLists) {
+    public RvListAdapter(Context context, List<GetRoomBean.ResultBean> mRoomLists) {
         this.context = context;
         this.mRoomLists = mRoomLists;
 
@@ -153,7 +152,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         i.putExtra(Definition.KEY_PLAY_USERNAME,mRoomLists.get(position).getUsername() + "");
         i.putExtra(Definition.KEY_PLAY_ID,mRoomLists.get(position).getId() + "");
 
-//                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
         context.startActivity(i);
     }
 
