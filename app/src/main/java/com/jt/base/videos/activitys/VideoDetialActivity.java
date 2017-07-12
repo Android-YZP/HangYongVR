@@ -93,6 +93,8 @@ public class VideoDetialActivity extends AppCompatActivity {
         mRlRoot = (RelativeLayout) findViewById(R.id.rl_root);
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
+        //滑动到指定位置
+//        mRvVideoDetaillist.scrollToPosition(0);
     }
 
     private void initRecyclerViewPager() {
