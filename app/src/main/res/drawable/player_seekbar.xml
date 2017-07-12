@@ -19,7 +19,9 @@
 
                 <item
                     android:height="3sp"
-                    android:drawable="@drawable/selector_main_press" />
+                    android:state_enabled="true">
+                <color android:color="@android:color/transparent" />
+                </item>
             </selector>
         </scale>
     </item>

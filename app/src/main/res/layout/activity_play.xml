@@ -88,6 +88,7 @@
       android:id="@+id/layout_volume_bright_transparent"
       android:visibility="gone"
       layout="@layout/layout_volume_brightness"/>
+
     <TextView
         android:id="@+id/txt_view_erro"
         android:layout_width="wrap_content"
@@ -97,8 +98,7 @@
         android:textSize="14sp"
         android:textColor="@color/wifi_text_color_normal"
         android:text="dsfdsfkjdskfkdkf"
-        android:layout_marginBottom="100dp"
-        />
+        android:layout_marginBottom="100dp" />
 
 
     

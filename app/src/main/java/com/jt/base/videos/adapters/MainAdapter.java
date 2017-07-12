@@ -80,11 +80,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (mHeaderView == null && mFooterView == null) {
             return TYPE_NORMAL;
         }
-        if (position == 0) {
+        if (position == 0 && mHeaderView != null) {
             //第一个item应该加载Header
             return TYPE_HEADER;
         }
-        if (position == getItemCount() - 1) {
+        if (position == getItemCount() - 1 && mFooterView != null) {
             //最后一个,应该加载Footer
             return TYPE_FOOTER;
         }
@@ -97,9 +97,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (mHeaderView != null && viewType == TYPE_HEADER) {
             return new ListHolder(mHeaderView);
         }
+
         if (mFooterView != null && viewType == TYPE_FOOTER) {
             return new ListHolder(mFooterView);
         }
+
         View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.reitem_main, parent, false);
         return new ListHolder(layout);
     }
@@ -116,8 +118,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mViewpager.setCurrentItem(1,true);
-
+                        mViewpager.setCurrentItem(1, true);
                     }
                 });
 
@@ -134,6 +135,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, position);
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
+
                 View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
                 TextView tvMore = (TextView) v.findViewById(R.id.tv_main_more);
                 mainVideosAdapter.setFooterView(v);
@@ -166,8 +168,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 });
                 return;
             }
-
-
             return;
         } else if (getItemViewType(position) == TYPE_HEADER) {
             return;

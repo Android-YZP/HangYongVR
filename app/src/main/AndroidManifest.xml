@@ -97,13 +97,28 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".personal.ForgetActivity" />
+        <activity
+            android:name=".personal.ForgetActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".videos.activitys.VedioDeatilsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".vrplayer.VedioPlayerActivity" />
-        <activity android:name=".videos.activitys.VideoMoreActivity" />
-        <activity android:name=".videos.activitys.VideoDetialActivity"></activity>
+
+        <activity
+            android:name=".videos.activitys.VideoMoreActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".videos.activitys.VideoDetialActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".vrplayer.VideoPlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"
+            android:windowActionBarOverlay="true"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>

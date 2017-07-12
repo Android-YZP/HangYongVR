@@ -16,6 +16,7 @@ import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VedioDeatilsActivity;
+import com.jt.base.videos.activitys.VideoDetialActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -118,7 +119,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
             holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, VedioDeatilsActivity.class);
+                    Intent intent = new Intent(context, VideoDetialActivity.class);
                     //单数点击全景，双数点击2D
                     if (position % 2 == 0) {
                         intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
