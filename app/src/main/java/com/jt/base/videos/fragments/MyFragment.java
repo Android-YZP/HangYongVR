@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jt.base.R;
-import com.jt.base.personal.HistoryActivity;
 import com.jt.base.personal.LoginActivity;
 import com.jt.base.personal.PersonalActivity;
 import com.jt.base.utils.SPUtil;
@@ -96,7 +95,6 @@ public class MyFragment extends Fragment {
         mRootHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(),HistoryActivity.class));
             }
         });
     }

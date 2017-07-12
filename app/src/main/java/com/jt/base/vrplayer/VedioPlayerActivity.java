@@ -83,9 +83,9 @@ public class VedioPlayerActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         mPlayUrl = getIntent().getStringExtra(Definition.KEY_PLAY_URL);
         initView();
-        initplayer();
         initPlayerListener();
         initListener();
+        initplayer();
     }
 
     @Override
@@ -250,6 +250,7 @@ public class VedioPlayerActivity extends AppCompatActivity {
                 } else if (state == ISnailPlayer.State.PLAYER_STARTING) {
 
                 } else if (state != ISnailPlayer.State.PLAYER_STOP) {
+
                 }
 
             }
