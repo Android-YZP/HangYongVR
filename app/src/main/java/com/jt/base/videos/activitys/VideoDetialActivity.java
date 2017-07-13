@@ -22,17 +22,12 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
-import com.jt.base.activitys.MainActivity;
-import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.utils.UIUtils;
-import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videoDetails.adapters.RvAdapter;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-
 import org.xutils.common.util.LogUtil;
-
 import java.util.List;
 
 public class VideoDetialActivity extends AppCompatActivity {
@@ -93,6 +88,8 @@ public class VideoDetialActivity extends AppCompatActivity {
         mRlRoot = (RelativeLayout) findViewById(R.id.rl_root);
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
+        //滑动到指定位置
+//        mRvVideoDetaillist.scrollToPosition(0);
     }
 
     private void initRecyclerViewPager() {

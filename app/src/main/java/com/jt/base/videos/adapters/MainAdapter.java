@@ -1,8 +1,6 @@
 package com.jt.base.videos.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +17,6 @@ import com.jt.base.R;
 import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
 import com.jt.base.utils.UIUtils;
-import com.jt.base.videos.activitys.VideoListActivity;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -119,24 +116,20 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mTvTopicTitle.setText(JiaTitleUtils.getTopic().get(position));
 
 
-//                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        mViewpager.setCurrentItem(1, true);
-//                    }
-//                });
+                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mViewpager.setCurrentItem(1, true);
+                    }
+                });
 
 
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) {
-                    @Override
-                    public boolean canScrollVertically() {
-                        return false;
-                    }
-                };
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) ;
+                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, position);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, position, httpJiaBean);
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
 

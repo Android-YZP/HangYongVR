@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jt.base.R;
-import com.jt.base.personal.HistoryActivity;
 import com.jt.base.personal.LoginActivity;
 import com.jt.base.personal.PersonalActivity;
 import com.jt.base.utils.SPUtil;

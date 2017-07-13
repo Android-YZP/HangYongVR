@@ -13,9 +13,19 @@ import android.widget.ListView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.google.gson.Gson;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
+import com.jt.base.http.JsonCallBack;
+import com.jt.base.http.responsebean.ResetPasswordBean;
+import com.jt.base.utils.NetUtil;
+import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.ui.BottomBar;
 import com.jt.base.vrplayer.VpMainAdapter;
+
+import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 @SuppressLint("ValidFragment")
 public class VideosFragment extends Fragment {
@@ -47,8 +57,10 @@ public class VideosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_videos, container, false);
         initView(view);
         setNavigationBar();
+
         return view;
     }
+
 
     private void initView(View view) {
         mVpMain = (ViewPager) view.findViewById(R.id.vp_main);
