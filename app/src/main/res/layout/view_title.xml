@@ -7,7 +7,7 @@
         android:textColor="@color/colorTextWhite"
         android:textSize="@dimen/h10"
         android:layout_marginLeft="10dp"
-        android:drawableLeft="@drawable/btn_return"
+        android:drawableLeft="@mipmap/all_return"
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"

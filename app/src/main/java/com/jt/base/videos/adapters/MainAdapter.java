@@ -17,7 +17,6 @@ import com.jt.base.R;
 import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
 import com.jt.base.utils.UIUtils;
-import com.jt.base.utils.jia.HttpJiaBean;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -39,19 +38,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //HeaderView, FooterView
     private View mHeaderView;
     private View mFooterView;
-    private Context context;
+    private Activity context;
     private SwipeRefreshLayout mRecyclerfreshLayout;
     private RecyclerView mRecycler;
     private ViewPager mViewpager;
-    private HttpJiaBean httpJiaBean;
+    private TextView mTvMore1;
     //构造函数
 
-    public MainAdapter(Context context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager, HttpJiaBean httpJiaBean) {
+    public MainAdapter(Activity context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager) {
         this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
         this.mRecycler = mRecycler;
         this.mViewpager = mViewpager;
-        this.httpJiaBean = httpJiaBean;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -115,7 +113,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
-                ((ListHolder) holder).mTvTopicTitle.setText(httpJiaBean.getResult().getTopic().getResult().get(position).getTitle());//设置话题
+                ((ListHolder) holder).mTvTopicTitle.setText(JiaTitleUtils.getTopic().get(position));
 
 
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
@@ -136,11 +134,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
 
                 View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
-                TextView tvMore = (TextView) v.findViewById(R.id.tv_main_more);
-                tvMore.setOnClickListener(new View.OnClickListener() {
+                mTvMore1 = (TextView) v.findViewById(R.id.tv_main_more);
+                mTvMore1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UIUtils.showTip("暂无更多视频");
+                        context.startActivity(new Intent(context, VideoListActivity.class));
+                        context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                     }
                 });
                 mainVideosAdapter.setFooterView(v);
@@ -199,6 +198,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mRvVideoList = (RecyclerView) itemView.findViewById(R.id.rv_video_list);
             mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_main_topic_title);
             mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_more);
+            mRlMainMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, VideoListActivity.class));
+                    context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                }
+            });
         }
     }
 
@@ -206,13 +212,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return httpJiaBean.getResult().getTopic().getResult().size();
+            return JiaUtils.getJSJ().size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return httpJiaBean.getResult().getTopic().getResult().size() + 1;
+            return JiaUtils.getJSJ().size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return httpJiaBean.getResult().getTopic().getResult().size() + 1;
+            return JiaUtils.getJSJ().size() + 1;
         } else {
-            return httpJiaBean.getResult().getTopic().getResult().size() + 2;
+            return JiaUtils.getJSJ().size() + 2;
         }
     }
 

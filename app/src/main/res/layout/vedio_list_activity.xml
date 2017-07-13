@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp">
 
         <ImageView
+            android:id="@+id/im_video_list_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:background="@mipmap/history_return" />
+            android:background="@mipmap/all_return" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -92,46 +94,7 @@
             android:textSize="13sp" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rl_vedio_details"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-            <!--<FrameLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="196dp"-->
-                <!--android:layout_marginLeft="12dp"-->
-                <!--android:layout_marginRight="12dp">-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="196dp"-->
-                    <!--android:background="@mipmap/veido_details_img" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="03:12"-->
-                    <!--android:textColor="#ffffff"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:layout_marginLeft="330dp"-->
-                    <!--android:layout_marginTop="10dp"/>-->
-            <!--</FrameLayout>-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:text="攻壳机动队"-->
-                <!--android:textColor="#000000"-->
-                <!--android:textSize="15sp"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_marginLeft="12dp"/>-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="@mipmap/vedio_details_img1"-->
-                <!--android:layout_marginLeft="12dp"-->
-                <!--android:layout_marginRight="12dp"-->
-                <!--android:layout_marginTop="10dp"/>-->
-        </LinearLayout>
+</LinearLayout>
 
 

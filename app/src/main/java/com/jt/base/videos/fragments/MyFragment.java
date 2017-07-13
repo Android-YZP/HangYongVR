@@ -74,6 +74,8 @@ public class MyFragment extends Fragment {
 
                 if (isLogin) {
                     startActivity(new Intent(getActivity(), PersonalActivity.class));
+                   getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+
                 } else {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                 }
@@ -95,7 +97,8 @@ public class MyFragment extends Fragment {
         mRootHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getActivity(), HistoryActivity.class));
+                getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
             }
         });
     }

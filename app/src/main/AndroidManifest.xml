@@ -79,12 +79,15 @@
         <activity
             android:name=".personal.LoginActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".videos.activitys.VideoListActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait" />
         <activity android:name=".personal.takepic.PermissionsActivity" />
         <activity
-            android:name=".personal.PersonalActivity"
+            android:name=".personal.PersonalActivity"  android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".personal.HistoryActivity"
+            android:name=".personal.HistoryActivity"   android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" />
 
         <provider
