@@ -1,6 +1,8 @@
 package com.jt.base.videos.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import com.jt.base.R;
 import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.videos.activitys.VideoListActivity;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -38,13 +41,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //HeaderView, FooterView
     private View mHeaderView;
     private View mFooterView;
-    private Context context;
+    private Activity context;
     private SwipeRefreshLayout mRecyclerfreshLayout;
     private RecyclerView mRecycler;
     private ViewPager mViewpager;
+    private TextView mTvMore1;
     //构造函数
 
-    public MainAdapter(Context context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager) {
+    public MainAdapter(Activity context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager) {
         this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
         this.mRecycler = mRecycler;
@@ -115,12 +119,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mTvTopicTitle.setText(JiaTitleUtils.getTopic().get(position));
 
 
-                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mViewpager.setCurrentItem(1, true);
-                    }
-                });
+//                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        mViewpager.setCurrentItem(1, true);
+//                    }
+//                });
 
 
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
@@ -137,7 +141,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
 
                 View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
-                TextView tvMore = (TextView) v.findViewById(R.id.tv_main_more);
+                mTvMore1 = (TextView) v.findViewById(R.id.tv_main_more);
+                mTvMore1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.startActivity(new Intent(context, VideoListActivity.class));
+                        context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                    }
+                });
                 mainVideosAdapter.setFooterView(v);
 
                 //修复滑动事件的冲突
@@ -194,6 +205,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mRvVideoList = (RecyclerView) itemView.findViewById(R.id.rv_video_list);
             mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_main_topic_title);
             mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_more);
+            mRlMainMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, VideoListActivity.class));
+                    context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                }
+            });
         }
     }
 

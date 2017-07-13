@@ -18,13 +18,14 @@ import com.jt.base.personal.takepic.PermissionsChecker;
 import com.jt.base.personal.takepic.PhotoUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.videos.ui.SwipeBackActivity;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import static android.os.Environment.getExternalStorageState;
 
-public class PersonalActivity extends AppCompatActivity {
+public class PersonalActivity extends SwipeBackActivity {
     private ImageView iv;
     private Button take_btn, album_btn;
 
