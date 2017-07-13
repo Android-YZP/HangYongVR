@@ -52,14 +52,15 @@
             android:textSize="17sp" />
     </RelativeLayout>
 
-         <View
-           android:layout_width="match_parent"
-            android:layout_height="1dp"
-             android:background="#d9d9d9" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d9d9d9" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/history_list"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

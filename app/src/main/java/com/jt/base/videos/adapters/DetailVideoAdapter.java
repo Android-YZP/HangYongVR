@@ -11,6 +11,8 @@ import com.jt.base.R;
 
 import java.util.List;
 
+import static android.media.CamcorderProfile.get;
+
 /**
  * Created by wzq930102 on 2017/7/13.
  */
@@ -26,20 +28,23 @@ public class DetailVideoAdapter extends RecyclerView.Adapter<DetailVideoAdapter.
 
     @Override
     public MyVideoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // 给ViewHolder设置布局文件
         View view = LayoutInflater.from(context).inflate(R.layout.vedio_list_activity_item, parent, false);
         return new MyVideoHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyVideoHolder holder, int position) {
-
+        // 给ViewHolder设置元素
+        holder.linear.setText(list,get(position));
     }
 
     @Override
     public int getItemCount() {
+        // 返回数据总数
         return list.size();
     }
-
+    // 重写的自定义ViewHolder
     public static class MyVideoHolder extends RecyclerView.ViewHolder{
         private final LinearLayout linear;
 

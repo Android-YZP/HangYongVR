@@ -1,13 +1,48 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".videos.fragments.SearchFragment">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-</FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="58dp"
+        android:background="#f3f3f3">
+
+        <ImageView
+            android:id="@+id/im_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/search_sh"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"/>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32dp"
+            android:background="#39f0d4"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="搜索视频和话题"
+            android:textColorHint="#bdbdc3"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="38dp"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消" />
+
+
+</LinearLayout>
+</LinearLayout>
