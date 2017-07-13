@@ -270,8 +270,6 @@ public class MainFragment extends Fragment {
 //                    mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, topicBean);
 //                    mRecycler.setAdapter(mMainAdapter);
                 }
-
-
             }
 
             @Override
