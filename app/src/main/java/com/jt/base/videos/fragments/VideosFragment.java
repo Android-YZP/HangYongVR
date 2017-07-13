@@ -57,38 +57,10 @@ public class VideosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_videos, container, false);
         initView(view);
         setNavigationBar();
-        initData("https://raw.githubusercontent.com/Android-YZP/youshi/dev/test.json");
+
         return view;
     }
 
-    /**
-     * 假数据
-     */
-    private void initData(String url) {
-
-        if (!NetUtil.isOpenNetwork()) {
-            UIUtils.showTip("请打开网络");
-            return;
-        }
-
-        //使用xutils3访问网络并获取返回值
-        RequestParams requestParams = new RequestParams(url);
-        //包装请求参数
-        //获取数据
-        x.http().get(requestParams, new JsonCallBack() {
-
-            @Override
-            public void onSuccess(String result) {
-                LogUtil.i(result);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
-            }
-        });
-
-    }
 
     private void initView(View view) {
         mVpMain = (ViewPager) view.findViewById(R.id.vp_main);

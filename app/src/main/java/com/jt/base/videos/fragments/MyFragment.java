@@ -95,6 +95,7 @@ public class MyFragment extends Fragment {
         mRootHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             }
         });
     }

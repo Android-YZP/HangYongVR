@@ -49,6 +49,7 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         setContentView(R.layout.activity_vedio_deatils);
+
         initView();
         initPanorama();
         initListener();
@@ -82,7 +83,7 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
                         break;
                     case MotionEvent.ACTION_UP:
                         if (MoveX - Downx > 400 && Math.abs(MoveY - DownY) < 150) {
-                           VedioDeatilsActivity.this.finish();
+                            VedioDeatilsActivity.this.finish();
                         }
                         LogUtil.i("3");
                         break;
@@ -104,18 +105,24 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
 
     //初始化播放器模式
     private void initMode() {
-        int vedioode = getIntent().getIntExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, 4);
+        Intent intent1 = getIntent();
+        int vedioode = intent1.getIntExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, 4);
+        int pic = intent1.getIntExtra("pic", 0);
+        String url = intent1.getStringExtra("url");
+        String desc = intent1.getStringExtra("desc");
+
         if (vedioode == VedioContants.TWO_D_VEDIO) {//2D
-            mIvTwoDBg.setImageDrawable(UIUtils.getDrawable(R.drawable.a000));
+            mIvTwoDBg.setImageDrawable(UIUtils.getDrawable(pic));
             intent = new Intent(VedioDeatilsActivity.this, VideoPlayActivity.class);
             intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-            intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, "http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/75cb47a59031868222953432256/f0.f40.mp4 ");
+            intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, url);
         } else if (vedioode == VedioContants.ALL_VIEW_VEDIO) {//全景
-            getPanorama(R.drawable.a001);
+            getPanorama(pic);
             intent = new Intent(VedioDeatilsActivity.this, VideoPlayActivity.class);
             intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-            intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, "http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/3ac4951a9031868222959099874/f0.f47.mp4 ");
+            intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, url);
         }
+        intent.putExtra("desc", desc);
     }
 
     /**
@@ -136,6 +143,8 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
 
     /**
      * 初始化全景图播放器
+     *
+     * @param url
      */
     private void getPanorama(int url) {
         //加载背景图片

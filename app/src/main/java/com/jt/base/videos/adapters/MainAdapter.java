@@ -17,6 +17,7 @@ import com.jt.base.R;
 import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.utils.jia.HttpJiaBean;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -42,13 +43,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private SwipeRefreshLayout mRecyclerfreshLayout;
     private RecyclerView mRecycler;
     private ViewPager mViewpager;
+    private HttpJiaBean httpJiaBean;
     //构造函数
 
-    public MainAdapter(Context context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager) {
+    public MainAdapter(Context context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager, HttpJiaBean httpJiaBean) {
         this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
         this.mRecycler = mRecycler;
         this.mViewpager = mViewpager;
+        this.httpJiaBean = httpJiaBean;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -112,7 +115,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
-                ((ListHolder) holder).mTvTopicTitle.setText(JiaTitleUtils.getTopic().get(position));
+                ((ListHolder) holder).mTvTopicTitle.setText(httpJiaBean.getResult().getTopic().getResult().get(position).getTitle());//设置话题
 
 
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
@@ -124,20 +127,22 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) {
-                    @Override
-                    public boolean canScrollVertically() {
-                        return false;
-                    }
-                };
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) ;
+                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, position);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, position, httpJiaBean);
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
 
                 View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
                 TextView tvMore = (TextView) v.findViewById(R.id.tv_main_more);
+                tvMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UIUtils.showTip("暂无更多视频");
+                    }
+                });
                 mainVideosAdapter.setFooterView(v);
 
                 //修复滑动事件的冲突
@@ -201,13 +206,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return JiaUtils.getJSJ().size();
+            return httpJiaBean.getResult().getTopic().getResult().size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return JiaUtils.getJSJ().size() + 1;
+            return httpJiaBean.getResult().getTopic().getResult().size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return JiaUtils.getJSJ().size() + 1;
+            return httpJiaBean.getResult().getTopic().getResult().size() + 1;
         } else {
-            return JiaUtils.getJSJ().size() + 2;
+            return httpJiaBean.getResult().getTopic().getResult().size() + 2;
         }
     }
 

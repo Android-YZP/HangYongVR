@@ -14,6 +14,9 @@ import com.jt.base.R;
 import com.jt.base.ui.XCRoundRectImageView;
 import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
+import com.jt.base.utils.jia.HttpJiaBean;
+import com.jt.base.utils.jia.JiaBean;
+import com.jt.base.utils.jia.WageList;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VedioDeatilsActivity;
 import com.jt.base.videos.activitys.VideoDetialActivity;
@@ -38,13 +41,15 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     private Context context;
     private ViewPager mViewpager;
     private int position;
+    HttpJiaBean httpJiaBean;
     //构造函数
 
 
-    public MainVideosAdapter(Context context, ViewPager mViewpager, int position) {
+    public MainVideosAdapter(Context context, ViewPager mViewpager, int position, HttpJiaBean httpJiaBean) {
         this.context = context;
         this.mViewpager = mViewpager;
         this.position = position;
+        this.httpJiaBean = httpJiaBean;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -102,28 +107,41 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
 
     @Override
     public void onBindViewHolder(ListHolder holder, final int position) {
-        //获取竖直条目的数据
-        HashMap<Integer, List<Integer>> Datas = JiaUtils.getJSJ();
-        final List<Integer> integers = Datas.get(this.position);
-        HashMap<Integer, List<String>> jsj = JiaTitleUtils.getJSJ();
-        List<String> strings = jsj.get(this.position);
+//        //获取竖直条目的数据
+//        HashMap<Integer, List<Integer>> Datas = JiaUtils.getJSJ();
+//        final List<Integer> integers = Datas.get(this.position);
+//        HashMap<Integer, List<String>> jsj = JiaTitleUtils.getJSJ();
+//        List<String> strings = jsj.get(this.position);
+
+
+
+        HashMap<Integer, List<JiaBean>> jiaOneData = WageList.getJiaOneData();
+        final List<JiaBean> jiaBeen = jiaOneData.get(this.position);
 
 
         //图片
         if (position < getItemCount() - 1) {
             Glide.with(context)
-                    .load(integers.get(position))
+                    .load(jiaBeen.get(position).getPic1())
                     .asBitmap()
                     .into(holder.mivVideoImg);
-            holder.mTvVideoDesc.setText(strings.get(position));
+
+
+            //设置视频的描述信息
+            holder.mTvVideoDesc.setText(httpJiaBean.getResult().getTopic().getResult().get(this.position).getVodInfos().get(position).getDesc());
+
+
             holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, VideoDetialActivity.class);
-                    //单数点击全景，双数点击2D
-                    if (position % 2 == 0) {
+                    Intent intent = new Intent(context, VedioDeatilsActivity.class);
+                    intent.putExtra("pic", jiaBeen.get(position).getPic2());
+                    intent.putExtra("url", httpJiaBean.getResult().getTopic().getResult().get(MainVideosAdapter.this.position).getVodInfos().get(position).getPlayurl());
+                    intent.putExtra("desc", httpJiaBean.getResult().getTopic().getResult().get(MainVideosAdapter.this.position).getVodInfos().get(position).getDesc());
+                    //0:2D
+                    if (httpJiaBean.getResult().getTopic().getResult().get(MainVideosAdapter.this.position).getVodInfos().get(position).getIsAll().equals("0")) {
                         intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-                    } else {
+                    } else {//, 1:3D
                         intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
                     }
                     context.startActivity(intent);

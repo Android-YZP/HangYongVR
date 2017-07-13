@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Smith on 2017/7/12.
  */
 
-public class WageList {
+public class WageList2 {
 
     private static List<JiaBean> jiaBean = new ArrayList<>();
     private static List<JiaBean> jiaBean1 = new ArrayList<>();
@@ -20,36 +20,36 @@ public class WageList {
 
     private static JiaBean setData0() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b00);
-        jiaBean.setPic2(R.drawable.b000);
+        jiaBean.setPic1(R.drawable.b25);
+        jiaBean.setPic2(R.drawable.b025);
         return jiaBean;
     }
 
     private static JiaBean setData1() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b01);
-        jiaBean.setPic2(R.drawable.b001);
+        jiaBean.setPic1(R.drawable.b26);
+        jiaBean.setPic2(R.drawable.b026);
         return jiaBean;
     }
 
     private static JiaBean setData2() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b02);
-        jiaBean.setPic2(R.drawable.b002);
+        jiaBean.setPic1(R.drawable.b27);
+        jiaBean.setPic2(R.drawable.b027);
         return jiaBean;
     }
 
     private static JiaBean setData3() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b03);
-        jiaBean.setPic2(R.drawable.b003);
+        jiaBean.setPic1(R.drawable.b28);
+        jiaBean.setPic2(R.drawable.b028);
         return jiaBean;
     }
 
     private static JiaBean setData4() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b04);
-        jiaBean.setPic2(R.drawable.b004);
+        jiaBean.setPic1(R.drawable.b29);
+        jiaBean.setPic2(R.drawable.b029);
         return jiaBean;
     }
 
@@ -65,36 +65,36 @@ public class WageList {
     ///////////////////////////////////////////yihangshuju//////////////////////////////////////////////////////////////////////////////
     private static JiaBean setData5() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b05);
-        jiaBean.setPic2(R.drawable.b005);
+        jiaBean.setPic1(R.drawable.b30);
+        jiaBean.setPic2(R.drawable.b030);
         return jiaBean;
     }
 
     private static JiaBean setData6() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b06);
-        jiaBean.setPic2(R.drawable.b006);
+        jiaBean.setPic1(R.drawable.b31);
+        jiaBean.setPic2(R.drawable.b031);
         return jiaBean;
     }
 
     private static JiaBean setData7() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b07);
-        jiaBean.setPic2(R.drawable.b007);
+        jiaBean.setPic1(R.drawable.b32);
+        jiaBean.setPic2(R.drawable.b032);
         return jiaBean;
     }
 
     private static JiaBean setData8() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b08);
-        jiaBean.setPic2(R.drawable.b008);
+        jiaBean.setPic1(R.drawable.b33);
+        jiaBean.setPic2(R.drawable.b033);
         return jiaBean;
     }
 
     private static JiaBean setData9() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b09);
-        jiaBean.setPic2(R.drawable.b009);
+        jiaBean.setPic1(R.drawable.b34);
+        jiaBean.setPic2(R.drawable.b034);
         return jiaBean;
     }
 
@@ -110,36 +110,36 @@ public class WageList {
     ///////////////////////////////////////////yihangshuju//////////////////////////////////////////////////////////////////////////////
     private static JiaBean setData10() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b10);
-        jiaBean.setPic2(R.drawable.b010);
+        jiaBean.setPic1(R.drawable.b35);
+        jiaBean.setPic2(R.drawable.b035);
         return jiaBean;
     }
 
     private static JiaBean setData11() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b11);
-        jiaBean.setPic2(R.drawable.b011);
+        jiaBean.setPic1(R.drawable.b36);
+        jiaBean.setPic2(R.drawable.b036);
         return jiaBean;
     }
 
     private static JiaBean setData12() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b12);
-        jiaBean.setPic2(R.drawable.b012);
+        jiaBean.setPic1(R.drawable.b37);
+        jiaBean.setPic2(R.drawable.b037);
         return jiaBean;
     }
 
     private static JiaBean setData13() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b13);
-        jiaBean.setPic2(R.drawable.b013);
+        jiaBean.setPic1(R.drawable.b38);
+        jiaBean.setPic2(R.drawable.b038);
         return jiaBean;
     }
 
     private static JiaBean setData14() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b14);
-        jiaBean.setPic2(R.drawable.b014);
+        jiaBean.setPic1(R.drawable.b39);
+        jiaBean.setPic2(R.drawable.b039);
         return jiaBean;
     }
 
@@ -155,36 +155,36 @@ public class WageList {
     ///////////////////////////////////////////yihangshuju//////////////////////////////////////////////////////////////////////////////
     private static JiaBean setData15() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b15);
-        jiaBean.setPic2(R.drawable.b015);
+        jiaBean.setPic1(R.drawable.b40);
+        jiaBean.setPic2(R.drawable.b040);
         return jiaBean;
     }
 
     private static JiaBean setData16() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b16);
-        jiaBean.setPic2(R.drawable.b016);
+        jiaBean.setPic1(R.drawable.b41);
+        jiaBean.setPic2(R.drawable.b041);
         return jiaBean;
     }
 
     private static JiaBean setData17() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b17);
-        jiaBean.setPic2(R.drawable.b017);
+        jiaBean.setPic1(R.drawable.b42);
+        jiaBean.setPic2(R.drawable.b042);
         return jiaBean;
     }
 
     private static JiaBean setData18() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b18);
-        jiaBean.setPic2(R.drawable.b018);
+        jiaBean.setPic1(R.drawable.b43);
+        jiaBean.setPic2(R.drawable.b043);
         return jiaBean;
     }
 
     private static JiaBean setData19() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b19);
-        jiaBean.setPic2(R.drawable.b019);
+        jiaBean.setPic1(R.drawable.b44);
+        jiaBean.setPic2(R.drawable.b044);
         return jiaBean;
     }
 
@@ -200,36 +200,36 @@ public class WageList {
     ///////////////////////////////////////////yihangshuju//////////////////////////////////////////////////////////////////////////////
     private static JiaBean setData20() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b20);
-        jiaBean.setPic2(R.drawable.b020);
+        jiaBean.setPic1(R.drawable.b45);
+        jiaBean.setPic2(R.drawable.b045);
         return jiaBean;
     }
 
     private static JiaBean setData21() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b21);
-        jiaBean.setPic2(R.drawable.b021);
+        jiaBean.setPic1(R.drawable.b46);
+        jiaBean.setPic2(R.drawable.b046);
         return jiaBean;
     }
 
     private static JiaBean setData22() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b22);
-        jiaBean.setPic2(R.drawable.b022);
+        jiaBean.setPic1(R.drawable.b47);
+        jiaBean.setPic2(R.drawable.b047);
         return jiaBean;
     }
 
     private static JiaBean setData23() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b23);
-        jiaBean.setPic2(R.drawable.b023);
+        jiaBean.setPic1(R.drawable.b48);
+        jiaBean.setPic2(R.drawable.b048);
         return jiaBean;
     }
 
     private static JiaBean setData24() {
         JiaBean jiaBean = new JiaBean();
-        jiaBean.setPic1(R.drawable.b24);
-        jiaBean.setPic2(R.drawable.b024);
+        jiaBean.setPic1(R.drawable.b49);
+        jiaBean.setPic2(R.drawable.b049);
         return jiaBean;
     }
 

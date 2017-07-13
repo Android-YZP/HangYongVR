@@ -2,6 +2,7 @@ package com.jt.base.videos.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,9 +25,13 @@ import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
+import com.jt.base.http.responsebean.ForgetYzmBean;
+import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.VideoTypeBean;
+import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.utils.jia.HttpJiaBean;
 import com.jt.base.videos.adapters.DrawerAdapter;
 import com.jt.base.videos.adapters.MainAdapter;
 import com.jt.base.videos.define.Definition;
@@ -131,8 +136,8 @@ public class MainFragment extends Fragment {
     }
 
     private void initRecycleView() {
-        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager);
-        mRecycler.setAdapter(mMainAdapter);
+
+
         setHeaderView(mRecycler);
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -144,10 +149,10 @@ public class MainFragment extends Fragment {
                     if (mMainAdapter.getFooterView() == null) {
                         tote++;
                         UIUtils.showTip("到底部了,开始加载数据");
-                    }else {
+                    } else {
                         return;
                     }
-                    if (tote == 1){
+                    if (tote == 1) {
                         View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
                         mMainAdapter.setFooterView(v);
                         mMainAdapter.notifyDataSetChanged();
@@ -161,8 +166,45 @@ public class MainFragment extends Fragment {
      * 初始化数据
      */
     private void initDatas() {
+        HttpGetVideoTopic(  "","");
         HttpVideoType();
+        initData("https://raw.githubusercontent.com/Android-YZP/youshi/dev/testDatas.json");
     }
+
+
+    /**
+     * 假数据
+     */
+    private void initData(String url) {
+
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(url);
+        //包装请求参数
+        //获取数据
+        x.http().get(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+                HttpJiaBean httpJiaBean = new Gson().fromJson(result, HttpJiaBean.class);
+
+                mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, httpJiaBean);
+                mRecycler.setAdapter(mMainAdapter);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("服务端连接失败");
+            }
+        });
+
+    }
+
 
     /**
      * 请求侧边栏列表
@@ -172,6 +214,7 @@ public class MainFragment extends Fragment {
             UIUtils.showTip("请打开网络");
             return;
         }
+
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.VideoType);
         requestParams.addHeader("token", HttpURL.Token);
@@ -194,8 +237,7 @@ public class MainFragment extends Fragment {
                     }
                     mDrawerAdapter = new DrawerAdapter(mDatas, getContext(), mItemPress);
                     mLvDrawerItem.setAdapter(mDrawerAdapter);
-                    if (mDatas.size() > 0)
-                        HttpGetVideoTopic(mDatas.get(0).getId() + "");
+
                 }
             }
 
@@ -209,21 +251,27 @@ public class MainFragment extends Fragment {
     /**
      * 请求话题列表
      */
-    private void HttpGetVideoTopic(String id) {
+    private void HttpGetVideoTopic(String typeid, String sourceNum) {
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
         }
         //使用xutils3访问网络并获取返回值
-        RequestParams requestParams = new RequestParams(HttpURL.GetVideoTopic);
+        RequestParams requestParams = new RequestParams(HttpURL.VidByType);
         requestParams.addHeader("token", HttpURL.Token);
-        requestParams.addBodyParameter("id", id);
-        requestParams.addBodyParameter("sourceNumber", "1");
+        requestParams.addBodyParameter("typeId", "22");
+        requestParams.addBodyParameter("sourceNum", "222");
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LogUtil.i(result);
+                TopicBean topicBean = new Gson().fromJson(result, TopicBean.class);
+                if (topicBean.getCode() == 0){//数据获取成功/code话题ID，msg话题名称
+//                    mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, topicBean);
+//                    mRecycler.setAdapter(mMainAdapter);
+                }
+
+
             }
 
             @Override

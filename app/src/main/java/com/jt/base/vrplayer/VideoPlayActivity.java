@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -166,6 +167,7 @@ public class VideoPlayActivity extends Activity {
     private SnailNetReceiver mNetReceiver;
     private NetStateChangedListener mNetChangedListener;
     private AlertDialog show;
+    private ImageButton mIbBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +213,17 @@ public class VideoPlayActivity extends Activity {
         mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
         mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
         mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
+        mIbBack = (ImageButton) findViewById(R.id.ib_play_back);
         mSeekBar.setThumbOffset(1);
+
+        mIbBack.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VideoPlayActivity.this.finish();
+            }
+        });
+
+
         mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -295,7 +307,6 @@ public class VideoPlayActivity extends Activity {
                 }
             }
         });
-
 
 
         mImageView_PlayPause = (ImageView) findViewById(R.id.id_imageview_play_pause_full);
@@ -429,6 +440,10 @@ public class VideoPlayActivity extends Activity {
     //初始化播放器模式
     private void initPlayMode() {
         int vedioode = getIntent().getIntExtra(Definition.PLEAR_MODE, 4);
+        String desc = getIntent().getStringExtra("desc");
+        TextView title = (TextView)findViewById(R.id.tv_play_title);
+        title.setText(desc);
+
         if (vedioode == VedioContants.TWO_D_VEDIO) {
             mEyesMode = SNVR_SINGLE_EYES_MODE;
             mProjectionType = SNVR_PROJ_PLANE;
@@ -439,8 +454,6 @@ public class VideoPlayActivity extends Activity {
         mVideoView.setProjectionType(mProjectionType);
         mVideoView.setEyesMode(mEyesMode);
     }
-
-
 
 
     private void popFovSetDialog(final MenuItem item) {
@@ -651,7 +664,6 @@ public class VideoPlayActivity extends Activity {
     }
 
 
-
     @Override
     protected void onResume() {
         mNetReceiver.registNetBroadCast(this);
@@ -664,7 +676,6 @@ public class VideoPlayActivity extends Activity {
             mVideoView.setScale(mScale);
 
             if (mVideoView.IsSurfaceHolderValid()) {
-
                 mVideoView.resetUrl();
             }
 
@@ -783,6 +794,7 @@ public class VideoPlayActivity extends Activity {
 
     /**
      * 滑动改变亮度
+     *
      * @param percent
      */
     private void onBrightnessSlide(float percent) {
