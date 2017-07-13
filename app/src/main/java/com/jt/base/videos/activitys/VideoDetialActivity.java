@@ -25,12 +25,13 @@ import com.jt.base.R;
 import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.adapters.RvAdapter;
+import com.jt.base.videos.ui.SwipeBackActivity;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import org.xutils.common.util.LogUtil;
 import java.util.List;
 
-public class VideoDetialActivity extends AppCompatActivity {
+public class VideoDetialActivity extends SwipeBackActivity {
     private static final String ACTION = "com.jt.base.SENDBROADCAST";
     private static final int HTTP_SUCCESS = 0;
     private static final String COUNT = "3";//每次获取到的数据

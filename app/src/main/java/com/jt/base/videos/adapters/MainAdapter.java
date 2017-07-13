@@ -1,6 +1,8 @@
 package com.jt.base.videos.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +15,13 @@ import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jt.base.R;
+import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.videos.activitys.VideoListActivity;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
@@ -43,13 +48,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private RecyclerView mRecycler;
     private ViewPager mViewpager;
     private TextView mTvMore1;
+    private TopicBean topicBean;
     //构造函数
 
-    public MainAdapter(Activity context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager) {
+    public MainAdapter(Activity context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager, TopicBean topicBean) {
         this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
         this.mRecycler = mRecycler;
         this.mViewpager = mViewpager;
+        this.topicBean = topicBean;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -113,8 +120,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
-                ((ListHolder) holder).mTvTopicTitle.setText(JiaTitleUtils.getTopic().get(position));
-
+                ((ListHolder) holder).mTvTopicTitle.setText(topicBean.getResult().get(position).getMsg());
+                ((ListHolder) holder).mTvTotalVideos.setText(topicBean.getResult().get(position).getPage().getTotal()+"个视频");
 
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -124,12 +131,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 });
 
 
+
+
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) ;
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                 ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, position, httpJiaBean);
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.getResult().get(position).getResult());
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
 
@@ -142,6 +151,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                     }
                 });
+
                 mainVideosAdapter.setFooterView(v);
 
                 //修复滑动事件的冲突
@@ -185,6 +195,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         RecyclerView mRvVideoList;
         private TextView mTvTopicTitle;
         private RelativeLayout mRlMainMore;
+        private TextView mTvTotalVideos;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -198,6 +209,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mRvVideoList = (RecyclerView) itemView.findViewById(R.id.rv_video_list);
             mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_main_topic_title);
             mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_more);
+            mTvTotalVideos = (TextView) itemView.findViewById(R.id.tv_total_videos);
             mRlMainMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -212,13 +224,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return JiaUtils.getJSJ().size();
+            return topicBean.getResult().size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return JiaUtils.getJSJ().size() + 1;
+            return topicBean.getResult().size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return JiaUtils.getJSJ().size() + 1;
+            return topicBean.getResult().size() + 1;
         } else {
-            return JiaUtils.getJSJ().size() + 2;
+            return topicBean.getResult().size() + 2;
         }
     }
 

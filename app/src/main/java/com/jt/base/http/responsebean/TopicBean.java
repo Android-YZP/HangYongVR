@@ -11,8 +11,8 @@ public class TopicBean {
     /**
      * code : 0
      * msg : success
-     * result : [{"code":26,"msg":"你打我啊","result":[{"id":80,"uid":1,"type":1,"channelId":"9250_94f69f519fb54f2695446c5f771566c3","channelName":"newboy","isall":3,"status":0,"price":6,"img":"cb372b06-f0ce-4715-85b7-106519de4c3b.png","createDate":null,"alipay":"","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3?bizid=9250&txSecret=7dbc030115b92a9e014906c7273ba069&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_94f69f519fb54f2695446c5f771566c3.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"77b8bc1f-a74f-483f-a449-973c6f051381.png","typeId":22,"topicId":26,"img1":"ad72c1aa-a99d-4909-b201-20ee6001be34.png","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-10 16:46:29","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":83,"uid":1,"type":1,"channelId":"9250_d0170a9263074c6eb6ef08a0f31a5c1c","channelName":"edit_roos","isall":1,"status":0,"price":1,"img":"8954b737-f7e4-4193-a2ca-6702527002f6.png","createDate":null,"alipay":"","place":1,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_d0170a9263074c6eb6ef08a0f31a5c1c?bizid=9250&txSecret=17e69827d4fa05f9721f446edb4d342b&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_d0170a9263074c6eb6ef08a0f31a5c1c","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_d0170a9263074c6eb6ef08a0f31a5c1c.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_d0170a9263074c6eb6ef08a0f31a5c1c.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"27c48514-b4a6-4e3b-9ad3-5539cd2de832.png","typeId":22,"topicId":26,"img1":"53c670d6-87f2-4e45-bb7a-6ea7b6fd9452.png","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-10 19:13:34","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":74,"uid":1,"type":1,"channelId":"9250_95dddb88b07b479cac0f9cced4fdb119","channelName":"","isall":0,"status":0,"price":231,"img":"ff7468f1-256b-40ba-ac8e-e7ff91e25bd4.jpg","createDate":null,"alipay":"12312","place":1,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_95dddb88b07b479cac0f9cced4fdb119?bizid=9250&txSecret=4df8a5453e31ea32404c281f8d7da2b4&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_95dddb88b07b479cac0f9cced4fdb119","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_95dddb88b07b479cac0f9cced4fdb119.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_95dddb88b07b479cac0f9cced4fdb119.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"fb9dd7e3-37e0-46e2-a480-179f6e0db442.jpg","typeId":22,"topicId":26,"img1":"f4ad7e72-0726-4a5d-a62b-5a93c88c01c9.gif","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-06 19:25:04","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":75,"uid":1,"type":1,"channelId":"9250_edf26dc2ebd346dfa9bd1c4624bb8581","channelName":"","isall":2,"status":0,"price":123,"img":"e93a683e-6213-45f1-b4d1-4b04d23d7082.jpg","createDate":null,"alipay":"123123","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_edf26dc2ebd346dfa9bd1c4624bb8581?bizid=9250&txSecret=14d153887850bdcdaa183311f64d171c&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_edf26dc2ebd346dfa9bd1c4624bb8581","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_edf26dc2ebd346dfa9bd1c4624bb8581.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_edf26dc2ebd346dfa9bd1c4624bb8581.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"51cb33a5-bf14-4e59-9bd6-eb4cc71535a9.jpg","typeId":22,"topicId":26,"img1":"456c3691-2b2e-4a46-8de0-6e07743155c9.gif","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-06 19:26:48","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":42,"uid":123,"type":1,"channelId":"9250_237e13877eb8443fb65a8bb50089ad9d","channelName":"邓紫棋直播","isall":0,"status":0,"price":11,"img":"2132141254","createDate":null,"alipay":"","place":1,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_237e13877eb8443fb65a8bb50089ad9d?bizid=9250&txSecret=79b61496450b7c4ba60fd88d5bb3443c&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_237e13877eb8443fb65a8bb50089ad9d","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_237e13877eb8443fb65a8bb50089ad9d.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_237e13877eb8443fb65a8bb50089ad9d.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"21","typeId":22,"topicId":26,"img1":"231241","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-06-30 15:41:26","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":77,"uid":1,"type":1,"channelId":"9250_20221380937b4404acd2ebbac8f26d0a","channelName":"1233348654","isall":0,"status":0,"price":231,"img":"c1b377fc-fa2d-428e-8b34-a1e3a7e4fcc5.jpg","createDate":null,"alipay":"123123","place":1,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_20221380937b4404acd2ebbac8f26d0a?bizid=9250&txSecret=f83464fdf20deba8d8d9cbe930ceb03e&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_20221380937b4404acd2ebbac8f26d0a","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_20221380937b4404acd2ebbac8f26d0a.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_20221380937b4404acd2ebbac8f26d0a.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"7c275fb1-5e64-4015-a662-f18dca8e5295.jpg","typeId":22,"topicId":26,"img1":"14cf18f0-a25f-4d3c-abed-f61118f81f9e.jpg","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-06 19:32:09","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}],"page":{"total":6,"totalPage":1,"page":1,"count":10,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":26,"isall":null,"sourceNum":222,"startIndex":0}},{"code":46,"msg":"随便","result":[{"id":81,"uid":1,"type":1,"channelId":"9250_af1e2f7132ce4682a63df0624d380e90","channelName":"直播02","isall":1,"status":0,"price":2,"img":"12d84e4a-1c83-493e-b29d-c97d4bace0da.png","createDate":null,"alipay":"","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_af1e2f7132ce4682a63df0624d380e90?bizid=9250&txSecret=1257202cbbe80874b850e79933c5ff75&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_af1e2f7132ce4682a63df0624d380e90","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_af1e2f7132ce4682a63df0624d380e90.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_af1e2f7132ce4682a63df0624d380e90.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"b2645982-f9cd-490d-b56e-1ed8fb223893.png","typeId":22,"topicId":46,"img1":"d1a4ba97-c504-41a2-a430-e1d65bc4f41c.png","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-10 17:40:42","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":84,"uid":1,"type":1,"channelId":"9250_d42e123f7db342e99710a467e2a930ca","channelName":"new room","isall":1,"status":0,"price":111,"img":"4540d462-28c5-4050-b7a4-c96cad91e643.png","createDate":null,"alipay":"","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_d42e123f7db342e99710a467e2a930ca?bizid=9250&txSecret=96d50e721412eccd91a6f40ff2bbfdcf&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_d42e123f7db342e99710a467e2a930ca","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_d42e123f7db342e99710a467e2a930ca.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_d42e123f7db342e99710a467e2a930ca.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"ebfdd352-5b09-402e-a652-5c7851749e41.png","typeId":22,"topicId":46,"img1":"60230012-931b-4694-87f3-12d7de7c536d.png","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-11 13:21:01","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":76,"uid":1,"type":1,"channelId":"9250_e40e591e1fdc41149c6b58615f6aab99","channelName":"","isall":1,"status":0,"price":123,"img":"1fb3c00c-0eb1-46e3-a540-f5f708e981de.jpg","createDate":null,"alipay":"123123","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_e40e591e1fdc41149c6b58615f6aab99?bizid=9250&txSecret=9a16971b4b1e9869f0a5c21c91007a68&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_e40e591e1fdc41149c6b58615f6aab99","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_e40e591e1fdc41149c6b58615f6aab99.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_e40e591e1fdc41149c6b58615f6aab99.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"89b1ce89-87d0-47bf-ba8c-99993647a5dc.jpg","typeId":22,"topicId":46,"img1":"8d8dcb5f-8091-499f-a030-891598daf7ce.jpg","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-06 19:29:12","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}],"page":{"total":3,"totalPage":1,"page":1,"count":10,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":46,"isall":null,"sourceNum":222,"startIndex":0}},{"code":48,"msg":"new topic","result":[],"page":{"total":0,"totalPage":0,"page":1,"count":10,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":48,"isall":null,"sourceNum":222,"startIndex":0}}]
-     * page : {"total":3,"totalPage":1,"page":1,"count":20,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":22,"topicId":null,"isall":null,"sourceNum":222,"startIndex":0}
+     * result : [{"code":27,"msg":"聊你","result":[{"id":47,"uid":23,"type":0,"channelId":"9031868223001408167","channelName":"我是点播","isall":2,"status":0,"price":0,"img":"11212.jpg","createDate":null,"alipay":null,"place":null,"outputSourceType":3,"upstreamAddress":null,"rtmpDownstreamAddress":null,"flvDownstreamAddress":null,"hlsDownstreamAddress":null,"playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"1212","typeId":38,"topicId":27,"img1":"hahhaa.png","time":"3124","format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-03 14:33:00","vodStatus":5,"vodInfos":[{"id":29,"vodId":47,"vbitrate":0,"definition":0,"url":"http://1253520711.vod2.myqcloud.com/3035299avodgzp1253520711/43d7abfc9031868222925114143/f0.mp4","time":60,"size":139.86,"md5":""},{"id":30,"vodId":47,"vbitrate":511955,"definition":220,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f220.m3u8","time":60,"size":139.86,"md5":"7bdf1e6e55b426c2d5d9bcb51ed6d310"},{"id":31,"vodId":47,"vbitrate":446093,"definition":20,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f20.mp4","time":60,"size":139.86,"md5":"6de5f6089a3f08afaef7793104e55df6"},{"id":32,"vodId":47,"vbitrate":2181636,"definition":40,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f40.mp4","time":60,"size":139.86,"md5":"6fa8b58ad935f1bd2287a1cd86ffde12"},{"id":33,"vodId":47,"vbitrate":2381534,"definition":240,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f240.m3u8","time":60,"size":139.86,"md5":"713575b9f90ff8fbdfc7d42b9fa610b2"},{"id":34,"vodId":47,"vbitrate":886965,"definition":30,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f30.mp4","time":60,"size":139.86,"md5":"667b2a83c13b08d8a87bcca90c41fe21"},{"id":35,"vodId":47,"vbitrate":986526,"definition":230,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f230.m3u8","time":60,"size":139.86,"md5":"09a36e1e93125d479ffcbc778b62a2bf"}],"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":47,"uid":23,"type":0,"channelId":"9031868223001408167","channelName":"我是点播","isall":2,"status":0,"price":0,"img":"11212.jpg","createDate":null,"alipay":null,"place":null,"outputSourceType":3,"upstreamAddress":null,"rtmpDownstreamAddress":null,"flvDownstreamAddress":null,"hlsDownstreamAddress":null,"playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"1212","typeId":38,"topicId":27,"img1":"hahhaa.png","time":"3124","format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-03 14:33:00","vodStatus":5,"vodInfos":[{"id":29,"vodId":47,"vbitrate":0,"definition":0,"url":"http://1253520711.vod2.myqcloud.com/3035299avodgzp1253520711/43d7abfc9031868222925114143/f0.mp4","time":60,"size":139.86,"md5":""},{"id":30,"vodId":47,"vbitrate":511955,"definition":220,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f220.m3u8","time":60,"size":139.86,"md5":"7bdf1e6e55b426c2d5d9bcb51ed6d310"},{"id":31,"vodId":47,"vbitrate":446093,"definition":20,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f20.mp4","time":60,"size":139.86,"md5":"6de5f6089a3f08afaef7793104e55df6"},{"id":32,"vodId":47,"vbitrate":2181636,"definition":40,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f40.mp4","time":60,"size":139.86,"md5":"6fa8b58ad935f1bd2287a1cd86ffde12"},{"id":33,"vodId":47,"vbitrate":2381534,"definition":240,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f240.m3u8","time":60,"size":139.86,"md5":"713575b9f90ff8fbdfc7d42b9fa610b2"},{"id":34,"vodId":47,"vbitrate":886965,"definition":30,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f30.mp4","time":60,"size":139.86,"md5":"667b2a83c13b08d8a87bcca90c41fe21"},{"id":35,"vodId":47,"vbitrate":986526,"definition":230,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f230.m3u8","time":60,"size":139.86,"md5":"09a36e1e93125d479ffcbc778b62a2bf"}],"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}],"page":{"total":2,"totalPage":1,"page":1,"count":10,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":27,"isall":null,"sourceNum":222,"startIndex":0}}]
+     * page : {"total":1,"totalPage":1,"page":1,"count":20,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":38,"topicId":null,"isall":null,"sourceNum":222,"startIndex":0}
      */
 
     private int code;
@@ -54,7 +54,7 @@ public class TopicBean {
 
     public static class PageBean {
         /**
-         * total : 3
+         * total : 1
          * totalPage : 1
          * page : 1
          * count : 20
@@ -69,7 +69,7 @@ public class TopicBean {
          * countAllRecord : true
          * channelName : null
          * vodStatus : null
-         * typeId : 22
+         * typeId : 38
          * topicId : null
          * isall : null
          * sourceNum : 222
@@ -260,10 +260,10 @@ public class TopicBean {
 
     public static class ResultBeanX {
         /**
-         * code : 26
-         * msg : 你打我啊
-         * result : [{"id":80,"uid":1,"type":1,"channelId":"9250_94f69f519fb54f2695446c5f771566c3","channelName":"newboy","isall":3,"status":0,"price":6,"img":"cb372b06-f0ce-4715-85b7-106519de4c3b.png","createDate":null,"alipay":"","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3?bizid=9250&txSecret=7dbc030115b92a9e014906c7273ba069&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_94f69f519fb54f2695446c5f771566c3.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"77b8bc1f-a74f-483f-a449-973c6f051381.png","typeId":22,"topicId":26,"img1":"ad72c1aa-a99d-4909-b201-20ee6001be34.png","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-10 16:46:29","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":83,"uid":1,"type":1,"channelId":"9250_d0170a9263074c6eb6ef08a0f31a5c1c","channelName":"edit_roos","isall":1,"status":0,"price":1,"img":"8954b737-f7e4-4193-a2ca-6702527002f6.png","createDate":null,"alipay":"","place":1,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_d0170a9263074c6eb6ef08a0f31a5c1c?bizid=9250&txSecret=17e69827d4fa05f9721f446edb4d342b&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_d0170a9263074c6eb6ef08a0f31a5c1c","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_d0170a9263074c6eb6ef08a0f31a5c1c.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_d0170a9263074c6eb6ef08a0f31a5c1c.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"27c48514-b4a6-4e3b-9ad3-5539cd2de832.png","typeId":22,"topicId":26,"img1":"53c670d6-87f2-4e45-bb7a-6ea7b6fd9452.png","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-10 19:13:34","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":74,"uid":1,"type":1,"channelId":"9250_95dddb88b07b479cac0f9cced4fdb119","channelName":"","isall":0,"status":0,"price":231,"img":"ff7468f1-256b-40ba-ac8e-e7ff91e25bd4.jpg","createDate":null,"alipay":"12312","place":1,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_95dddb88b07b479cac0f9cced4fdb119?bizid=9250&txSecret=4df8a5453e31ea32404c281f8d7da2b4&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_95dddb88b07b479cac0f9cced4fdb119","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_95dddb88b07b479cac0f9cced4fdb119.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_95dddb88b07b479cac0f9cced4fdb119.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"fb9dd7e3-37e0-46e2-a480-179f6e0db442.jpg","typeId":22,"topicId":26,"img1":"f4ad7e72-0726-4a5d-a62b-5a93c88c01c9.gif","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-06 19:25:04","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":75,"uid":1,"type":1,"channelId":"9250_edf26dc2ebd346dfa9bd1c4624bb8581","channelName":"","isall":2,"status":0,"price":123,"img":"e93a683e-6213-45f1-b4d1-4b04d23d7082.jpg","createDate":null,"alipay":"123123","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_edf26dc2ebd346dfa9bd1c4624bb8581?bizid=9250&txSecret=14d153887850bdcdaa183311f64d171c&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_edf26dc2ebd346dfa9bd1c4624bb8581","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_edf26dc2ebd346dfa9bd1c4624bb8581.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_edf26dc2ebd346dfa9bd1c4624bb8581.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"51cb33a5-bf14-4e59-9bd6-eb4cc71535a9.jpg","typeId":22,"topicId":26,"img1":"456c3691-2b2e-4a46-8de0-6e07743155c9.gif","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-06 19:26:48","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":42,"uid":123,"type":1,"channelId":"9250_237e13877eb8443fb65a8bb50089ad9d","channelName":"邓紫棋直播","isall":0,"status":0,"price":11,"img":"2132141254","createDate":null,"alipay":"","place":1,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_237e13877eb8443fb65a8bb50089ad9d?bizid=9250&txSecret=79b61496450b7c4ba60fd88d5bb3443c&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_237e13877eb8443fb65a8bb50089ad9d","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_237e13877eb8443fb65a8bb50089ad9d.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_237e13877eb8443fb65a8bb50089ad9d.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"21","typeId":22,"topicId":26,"img1":"231241","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-06-30 15:41:26","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":77,"uid":1,"type":1,"channelId":"9250_20221380937b4404acd2ebbac8f26d0a","channelName":"1233348654","isall":0,"status":0,"price":231,"img":"c1b377fc-fa2d-428e-8b34-a1e3a7e4fcc5.jpg","createDate":null,"alipay":"123123","place":1,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_20221380937b4404acd2ebbac8f26d0a?bizid=9250&txSecret=f83464fdf20deba8d8d9cbe930ceb03e&txTime=596798FF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_20221380937b4404acd2ebbac8f26d0a","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_20221380937b4404acd2ebbac8f26d0a.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_20221380937b4404acd2ebbac8f26d0a.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"7c275fb1-5e64-4015-a662-f18dca8e5295.jpg","typeId":22,"topicId":26,"img1":"14cf18f0-a25f-4d3c-abed-f61118f81f9e.jpg","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-06 19:32:09","vodStatus":0,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}]
-         * page : {"total":6,"totalPage":1,"page":1,"count":10,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":26,"isall":null,"sourceNum":222,"startIndex":0}
+         * code : 27
+         * msg : 聊你
+         * result : [{"id":47,"uid":23,"type":0,"channelId":"9031868223001408167","channelName":"我是点播","isall":2,"status":0,"price":0,"img":"11212.jpg","createDate":null,"alipay":null,"place":null,"outputSourceType":3,"upstreamAddress":null,"rtmpDownstreamAddress":null,"flvDownstreamAddress":null,"hlsDownstreamAddress":null,"playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"1212","typeId":38,"topicId":27,"img1":"hahhaa.png","time":"3124","format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-03 14:33:00","vodStatus":5,"vodInfos":[{"id":29,"vodId":47,"vbitrate":0,"definition":0,"url":"http://1253520711.vod2.myqcloud.com/3035299avodgzp1253520711/43d7abfc9031868222925114143/f0.mp4","time":60,"size":139.86,"md5":""},{"id":30,"vodId":47,"vbitrate":511955,"definition":220,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f220.m3u8","time":60,"size":139.86,"md5":"7bdf1e6e55b426c2d5d9bcb51ed6d310"},{"id":31,"vodId":47,"vbitrate":446093,"definition":20,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f20.mp4","time":60,"size":139.86,"md5":"6de5f6089a3f08afaef7793104e55df6"},{"id":32,"vodId":47,"vbitrate":2181636,"definition":40,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f40.mp4","time":60,"size":139.86,"md5":"6fa8b58ad935f1bd2287a1cd86ffde12"},{"id":33,"vodId":47,"vbitrate":2381534,"definition":240,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f240.m3u8","time":60,"size":139.86,"md5":"713575b9f90ff8fbdfc7d42b9fa610b2"},{"id":34,"vodId":47,"vbitrate":886965,"definition":30,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f30.mp4","time":60,"size":139.86,"md5":"667b2a83c13b08d8a87bcca90c41fe21"},{"id":35,"vodId":47,"vbitrate":986526,"definition":230,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f230.m3u8","time":60,"size":139.86,"md5":"09a36e1e93125d479ffcbc778b62a2bf"}],"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":47,"uid":23,"type":0,"channelId":"9031868223001408167","channelName":"我是点播","isall":2,"status":0,"price":0,"img":"11212.jpg","createDate":null,"alipay":null,"place":null,"outputSourceType":3,"upstreamAddress":null,"rtmpDownstreamAddress":null,"flvDownstreamAddress":null,"hlsDownstreamAddress":null,"playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"1212","typeId":38,"topicId":27,"img1":"hahhaa.png","time":"3124","format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-03 14:33:00","vodStatus":5,"vodInfos":[{"id":29,"vodId":47,"vbitrate":0,"definition":0,"url":"http://1253520711.vod2.myqcloud.com/3035299avodgzp1253520711/43d7abfc9031868222925114143/f0.mp4","time":60,"size":139.86,"md5":""},{"id":30,"vodId":47,"vbitrate":511955,"definition":220,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f220.m3u8","time":60,"size":139.86,"md5":"7bdf1e6e55b426c2d5d9bcb51ed6d310"},{"id":31,"vodId":47,"vbitrate":446093,"definition":20,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f20.mp4","time":60,"size":139.86,"md5":"6de5f6089a3f08afaef7793104e55df6"},{"id":32,"vodId":47,"vbitrate":2181636,"definition":40,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f40.mp4","time":60,"size":139.86,"md5":"6fa8b58ad935f1bd2287a1cd86ffde12"},{"id":33,"vodId":47,"vbitrate":2381534,"definition":240,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f240.m3u8","time":60,"size":139.86,"md5":"713575b9f90ff8fbdfc7d42b9fa610b2"},{"id":34,"vodId":47,"vbitrate":886965,"definition":30,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f30.mp4","time":60,"size":139.86,"md5":"667b2a83c13b08d8a87bcca90c41fe21"},{"id":35,"vodId":47,"vbitrate":986526,"definition":230,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f230.m3u8","time":60,"size":139.86,"md5":"09a36e1e93125d479ffcbc778b62a2bf"}],"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}]
+         * page : {"total":2,"totalPage":1,"page":1,"count":10,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":27,"isall":null,"sourceNum":222,"startIndex":0}
          */
 
         private int code;
@@ -305,7 +305,7 @@ public class TopicBean {
 
         public static class PageBeanX {
             /**
-             * total : 6
+             * total : 2
              * totalPage : 1
              * page : 1
              * count : 10
@@ -321,7 +321,7 @@ public class TopicBean {
              * channelName : null
              * vodStatus : null
              * typeId : null
-             * topicId : 26
+             * topicId : 27
              * isall : null
              * sourceNum : 222
              * startIndex : 0
@@ -511,42 +511,42 @@ public class TopicBean {
 
         public static class ResultBean {
             /**
-             * id : 80
-             * uid : 1
-             * type : 1
-             * channelId : 9250_94f69f519fb54f2695446c5f771566c3
-             * channelName : newboy
-             * isall : 3
+             * id : 47
+             * uid : 23
+             * type : 0
+             * channelId : 9031868223001408167
+             * channelName : 我是点播
+             * isall : 2
              * status : 0
-             * price : 6
-             * img : cb372b06-f0ce-4715-85b7-106519de4c3b.png
+             * price : 0
+             * img : 11212.jpg
              * createDate : null
-             * alipay :
-             * place : 0
+             * alipay : null
+             * place : null
              * outputSourceType : 3
-             * upstreamAddress : rtmp://9250.livepush.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3?bizid=9250&txSecret=7dbc030115b92a9e014906c7273ba069&txTime=596798FF
-             * rtmpDownstreamAddress : rtmp://9250.liveplay.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3
-             * flvDownstreamAddress : http://9250.liveplay.myqcloud.com/live/9250_94f69f519fb54f2695446c5f771566c3.flv
-             * hlsDownstreamAddress : http://9250.liveplay.myqcloud.com/9250_94f69f519fb54f2695446c5f771566c3.m3u8
+             * upstreamAddress : null
+             * rtmpDownstreamAddress : null
+             * flvDownstreamAddress : null
+             * hlsDownstreamAddress : null
              * playerPassword : null
              * watermarkId : null
              * outputrateOne : null
              * outputrateTow : null
              * outputrateThree : null
-             * head : 77b8bc1f-a74f-483f-a449-973c6f051381.png
-             * typeId : 22
-             * topicId : 26
-             * img1 : ad72c1aa-a99d-4909-b201-20ee6001be34.png
-             * time : null
+             * head : 1212
+             * typeId : 38
+             * topicId : 27
+             * img1 : hahhaa.png
+             * time : 3124
              * format : null
              * size : null
              * rate : null
              * vodTaskId : null
              * top : null
              * isVip : null
-             * publish : 2017-07-10 16:46:29
-             * vodStatus : 0
-             * vodInfos : null
+             * publish : 2017-07-03 14:33:00
+             * vodStatus : 5
+             * vodInfos : [{"id":29,"vodId":47,"vbitrate":0,"definition":0,"url":"http://1253520711.vod2.myqcloud.com/3035299avodgzp1253520711/43d7abfc9031868222925114143/f0.mp4","time":60,"size":139.86,"md5":""},{"id":30,"vodId":47,"vbitrate":511955,"definition":220,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f220.m3u8","time":60,"size":139.86,"md5":"7bdf1e6e55b426c2d5d9bcb51ed6d310"},{"id":31,"vodId":47,"vbitrate":446093,"definition":20,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f20.mp4","time":60,"size":139.86,"md5":"6de5f6089a3f08afaef7793104e55df6"},{"id":32,"vodId":47,"vbitrate":2181636,"definition":40,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f40.mp4","time":60,"size":139.86,"md5":"6fa8b58ad935f1bd2287a1cd86ffde12"},{"id":33,"vodId":47,"vbitrate":2381534,"definition":240,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f240.m3u8","time":60,"size":139.86,"md5":"713575b9f90ff8fbdfc7d42b9fa610b2"},{"id":34,"vodId":47,"vbitrate":886965,"definition":30,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f30.mp4","time":60,"size":139.86,"md5":"667b2a83c13b08d8a87bcca90c41fe21"},{"id":35,"vodId":47,"vbitrate":986526,"definition":230,"url":"http://1253520711.vod2.myqcloud.com/e45ccc42vodtransgzp1253520711/43d7abfc9031868222925114143/f0.f230.m3u8","time":60,"size":139.86,"md5":"09a36e1e93125d479ffcbc778b62a2bf"}]
              * username : null
              * typeName : null
              * topicName : null
@@ -565,13 +565,13 @@ public class TopicBean {
             private int price;
             private String img;
             private Object createDate;
-            private String alipay;
-            private int place;
+            private Object alipay;
+            private Object place;
             private int outputSourceType;
-            private String upstreamAddress;
-            private String rtmpDownstreamAddress;
-            private String flvDownstreamAddress;
-            private String hlsDownstreamAddress;
+            private Object upstreamAddress;
+            private Object rtmpDownstreamAddress;
+            private Object flvDownstreamAddress;
+            private Object hlsDownstreamAddress;
             private Object playerPassword;
             private Object watermarkId;
             private Object outputrateOne;
@@ -581,7 +581,7 @@ public class TopicBean {
             private int typeId;
             private int topicId;
             private String img1;
-            private Object time;
+            private String time;
             private Object format;
             private Object size;
             private Object rate;
@@ -590,13 +590,13 @@ public class TopicBean {
             private Object isVip;
             private String publish;
             private int vodStatus;
-            private Object vodInfos;
             private Object username;
             private Object typeName;
             private Object topicName;
             private Object reason;
             private Object introduce;
             private Object num;
+            private List<VodInfosBean> vodInfos;
 
             public int getId() {
                 return id;
@@ -678,19 +678,19 @@ public class TopicBean {
                 this.createDate = createDate;
             }
 
-            public String getAlipay() {
+            public Object getAlipay() {
                 return alipay;
             }
 
-            public void setAlipay(String alipay) {
+            public void setAlipay(Object alipay) {
                 this.alipay = alipay;
             }
 
-            public int getPlace() {
+            public Object getPlace() {
                 return place;
             }
 
-            public void setPlace(int place) {
+            public void setPlace(Object place) {
                 this.place = place;
             }
 
@@ -702,35 +702,35 @@ public class TopicBean {
                 this.outputSourceType = outputSourceType;
             }
 
-            public String getUpstreamAddress() {
+            public Object getUpstreamAddress() {
                 return upstreamAddress;
             }
 
-            public void setUpstreamAddress(String upstreamAddress) {
+            public void setUpstreamAddress(Object upstreamAddress) {
                 this.upstreamAddress = upstreamAddress;
             }
 
-            public String getRtmpDownstreamAddress() {
+            public Object getRtmpDownstreamAddress() {
                 return rtmpDownstreamAddress;
             }
 
-            public void setRtmpDownstreamAddress(String rtmpDownstreamAddress) {
+            public void setRtmpDownstreamAddress(Object rtmpDownstreamAddress) {
                 this.rtmpDownstreamAddress = rtmpDownstreamAddress;
             }
 
-            public String getFlvDownstreamAddress() {
+            public Object getFlvDownstreamAddress() {
                 return flvDownstreamAddress;
             }
 
-            public void setFlvDownstreamAddress(String flvDownstreamAddress) {
+            public void setFlvDownstreamAddress(Object flvDownstreamAddress) {
                 this.flvDownstreamAddress = flvDownstreamAddress;
             }
 
-            public String getHlsDownstreamAddress() {
+            public Object getHlsDownstreamAddress() {
                 return hlsDownstreamAddress;
             }
 
-            public void setHlsDownstreamAddress(String hlsDownstreamAddress) {
+            public void setHlsDownstreamAddress(Object hlsDownstreamAddress) {
                 this.hlsDownstreamAddress = hlsDownstreamAddress;
             }
 
@@ -806,11 +806,11 @@ public class TopicBean {
                 this.img1 = img1;
             }
 
-            public Object getTime() {
+            public String getTime() {
                 return time;
             }
 
-            public void setTime(Object time) {
+            public void setTime(String time) {
                 this.time = time;
             }
 
@@ -878,14 +878,6 @@ public class TopicBean {
                 this.vodStatus = vodStatus;
             }
 
-            public Object getVodInfos() {
-                return vodInfos;
-            }
-
-            public void setVodInfos(Object vodInfos) {
-                this.vodInfos = vodInfos;
-            }
-
             public Object getUsername() {
                 return username;
             }
@@ -932,6 +924,100 @@ public class TopicBean {
 
             public void setNum(Object num) {
                 this.num = num;
+            }
+
+            public List<VodInfosBean> getVodInfos() {
+                return vodInfos;
+            }
+
+            public void setVodInfos(List<VodInfosBean> vodInfos) {
+                this.vodInfos = vodInfos;
+            }
+
+            public static class VodInfosBean {
+                /**
+                 * id : 29
+                 * vodId : 47
+                 * vbitrate : 0
+                 * definition : 0
+                 * url : http://1253520711.vod2.myqcloud.com/3035299avodgzp1253520711/43d7abfc9031868222925114143/f0.mp4
+                 * time : 60
+                 * size : 139.86
+                 * md5 :
+                 */
+
+                private int id;
+                private int vodId;
+                private int vbitrate;
+                private int definition;
+                private String url;
+                private int time;
+                private double size;
+                private String md5;
+
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
+
+                public int getVodId() {
+                    return vodId;
+                }
+
+                public void setVodId(int vodId) {
+                    this.vodId = vodId;
+                }
+
+                public int getVbitrate() {
+                    return vbitrate;
+                }
+
+                public void setVbitrate(int vbitrate) {
+                    this.vbitrate = vbitrate;
+                }
+
+                public int getDefinition() {
+                    return definition;
+                }
+
+                public void setDefinition(int definition) {
+                    this.definition = definition;
+                }
+
+                public String getUrl() {
+                    return url;
+                }
+
+                public void setUrl(String url) {
+                    this.url = url;
+                }
+
+                public int getTime() {
+                    return time;
+                }
+
+                public void setTime(int time) {
+                    this.time = time;
+                }
+
+                public double getSize() {
+                    return size;
+                }
+
+                public void setSize(double size) {
+                    this.size = size;
+                }
+
+                public String getMd5() {
+                    return md5;
+                }
+
+                public void setMd5(String md5) {
+                    this.md5 = md5;
+                }
             }
         }
     }

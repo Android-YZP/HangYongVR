@@ -112,7 +112,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".videos.activitys.VideoDetialActivity"
+            android:name=".videos.activitys.VideoDetialActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" />
 
         <activity
