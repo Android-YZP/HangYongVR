@@ -81,17 +81,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     /**
-     * 重写这个方法，很重要，是加入Header和Footer的关键，我们通过判断item的类型，从而绑定不同的view    *
+     * 重写这个方法，很重要，是加入Header和Footer的关键，我们通过判断item的类型，从而绑定不同的view
      */
     @Override
     public int getItemViewType(int position) {
         if (mHeaderView == null && mFooterView == null) {
             return TYPE_NORMAL;
         }
-        if (position == 0 && mHeaderView != null) {
-            //第一个item应该加载Header
-            return TYPE_HEADER;
-        }
+        if (position == 0 && mHeaderView != null)
         if (position == getItemCount() - 1 && mFooterView != null) {
             //最后一个,应该加载Footer
             return TYPE_FOOTER;
@@ -122,16 +119,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.getResult().get(position).getMsg());
                 ((ListHolder) holder).mTvTotalVideos.setText(topicBean.getResult().get(position).getPage().getTotal()+"个视频");
-
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mViewpager.setCurrentItem(1, true);
                     }
                 });
-
-
-
 
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);

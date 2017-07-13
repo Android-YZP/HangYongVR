@@ -19,6 +19,7 @@ import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
 import com.jt.base.utils.JiaTitleUtils;
 import com.jt.base.utils.JiaUtils;
+import com.jt.base.utils.UIUtils;
 import com.jt.base.utils.jia.HttpJiaBean;
 import com.jt.base.utils.jia.JiaBean;
 import com.jt.base.utils.jia.WageList;
@@ -26,6 +27,8 @@ import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VedioDeatilsActivity;
 import com.jt.base.videos.activitys.VideoDetialActivity;
 import com.jt.base.videos.activitys.VideoListActivity;
+
+import org.xutils.common.util.LogUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -121,8 +124,8 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
             Glide.with(context)
                     .load(HttpURL.IV_HOST + resultBean.get(position).getImg())
                     .asBitmap()
+                    .error(R.mipmap.camera_off)
                     .into(holder.mivVideoImg);
-
 
             //设置视频的描述信息
             holder.mTvVideoDesc.setText(resultBean.get(position).getChannelName());

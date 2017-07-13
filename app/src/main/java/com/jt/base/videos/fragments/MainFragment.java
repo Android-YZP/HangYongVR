@@ -125,7 +125,6 @@ public class MainFragment extends Fragment {
                 }
             });
 
-
         mIbMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +135,6 @@ public class MainFragment extends Fragment {
     }
 
     private void initRecycleView() {
-
 
         setHeaderView(mRecycler);
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
