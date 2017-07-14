@@ -103,9 +103,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (holder instanceof ListHolder) {
 
 
-
-
-
                 return;
             }
             return;
