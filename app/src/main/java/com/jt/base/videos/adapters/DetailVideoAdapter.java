@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jt.base.R;
 
@@ -36,7 +39,8 @@ public class DetailVideoAdapter extends RecyclerView.Adapter<DetailVideoAdapter.
     @Override
     public void onBindViewHolder(MyVideoHolder holder, int position) {
         // 给ViewHolder设置元素
-        holder.linear.setText(list,get(position));
+//        holder..(list.get(position));
+        holder.text.setText(list.get(position));
     }
 
     @Override
@@ -46,11 +50,13 @@ public class DetailVideoAdapter extends RecyclerView.Adapter<DetailVideoAdapter.
     }
     // 重写的自定义ViewHolder
     public static class MyVideoHolder extends RecyclerView.ViewHolder{
-        private final LinearLayout linear;
+//        private final ImageView  ;
+        private final TextView text;
 
         public MyVideoHolder(View itemView){
             super(itemView);
-            linear = ((LinearLayout) itemView.findViewById(R.id.ll_deatils_more));
+//            = (ImageView) itemView.findViewById(R.id.img_video_item);
+            text = (TextView) itemView.findViewById(R.id.tv_video_item);
         }
     }
 }

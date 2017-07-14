@@ -1,7 +1,6 @@
 package com.jt.base.videos.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,17 +14,9 @@ import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.jt.base.R;
 import com.jt.base.http.responsebean.TopicBean;
-import com.jt.base.utils.JiaTitleUtils;
-import com.jt.base.utils.JiaUtils;
-import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.activitys.VideoListActivity;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
-
-import org.xutils.common.util.LogUtil;
 
 import java.util.List;
 
@@ -123,12 +114,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.getResult().get(position).getMsg());
                 ((ListHolder) holder).mTvTotalVideos.setText(topicBean.getResult().get(position).getPage().getTotal()+"个视频");
 
-                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mViewpager.setCurrentItem(1, true);
-                    }
-                });
 
 
 

@@ -36,6 +36,8 @@
     <color name="colorVeryDarkTransparentGray">#d4000000</color>
     <color name="colorLightTransparentGray">#22ffffff</color>
     <color name="color_input_dialog_background">#b4ffffff</color>
+    <color name="cursor_green_c">#39f0d4</color>
+    <color name="xia_hua_xian">#f3f3f3</color>
 
     <color name="colorTransparentBlack">#44777777</color>
 

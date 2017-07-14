@@ -31,7 +31,6 @@ import com.jt.base.http.responsebean.VideoTypeBean;
 import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
-import com.jt.base.utils.jia.HttpJiaBean;
 import com.jt.base.videos.adapters.DrawerAdapter;
 import com.jt.base.videos.adapters.MainAdapter;
 import com.jt.base.videos.define.Definition;

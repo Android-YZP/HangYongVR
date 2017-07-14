@@ -1,10 +1,8 @@
 package com.jt.base.videos.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,20 +15,10 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
-import com.jt.base.utils.JiaTitleUtils;
-import com.jt.base.utils.JiaUtils;
-import com.jt.base.utils.jia.HttpJiaBean;
-import com.jt.base.utils.jia.JiaBean;
-import com.jt.base.utils.jia.WageList;
 import com.jt.base.videoDetails.VedioContants;
-import com.jt.base.videos.activitys.VedioDeatilsActivity;
 import com.jt.base.videos.activitys.VideoDetialActivity;
-import com.jt.base.videos.activitys.VideoListActivity;
 
-import java.util.HashMap;
 import java.util.List;
-
-import okhttp3.HttpUrl;
 
 /**
  * Created by Smith on 2017/7/4.
@@ -49,7 +37,6 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     private Activity context;
     private ViewPager mViewpager;
     private int position;
-    HttpJiaBean httpJiaBean;
     private List<TopicBean.ResultBeanX.ResultBean> resultBean;
     //构造函数
 
