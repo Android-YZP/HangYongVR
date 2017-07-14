@@ -39,12 +39,12 @@ public class MainVideoListAdapter extends RecyclerView.Adapter<MainVideoListAdap
     @Override
     public void onBindViewHolder(MainReViewHolder holder, final int position) {
 
-        if (position == 10){
+        if (position == 10) {
             Glide.with(context)
                     .load("https://raw.githubusercontent.com/Android-YZP/HelloTrace/master/timg.jpg")
                     .asBitmap()
                     .into(holder.mivVideoImg);
-        }else {
+        } else {
             Glide.with(context)
                     .load("http://118.89.246.194:8080/head/ff601521-6c79-4a5f-9389-47ba8f09db28.jpg")
                     .asBitmap()
