@@ -187,15 +187,11 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         panoWidgetView.setOnTouchListener(null);//禁用手势滑动
         panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
         //加载背景图片
-        Glide.with(this)
-                .load("https://ws1.sinaimg.cn/large/610dc034ly1ffv3gxs37oj20u011i0vk.jpg")
-                .asBitmap()
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        panoWidgetView.loadImageFromBitmap(resource, panoOptions);
-                    }
-                });
+        //        //本地资源转换成bitmap
+        Drawable drawable = getResources().getDrawable(R.mipmap.login_bg);
+        BitmapDrawable bd = (BitmapDrawable) drawable;
+        final Bitmap bmm = bd.getBitmap();
+        panoWidgetView.loadImageFromBitmap(bmm, panoOptions);
 
     }
 
