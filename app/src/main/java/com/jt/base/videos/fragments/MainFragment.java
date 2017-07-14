@@ -221,7 +221,7 @@ public class MainFragment extends Fragment {
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.VidByType);
         requestParams.addHeader("token", HttpURL.Token);
-        requestParams.addBodyParameter("typeId", "22");
+        requestParams.addBodyParameter("typeId", "46");
         requestParams.addBodyParameter("sourceNum", "222");
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
