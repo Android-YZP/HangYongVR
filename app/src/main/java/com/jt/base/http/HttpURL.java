@@ -65,6 +65,10 @@ public class HttpURL {
      * 获取话题
      */
     public static String VidByType = Host + "login/get/vodByType";
+    /**
+     * 获取话题的視頻
+     */
+    public static String Topic = Host + "login/search/topic";
 
 
 

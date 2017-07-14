@@ -108,8 +108,8 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
             Glide.with(context)
                     .load(HttpURL.IV_HOST + resultBean.get(position).getImg())
                     .asBitmap()
+                    .error(R.mipmap.camera_off)
                     .into(holder.mivVideoImg);
-
 
             //设置视频的描述信息
             holder.mTvVideoDesc.setText(resultBean.get(position).getChannelName());

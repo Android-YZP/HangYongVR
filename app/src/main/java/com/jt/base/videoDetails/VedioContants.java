@@ -15,4 +15,5 @@ public class VedioContants {
     public static int Living = 1;
     public static String Datas = "Datas";
     public static String Position = "position";
+    public static String PlayUrl = "PlayUrl";
 }

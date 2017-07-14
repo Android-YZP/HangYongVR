@@ -29,6 +29,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
@@ -315,7 +318,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 if (StringUtils.isPhone(phone)) {//判断手机号是不是手机号
                     if (!TextUtils.isEmpty(password)) {
-                        HttpLogin(phone, password,false);
+                        HttpLogin(phone, password, false);
                         if (isLoginChecked) {//勾选记住密码
                             SPUtil.put(LoginActivity.this, "phone", mEtPhone.getText().toString());
                             SPUtil.put(LoginActivity.this, "password", mEtPassWord.getText().toString());
@@ -466,19 +469,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         panoWidgetView.setStereoModeButtonEnabled(false);
         panoWidgetView.setOnTouchListener(null);//禁用手势滑动
         panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
-        //加载背景图片
-//        Glide.with(this)
-//                .load("https://ws1.sinaimg.cn/large/610dc034ly1ffv3gxs37oj20u011i0vk.jpg")
-//                .into(new SimpleTarget<Drawable>() {
-//                    @Override
-//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-//                        BitmapDrawable bd = (BitmapDrawable) resource;
-//                        panoWidgetView.loadImageFromBitmap(bd.getBitmap(), panoOptions);
-//                    }
-//                });
-
-        //本地资源转换成bitmap
-        Drawable drawable = getResources().getDrawable(R.mipmap.img179041);
+//        //本地资源转换成bitmap
+        Drawable drawable = getResources().getDrawable(R.mipmap.login_bg);
         BitmapDrawable bd = (BitmapDrawable) drawable;
         final Bitmap bmm = bd.getBitmap();
         panoWidgetView.loadImageFromBitmap(bmm, panoOptions);
@@ -526,9 +518,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 ForgetYzmBean forgetYzmBean = new Gson().fromJson(result, ForgetYzmBean.class);
                 if (forgetYzmBean.getMsg().equals("用户已存在")) {
                     UIUtils.showTip("用户已存在");
-                }  else if (forgetYzmBean.getMsg().equals("验证失败!")) {
+                } else if (forgetYzmBean.getMsg().equals("验证失败!")) {
                     UIUtils.showTip("验证码有误");
-                } else  if (forgetYzmBean.getCode() == HTTP_SUCCESS)  {
+                } else if (forgetYzmBean.getCode() == HTTP_SUCCESS) {
                     UIUtils.showTip("发送成功 ");
                     timekeeping();
                 } else {
@@ -549,7 +541,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         });
     }
-
 
     /**
      * 注册
@@ -575,7 +566,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 RegisterBean registerBean = new Gson().fromJson(result, RegisterBean.class);
                 if (registerBean.getCode() == HTTP_SUCCESS) {
                     //注册成功之后直接登录
-                    HttpLogin(phone, psw ,true);
+                    HttpLogin(phone, psw, true);
 
                 } else {
                     UIUtils.showTip(registerBean.getMsg());
@@ -610,12 +601,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 User userBean = new Gson().fromJson(result, User.class);
                 LogUtil.i(userBean.getMsg() + "");
                 LogUtil.i(result);
-                if (userBean.getCode() == HTTP_SUCCESS)  {
+                if (userBean.getCode() == HTTP_SUCCESS) {
                     SPUtil.putUser(userBean);
                     SPUtil.put(LoginActivity.this, "isLogin", true);
-                    if (isRegist){//判断用户是注册还是登陆
+                    if (isRegist) {//判断用户是注册还是登陆
                         UIUtils.showTip("注册成功");
-                    }else {
+                    } else {
                         UIUtils.showTip("登陆成功");
                     }
 

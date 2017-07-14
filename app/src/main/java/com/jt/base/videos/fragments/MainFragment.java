@@ -79,13 +79,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mRecycler = (RecyclerView) view.findViewById(R.id.re_main_recycler);
-        mLayoutManager = new LinearLayoutManager(getActivity()) {
-            @Override
-            public boolean canScrollHorizontally() {
-                return false;
-            }
-        };
-        mRecycler.setLayoutManager(mLayoutManager);
+
         mRecyclerfreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_main_swipe_refresh);
         mIbMenu = (ImageButton) view.findViewById(R.id.ib_menu);
         mMainTitle = (TextView) view.findViewById(R.id.tv_main_title);
@@ -124,7 +118,6 @@ public class MainFragment extends Fragment {
                 }
             });
 
-
         mIbMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,9 +128,16 @@ public class MainFragment extends Fragment {
     }
 
     private void initRecycleView() {
-
+        mLayoutManager = new LinearLayoutManager(getActivity()) {
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
+        mRecycler.setLayoutManager(mLayoutManager);
 
         setHeaderView(mRecycler);
+
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

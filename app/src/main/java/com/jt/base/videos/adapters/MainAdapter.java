@@ -1,6 +1,7 @@
 package com.jt.base.videos.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -112,11 +113,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (holder instanceof ListHolder) {
 
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.getResult().get(position).getMsg());
-                ((ListHolder) holder).mTvTotalVideos.setText(topicBean.getResult().get(position).getPage().getTotal()+"个视频");
-
-
-
-
+                ((ListHolder) holder).mTvTotalVideos.setText(topicBean.getResult().get(position).getPage().getTotal() + "个视频");
+                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.startActivity(new Intent(context, VideoListActivity.class));
+                        context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                    }
+                });
 
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -195,13 +199,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_main_topic_title);
             mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_more);
             mTvTotalVideos = (TextView) itemView.findViewById(R.id.tv_total_videos);
-            mRlMainMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, VideoListActivity.class));
-                    context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-                }
-            });
+
         }
     }
 

@@ -26,64 +26,12 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="196dp">
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/rv_video_list"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="196dp"
-            android:background="@mipmap/vedio_details_img1" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="29dp"
-            android:layout_marginRight="29dp"
-            android:layout_marginTop="180dp"
-            android:lines="1"
-            android:text="关键词的形式发布微博，括号内的关键词即为"
-            android:textColor="#666666"
-            android:textSize="15sp" />
-
-    </FrameLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@mipmap/main_topic_desc" />
-
-        <TextView
-            android:id="@+id/tv_main_topic_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="视频"
-            android:textColor="#000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:text="15个視頻"
-            android:textColor="#949494"
-            android:textSize="13sp" />
-    </RelativeLayout>
-
-
+</android.support.v7.widget.RecyclerView>
 </LinearLayout>
 
 
