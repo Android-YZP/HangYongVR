@@ -174,7 +174,7 @@ public class VideoPlayActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Log.d(TAG, "surfaceCreated");
-        mPlayUrl = getIntent().getStringExtra(Definition.KEY_PLAY_URL);
+        mPlayUrl = getIntent().getStringExtra(VedioContants.PlayUrl);
         mFov = uiutils.getPreferenceKeyIntValue(getApplicationContext(),
                 Definition.KEY_FOV, 90);
         mProjectionType = uiutils.getPreferenceKeyIntValue(

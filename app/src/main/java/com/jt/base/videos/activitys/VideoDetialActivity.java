@@ -1,15 +1,14 @@
 package com.jt.base.videos.activitys;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -19,16 +18,24 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetRoomBean;
+import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videoDetails.adapters.RvAdapter;
+import com.jt.base.videos.adapters.VideoDetialAdapter;
 import com.jt.base.videos.ui.SwipeBackActivity;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+
 import org.xutils.common.util.LogUtil;
+
 import java.util.List;
 
 public class VideoDetialActivity extends SwipeBackActivity {
@@ -52,35 +59,21 @@ public class VideoDetialActivity extends SwipeBackActivity {
     private RelativeLayout mRlRoot;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
+    private List<TopicBean.ResultBeanX.ResultBean> mResultBean;
+    private int mPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_detials);
         initView();
+        initData();
+        initListenter();
         initPanorama();
         initRecyclerViewPager();
 
-        //用二个结合起来拼装滑动手势
-        mSwipyRefresh.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        LogUtil.i("1");
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        LogUtil.i("2");
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        LogUtil.i("3");
-                        break;
-                }
-                return false;
-            }
-        });
-    }
 
+    }
 
     private void initView() {
         mSwipyRefresh = (SwipyRefreshLayout) findViewById(R.id.sf_detail_SwipeRefreshLayout);
@@ -89,8 +82,20 @@ public class VideoDetialActivity extends SwipeBackActivity {
         mRlRoot = (RelativeLayout) findViewById(R.id.rl_root);
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
-        //滑动到指定位置
-//        mRvVideoDetaillist.scrollToPosition(0);
+    }
+
+
+    private void initData() {
+        Intent intent = getIntent();
+        String datas = intent.getStringExtra(VedioContants.Datas);
+        mPosition = intent.getIntExtra(VedioContants.Position,0);
+        mResultBean = new Gson().fromJson(datas, new TypeToken<List<TopicBean.ResultBeanX.ResultBean>>() {
+        }.getType());
+
+    }
+
+
+    private void initListenter() {
     }
 
     private void initRecyclerViewPager() {
@@ -102,8 +107,9 @@ public class VideoDetialActivity extends SwipeBackActivity {
             }
         };
 
-
         mRvVideoDetaillist.setLayoutManager(layout);
+
+        mRvVideoDetaillist.setAdapter(new VideoDetialAdapter(VideoDetialActivity.this, mResultBean));
 
         //控制全景图的显示和影藏
         mRvVideoDetaillist.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -123,23 +129,21 @@ public class VideoDetialActivity extends SwipeBackActivity {
                         //获取第一个可见view的位置
                         int firstItemPosition = linearManager.findFirstVisibleItemPosition();
                         LogUtil.i(firstItemPosition + "------------------------");
-
-
-//                        //判断是不是全景图片，来显示到底要不要显示全景图片
-//                        int isall = mRoomLists.get(firstItemPosition).getIsall();
-//                        if (isall == VedioContants.ALL_VIEW_VEDIO) {
-//                            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
-//                            initPanorama(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg());
-//                        } else if (isall == VedioContants.TWO_D_VEDIO) {
-//                            initTwoD(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg(), mIvTwoDBg);
-//                        }
-
-
-
+//                       //判断是不是全景图片，来显示到底要不要显示全景图片
+                        int isall =mResultBean.get(firstItemPosition).getIsall();
+                        if (isall == VedioContants.ALL_VIEW_VEDIO) {
+                            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                            initPanorama(HttpURL.IV_HOST + mResultBean.get(firstItemPosition).getImg1());
+                        } else if (isall == VedioContants.TWO_D_VEDIO) {
+                            initTwoD(HttpURL.IV_HOST + mResultBean.get(firstItemPosition).getImg1(), mIvTwoDBg);
+                        }
                     }
                 }
             }
         });
+
+        //滑动到指定位置
+        mRvVideoDetaillist.scrollToPosition(mPosition);
     }
 
 

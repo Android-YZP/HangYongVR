@@ -88,7 +88,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (mHeaderView == null && mFooterView == null) {
             return TYPE_NORMAL;
         }
-        if (position == 0 && mHeaderView != null)
+        if (position == 0 && mHeaderView != null) {
+            //diyi一个,应该加载head
+            return TYPE_HEADER;
+        }
         if (position == getItemCount() - 1 && mFooterView != null) {
             //最后一个,应该加载Footer
             return TYPE_FOOTER;
@@ -118,11 +121,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (holder instanceof ListHolder) {
 
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.getResult().get(position).getMsg());
-                ((ListHolder) holder).mTvTotalVideos.setText(topicBean.getResult().get(position).getPage().getTotal()+"个视频");
+                ((ListHolder) holder).mTvTotalVideos.setText(topicBean.getResult().get(position).getPage().getTotal() + "个视频");
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mViewpager.setCurrentItem(1, true);
+                        context.startActivity(new Intent(context, VideoListActivity.class));
+                        context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                     }
                 });
 
@@ -203,13 +207,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_main_topic_title);
             mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_more);
             mTvTotalVideos = (TextView) itemView.findViewById(R.id.tv_total_videos);
-            mRlMainMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, VideoListActivity.class));
-                    context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-                }
-            });
+
         }
     }
 
