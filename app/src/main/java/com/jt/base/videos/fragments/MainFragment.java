@@ -165,11 +165,9 @@ public class MainFragment extends Fragment {
      * 初始化数据
      */
     private void initDatas() {
-        HttpGetVideoTopic(  "","");
+        HttpGetVideoTopic("","");
         HttpVideoType();
     }
-
-
 
 
 
