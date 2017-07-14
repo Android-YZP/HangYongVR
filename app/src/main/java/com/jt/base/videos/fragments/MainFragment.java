@@ -28,6 +28,7 @@ import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.ForgetYzmBean;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.VideoTypeBean;
+import com.jt.base.ui.VerticalSwipeRefreshLayout;
 import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
@@ -49,7 +50,7 @@ public class MainFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecycler;
     private MainAdapter mMainAdapter;
-    private SwipeRefreshLayout mRecyclerfreshLayout;
+    private VerticalSwipeRefreshLayout mRecyclerfreshLayout;
     private DrawerLayout mDlLayout;
     private ListView mLvDrawerItem;
     private HashMap<Integer, Boolean> mItemPress = new HashMap<>();
@@ -79,8 +80,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mRecycler = (RecyclerView) view.findViewById(R.id.re_main_recycler);
-
-        mRecyclerfreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_main_swipe_refresh);
+        mRecyclerfreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.srl_main_swipe_refresh);
         mIbMenu = (ImageButton) view.findViewById(R.id.ib_menu);
         mMainTitle = (TextView) view.findViewById(R.id.tv_main_title);
         return view;
@@ -135,16 +135,13 @@ public class MainFragment extends Fragment {
             }
         };
         mRecycler.setLayoutManager(mLayoutManager);
-
         setHeaderView(mRecycler);
-
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 boolean visBottom = UIUtils.isVisBottom(mRecycler);
                 if (visBottom) {
-
                     if (mMainAdapter.getFooterView() == null) {
                         tote++;
                         UIUtils.showTip("到底部了,开始加载数据");
@@ -168,8 +165,6 @@ public class MainFragment extends Fragment {
         HttpGetVideoTopic("","");
         HttpVideoType();
     }
-
-
 
     /**
      * 请求侧边栏列表
