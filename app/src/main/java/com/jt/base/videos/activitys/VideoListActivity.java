@@ -29,7 +29,7 @@ import org.xutils.x;
  */
 
 public class VideoListActivity extends SwipeBackActivity {
-    private ImageView mImback;
+    private ImageView mVideoback;
     private RecyclerView mRvVideolist;
     private VideoListAdapter mVideoListAdapter;
 
@@ -43,10 +43,21 @@ public class VideoListActivity extends SwipeBackActivity {
         initView();
         initData();
         initRecyclerView();
+        initListenter();
+    }
+
+    private void initListenter() {
+        mVideoback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initView() {
         mRvVideolist = (RecyclerView) findViewById(R.id.rv_video_list);
+        mVideoback = (ImageView) findViewById(R.id.im_video_list_return);
     }
 
     private void initRecyclerView() {
