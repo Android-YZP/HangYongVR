@@ -227,6 +227,7 @@ public class MainFragment extends Fragment {
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
+                LongLogUtil.e("-----------",result);
                 TopicBean topicBean = new Gson().fromJson(result, TopicBean.class);
                 if (topicBean.getCode() == 0){//数据获取成功/code话题ID，msg话题名称
                     mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, topicBean);
