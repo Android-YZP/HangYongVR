@@ -44,7 +44,6 @@ public class SearchHeadTypeAdapter extends RecyclerView.Adapter<SearchHeadTypeAd
                     .asBitmap()
                     .into(holder.mivVideoImg);
         }
-
     }
 
     @Override
