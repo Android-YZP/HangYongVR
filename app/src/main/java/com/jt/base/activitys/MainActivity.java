@@ -102,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         panoWidgetView.resumeRendering();
+
+        if (mViewpager.getCurrentItem() == 0) {
+            panoWidgetView.setVisibility(View.GONE);
+        }else {
+            panoWidgetView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -123,7 +129,11 @@ public class MainActivity extends AppCompatActivity {
         public void onLoadSuccess() {
             loadImageSuccessful = true;
             Log.e("dflefseofjsdopfj", "Could not decode default bitmap: 2");
-            panoWidgetView.setVisibility(View.VISIBLE);
+            if (mViewpager.getCurrentItem() == 0) {
+                panoWidgetView.setVisibility(View.GONE);
+            }else {
+                panoWidgetView.setVisibility(View.VISIBLE);
+            }
         }
 
         /**

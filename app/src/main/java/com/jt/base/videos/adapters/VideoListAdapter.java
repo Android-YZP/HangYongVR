@@ -11,9 +11,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
+import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.TopicBean;
+import com.jt.base.http.responsebean.TopicByVideoBean;
+import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.videos.activitys.VideoDetialActivity;
 import com.jt.base.videos.activitys.VideoListActivity;
 
 import java.util.List;
@@ -32,15 +38,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     //HeaderView, FooterView
     private View mHeaderView;
     private View mFooterView;
-    private Activity context;
-    private SwipeRefreshLayout mRecyclerfreshLayout;
-    private RecyclerView mRecycler;
-    private ViewPager mViewpager;
-    private TextView mTvMore1;
-    private TopicBean topicBean;
+    private VideoListActivity context;
+    private VodbyTopicBean topicBean;
     //构造函数
 
-    public VideoListAdapter(Activity context, TopicBean topicBean) {
+    public VideoListAdapter(VideoListActivity context, VodbyTopicBean topicBean) {
         this.context = context;
         this.topicBean = topicBean;
     }
@@ -105,9 +107,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
-//                ((ListHolder) holder).mXuImg
 
+                Glide.with(context)
+                        .load(HttpURL.IV_HOST + topicBean.getResult().get(position - 1).getImg1())
+                        .asBitmap()
+                        .into(((ListHolder) holder).mXuImg);
 
+                ((ListHolder) holder).mTvVideoDesc.setText(topicBean.getResult().get(position - 1).getChannelName());
                 return;
             }
             return;
@@ -122,8 +128,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class ListHolder extends RecyclerView.ViewHolder {
 
 
-        private  XCRoundRectImageView mXuImg;
-        private  TextView mTvVideoDesc;
+        private XCRoundRectImageView mXuImg;
+        private TextView mTvVideoDesc;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -136,8 +142,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             mXuImg = (XCRoundRectImageView) itemView.findViewById(R.id.tv_video_list_img);
             mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
-
-
         }
     }
 
@@ -145,13 +149,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return 10;
+            return topicBean.getResult().size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return 11;
+            return topicBean.getResult().size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return 11;
+            return topicBean.getResult().size() + 1;
         } else {
-            return 12;
+            return topicBean.getResult().size() + 2;
         }
     }
 

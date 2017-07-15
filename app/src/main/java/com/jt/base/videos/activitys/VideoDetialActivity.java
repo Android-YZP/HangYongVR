@@ -71,8 +71,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
         initListenter();
         initPanorama();
         initRecyclerViewPager();
-
-
     }
 
     private void initView() {
@@ -91,7 +89,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
         mPosition = intent.getIntExtra(VedioContants.Position,0);
         mResultBean = new Gson().fromJson(datas, new TypeToken<List<TopicBean.ResultBeanX.ResultBean>>() {
         }.getType());
-
     }
 
 
@@ -187,7 +184,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
             }
         }, 300);
         mIvTwoDBg.setImageBitmap(null);
-
     }
 
     /**

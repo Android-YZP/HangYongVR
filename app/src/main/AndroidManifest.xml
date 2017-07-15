@@ -78,7 +78,7 @@
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".personal.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".videos.activitys.VideoListActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" />
@@ -92,13 +92,14 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.jt.fileprovider"
+            android:authorities="com.jt.base.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
 
         <activity
             android:name=".personal.ForgetActivity"
@@ -121,7 +122,13 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme"
             android:windowActionBarOverlay="true"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"   />
+
+        <service android:name=".updtaeapk.DownloadService"/>
+
+
+
+
     </application>
 
 </manifest>

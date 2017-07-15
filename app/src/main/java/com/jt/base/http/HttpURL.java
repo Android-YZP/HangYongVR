@@ -7,13 +7,14 @@ package com.jt.base.http;
 public class HttpURL {
     //服务器地址
 //    private static String Host = "http://192.168.1.100:8080/hyplatform/api/";
-//    private static String Host = "http://118.89.246.194:8080/api/";
-    private static String Host = "http://123.206.67.115:8080/api/";
-    public static String IV_HOST = "http://118.89.246.194:8080/head/" ;
-//    private static String Host = "http://192.168.1.133:8080/hyplatform/api/";
+    private static String Host = "http://118.89.246.194:8080/api/";
+    //    private static String Host = "http://192.168.1.133:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.135:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
+    //    private static String Host = "http://123.206.67.115:8080/api/";
     public static String Token = "C47B1071";
+    public static String IV_HOST = "http://118.89.246.194:8080/head/";
+    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
 
     /**
      * 登录
@@ -62,15 +63,28 @@ public class HttpURL {
      * 获取话题
      */
     public static String GetVideoTopic = Host + "login/get/topics";
+
     /**
      * 获取话题
      */
     public static String VidByType = Host + "login/get/vodByType";
     /**
+     * 获取话题
+     */
+    public static String vodByTopic = Host + "login/get/vodByTopic";
+    /**
+     * 获取话题图片
+     */
+    public static String TopicImg = Host + "login/get/topic";
+    /**
      * 获取话题的視頻
      */
     public static String Topic = Host + "login/search/topic";
 
+    /**
+     * 获取话题的視頻
+     */
+    public static String UpdateVersion = Host + "login/search/version";
 
 
 }
