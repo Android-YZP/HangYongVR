@@ -70,6 +70,7 @@ public class CheckUpdate {
                     Intent intent = new Intent(mcontext, DownloadService.class);
                     intent.putExtra("url", url);
                     mcontext.startService(intent);
+                    LogUtil.i(url+"");
                 }
             });
             builder.setNegativeButton("退出", null);

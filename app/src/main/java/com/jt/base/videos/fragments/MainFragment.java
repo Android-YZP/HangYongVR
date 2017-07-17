@@ -197,9 +197,6 @@ public class MainFragment extends Fragment {
                     }
                     mDrawerAdapter = new DrawerAdapter(mDatas, getContext(), mItemPress);
                     mLvDrawerItem.setAdapter(mDrawerAdapter);
-
-
-
                 }
             }
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.jt.base.R;
 import com.jt.base.http.responsebean.TopicBean;
+import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoListActivity;
 
 import java.util.List;
@@ -108,7 +109,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //绑定View，这里是根据返回的这个position的类型，从而进行绑定的，   HeaderView和FooterView, 就不同绑定了
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
@@ -117,7 +118,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.startActivity(new Intent(context, VideoListActivity.class));
+                        Intent intent = new Intent(context, VideoListActivity.class);
+                        intent.putExtra(VedioContants.TopicId,topicBean.getResult().get(position).getCode());
+                        context.startActivity(intent);
                         context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                     }
                 });
@@ -127,7 +130,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.getResult().get(position).getResult());
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.getResult().get(position).getResult(), topicBean.getResult().get(position).getCode());
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
 

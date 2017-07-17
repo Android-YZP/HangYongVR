@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -59,7 +60,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PlayActivity extends Activity {
+public class PlayActivity extends AppCompatActivity {
     private static final String TAG = "PlayActivity";
     private static final int HTTP_SUCCESS = 0;
 
@@ -219,7 +220,6 @@ public class PlayActivity extends Activity {
         mErroText = (TextView) findViewById(R.id.txt_view_erro);
         mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
 
-        getActionBar().hide();
         mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
         mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
         mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
@@ -630,6 +630,10 @@ public class PlayActivity extends Activity {
         mVideoView.setProjectionType(mProjectionType);
         mVideoView.setEyesMode(mEyesMode);
     }
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1092,12 +1096,10 @@ public class PlayActivity extends Activity {
     private void toggleMediaControlsVisiblity() {
         if (mLayoutPlayerControllerFull.getVisibility() == View.VISIBLE) {
             mLayoutPlayerControllerFull.setVisibility(View.GONE);
-            getActionBar().hide();
             mShowing = false;
             mHandler.removeMessages(SHOW_PROGRESS);
         } else {
             mLayoutPlayerControllerFull.setVisibility(View.VISIBLE);
-            getActionBar().show();
             mShowing = true;
             updatePausePlay();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);

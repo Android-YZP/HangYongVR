@@ -39,10 +39,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private View mHeaderView;
     private View mFooterView;
     private VideoListActivity context;
-    private VodbyTopicBean topicBean;
+    private List<VodbyTopicBean.ResultBean> topicBean;
     //构造函数
 
-    public VideoListAdapter(VideoListActivity context, VodbyTopicBean topicBean) {
+    public VideoListAdapter(VideoListActivity context, List<VodbyTopicBean.ResultBean> topicBean) {
         this.context = context;
         this.topicBean = topicBean;
     }
@@ -109,11 +109,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (holder instanceof ListHolder) {
 
                 Glide.with(context)
-                        .load(HttpURL.IV_HOST + topicBean.getResult().get(position - 1).getImg1())
+                        .load(HttpURL.IV_HOST + topicBean.get(position - 1).getImg1())
                         .asBitmap()
                         .into(((ListHolder) holder).mXuImg);
 
-                ((ListHolder) holder).mTvVideoDesc.setText(topicBean.getResult().get(position - 1).getChannelName());
+                ((ListHolder) holder).mTvVideoDesc.setText(topicBean.get(position - 1).getChannelName());
                 return;
             }
             return;
@@ -149,13 +149,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return topicBean.getResult().size();
+            return topicBean.size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return topicBean.getResult().size() + 1;
+            return topicBean.size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return topicBean.getResult().size() + 1;
+            return topicBean.size() + 1;
         } else {
-            return topicBean.getResult().size() + 2;
+            return topicBean.size() + 2;
         }
     }
 

@@ -72,7 +72,6 @@
             android:name=".vrplayer.PlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme"
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".HomeActivity" />
@@ -120,7 +119,6 @@
             android:name=".vrplayer.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme"
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize"   />
 

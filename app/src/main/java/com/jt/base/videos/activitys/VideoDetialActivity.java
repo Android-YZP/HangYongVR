@@ -24,17 +24,25 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
+import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.http.responsebean.TopicBean;
+import com.jt.base.http.responsebean.VodbyTopicBean;
+import com.jt.base.utils.LongLogUtil;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videoDetails.adapters.RvAdapter;
 import com.jt.base.videos.adapters.VideoDetialAdapter;
+import com.jt.base.videos.adapters.VideoListAdapter;
 import com.jt.base.videos.ui.SwipeBackActivity;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -59,12 +67,17 @@ public class VideoDetialActivity extends SwipeBackActivity {
     private RelativeLayout mRlRoot;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
-    private List<TopicBean.ResultBeanX.ResultBean> mResultBean;
     private int mPosition;
+    private int mTopicId;
+    private List<VodbyTopicBean.ResultBean> mData;
+    private VideoDetialAdapter mVideoDetialAdapter;
+    private int mTotalpage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+            UIUtils.showTip(savedInstanceState.getString("id") + "");
         setContentView(R.layout.activity_video_detials);
         initView();
         initData();
@@ -85,29 +98,42 @@ public class VideoDetialActivity extends SwipeBackActivity {
 
     private void initData() {
         Intent intent = getIntent();
-        String datas = intent.getStringExtra(VedioContants.Datas);
-        mPosition = intent.getIntExtra(VedioContants.Position,0);
-        mResultBean = new Gson().fromJson(datas, new TypeToken<List<TopicBean.ResultBeanX.ResultBean>>() {
-        }.getType());
+        mPosition = intent.getIntExtra(VedioContants.Position, 0);
+        mTopicId = intent.getIntExtra(VedioContants.TopicId, 0);
+        HttpTopic(mTopicId, mPager);
     }
 
 
     private void initListenter() {
+
+        //刷新和下拉加载的监听
+        mSwipyRefresh.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+                LogUtil.i(direction + "");
+                if (direction.equals(SwipyRefreshLayoutDirection.TOP)) {
+                    //刷新列表
+                    mData.clear();
+                    mPosition = 0;
+                    mPager = 1;
+                    HttpTopic(mTopicId, mPager);
+                } else if (direction.equals(SwipyRefreshLayoutDirection.BOTTOM)) {
+                    if (mPager >= mTotalpage) {
+                        UIUtils.showTip("没有更多数据了");
+                        mSwipyRefresh.setRefreshing(false);
+                    } else {
+                        HttpTopic(mTopicId, ++mPager);
+                    }
+                }
+            }
+        });
+
     }
 
     private void initRecyclerViewPager() {
         //初始化竖直的viewPager
-        LinearLayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean canScrollHorizontally() {
-                return false;
-            }
-        };
-
+        LinearLayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRvVideoDetaillist.setLayoutManager(layout);
-
-        mRvVideoDetaillist.setAdapter(new VideoDetialAdapter(VideoDetialActivity.this, mResultBean));
-
         //控制全景图的显示和影藏
         mRvVideoDetaillist.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -125,15 +151,8 @@ public class VideoDetialActivity extends SwipeBackActivity {
                         LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                         //获取第一个可见view的位置
                         int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-                        LogUtil.i(firstItemPosition + "------------------------");
 //                       //判断是不是全景图片，来显示到底要不要显示全景图片
-                        int isall =mResultBean.get(firstItemPosition).getIsall();
-                        if (isall == VedioContants.ALL_VIEW_VEDIO) {
-                            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
-                            initPanorama(HttpURL.IV_HOST + mResultBean.get(firstItemPosition).getImg1());
-                        } else if (isall == VedioContants.TWO_D_VEDIO) {
-                            initTwoD(HttpURL.IV_HOST + mResultBean.get(firstItemPosition).getImg1(), mIvTwoDBg);
-                        }
+                        showBg(firstItemPosition);
                     }
                 }
             }
@@ -141,6 +160,69 @@ public class VideoDetialActivity extends SwipeBackActivity {
 
         //滑动到指定位置
         mRvVideoDetaillist.scrollToPosition(mPosition);
+    }
+
+
+    /**
+     * 显示背景图
+     */
+    private void showBg(int firstItemPosition) {
+        int isall = mData.get(firstItemPosition).getIsall();
+        if (isall == VedioContants.ALL_VIEW_VEDIO) {
+            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+            initPanorama(HttpURL.IV_HOST + mData.get(firstItemPosition).getImg());
+        } else if (isall == VedioContants.TWO_D_VEDIO) {
+            initTwoD(HttpURL.IV_HOST + mData.get(firstItemPosition).getImg(), mIvTwoDBg);
+        }
+    }
+
+    /**
+     * 获取话题
+     */
+    private void HttpTopic(int topicId, int pager) {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.vodByTopic);
+        requestParams.addHeader("token", HttpURL.Token);
+        //包装请求参数
+        requestParams.addBodyParameter("topicId", topicId + "");//
+        requestParams.addBodyParameter("sourceNum", "222");//
+        requestParams.addBodyParameter("page", pager + "");//
+        requestParams.addBodyParameter("count", 3 + "");//
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LongLogUtil.e("---------------", result);
+                VodbyTopicBean topicByVideoBean = new Gson().fromJson(result, VodbyTopicBean.class);
+                if (topicByVideoBean.getCode() == 0) {
+                    mTotalpage = topicByVideoBean.getPage().getTotalPage();
+                    if (mData != null && mData.size() > 0) {//下拉加载
+                        mData.addAll(topicByVideoBean.getResult());
+                        mVideoDetialAdapter.notifyDataSetChanged();
+                    } else {
+                        mData = topicByVideoBean.getResult();
+                        mVideoDetialAdapter = new VideoDetialAdapter(VideoDetialActivity.this, mData);
+                        mRvVideoDetaillist.setAdapter(mVideoDetialAdapter);
+                        showBg(mPosition);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("服务端连接失败");
+            }
+
+            @Override
+            public void onFinished() {
+                mSwipyRefresh.setRefreshing(false);
+            }
+        });
     }
 
 

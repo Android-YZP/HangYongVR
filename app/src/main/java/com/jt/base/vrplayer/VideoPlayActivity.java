@@ -193,12 +193,12 @@ public class VideoPlayActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         setContentView(R.layout.activity_video_play);////////////////////////////////////////////////界面
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//        getWindow().getDecorView().setSystemUiVisibility(
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+//                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
         mVideoView.setVideoPlayerType(ISnailPlayer.PlayerType.PLAYER_TYPE_SNAIL_VR);
         mVideoView.setPlayFov(mFov);
@@ -208,8 +208,6 @@ public class VideoPlayActivity extends Activity {
         mVideoView.setScale(SCALE_10);
         mErroText = (TextView) findViewById(R.id.txt_view_erro);
         mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
-
-        getActionBar().hide();
         mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
         mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
         mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
@@ -423,8 +421,6 @@ public class VideoPlayActivity extends Activity {
                         showNetErrorDialog();
                         break;
                     default:
-
-
                 }
             }
         };
@@ -441,7 +437,7 @@ public class VideoPlayActivity extends Activity {
     private void initPlayMode() {
         int vedioode = getIntent().getIntExtra(Definition.PLEAR_MODE, 4);
         String desc = getIntent().getStringExtra("desc");
-        TextView title = (TextView)findViewById(R.id.tv_play_title);
+        TextView title = (TextView) findViewById(R.id.tv_play_title);
         title.setText(desc);
 
         if (vedioode == VedioContants.TWO_D_VEDIO) {

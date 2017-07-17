@@ -113,12 +113,12 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
 
         if (vedioode == VedioContants.TWO_D_VEDIO) {//2D
             mIvTwoDBg.setImageDrawable(UIUtils.getDrawable(pic));
-            intent = new Intent(VedioDeatilsActivity.this, VideoPlayActivity.class);
+            intent = new Intent(VedioDeatilsActivity.this, PlayActivity.class);
             intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
             intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, url);
         } else if (vedioode == VedioContants.ALL_VIEW_VEDIO) {//全景
             getPanorama(pic);
-            intent = new Intent(VedioDeatilsActivity.this, VideoPlayActivity.class);
+            intent = new Intent(VedioDeatilsActivity.this, PlayActivity.class);
             intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
             intent.putExtra(com.jt.base.vrplayer.Definition.KEY_PLAY_URL, url);
         }
@@ -137,7 +137,6 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
         panoWidgetView.setStereoModeButtonEnabled(false);
         panoWidgetView.setOnTouchListener(null);//禁用手势滑动
         panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
-
     }
 
 

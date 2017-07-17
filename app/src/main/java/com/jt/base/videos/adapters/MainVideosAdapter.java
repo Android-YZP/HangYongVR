@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.utils.TimeUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoDetialActivity;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Smith on 2017/7/4.
@@ -38,13 +41,15 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     private ViewPager mViewpager;
     private int position;
     private List<TopicBean.ResultBeanX.ResultBean> resultBean;
+    private int TopicId;
     //构造函数
 
 
-    public MainVideosAdapter(Activity context, ViewPager mViewpager, List<TopicBean.ResultBeanX.ResultBean> resultBean) {
+    public MainVideosAdapter(Activity context, ViewPager mViewpager, List<TopicBean.ResultBeanX.ResultBean> resultBean, int TopicId) {
         this.context = context;
         this.mViewpager = mViewpager;
         this.resultBean = resultBean;
+        this.TopicId = TopicId;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -106,14 +111,15 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
         //图片
         if (position < getItemCount() - 1) {
             Glide.with(context)
-                    .load(HttpURL.IV_HOST + resultBean.get(position).getImg())
+                    .load(HttpURL.IV_HOST + resultBean.get(position).getImg1())
                     .asBitmap()
                     .error(R.mipmap.camera_off)
                     .into(holder.mivVideoImg);
 
             //设置视频的描述信息
             holder.mTvVideoDesc.setText(resultBean.get(position).getChannelName());
-
+            if (resultBean.get(position).getTime() != null)
+                holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(resultBean.get(position).getTime())));//设置时间
 
 
             holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +154,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
 
                     intent.putExtra(VedioContants.Datas, new Gson().toJson(resultBean));
                     intent.putExtra(VedioContants.Position, position);//首次显示在哪一个封面
+                    intent.putExtra(VedioContants.TopicId, TopicId);//哪个话题
                     context.startActivity(intent);
                     context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                 }
@@ -161,6 +168,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     class ListHolder extends RecyclerView.ViewHolder {
         private XCRoundRectImageView mivVideoImg;
         private TextView mTvVideoDesc;
+        private TextView mTvVideoTime;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -173,6 +181,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
             }
             mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
             mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
+            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_time);
         }
     }
 
@@ -183,12 +192,13 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
         if (mHeaderView == null && mFooterView == null) {
             return resultBean.size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return resultBean.size()+1;
+            return resultBean.size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return resultBean.size()+1;
+            return resultBean.size() + 1;
         } else {
-            return resultBean.size()+2;
+            return resultBean.size() + 2;
         }
     }
+
 
 }
