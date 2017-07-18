@@ -59,7 +59,7 @@ public class SPUtil {
         } else {
             editor.putString(key, object.toString());
         }
-        editor.apply();
+        editor.commit();
     }
 
     /**

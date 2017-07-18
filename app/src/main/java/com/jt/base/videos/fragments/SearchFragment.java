@@ -270,9 +270,7 @@ public class SearchFragment extends Fragment {
                 SearchTopicBean searchTopicBean = new Gson().fromJson(result, SearchTopicBean.class);
                 if (searchTopicBean.getCode() == HTTP_SUCCESS) {
                     mSearchTopicResult = searchTopicBean.getResult();
-
                     HttpSearchVod(keywords, 1 + "");
-
                 }
             }
 

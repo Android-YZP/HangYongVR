@@ -91,7 +91,7 @@
         <activity
             android:name=".personal.HistoryActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+          />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

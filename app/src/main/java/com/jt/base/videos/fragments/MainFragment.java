@@ -60,6 +60,7 @@ public class MainFragment extends Fragment {
     private TextView mMainTitle;
     private ViewPager mViewpager;
     private int tote;
+    private List<VideoTypeBean.ResultBean> mDatas;
 
     public MainFragment() {
     }
@@ -114,7 +115,11 @@ public class MainFragment extends Fragment {
                     mDrawerAdapter.notifyDataSetChanged();
                     TextView tvTitle = (TextView) view.findViewById(R.id.tv_drawer_item_title);
                     mMainTitle.setText(tvTitle.getText());
+
+                    HttpGetVideoTopic(mDatas.get(position).getId() + "", "222");
                     mDlLayout.closeDrawer(GravityCompat.START, true);
+
+
                 }
             });
 
@@ -162,7 +167,6 @@ public class MainFragment extends Fragment {
      * 初始化数据
      */
     private void initDatas() {
-        HttpGetVideoTopic("","");
         HttpVideoType();
     }
 
@@ -185,7 +189,7 @@ public class MainFragment extends Fragment {
                 LogUtil.i(result);
                 VideoTypeBean videoTypeBean = new Gson().fromJson(result, VideoTypeBean.class);
                 if (videoTypeBean.getCode() == HTTP_SUCCESS) {//获取数据成功
-                    List<VideoTypeBean.ResultBean> mDatas = videoTypeBean.getResult();
+                    mDatas = videoTypeBean.getResult();
                     //初始化HashMap数据
                     mItemPress.clear();
                     for (int i = 0; i < mDatas.size(); i++) {
@@ -197,12 +201,16 @@ public class MainFragment extends Fragment {
                     }
                     mDrawerAdapter = new DrawerAdapter(mDatas, getContext(), mItemPress);
                     mLvDrawerItem.setAdapter(mDrawerAdapter);
+
+                    HttpGetVideoTopic(mDatas.get(0).getId() + "", "222");
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
             }
+
+
         });
     }
 
@@ -211,22 +219,24 @@ public class MainFragment extends Fragment {
      * 请求话题列表
      */
     private void HttpGetVideoTopic(String typeid, String sourceNum) {
+        mRecyclerfreshLayout.setRefreshing(true);
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
+            mRecyclerfreshLayout.setRefreshing(false);
             return;
         }
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.VidByType);
         requestParams.addHeader("token", HttpURL.Token);
-        requestParams.addBodyParameter("typeId", "46");
-        requestParams.addBodyParameter("sourceNum", "222");
+        requestParams.addBodyParameter("typeId", typeid);
+        requestParams.addBodyParameter("sourceNum", sourceNum);
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LongLogUtil.e("-----------",result);
+                LongLogUtil.e("-----------", result);
                 TopicBean topicBean = new Gson().fromJson(result, TopicBean.class);
-                if (topicBean.getCode() == 0){//数据获取成功/code话题ID，msg话题名称
+                if (topicBean.getCode() == 0) {//数据获取成功/code话题ID，msg话题名称
                     mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, topicBean);
                     mRecycler.setAdapter(mMainAdapter);
                 }
@@ -234,6 +244,12 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+            }
+
+            @Override
+            public void onFinished() {
+                super.onFinished();
+                mRecyclerfreshLayout.setRefreshing(false);
             }
         });
     }
