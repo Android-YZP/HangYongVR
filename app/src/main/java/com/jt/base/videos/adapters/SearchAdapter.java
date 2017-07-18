@@ -14,8 +14,12 @@ import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
+import com.jt.base.http.responsebean.SearchVideoBean;
 import com.jt.base.http.responsebean.TopicBean;
+import com.jt.base.ui.XCRoundRectImageView;
 import com.jt.base.videos.activitys.VideoListActivity;
 
 import java.util.List;
@@ -35,10 +39,12 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private View mHeaderView;
     private View mFooterView;
     private Activity context;
+    private List<SearchVideoBean.ResultBean> results;
     //构造函数
 
-    public SearchAdapter(Activity context) {
+    public SearchAdapter(Activity context, List<SearchVideoBean.ResultBean> results) {
         this.context = context;
+        this.results = results;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -102,6 +108,12 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
+                ((ListHolder) holder).mTvSearchVideoDesc.setText(results.get(position - 1).getChannelName());
+
+                Glide.with(context)
+                        .load(HttpURL.IV_HOST+results.get(position-1).getImg())
+                        .asBitmap()
+                        .into(((ListHolder) holder).mIvImg);
 
                 return;
             }
@@ -116,8 +128,16 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     //在这里面加载ListView中的每个item的布局
     class ListHolder extends RecyclerView.ViewHolder {
 
+        private TextView mTvSearchVideoDesc;
+        private XCRoundRectImageView mIvImg;
+
         public ListHolder(View itemView) {
             super(itemView);
+
+            mTvSearchVideoDesc = (TextView) itemView.findViewById(R.id.search_video_desc);
+            mIvImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_search_video_img);
+
+
             //如果是headerview或者是footerview,直接返回
             if (itemView == mHeaderView) {
                 return;
@@ -134,13 +154,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return 10;
+            return results.size() + 1;
         } else if (mHeaderView == null && mFooterView != null) {
-            return 11;
+            return results.size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return 11;
+            return results.size() + 1;
         } else {
-            return 12;
+            return results.size() + 1;
         }
     }
 

@@ -29,11 +29,14 @@
                 android:background="@mipmap/search_sh" />
 
             <EditText
+                android:id="@+id/et_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:hint=" 搜索视频和话题"
+                android:imeOptions="actionSearch"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="#000000"
                 android:textColorHint="#bdbdc3"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -41,43 +44,44 @@
                 android:theme="@style/MyEditText" />
         </RelativeLayout>
 
+
         <TextView
+            android:id="@+id/tv_search_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="20dp"
-            android:text="搜索"
+            android:text="取消"
             android:textColor="#39f0d4"
             android:textSize="15sp" />
 
     </LinearLayout>
 
 
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/ll_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="搜索历史" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_search_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
 
+    </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/ll_search_result"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
