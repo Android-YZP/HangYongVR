@@ -27,6 +27,8 @@ public class LocalUtils {
         if (!TextUtils.isEmpty(SearchHistory)) {
             mSearchHistory = new Gson().fromJson(SearchHistory, new TypeToken<List<String>>() {
             }.getType());
+        }else {
+            mSearchHistory = new ArrayList<>();
         }
         return mSearchHistory;
     }

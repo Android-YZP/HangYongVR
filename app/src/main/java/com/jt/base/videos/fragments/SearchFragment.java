@@ -52,7 +52,7 @@ public class SearchFragment extends Fragment {
     private LinearLayout mLlsearchresult;
     private RecyclerView mRvsearchhistory;
     private EditText mEtsearch;
-    private List<String> searchHistorys;
+    private List<String> searchHistorys ;
     private List<SearchTopicBean.ResultBean> mSearchTopicResult = new ArrayList<>();
     private TextView mTvSearchCancel;
     private LinearLayout mLlsearchHistory;
@@ -135,7 +135,7 @@ public class SearchFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         searchHistorys = LocalUtils.getSearchHistory(getContext());
-        if (searchHistorys != null && searchHistorys.size() > 0) {
+        if (searchHistorys != null) {
             UIUtils.showTip(searchHistorys.size() + "");
             mSearchHistoryAdapter = new SearchHAdapter(getActivity(), searchHistorys);
             mRvsearchhistory.setAdapter(mSearchHistoryAdapter);
@@ -143,7 +143,6 @@ public class SearchFragment extends Fragment {
             mSearchHistoryAdapter.setOnItemClickListener(new SearchHAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-
                     UIUtils.showTip(position + "");
                 }
             });
