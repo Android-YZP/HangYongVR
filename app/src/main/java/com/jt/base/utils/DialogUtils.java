@@ -6,8 +6,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.gaode.zzyd.text.R;
-import com.gaode.zzyd.view.BaseDialog;
+import com.jt.base.R;
 
 
 /**

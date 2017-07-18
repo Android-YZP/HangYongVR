@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jt.base.HomeActivity;
@@ -18,6 +19,7 @@ import com.jt.base.videos.ui.SwipeBackActivity;
 public class HistoryActivity extends SwipeBackActivity {
      private HistoryListAdapter adapter;
     private TextView mTvReturn;
+    private RelativeLayout mReDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,16 @@ public class HistoryActivity extends SwipeBackActivity {
                 finish();
             }
         });
+//        mReDialog.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                return false;
+//            }
+//        });
     }
 
     private void initView() {
         mTvReturn = ((TextView) findViewById(R.id.tv_history_return));
+//        mReDialog = ((RelativeLayout) findViewById(R.id.rl_history_list));
     }
 }

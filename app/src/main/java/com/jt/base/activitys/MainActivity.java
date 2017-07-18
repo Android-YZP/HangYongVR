@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.updtaeapk.CheckUpdate;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.fragments.VideoDetailFragment;
 import com.jt.base.videos.fragments.VideosFragment;
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         initViewPager();
         initListenter();
         startActivity(new Intent(MainActivity.this, Guide1Activity.class));
+
+        //检查版本更新
+        CheckUpdate.getInstance().startCheck(MainActivity.this, true);
     }
 
     private void initView() {
