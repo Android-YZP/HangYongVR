@@ -9,44 +9,33 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-       >
+        android:orientation="vertical">
 
         <com.jt.base.ui.XCRoundRectImageView
             android:id="@+id/iv_video_img"
             android:layout_width="140dp"
-            android:layout_height="99dp"
-            />
+            android:layout_height="99dp" />
 
         <TextView
             android:id="@+id/tv_video_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
             android:text="科幻的電影有多少"
             android:textColor="#000"
             android:textSize="14sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_video_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="2dp"
-        android:text="00:00"
-        android:textColor="#fff"
-        android:textSize="12sp" />
+
 
     <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/main_list_mask"
-        android:layout_alignTop="@+id/tv_video_time"
         android:layout_alignParentStart="true"
-        android:id="@+id/imageView3" />
+        android:layout_alignTop="@+id/tv_video_time"
+        android:background="@mipmap/main_list_mask" />
 
 </RelativeLayout>

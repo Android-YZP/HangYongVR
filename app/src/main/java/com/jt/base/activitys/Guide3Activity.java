@@ -14,8 +14,6 @@ public class Guide3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide3);
         mIvguidegif = (ImageView) findViewById(R.id.iv_guide_gif);
-        Glide.with(Guide3Activity.this)
-                .load(R.mipmap.guide3)
-                .into(mIvguidegif);
+
     }
 }

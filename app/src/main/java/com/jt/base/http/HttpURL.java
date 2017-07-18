@@ -82,12 +82,16 @@ public class HttpURL {
     /**
      * 获取话题的視頻
      */
-    public static String Topic = Host + "login/search/topic";
+    public static String UpdateVersion = Host + "login/search/version";
 
     /**
-     * 获取话题的視頻
+     * 搜索话题的視頻
      */
-    public static String UpdateVersion = Host + "login/search/version";
+    public static String vod = Host + "login/search/vod";
+    /**
+     * 搜索话题的視頻
+     */
+    public static String Topic = Host + "login/search/topic";
 
 
 }

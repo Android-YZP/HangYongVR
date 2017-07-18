@@ -18,6 +18,7 @@ public class VedioContants {
     public static final String PlayUrl = "PlayUrl";
     public static final String PlayType = "PlayType";
     public static final String TopicId = "TopicId";
+    public static final String SearchHistory = "SearchHistory";
 
 
     /**

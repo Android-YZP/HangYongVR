@@ -1,26 +1,17 @@
 package com.jt.base.videos.adapters;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.RelativeLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.jt.base.R;
-import com.jt.base.http.HttpURL;
-import com.jt.base.http.responsebean.SearchVideoBean;
-import com.jt.base.http.responsebean.TopicBean;
-import com.jt.base.ui.XCRoundRectImageView;
-import com.jt.base.videos.activitys.VideoListActivity;
+import com.jt.base.utils.LocalUtils;
 
 import java.util.List;
 
@@ -28,7 +19,7 @@ import java.util.List;
  * Created by Smith on 2017/6/29.
  */
 
-public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SearchHAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     public static final int TYPE_HEADER = 0;  //说明是带有Header的
     public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
     public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
@@ -38,14 +29,36 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     //HeaderView, FooterView
     private View mHeaderView;
     private View mFooterView;
-    private Activity context;
-    private List<SearchVideoBean.ResultBean> results;
-    //构造函数
+    private Context context;
+/************************************设置点击事件********************************************************/
+    private OnItemClickListener mOnItemClickListener = null;
 
-    public SearchAdapter(Activity context, List<SearchVideoBean.ResultBean> results) {
-        this.context = context;
-        this.results = results;
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+        }
     }
+
+    //define interface
+    public static interface OnItemClickListener {
+        void onItemClick(View view , int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+    //构造函数
+    public SearchHAdapter(Context context, List<String> mDatas) {
+        this.context = context;
+        this.mDatas = mDatas;
+    }
+
+
+
+
 
     //HeaderView和FooterView的get和set函数
     public View getHeaderView() {
@@ -98,23 +111,27 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return new ListHolder(mFooterView);
         }
 
-        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_rv_item, parent, false);
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_history_item, parent, false);
+        layout.setOnClickListener(this);
         return new ListHolder(layout);
     }
 
     //绑定View，这里是根据返回的这个position的类型，从而进行绑定的，   HeaderView和FooterView, 就不同绑定了
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
+                ((ListHolder) holder).itemView.setTag(position);
 
-                ((ListHolder) holder).mTvSearchVideoDesc.setText(results.get(position - 1).getChannelName());
-
-                Glide.with(context)
-                        .load(HttpURL.IV_HOST+results.get(position-1).getImg())
-                        .asBitmap()
-                        .into(((ListHolder) holder).mIvImg);
-
+                ((ListHolder) holder).mTvSearchItem.setText(mDatas.get(position));
+                ((ListHolder) holder).mIbDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LocalUtils.deleteSearchHistory(context, position);
+                        mDatas.remove(position);
+                        notifyDataSetChanged();
+                    }
+                });
                 return;
             }
             return;
@@ -127,18 +144,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     //在这里面加载ListView中的每个item的布局
     class ListHolder extends RecyclerView.ViewHolder {
-
-        private TextView mTvSearchVideoDesc;
-        private XCRoundRectImageView mIvImg;
+        private TextView mTvSearchItem;
+        private ImageButton mIbDelete;
 
         public ListHolder(View itemView) {
             super(itemView);
-
-            mTvSearchVideoDesc = (TextView) itemView.findViewById(R.id.search_video_desc);
-            mIvImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_search_video_img);
-
-
             //如果是headerview或者是footerview,直接返回
+
             if (itemView == mHeaderView) {
                 return;
             }
@@ -146,7 +158,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return;
             }
 
-
+            mTvSearchItem = (TextView) itemView.findViewById(R.id.tv_search_item);
+            mIbDelete = (ImageButton) itemView.findViewById(R.id.search_history_delete);
         }
     }
 
@@ -154,13 +167,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return results.size() + 1;
+            return mDatas.size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return results.size() + 1;
+            return mDatas.size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return results.size() + 1;
+            return mDatas.size() + 1;
         } else {
-            return results.size() + 1;
+            return mDatas.size() + 2;
         }
     }
 

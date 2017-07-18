@@ -5,10 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
+import com.jt.base.http.responsebean.SearchTopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by m1762 on 2017/6/8.
@@ -16,9 +22,11 @@ import com.jt.base.ui.XCRoundRectImageView;
 
 public class SearchHeadTypeAdapter extends RecyclerView.Adapter<SearchHeadTypeAdapter.MainReViewHolder> {
     public Context context;
+    public List<SearchTopicBean.ResultBean> mSearchResult ;
 
-    public SearchHeadTypeAdapter(Context context) {
+    public SearchHeadTypeAdapter(Context context, List<SearchTopicBean.ResultBean> mSearchResult) {
         this.context = context;
+        this.mSearchResult = mSearchResult;
     }
 
     @Override
@@ -33,31 +41,29 @@ public class SearchHeadTypeAdapter extends RecyclerView.Adapter<SearchHeadTypeAd
     @Override
     public void onBindViewHolder(MainReViewHolder holder, final int position) {
 
-        if (position == 10){
-            Glide.with(context)
-                    .load("https://raw.githubusercontent.com/Android-YZP/HelloTrace/master/timg.jpg")
-                    .asBitmap()
-                    .into(holder.mivVideoImg);
-        }else {
-            Glide.with(context)
-                    .load("http://118.89.246.194:8080/head/ff601521-6c79-4a5f-9389-47ba8f09db28.jpg")
-                    .asBitmap()
-                    .into(holder.mivVideoImg);
-        }
+        holder.mSearchTopicDesc.setText(mSearchResult.get(position).getName());
+
+        Glide.with(context)
+                .load(HttpURL.IV_HOST + mSearchResult.get(position).getImg())
+                .asBitmap()
+                .into(holder.mivVideoImg);
+
     }
 
     @Override
     public int getItemCount() {
-        return 11;
+        return mSearchResult.size();
     }
 
 
     public class MainReViewHolder extends RecyclerView.ViewHolder {
         private XCRoundRectImageView mivVideoImg;
+        private TextView mSearchTopicDesc;
 
         public MainReViewHolder(View itemView) {
             super(itemView);
             mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
+            mSearchTopicDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
         }
     }
 }
