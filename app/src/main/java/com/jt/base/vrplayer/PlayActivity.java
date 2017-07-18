@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -31,12 +32,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.ForgetYzmBean;
 import com.jt.base.http.responsebean.ResetPasswordBean;
 import com.jt.base.http.responsebean.RoomNumberBean;
+import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
@@ -56,6 +59,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -179,13 +183,17 @@ public class PlayActivity extends AppCompatActivity {
     private TimerTask task;
     private int recLen;
     private boolean isRoomNumberOut = false;
+    private int mMalu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Log.d(TAG, "surfaceCreated");
-        mPlayUrl = getIntent().getStringExtra(Definition.KEY_PLAY_URL);
+        mPlayUrl = getIntent().getStringExtra(VedioContants.PlayUrl);
+
+
+        LogUtil.i(mPlayUrl + "000000000000000");
         mFov = uiutils.getPreferenceKeyIntValue(getApplicationContext(),
                 Definition.KEY_FOV, 90);
         mProjectionType = uiutils.getPreferenceKeyIntValue(
@@ -497,7 +505,6 @@ public class PlayActivity extends AppCompatActivity {
         LogUtil.i(mPlayUrl + "");
         initPlayMode();
         initInfo();
-        mVideoView.setVideoPath(mPlayUrl);
 
 
     }
@@ -584,12 +591,14 @@ public class PlayActivity extends AppCompatActivity {
 
 
     private void initInfo() {
+        Intent intent = getIntent();
         ImageView ivHead = (ImageView) findViewById(R.id.iv_room_head);
         TextView tvUserName = (TextView) findViewById(R.id.tv_room_person_name);
 
-        String HeadImg = getIntent().getStringExtra(Definition.KEY_PLAY_HEAD);
-        String UserName = getIntent().getStringExtra(Definition.KEY_PLAY_USERNAME);
-        mRoomId = getIntent().getStringExtra(Definition.KEY_PLAY_ID);
+        String HeadImg = intent.getStringExtra(Definition.KEY_PLAY_HEAD);
+        String UserName = intent.getStringExtra(Definition.KEY_PLAY_USERNAME);
+        int PlayType = intent.getIntExtra(VedioContants.PlayType, 4);
+        mRoomId = intent.getStringExtra(Definition.KEY_PLAY_ID);
         ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
         if (!TextUtils.isEmpty(HeadImg))
             x.image().bind(ivHead, HeadImg, imageOptions, new Callback.CommonCallback<Drawable>() {
@@ -615,6 +624,20 @@ public class PlayActivity extends AppCompatActivity {
         //获取在线人数
         HttpOnLineNumber(mRoomId, 1);
 
+        if (PlayType == VedioContants.Video) {
+            List<VodbyTopicBean.ResultBean.VodInfosBean> urlList = new Gson().fromJson(mPlayUrl, new TypeToken<List<VodbyTopicBean.ResultBean.VodInfosBean>>() {
+            }.getType());
+            for (int i = 0; i < urlList.size(); i++) {
+                if (urlList.get(i).getDefinition() == mMalu) {
+                    mVideoView.setVideoPath(urlList.get(i).getUrl());
+                    return;
+                }
+            }
+        } else if (PlayType == VedioContants.Living) {
+            mVideoView.setVideoPath(mPlayUrl);
+        }
+
+
     }
 
     //初始化播放器模式
@@ -623,16 +646,15 @@ public class PlayActivity extends AppCompatActivity {
         if (vedioode == VedioContants.TWO_D_VEDIO) {
             mEyesMode = PlayActivity.SNVR_SINGLE_EYES_MODE;
             mProjectionType = PlayActivity.SNVR_PROJ_PLANE;
+            mMalu = 45;
         } else if (vedioode == VedioContants.ALL_VIEW_VEDIO) {
             mEyesMode = PlayActivity.SNVR_SINGLE_EYES_MODE;
             mProjectionType = PlayActivity.SNVR_PROJ_SPHERE;
+            mMalu = 46;
         }
         mVideoView.setProjectionType(mProjectionType);
         mVideoView.setEyesMode(mEyesMode);
     }
-
-
-
 
 
     @Override
@@ -1065,6 +1087,7 @@ public class PlayActivity extends AppCompatActivity {
 
     /**
      * 滑动改变亮度
+     *
      * @param percent
      */
     private void onBrightnessSlide(float percent) {

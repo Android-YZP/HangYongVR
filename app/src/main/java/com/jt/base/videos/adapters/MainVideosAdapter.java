@@ -152,7 +152,6 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
 //                        intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
 //                    }
 
-                    intent.putExtra(VedioContants.Datas, new Gson().toJson(resultBean));
                     intent.putExtra(VedioContants.Position, position);//首次显示在哪一个封面
                     intent.putExtra(VedioContants.TopicId, TopicId);//哪个话题
                     context.startActivity(intent);

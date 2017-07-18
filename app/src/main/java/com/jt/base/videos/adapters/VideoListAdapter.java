@@ -19,6 +19,7 @@ import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.TopicByVideoBean;
 import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoDetialActivity;
 import com.jt.base.videos.activitys.VideoListActivity;
 
@@ -40,6 +41,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private View mFooterView;
     private VideoListActivity context;
     private List<VodbyTopicBean.ResultBean> topicBean;
+    Intent intent;
     //构造函数
 
     public VideoListAdapter(VideoListActivity context, List<VodbyTopicBean.ResultBean> topicBean) {
@@ -104,7 +106,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     //绑定View，这里是根据返回的这个position的类型，从而进行绑定的，   HeaderView和FooterView, 就不同绑定了
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        intent = new Intent(context, VideoDetialActivity.class);
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
@@ -114,6 +117,17 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .into(((ListHolder) holder).mXuImg);
 
                 ((ListHolder) holder).mTvVideoDesc.setText(topicBean.get(position - 1).getChannelName());
+
+                ((ListHolder) holder).mXuImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        intent.putExtra(VedioContants.Position, position - 1);//哪个话题
+                        intent.putExtra(VedioContants.TopicId, topicBean.get(position - 1).getTopicId());//哪个话题
+                        context.startActivity(intent);
+
+                    }
+                });
+
                 return;
             }
             return;

@@ -39,7 +39,7 @@ public class CheckUpdate {
     }
 
     private Context mcontext;
-    private boolean isAutoCheck ;
+    private boolean isAutoCheck;
     private static CheckUpdate checkUpdate = null;
 
     public static CheckUpdate getInstance() {
@@ -50,7 +50,7 @@ public class CheckUpdate {
     }
 
 
-    public void startCheck(Context context,boolean isAutoCheck) {
+    public void startCheck(Context context, boolean isAutoCheck) {
         mcontext = context;
         this.isAutoCheck = isAutoCheck;
         HttpUpdateVersion("222");
@@ -70,14 +70,14 @@ public class CheckUpdate {
                     Intent intent = new Intent(mcontext, DownloadService.class);
                     intent.putExtra("url", url);
                     mcontext.startService(intent);
-                    LogUtil.i(url+"");
+                    LogUtil.i(url + "");
                 }
             });
             builder.setNegativeButton("退出", null);
             builder.show();
         } else {
-            if (!isAutoCheck){
-                Toast.makeText(mcontext,"当前已是最新版本",Toast.LENGTH_SHORT).show();
+            if (!isAutoCheck) {
+                Toast.makeText(mcontext, "当前已是最新版本", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -94,7 +94,6 @@ public class CheckUpdate {
         }
         return currentVersionCode;
     }
-
 
 
     /**
@@ -116,10 +115,10 @@ public class CheckUpdate {
             public void onSuccess(String result) {
                 LogUtil.i(result);
                 UpdateVersionBean updateVersionBean = new Gson().fromJson(result, UpdateVersionBean.class);
-                if (updateVersionBean.getCode() == HTTP_SUCCESS){
+                if (updateVersionBean.getCode() == HTTP_SUCCESS) {
                     int version = updateVersionBean.getResult().getVersionNum();
 
-                    compareVersion(version,  updateVersionBean.getResult().getIntroduce(), HttpURL.APK_HOST+updateVersionBean.getResult().getUrl()); //与本地版本进行比较
+                    compareVersion(version, updateVersionBean.getResult().getIntroduce(), HttpURL.APK_HOST + updateVersionBean.getResult().getUrl()); //与本地版本进行比较
                 }
 
             }

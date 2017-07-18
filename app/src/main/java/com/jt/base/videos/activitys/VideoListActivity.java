@@ -43,9 +43,6 @@ public class VideoListActivity extends SwipeBackActivity {
     private List<VodbyTopicBean.ResultBean> mData;
     private int mDataTotal;
     private int mTopicId;
-    private TopicImgBean mTopicImgBean;
-
-//    private DetailVideoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +62,7 @@ public class VideoListActivity extends SwipeBackActivity {
 
     private void initData() {
         mTopicId = getIntent().getIntExtra(VedioContants.TopicId, 0);
-        HttpTopicImg(mTopicId);
-
+        HttpTopic(mTopicId, mPager);
     }
 
     private void initListenter() {
@@ -83,7 +79,7 @@ public class VideoListActivity extends SwipeBackActivity {
             public void onRefresh() {
                 mPager = 1;
                 mData.clear();
-                HttpTopicImg(mTopicId);
+                HttpTopic(mTopicId, mPager);
             }
         });
 
@@ -140,7 +136,6 @@ public class VideoListActivity extends SwipeBackActivity {
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LongLogUtil.e("---------------", result);
                 VodbyTopicBean topicByVideoBean = new Gson().fromJson(result, VodbyTopicBean.class);
                 if (topicByVideoBean.getCode() == 0) {
                     mDataTotal = topicByVideoBean.getPage().getTotal();
@@ -150,16 +145,15 @@ public class VideoListActivity extends SwipeBackActivity {
                     } else {
                         mData = topicByVideoBean.getResult();
                         mVideoListAdapter = new VideoListAdapter(VideoListActivity.this, mData);
-                        setHeaderView(mRvVideolist, mTopicImgBean);
+                        setHeaderView(mRvVideolist, topicByVideoBean.getPage());
                         mRvVideolist.setAdapter(mVideoListAdapter);
                     }
-
-
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+                ex.printStackTrace();
                 UIUtils.showTip("服务端连接失败");
             }
 
@@ -172,54 +166,17 @@ public class VideoListActivity extends SwipeBackActivity {
 
 
     /**
-     * 获取话题图片
-     */
-    private void HttpTopicImg(final int id) {
-        if (!NetUtil.isOpenNetwork()) {
-            UIUtils.showTip("请打开网络");
-            return;
-        }
-        //使用xutils3访问网络并获取返回值
-        RequestParams requestParams = new RequestParams(HttpURL.TopicImg);
-        requestParams.addHeader("token", HttpURL.Token);
-        //包装请求参数
-        requestParams.addBodyParameter("id", id + "");//
-        //获取数据
-        x.http().post(requestParams, new JsonCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                LongLogUtil.e("11111111111111111", result);
-                mTopicImgBean = new Gson().fromJson(result, TopicImgBean.class);
-                if (mTopicImgBean.getCode() == 0) {
-                    HttpTopic(id, mPager);
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
-            }
-
-            @Override
-            public void onFinished() {
-            }
-        });
-    }
-
-
-    /**
      * 设置头布局
      */
-    private void setHeaderView(RecyclerView view, TopicImgBean topicImgBean) {
+    private void setHeaderView(RecyclerView view, VodbyTopicBean.PageBean page) {
         View header = LayoutInflater.from(VideoListActivity.this).inflate(R.layout.vedio_list_head, view, false);
         XCRoundRectImageView IvHead = (XCRoundRectImageView) header.findViewById(R.id.tv_video_list_header);
         TextView TvTopicDesc = (TextView) header.findViewById(R.id.video_list_topic_desc);
-        LogUtil.i(HttpURL.IV_HOST + topicImgBean.getResult().getImg() + "---------" + topicImgBean.getResult().getComment());
         Glide.with(VideoListActivity.this)
-                .load(HttpURL.IV_HOST + topicImgBean.getResult().getImg())
+                .load(HttpURL.IV_HOST + page.getTopicImg())
                 .asBitmap()
                 .into(IvHead);
-        TvTopicDesc.setText(topicImgBean.getResult().getComment());
+        TvTopicDesc.setText(page.getIntrduce());
         mVideoListAdapter.setHeaderView(header);//影藏轮播图
     }
 

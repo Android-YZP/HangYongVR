@@ -16,6 +16,7 @@ public class VedioContants {
     public static final String Datas = "Datas";
     public static final String Position = "position";
     public static final String PlayUrl = "PlayUrl";
+    public static final String PlayType = "PlayType";
     public static final String TopicId = "TopicId";
 
 

@@ -18,6 +18,7 @@ import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoDetialActivity;
+import com.jt.base.vrplayer.PlayActivity;
 import com.jt.base.vrplayer.VideoPlayActivity;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
     private Context context;
     private AlertDialog show;
     private List<VodbyTopicBean.ResultBean> mData;
-
+    private  Intent intent;
     public VideoDetialAdapter(Context context, List<VodbyTopicBean.ResultBean> mData) {
         this.context = context;
         this.mData = mData;
@@ -47,13 +48,17 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         VodbyTopicBean.ResultBean resultBean = mData.get(position);
         //判断1直播，0点播
-        final Intent intent = new Intent(context, VideoPlayActivity.class);
+
 
         int type = resultBean.getType();
         if (type == VedioContants.Video) {//点播
+            intent = new Intent(context, VideoPlayActivity.class);
             intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(resultBean.getVodInfos()));
+            intent.putExtra(VedioContants.PlayType, VedioContants.Video);
         } else if (type == VedioContants.Living) {//直播
+            intent = new Intent(context, PlayActivity.class);
             intent.putExtra(VedioContants.PlayUrl, resultBean.getRtmpDownstreamAddress());
+            intent.putExtra(VedioContants.PlayType, VedioContants.Living);
         }
 
 

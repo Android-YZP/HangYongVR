@@ -8,11 +8,12 @@ import java.util.List;
 
 public class VodbyTopicBean {
 
+
     /**
      * code : 0
      * msg : success
-     * result : [{"id":86,"uid":1,"type":1,"channelId":"9250_83d0d75252c345fab3251afad47b1709","channelName":"邓紫棋直播","isall":2,"status":1,"price":0,"img":"8b29091c-ade9-4243-b086-bad9f92db40e.jpg","createDate":null,"alipay":"","place":null,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_83d0d75252c345fab3251afad47b1709?bizid=9250&txSecret=aaa4a940e663731c7e0f304f0692dc0c&txTime=596A3BFF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_83d0d75252c345fab3251afad47b1709","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_83d0d75252c345fab3251afad47b1709.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_83d0d75252c345fab3251afad47b1709.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"74499953-4fef-43e7-a36f-2effb948ff4d.jpg","typeId":46,"topicId":62,"img1":"9bb9b73d-c801-413b-995f-8d838dcd05a3.jpg","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-06 15:51:51","vodStatus":null,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":124,"uid":1,"type":1,"channelId":"9250_06b752c672364cdb97f103da702966b8","channelName":"全景视频集锦","isall":2,"status":1,"price":0,"img":"d055b7b3-b89a-4dd8-b317-a8814a813034.jpg","createDate":null,"alipay":"","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://9250.livepush.myqcloud.com/live/9250_06b752c672364cdb97f103da702966b8?bizid=9250&txSecret=680169b3303d3954db06196c1f80ee7d&txTime=596A3BFF","rtmpDownstreamAddress":"rtmp://9250.liveplay.myqcloud.com/live/9250_06b752c672364cdb97f103da702966b8","flvDownstreamAddress":"http://9250.liveplay.myqcloud.com/live/9250_06b752c672364cdb97f103da702966b8.flv","hlsDownstreamAddress":"http://9250.liveplay.myqcloud.com/9250_06b752c672364cdb97f103da702966b8.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"f5d718df-90a8-4e0b-afef-5853be78717e.png","typeId":46,"topicId":62,"img1":"f4be07f6-1350-4273-8042-8a69745d169a.jpg","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-13 09:50:40","vodStatus":null,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}]
-     * page : {"total":2,"totalPage":1,"page":1,"count":20,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":62,"isall":null,"sourceNum":999,"startIndex":0}
+     * result : [{"id":295,"uid":1,"type":1,"channelId":"10263_27002c5d578e45ba81dd9538bf8e07f5","channelName":"测试视频","isall":0,"status":0,"price":0,"img":"9e7b2e26-54ca-461b-a57a-97ac958464e7.jpg","createDate":null,"alipay":"","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://10263.livepush.myqcloud.com/live/10263_27002c5d578e45ba81dd9538bf8e07f5?bizid=10263&txSecret=d8229e1e8cae9350651e61b47d2e7433&txTime=596E307F","rtmpDownstreamAddress":"rtmp://10263.liveplay.myqcloud.com/live/10263_27002c5d578e45ba81dd9538bf8e07f5","flvDownstreamAddress":"http://10263.liveplay.myqcloud.com/live/10263_27002c5d578e45ba81dd9538bf8e07f5.flv","hlsDownstreamAddress":"http://10263.liveplay.myqcloud.com/10263_27002c5d578e45ba81dd9538bf8e07f5.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"0798de34-d890-44d3-936a-64628d8233d4.jpg","typeId":46,"topicId":62,"img1":"84b09f10-d7bf-45fa-8944-10e89af3c22f.jpg","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-17 10:02:18","vodStatus":null,"vodInfos":[{"id":693,"vodId":280,"vbitrate":4430011,"definition":0,"url":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4","time":230,"size":121.94,"md5":""},{"id":694,"vodId":280,"vbitrate":580600,"definition":25,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f25.mp4","time":230,"size":121.94,"md5":"90946b66844ac19ec1d3fb1e60b7f07f"},{"id":695,"vodId":280,"vbitrate":2586394,"definition":60,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f60.mp4","time":230,"size":121.94,"md5":"f1f713440fecf9d051bde4bc3627b9f7"},{"id":696,"vodId":280,"vbitrate":656001,"definition":225,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f225.m3u8","time":230,"size":121.94,"md5":"d5551592f3d6049ef2cd20c0c3da4204"},{"id":697,"vodId":280,"vbitrate":2819208,"definition":260,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f260.m3u8","time":230,"size":121.94,"md5":"572585f700b35b37ba385ab428169fd3"},{"id":698,"vodId":280,"vbitrate":1067686,"definition":35,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f35.mp4","time":230,"size":121.94,"md5":"54e4e4242580f0aa42c8fea52a51db43"},{"id":699,"vodId":280,"vbitrate":1180894,"definition":235,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f235.m3u8","time":230,"size":121.94,"md5":"a2756258c68dd0cee9856fc719310a79"},{"id":700,"vodId":280,"vbitrate":1993157,"definition":45,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f45.mp4","time":230,"size":121.94,"md5":"a806ab52acd0ec08ef2b4d0f495bad2e"},{"id":701,"vodId":280,"vbitrate":2226275,"definition":245,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f245.m3u8","time":230,"size":121.94,"md5":"abbe9e16660bffc21b362b4882ecf411"}],"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":280,"uid":1,"type":0,"channelId":"9031868223034315984","channelName":"沉睡魔咒","isall":0,"status":0,"price":0,"img":"b934091f-da47-473a-ba50-46ce165147a9.jpg","createDate":null,"alipay":null,"place":null,"outputSourceType":3,"upstreamAddress":null,"rtmpDownstreamAddress":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4","flvDownstreamAddress":null,"hlsDownstreamAddress":null,"playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"3.jpg","typeId":46,"topicId":62,"img1":"b84b7d38-965b-4f99-a758-7810a9a1f957.jpg","time":"230","format":null,"size":"121.931","rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":null,"vodStatus":5,"vodInfos":[{"id":693,"vodId":280,"vbitrate":4430011,"definition":0,"url":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4","time":230,"size":121.94,"md5":""},{"id":694,"vodId":280,"vbitrate":580600,"definition":25,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f25.mp4","time":230,"size":121.94,"md5":"90946b66844ac19ec1d3fb1e60b7f07f"},{"id":695,"vodId":280,"vbitrate":2586394,"definition":60,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f60.mp4","time":230,"size":121.94,"md5":"f1f713440fecf9d051bde4bc3627b9f7"},{"id":696,"vodId":280,"vbitrate":656001,"definition":225,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f225.m3u8","time":230,"size":121.94,"md5":"d5551592f3d6049ef2cd20c0c3da4204"},{"id":697,"vodId":280,"vbitrate":2819208,"definition":260,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f260.m3u8","time":230,"size":121.94,"md5":"572585f700b35b37ba385ab428169fd3"},{"id":698,"vodId":280,"vbitrate":1067686,"definition":35,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f35.mp4","time":230,"size":121.94,"md5":"54e4e4242580f0aa42c8fea52a51db43"},{"id":699,"vodId":280,"vbitrate":1180894,"definition":235,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f235.m3u8","time":230,"size":121.94,"md5":"a2756258c68dd0cee9856fc719310a79"},{"id":700,"vodId":280,"vbitrate":1993157,"definition":45,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f45.mp4","time":230,"size":121.94,"md5":"a806ab52acd0ec08ef2b4d0f495bad2e"},{"id":701,"vodId":280,"vbitrate":2226275,"definition":245,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f245.m3u8","time":230,"size":121.94,"md5":"abbe9e16660bffc21b362b4882ecf411"}],"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null},{"id":271,"uid":1,"type":0,"channelId":"9031868223034315937","channelName":"2012","isall":0,"status":0,"price":0,"img":"35ca702f-b6e4-4153-b150-4e84ffcb6640.jpg","createDate":null,"alipay":null,"place":null,"outputSourceType":3,"upstreamAddress":null,"rtmpDownstreamAddress":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.wmv","flvDownstreamAddress":null,"hlsDownstreamAddress":null,"playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"3.jpg","typeId":46,"topicId":62,"img1":"207f2305-2ce4-450c-93d6-9e022209097a.jpg","time":"185","format":null,"size":"138.655","rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":null,"vodStatus":5,"vodInfos":[{"id":666,"vodId":271,"vbitrate":8128016,"definition":0,"url":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.wmv","time":185,"size":138.66,"md5":""},{"id":667,"vodId":271,"vbitrate":580388,"definition":25,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.f25.mp4","time":185,"size":138.66,"md5":"043cca606cc57b8c1a11497140a1524f"},{"id":668,"vodId":271,"vbitrate":2600343,"definition":60,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.f60.mp4","time":185,"size":138.66,"md5":"648ccb8c5e4b13a3bbdc1714095d2b75"},{"id":669,"vodId":271,"vbitrate":1070027,"definition":35,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.f35.mp4","time":185,"size":138.66,"md5":"3f23528210ea1f6a6660fd3a071babb4"},{"id":670,"vodId":271,"vbitrate":655058,"definition":225,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.f225.m3u8","time":185,"size":138.66,"md5":"2806d0db90168c33aab478e5aa469f53"},{"id":671,"vodId":271,"vbitrate":2835101,"definition":260,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.f260.m3u8","time":185,"size":138.66,"md5":"74047e93d70a39f95f0f5a332aeba66b"},{"id":672,"vodId":271,"vbitrate":1180168,"definition":235,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.f235.m3u8","time":185,"size":138.66,"md5":"0aa6921ab75330964e5e4e3835fe9670"},{"id":673,"vodId":271,"vbitrate":1997293,"definition":45,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.f45.mp4","time":185,"size":138.66,"md5":"1d124bd286916aa9f614051e20640560"},{"id":674,"vodId":271,"vbitrate":2230614,"definition":245,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dbc29031868223034315937/sIU39a3M1iUA.f245.m3u8","time":185,"size":138.66,"md5":"7bec020e51b16fe179284d78ddc4b543"}],"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}]
+     * page : {"total":4,"totalPage":2,"page":1,"count":3,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":62,"isall":null,"sourceNum":222,"topicImg":"9004f666-372c-4459-875c-912ba88f7e28.png","intrduce":"邓紫棋直播","startIndex":0}
      */
 
     private int code;
@@ -54,10 +55,10 @@ public class VodbyTopicBean {
 
     public static class PageBean {
         /**
-         * total : 2
-         * totalPage : 1
+         * total : 4
+         * totalPage : 2
          * page : 1
-         * count : 20
+         * count : 3
          * startDate : null
          * endDate : null
          * keywords : null
@@ -72,7 +73,9 @@ public class VodbyTopicBean {
          * typeId : null
          * topicId : 62
          * isall : null
-         * sourceNum : 999
+         * sourceNum : 222
+         * topicImg : 9004f666-372c-4459-875c-912ba88f7e28.png
+         * intrduce : 邓紫棋直播
          * startIndex : 0
          */
 
@@ -95,6 +98,8 @@ public class VodbyTopicBean {
         private int topicId;
         private Object isall;
         private int sourceNum;
+        private String topicImg;
+        private String intrduce;
         private int startIndex;
 
         public int getTotal() {
@@ -249,6 +254,22 @@ public class VodbyTopicBean {
             this.sourceNum = sourceNum;
         }
 
+        public String getTopicImg() {
+            return topicImg;
+        }
+
+        public void setTopicImg(String topicImg) {
+            this.topicImg = topicImg;
+        }
+
+        public String getIntrduce() {
+            return intrduce;
+        }
+
+        public void setIntrduce(String intrduce) {
+            this.intrduce = intrduce;
+        }
+
         public int getStartIndex() {
             return startIndex;
         }
@@ -260,32 +281,32 @@ public class VodbyTopicBean {
 
     public static class ResultBean {
         /**
-         * id : 86
+         * id : 295
          * uid : 1
          * type : 1
-         * channelId : 9250_83d0d75252c345fab3251afad47b1709
-         * channelName : 邓紫棋直播
-         * isall : 2
-         * status : 1
+         * channelId : 10263_27002c5d578e45ba81dd9538bf8e07f5
+         * channelName : 测试视频
+         * isall : 0
+         * status : 0
          * price : 0
-         * img : 8b29091c-ade9-4243-b086-bad9f92db40e.jpg
+         * img : 9e7b2e26-54ca-461b-a57a-97ac958464e7.jpg
          * createDate : null
          * alipay :
-         * place : null
+         * place : 0
          * outputSourceType : 3
-         * upstreamAddress : rtmp://9250.livepush.myqcloud.com/live/9250_83d0d75252c345fab3251afad47b1709?bizid=9250&txSecret=aaa4a940e663731c7e0f304f0692dc0c&txTime=596A3BFF
-         * rtmpDownstreamAddress : rtmp://9250.liveplay.myqcloud.com/live/9250_83d0d75252c345fab3251afad47b1709
-         * flvDownstreamAddress : http://9250.liveplay.myqcloud.com/live/9250_83d0d75252c345fab3251afad47b1709.flv
-         * hlsDownstreamAddress : http://9250.liveplay.myqcloud.com/9250_83d0d75252c345fab3251afad47b1709.m3u8
+         * upstreamAddress : rtmp://10263.livepush.myqcloud.com/live/10263_27002c5d578e45ba81dd9538bf8e07f5?bizid=10263&txSecret=d8229e1e8cae9350651e61b47d2e7433&txTime=596E307F
+         * rtmpDownstreamAddress : rtmp://10263.liveplay.myqcloud.com/live/10263_27002c5d578e45ba81dd9538bf8e07f5
+         * flvDownstreamAddress : http://10263.liveplay.myqcloud.com/live/10263_27002c5d578e45ba81dd9538bf8e07f5.flv
+         * hlsDownstreamAddress : http://10263.liveplay.myqcloud.com/10263_27002c5d578e45ba81dd9538bf8e07f5.m3u8
          * playerPassword : null
          * watermarkId : null
          * outputrateOne : null
          * outputrateTow : null
          * outputrateThree : null
-         * head : 74499953-4fef-43e7-a36f-2effb948ff4d.jpg
+         * head : 0798de34-d890-44d3-936a-64628d8233d4.jpg
          * typeId : 46
          * topicId : 62
-         * img1 : 9bb9b73d-c801-413b-995f-8d838dcd05a3.jpg
+         * img1 : 84b09f10-d7bf-45fa-8944-10e89af3c22f.jpg
          * time : null
          * format : null
          * size : null
@@ -293,9 +314,9 @@ public class VodbyTopicBean {
          * vodTaskId : null
          * top : null
          * isVip : null
-         * publish : 2017-07-06 15:51:51
+         * publish : 2017-07-17 10:02:18
          * vodStatus : null
-         * vodInfos : null
+         * vodInfos : [{"id":693,"vodId":280,"vbitrate":4430011,"definition":0,"url":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4","time":230,"size":121.94,"md5":""},{"id":694,"vodId":280,"vbitrate":580600,"definition":25,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f25.mp4","time":230,"size":121.94,"md5":"90946b66844ac19ec1d3fb1e60b7f07f"},{"id":695,"vodId":280,"vbitrate":2586394,"definition":60,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f60.mp4","time":230,"size":121.94,"md5":"f1f713440fecf9d051bde4bc3627b9f7"},{"id":696,"vodId":280,"vbitrate":656001,"definition":225,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f225.m3u8","time":230,"size":121.94,"md5":"d5551592f3d6049ef2cd20c0c3da4204"},{"id":697,"vodId":280,"vbitrate":2819208,"definition":260,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f260.m3u8","time":230,"size":121.94,"md5":"572585f700b35b37ba385ab428169fd3"},{"id":698,"vodId":280,"vbitrate":1067686,"definition":35,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f35.mp4","time":230,"size":121.94,"md5":"54e4e4242580f0aa42c8fea52a51db43"},{"id":699,"vodId":280,"vbitrate":1180894,"definition":235,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f235.m3u8","time":230,"size":121.94,"md5":"a2756258c68dd0cee9856fc719310a79"},{"id":700,"vodId":280,"vbitrate":1993157,"definition":45,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f45.mp4","time":230,"size":121.94,"md5":"a806ab52acd0ec08ef2b4d0f495bad2e"},{"id":701,"vodId":280,"vbitrate":2226275,"definition":245,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f245.m3u8","time":230,"size":121.94,"md5":"abbe9e16660bffc21b362b4882ecf411"}]
          * username : null
          * typeName : null
          * topicName : null
@@ -315,7 +336,7 @@ public class VodbyTopicBean {
         private String img;
         private Object createDate;
         private String alipay;
-        private Object place;
+        private int place;
         private int outputSourceType;
         private String upstreamAddress;
         private String rtmpDownstreamAddress;
@@ -339,13 +360,13 @@ public class VodbyTopicBean {
         private Object isVip;
         private String publish;
         private Object vodStatus;
-        private Object vodInfos;
         private Object username;
         private Object typeName;
         private Object topicName;
         private Object reason;
         private Object introduce;
         private Object num;
+        private List<VodInfosBean> vodInfos;
 
         public int getId() {
             return id;
@@ -435,11 +456,11 @@ public class VodbyTopicBean {
             this.alipay = alipay;
         }
 
-        public Object getPlace() {
+        public int getPlace() {
             return place;
         }
 
-        public void setPlace(Object place) {
+        public void setPlace(int place) {
             this.place = place;
         }
 
@@ -627,14 +648,6 @@ public class VodbyTopicBean {
             this.vodStatus = vodStatus;
         }
 
-        public Object getVodInfos() {
-            return vodInfos;
-        }
-
-        public void setVodInfos(Object vodInfos) {
-            this.vodInfos = vodInfos;
-        }
-
         public Object getUsername() {
             return username;
         }
@@ -681,6 +694,100 @@ public class VodbyTopicBean {
 
         public void setNum(Object num) {
             this.num = num;
+        }
+
+        public List<VodInfosBean> getVodInfos() {
+            return vodInfos;
+        }
+
+        public void setVodInfos(List<VodInfosBean> vodInfos) {
+            this.vodInfos = vodInfos;
+        }
+
+        public static class VodInfosBean {
+            /**
+             * id : 693
+             * vodId : 280
+             * vbitrate : 4430011
+             * definition : 0
+             * url : http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4
+             * time : 230
+             * size : 121.94
+             * md5 :
+             */
+
+            private int id;
+            private int vodId;
+            private int vbitrate;
+            private int definition;
+            private String url;
+            private int time;
+            private double size;
+            private String md5;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getVodId() {
+                return vodId;
+            }
+
+            public void setVodId(int vodId) {
+                this.vodId = vodId;
+            }
+
+            public int getVbitrate() {
+                return vbitrate;
+            }
+
+            public void setVbitrate(int vbitrate) {
+                this.vbitrate = vbitrate;
+            }
+
+            public int getDefinition() {
+                return definition;
+            }
+
+            public void setDefinition(int definition) {
+                this.definition = definition;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public int getTime() {
+                return time;
+            }
+
+            public void setTime(int time) {
+                this.time = time;
+            }
+
+            public double getSize() {
+                return size;
+            }
+
+            public void setSize(double size) {
+                this.size = size;
+            }
+
+            public String getMd5() {
+                return md5;
+            }
+
+            public void setMd5(String md5) {
+                this.md5 = md5;
+            }
         }
     }
 }
