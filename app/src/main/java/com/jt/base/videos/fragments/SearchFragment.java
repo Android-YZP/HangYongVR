@@ -205,9 +205,6 @@ public class SearchFragment extends Fragment {
             searchHistoryHead.setVisibility(View.GONE);
         }
         mSearchHistoryAdapter.setFooterView(view);
-
-        //检查版本更新
-        CheckUpdate.getInstance().startCheck(getContext(), true);
     }
 
 
