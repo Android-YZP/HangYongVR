@@ -72,27 +72,30 @@
             android:name=".vrplayer.PlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme"
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".personal.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".videos.activitys.VideoListActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" />
+            android:name=".videos.activitys.VideoListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".personal.takepic.PermissionsActivity" />
         <activity
-            android:name=".personal.PersonalActivity"  android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" />
+            android:name=".personal.PersonalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".personal.HistoryActivity"   android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" />
+            android:name=".personal.HistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.jt.fileprovider"
+            android:authorities="com.jt.base.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -106,22 +109,26 @@
         <activity
             android:name=".videos.activitys.VedioDeatilsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".videos.activitys.VideoMoreActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name=".videos.activitys.VideoDetialActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" />
-
+            android:name=".videos.activitys.VideoDetialActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".vrplayer.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme"
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <service android:name=".updtaeapk.DownloadService" />
+
+        <activity android:name=".activitys.Guide2Activity" />
+        <activity android:name=".activitys.Guide1Activity" />
+        <activity android:name=".activitys.Guide3Activity" />
+        <activity android:name=".activitys.Guide4Activity"></activity>
     </application>
 
 </manifest>

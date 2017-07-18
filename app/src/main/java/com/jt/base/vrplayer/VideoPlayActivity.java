@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -29,10 +30,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.RoomNumberBean;
+import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
@@ -51,6 +54,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -193,12 +197,12 @@ public class VideoPlayActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         setContentView(R.layout.activity_video_play);////////////////////////////////////////////////界面
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//        getWindow().getDecorView().setSystemUiVisibility(
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+//                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
         mVideoView.setVideoPlayerType(ISnailPlayer.PlayerType.PLAYER_TYPE_SNAIL_VR);
         mVideoView.setPlayFov(mFov);
@@ -208,8 +212,6 @@ public class VideoPlayActivity extends Activity {
         mVideoView.setScale(SCALE_10);
         mErroText = (TextView) findViewById(R.id.txt_view_erro);
         mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
-
-        getActionBar().hide();
         mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
         mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
         mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
@@ -423,14 +425,11 @@ public class VideoPlayActivity extends Activity {
                         showNetErrorDialog();
                         break;
                     default:
-
-
                 }
             }
         };
         LogUtil.i(mPlayUrl + "");
         initPlayMode();
-        mVideoView.setVideoPath(mPlayUrl);
     }
 
 
@@ -439,9 +438,11 @@ public class VideoPlayActivity extends Activity {
 
     //初始化播放器模式
     private void initPlayMode() {
-        int vedioode = getIntent().getIntExtra(Definition.PLEAR_MODE, 4);
-        String desc = getIntent().getStringExtra("desc");
-        TextView title = (TextView)findViewById(R.id.tv_play_title);
+        Intent intent = getIntent();
+        int vedioode = intent.getIntExtra(Definition.PLEAR_MODE, 4);
+        String desc = intent.getStringExtra("desc");
+        int PlayType = intent.getIntExtra(VedioContants.PlayType, 4);
+        TextView title = (TextView) findViewById(R.id.tv_play_title);
         title.setText(desc);
 
         if (vedioode == VedioContants.TWO_D_VEDIO) {
@@ -453,6 +454,22 @@ public class VideoPlayActivity extends Activity {
         }
         mVideoView.setProjectionType(mProjectionType);
         mVideoView.setEyesMode(mEyesMode);
+
+
+        if (PlayType == VedioContants.Video) {
+            List<VodbyTopicBean.ResultBean.VodInfosBean> urlList = new Gson().fromJson(mPlayUrl, new TypeToken<List<VodbyTopicBean.ResultBean.VodInfosBean>>() {
+            }.getType());
+            for (int i = 0; i < urlList.size(); i++) {
+                if (urlList.get(i).getDefinition() == 45) {
+                    mVideoView.setVideoPath(urlList.get(i).getUrl());
+                    return;
+                }
+            }
+        } else if (PlayType == VedioContants.Living) {
+            mVideoView.setVideoPath(mPlayUrl);
+        }
+
+
     }
 
 

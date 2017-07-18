@@ -203,7 +203,6 @@ public class VideoDetailFragment extends Fragment {
                     mPager = 1;
                     HttpRoomList(mPager + "", false);
 
-
                 } else if (direction.equals(SwipyRefreshLayoutDirection.BOTTOM)) {
                     if (mRoomListBean == null) return;
                     mPager++;
@@ -217,7 +216,7 @@ public class VideoDetailFragment extends Fragment {
                 }
             }
         });
-        if (mViewpager != null)
+
             mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

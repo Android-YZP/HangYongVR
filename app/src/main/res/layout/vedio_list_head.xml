@@ -2,21 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
 
-
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="196dp">
 
-        <ImageView
+        <com.jt.base.ui.XCRoundRectImageView
+            android:id="@+id/tv_video_list_header"
             android:layout_width="match_parent"
-            android:layout_height="196dp"
-            android:background="@mipmap/vedio_details_img1" />
+            android:layout_height="196dp" />
 
         <TextView
+            android:id="@+id/video_list_topic_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="29dp"
@@ -32,12 +32,8 @@
             android:layout_height="196dp"
             android:background="@mipmap/vedio_details_c" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="196dp"
-            android:background="@mipmap/vedio_details_c" />
-    </FrameLayout>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_main_more"

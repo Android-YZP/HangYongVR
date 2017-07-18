@@ -10,9 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.TopicBean;
+import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.videoDetails.VedioContants;
+import com.jt.base.videos.activitys.VideoDetialActivity;
+import com.jt.base.vrplayer.PlayActivity;
 import com.jt.base.vrplayer.VideoPlayActivity;
 
 import java.util.List;
@@ -23,13 +29,12 @@ import java.util.List;
 
 public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.MyViewHolder> {
     private Context context;
-    private List<TopicBean.ResultBeanX.ResultBean> mResultBean;
     private AlertDialog show;
-
-    public VideoDetialAdapter(Context context, List<TopicBean.ResultBeanX.ResultBean> mResultBean) {
+    private List<VodbyTopicBean.ResultBean> mData;
+    private  Intent intent;
+    public VideoDetialAdapter(Context context, List<VodbyTopicBean.ResultBean> mData) {
         this.context = context;
-        this.mResultBean = mResultBean;
-
+        this.mData = mData;
     }
 
     @Override
@@ -41,40 +46,58 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        VodbyTopicBean.ResultBean resultBean = mData.get(position);
         //判断1直播，0点播
-        final Intent intent = new Intent(context, VideoPlayActivity.class);
 
-        int type = mResultBean.get(position).getType();
+
+        int type = resultBean.getType();
         if (type == VedioContants.Video) {//点播
-            intent.putExtra(VedioContants.PlayUrl, (String) mResultBean.get(position).getRtmpDownstreamAddress());
+            intent = new Intent(context, VideoPlayActivity.class);
+            intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(resultBean.getVodInfos()));
+            intent.putExtra(VedioContants.PlayType, VedioContants.Video);
         } else if (type == VedioContants.Living) {//直播
-            intent.putExtra(VedioContants.PlayUrl, (String) mResultBean.get(position).getRtmpDownstreamAddress());
+            intent = new Intent(context, PlayActivity.class);
+            intent.putExtra(VedioContants.PlayUrl, resultBean.getRtmpDownstreamAddress());
+            intent.putExtra(VedioContants.PlayType, VedioContants.Living);
         }
 
 
         //判断视频类型
-        int isall = mResultBean.get(position).getIsall();
+        int isall = resultBean.getIsall();
         if (isall == VedioContants.TWO_D_VEDIO) {//2D
-            intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+            intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
         } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
-            intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+            intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
         } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
-            intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
+            intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
         } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
-            intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+            intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
         }
 
         holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              context.startActivity(intent);
+                context.startActivity(intent);
             }
         });
+
+        Glide.with(context)
+                .load(HttpURL.IV_HOST + resultBean.getHead())
+                .crossFade()
+                .into(holder.mIvRoomHead);
+        holder.mTvChannelName.setText(resultBean.getChannelName());
+
+        int price = resultBean.getPrice();
+        if (price != 0) {
+            holder.mTvRoomPay.setVisibility(View.VISIBLE);
+        } else {
+            holder.mTvRoomPay.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mResultBean.size();
+        return mData.size();
     }
 
 
