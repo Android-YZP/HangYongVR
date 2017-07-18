@@ -9,14 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.jt.base.R;
-import com.jt.base.videos.adapters.MainAdapter;
-import com.jt.base.videos.adapters.MainVideosAdapter;
 import com.jt.base.videos.adapters.SearchAdapter;
 import com.jt.base.videos.adapters.SearchHeadTypeAdapter;
 
-import static com.jt.base.R.drawable.position;
 
 @SuppressLint("ValidFragment")
 public class SearchFragment extends Fragment {
@@ -31,7 +27,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@mipmap/update_beijing">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发现新版本啦！"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:textColor="#39f0d4"
+       android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"/>
+    <TextView
+        android:id="@+id/tv_update_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="240dp"
+        android:text="1.增加直播回放功能\n 2.增加个人直播模块\n 3.部分bug优化"
+        android:textSize="17sp"
+        android:textColor="#666666"/>
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="188dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="330dp"
+        android:background="@drawable/btn_vr_login"
+        android:gravity="center"
+        android:text="去更新"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/img_update_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/update_close"
+        android:layout_gravity="center"
+        android:layout_marginTop="7dp"/>
+</LinearLayout>
