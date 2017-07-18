@@ -16,8 +16,7 @@ public class Guide1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide1);
         mIvguidegif = (ImageView) findViewById(R.id.iv_guide_gif);
-        Glide
-                .with(Guide1Activity.this)
+        Glide.with(Guide1Activity.this)
                 .load(R.mipmap.guide1)
                 .into(mIvguidegif);
     }
