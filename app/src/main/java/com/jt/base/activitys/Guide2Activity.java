@@ -2,6 +2,7 @@ package com.jt.base.activitys;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -17,5 +18,11 @@ public class Guide2Activity extends AppCompatActivity {
         Glide.with(Guide2Activity.this)
                 .load(R.mipmap.guide2)
                 .into(mIvguidegif);
+        mIvguidegif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
