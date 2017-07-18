@@ -139,7 +139,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mTvMore1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.startActivity(new Intent(context, VideoListActivity.class));
+                        Intent intent = new Intent(context, VideoListActivity.class);
+                        intent.putExtra(VedioContants.TopicId,topicBean.getResult().get(position).getCode());
+                        context.startActivity(intent);
                         context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                     }
                 });
