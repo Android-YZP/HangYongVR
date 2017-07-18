@@ -56,19 +56,36 @@
             android:textSize="15sp" />
 
     </LinearLayout>
-
-
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="#d9d9d9"/>
     <LinearLayout
         android:id="@+id/ll_search_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:background="#f3f3f3"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="@mipmap/search_lishi"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索历史"
+                android:layout_marginLeft="35dp"
+                android:textSize="12sp"
+                android:textColor="#949494"/>
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜索历史" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_search_history"
             android:layout_width="wrap_content"

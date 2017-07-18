@@ -52,10 +52,11 @@ public class SearchFragment extends Fragment {
     private LinearLayout mLlsearchresult;
     private RecyclerView mRvsearchhistory;
     private EditText mEtsearch;
-    private List<String> searchHistorys ;
+    private List<String> searchHistorys;
     private List<SearchTopicBean.ResultBean> mSearchTopicResult = new ArrayList<>();
     private TextView mTvSearchCancel;
     private LinearLayout mLlsearchHistory;
+    private RelativeLayout searchHistoryHead;
 
 
     @Override
@@ -83,7 +84,6 @@ public class SearchFragment extends Fragment {
                     // 先隐藏键盘
                     ((InputMethodManager) mEtsearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
                     String search = mEtsearch.getText().toString();
                     if (!TextUtils.isEmpty(search)) {
                         LogUtil.i(search);
@@ -91,6 +91,7 @@ public class SearchFragment extends Fragment {
                         mSearchHistoryAdapter.notifyDataSetChanged();
                         LocalUtils.addSearchHistory(getContext(), search);
                         search(search, 1 + "");
+
                     }
                     return true;
                 }
@@ -103,7 +104,6 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 mLlsearchresult.setVisibility(View.GONE);
                 mLlsearchHistory.setVisibility(View.VISIBLE);
-
             }
         });
     }
@@ -123,7 +123,6 @@ public class SearchFragment extends Fragment {
         mRvsearchvideo.setNestedScrollingEnabled(false);
         mRvsearchvideo.setLayoutManager(linearLayoutManager);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
     }
 
 
@@ -143,7 +142,10 @@ public class SearchFragment extends Fragment {
             mSearchHistoryAdapter.setOnItemClickListener(new SearchHAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    UIUtils.showTip(position + "");
+                    search(searchHistorys.get(position), 1 + "");
+                    // 先隐藏键盘
+                    ((InputMethodManager) mEtsearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             });
         }
@@ -187,8 +189,8 @@ public class SearchFragment extends Fragment {
     //设置话题的脚部局
     private void setHistoryFoot() {
         View view = View.inflate(getContext(), R.layout.search_history_foot, null);
-        TextView SearchHistoryHead = (TextView) view.findViewById(R.id.search_history_delete_all);
-        SearchHistoryHead.setOnClickListener(new View.OnClickListener() {
+        searchHistoryHead = (RelativeLayout) view.findViewById(R.id.search_history_delete_all);
+        searchHistoryHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LocalUtils.deleteAllSearchHistory(getContext());
@@ -196,7 +198,14 @@ public class SearchFragment extends Fragment {
                 mSearchHistoryAdapter.notifyDataSetChanged();
             }
         });
+
+        if (searchHistorys != null && searchHistorys.size() > 0) {
+            searchHistoryHead.setVisibility(View.VISIBLE);
+        } else {
+            searchHistoryHead.setVisibility(View.GONE);
+        }
         mSearchHistoryAdapter.setFooterView(view);
+
         //检查版本更新
         CheckUpdate.getInstance().startCheck(getContext(), true);
     }
@@ -232,7 +241,9 @@ public class SearchFragment extends Fragment {
                 if (searchVideoBean.getCode() == HTTP_SUCCESS) {
                     results = searchVideoBean.getResult();
                     mSearchAdapter = new SearchAdapter(getActivity(), results);
+
                     setHead(results);
+
                     mRvsearchvideo.setAdapter(mSearchAdapter);
                     mLlsearchresult.setVisibility(View.VISIBLE);
                     mLlsearchHistory.setVisibility(View.GONE);

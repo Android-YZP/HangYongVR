@@ -2,12 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_marginTop="56dp"
+    android:orientation="horizontal">
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 
-    <TextView
+    <RelativeLayout
         android:id="@+id/search_history_delete_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="清空所有" />
+        android:layout_width="161dp"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/search_delate">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/search_lajitong"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除历史记录"
+            android:textSize="15sp"
+            android:textColor="#999999"
+            android:layout_marginLeft="25dp"/>
+    </RelativeLayout>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 </LinearLayout>
