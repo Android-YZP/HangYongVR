@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jt.base.http.responsebean.SeeHistory;
 import com.jt.base.videoDetails.VedioContants;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class LocalUtils {
         if (!TextUtils.isEmpty(SearchHistory)) {
             mSearchHistory = new Gson().fromJson(SearchHistory, new TypeToken<List<String>>() {
             }.getType());
-        }else {
+        } else {
             mSearchHistory = new ArrayList<>();
         }
         return mSearchHistory;
@@ -41,7 +42,7 @@ public class LocalUtils {
         if (searchHistory == null) {
             searchHistory = new ArrayList<>();
         }
-        if (searchHistory.size() > 20) {
+        if (searchHistory.size() > 19) {
             searchHistory.remove(19);
         }
         searchHistory.add(0, SearchHistory);
@@ -66,4 +67,55 @@ public class LocalUtils {
     }
 
 
+    /**
+     * 讲历史数据储存本地
+     */
+    public static void addSeeHistory(Context context, SeeHistory seeHistory) {
+
+        List<SeeHistory> searchHistory = getSeeHistory(context);
+
+        if (searchHistory == null) {
+            searchHistory = new ArrayList<>();
+        }
+
+        if (searchHistory.size() > 19) {
+            searchHistory.remove(19);
+        }
+
+//        for (int i = 0; i < searchHistory.size(); i++) {
+//            if (searchHistory.get(i).getName().equals(seeHistory.getName())) {//说明同一个视频
+//                searchHistory.remove(searchHistory.get(i));
+//            }
+//        }
+
+        searchHistory.add(0, seeHistory);
+
+        SPUtil.put(context, VedioContants.See, new Gson().toJson(searchHistory));
+    }
+
+    /**
+     * 删除历史数据储存本地
+     */
+    public static void deleteSeeHistory(Context context, int position) {
+        List<SeeHistory> searchHistory = getSeeHistory(context);
+        searchHistory.remove(position);
+        SPUtil.put(context, VedioContants.See, new Gson().toJson(searchHistory));
+    }
+
+    /**
+     * 从搜索本地获取历史数据
+     *
+     * @return
+     */
+    public static List<SeeHistory> getSeeHistory(Context context) {
+        List<SeeHistory> mSearchHistory = null;
+        String SearchHistory = (String) SPUtil.get(context, VedioContants.See, "");
+        if (!TextUtils.isEmpty(SearchHistory)) {
+            mSearchHistory = new Gson().fromJson(SearchHistory, new TypeToken<List<SeeHistory>>() {
+            }.getType());
+        } else {
+            mSearchHistory = new ArrayList<>();
+        }
+        return mSearchHistory;
+    }
 }

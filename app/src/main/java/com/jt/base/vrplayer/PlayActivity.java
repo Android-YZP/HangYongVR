@@ -594,11 +594,11 @@ public class PlayActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ImageView ivHead = (ImageView) findViewById(R.id.iv_room_head);
         TextView tvUserName = (TextView) findViewById(R.id.tv_room_person_name);
-
         String HeadImg = intent.getStringExtra(Definition.KEY_PLAY_HEAD);
         String UserName = intent.getStringExtra(Definition.KEY_PLAY_USERNAME);
         int PlayType = intent.getIntExtra(VedioContants.PlayType, 4);
         mRoomId = intent.getStringExtra(Definition.KEY_PLAY_ID);
+
         ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
         if (!TextUtils.isEmpty(HeadImg))
             x.image().bind(ivHead, HeadImg, imageOptions, new Callback.CommonCallback<Drawable>() {

@@ -3,6 +3,7 @@ package com.jt.base.videos.adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -12,12 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jt.base.R;
+import com.jt.base.http.responsebean.SeeHistory;
 import com.jt.base.utils.DialogUtils;
+import com.jt.base.utils.UIUtils;
+import com.jt.base.videoDetails.VedioContants;
+import com.jt.base.vrplayer.VideoPlayActivity;
+
+import java.util.List;
 
 import static com.ashokvarma.bottomnavigation.utils.Utils.dp2px;
 import static com.ashokvarma.bottomnavigation.utils.Utils.getScreenWidth;
@@ -33,9 +42,11 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public Activity context;
     private TextView delete;
     private TextView cancel;
+    private List<SeeHistory> seeHistory;
 
-    public HistoryListAdapter(Activity context) {
+    public HistoryListAdapter(Activity context, List<SeeHistory> seeHistory) {
         this.context = context;
+        this.seeHistory = seeHistory;
     }
 
     @Override
@@ -46,6 +57,38 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     @Override
     public void onBindViewHolder(HistoryReViewHolder holder, final int position) {
+        holder.mTvtitle.setText(seeHistory.get(position).getDesc());
+        holder.mTvpersent.setText(seeHistory.get(position).getPersent());
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, VideoPlayActivity.class);
+                intent.putExtra("desc", seeHistory.get(position).getDesc());
+                intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+                intent.putExtra("isBack", true);
+                intent.putExtra(VedioContants.PlayUrl, seeHistory.get(position).getUrl());
+                intent.putExtra("position", seeHistory.get(position).getPositon());
+                UIUtils.showTip(seeHistory.get(position).getDesc() + "<<<<" + seeHistory.get(position).getUrl() + ">>>>>>" + seeHistory.get(position).getPlayerMode());
+
+                //判断视频类型
+                int isall = seeHistory.get(position).getPlayerMode();
+                if (isall == VedioContants.TWO_D_VEDIO) {//2D
+                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+                } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
+                } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+                }
+
+                context.startActivity(intent);
+
+
+            }
+        });
+
         holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -63,7 +106,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                 R.layout.history_delete, null);
         dialogUtils.setContentView(contentView);
         dialogUtils.setGravity(Gravity.BOTTOM);
-        dialogUtils.setXY(100,100);
+        dialogUtils.setXY(100, 100);
         dialogUtils.show();
         delete = (Button) contentView.findViewById(R.id.btn_history_delete);
         cancel = (Button) contentView.findViewById(R.id.btn_history_cancel);
@@ -78,8 +121,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
             }
         });
-
-
 
 
         // 设置dialog的宽度
@@ -112,18 +153,25 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 //                dpVal, context.getResources().getDisplayMetrics());
 //    }
     }
+
     @Override
     public int getItemCount() {
-        return 20;
+        return seeHistory.size();
     }
 
     public class HistoryReViewHolder extends RecyclerView.ViewHolder {
 
         private final RelativeLayout layout;
+        private final ImageView mIvImg;
+        private final TextView mTvtitle;
+        private final TextView mTvpersent;
 
         public HistoryReViewHolder(View itemView) {
             super(itemView);
-            layout = ((RelativeLayout) itemView.findViewById(rl_history_list));
+            layout = (RelativeLayout) itemView.findViewById(R.id.rl_history_list);
+            mIvImg = (ImageView) itemView.findViewById(R.id.iv_history_img);
+            mTvtitle = (TextView) itemView.findViewById(R.id.tv_history_title);
+            mTvpersent = (TextView) itemView.findViewById(R.id.tv_history_persent);
         }
     }
 }

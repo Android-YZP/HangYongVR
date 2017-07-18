@@ -35,7 +35,9 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.RoomNumberBean;
+import com.jt.base.http.responsebean.SeeHistory;
 import com.jt.base.http.responsebean.VodbyTopicBean;
+import com.jt.base.utils.LocalUtils;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
@@ -172,11 +174,15 @@ public class VideoPlayActivity extends Activity {
     private NetStateChangedListener mNetChangedListener;
     private AlertDialog show;
     private ImageButton mIbBack;
+    private String desc;
+    private int vedioode;
+    private int playType;
+    private SeeHistory seeHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        seeHistory = new SeeHistory();
         Log.d(TAG, "surfaceCreated");
         mPlayUrl = getIntent().getStringExtra(VedioContants.PlayUrl);
         mFov = uiutils.getPreferenceKeyIntValue(getApplicationContext(),
@@ -439,9 +445,12 @@ public class VideoPlayActivity extends Activity {
     //初始化播放器模式
     private void initPlayMode() {
         Intent intent = getIntent();
-        int vedioode = intent.getIntExtra(Definition.PLEAR_MODE, 4);
-        String desc = intent.getStringExtra("desc");
-        int PlayType = intent.getIntExtra(VedioContants.PlayType, 4);
+        vedioode = intent.getIntExtra(Definition.PLEAR_MODE, 4);
+        desc = intent.getStringExtra("desc");
+        UIUtils.showTip(desc);
+        boolean isBack = intent.getBooleanExtra("isBack", false);
+        int position = intent.getIntExtra("position", 0);
+
         TextView title = (TextView) findViewById(R.id.tv_play_title);
         title.setText(desc);
 
@@ -456,16 +465,21 @@ public class VideoPlayActivity extends Activity {
         mVideoView.setEyesMode(mEyesMode);
 
 
-        if (PlayType == VedioContants.Video) {
+        if (playType == VedioContants.Video) {
             List<VodbyTopicBean.ResultBean.VodInfosBean> urlList = new Gson().fromJson(mPlayUrl, new TypeToken<List<VodbyTopicBean.ResultBean.VodInfosBean>>() {
             }.getType());
             for (int i = 0; i < urlList.size(); i++) {
                 if (urlList.get(i).getDefinition() == 45) {
                     mVideoView.setVideoPath(urlList.get(i).getUrl());
+                    if (isBack) {
+                        mVideoView.seekTo(position);
+                    }
+
+
                     return;
                 }
             }
-        } else if (PlayType == VedioContants.Living) {
+        } else if (playType == VedioContants.Living) {
             mVideoView.setVideoPath(mPlayUrl);
         }
 
@@ -720,6 +734,26 @@ public class VideoPlayActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+
+        seeHistory.setDesc(desc);
+        seeHistory.setPlayerMode(vedioode);
+        seeHistory.setPlayType(playType);
+        seeHistory.setUrl(mPlayUrl);
+        int duration = pausePostion;
+        int Tduration = mVideoView.getDuration();
+        double i = (double) duration / Tduration;
+        double v = i * 100;
+        if (v < 1) {
+            v = 1;
+            seeHistory.setPersent(v + "%");
+        } else {
+            seeHistory.setPersent((int) v + "%");
+        }
+        seeHistory.setPositon(duration);
+        LocalUtils.addSeeHistory(VideoPlayActivity.this, seeHistory);
+
+
         mHandler.removeMessages(SHOW_PROGRESS);
         if (mVideoView != null) {
             mVideoView.stop();

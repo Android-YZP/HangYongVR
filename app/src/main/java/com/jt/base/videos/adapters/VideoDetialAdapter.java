@@ -31,7 +31,8 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
     private Context context;
     private AlertDialog show;
     private List<VodbyTopicBean.ResultBean> mData;
-    private  Intent intent;
+    private Intent intent;
+
     public VideoDetialAdapter(Context context, List<VodbyTopicBean.ResultBean> mData) {
         this.context = context;
         this.mData = mData;
@@ -60,7 +61,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             intent.putExtra(VedioContants.PlayUrl, resultBean.getRtmpDownstreamAddress());
             intent.putExtra(VedioContants.PlayType, VedioContants.Living);
         }
-
+        intent.putExtra("desc", resultBean.getChannelName());
 
         //判断视频类型
         int isall = resultBean.getIsall();
