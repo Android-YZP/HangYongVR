@@ -69,6 +69,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
                     intent.putExtra(VedioContants.PlayType, VedioContants.Living);
                 }
                 intent.putExtra("desc", mData.get(position).getChannelName());
+                intent.putExtra("vid", mData.get(position).getId());
 
                 //判断视频类型
                 int isall = mData.get(position).getIsall();
