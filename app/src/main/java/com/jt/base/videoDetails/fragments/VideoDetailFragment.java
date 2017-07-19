@@ -35,10 +35,13 @@ import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.activitys.Guide1Activity;
+import com.jt.base.activitys.MainActivity;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.utils.NetUtil;
+import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videoDetails.adapters.RvAdapter;
@@ -97,14 +100,15 @@ public class VideoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_detail, container, false);
         initView(view);
+        initData();
+        initListenter();
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData();
-        initListenter();
+
     }
 
     @Override
@@ -217,9 +221,12 @@ public class VideoDetailFragment extends Fragment {
             }
         });
 
+        if (mViewpager != null)
             mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+
                     if (position == 1) {
                         if (isScroll) {
                             panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
@@ -237,7 +244,13 @@ public class VideoDetailFragment extends Fragment {
                 public void onPageSelected(int position) {
                     if (position == 0) {
                         isScroll = true;
+
+                        boolean guide1 = (boolean) SPUtil.get(getContext(), "Guide1", false);
+                        if (!guide1)
+                            startActivity(new Intent(getContext(), Guide1Activity.class));
                     }
+
+
                 }
 
                 @Override
@@ -246,7 +259,6 @@ public class VideoDetailFragment extends Fragment {
                 }
             });
     }
-
 
 
     /**

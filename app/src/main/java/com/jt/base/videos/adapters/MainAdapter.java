@@ -41,10 +41,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private RecyclerView mRecycler;
     private ViewPager mViewpager;
     private TextView mTvMore1;
-    private TopicBean topicBean;
+    private List<TopicBean.ResultBeanX> topicBean;
     //构造函数
 
-    public MainAdapter(Activity context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager, TopicBean topicBean) {
+    public MainAdapter(Activity context, SwipeRefreshLayout mRecyclerfreshLayout, RecyclerView mRecycler, ViewPager mViewpager, List<TopicBean.ResultBeanX> topicBean) {
         this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
         this.mRecycler = mRecycler;
@@ -113,13 +113,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
-                ((ListHolder) holder).mTvTopicTitle.setText(topicBean.getResult().get(position).getMsg());
-                ((ListHolder) holder).mTvTotalVideos.setText(topicBean.getResult().get(position).getPage().getTotal() + "个视频");
+                ((ListHolder) holder).mTvTopicTitle.setText(topicBean.get(position).getMsg());
+                ((ListHolder) holder).mTvTotalVideos.setText(topicBean.get(position).getPage().getTotal() + "个视频");
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, VideoListActivity.class);
-                        intent.putExtra(VedioContants.TopicId,topicBean.getResult().get(position).getCode());
+                        intent.putExtra(VedioContants.TopicId, topicBean.get(position).getCode());
+                        intent.putExtra(VedioContants.TopicTitle, topicBean.get(position).getMsg());
                         context.startActivity(intent);
                         context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                     }
@@ -130,7 +131,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.getResult().get(position).getResult(), topicBean.getResult().get(position).getCode());
+                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
 
@@ -140,7 +141,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, VideoListActivity.class);
-                        intent.putExtra(VedioContants.TopicId,topicBean.getResult().get(position).getCode());
+                        intent.putExtra(VedioContants.TopicId, topicBean.get(position).getCode());
                         context.startActivity(intent);
                         context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                     }
@@ -212,13 +213,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return topicBean.getResult().size();
+            return topicBean.size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return topicBean.getResult().size() + 1;
+            return topicBean.size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return topicBean.getResult().size() + 1;
+            return topicBean.size() + 1;
         } else {
-            return topicBean.getResult().size() + 2;
+            return topicBean.size() + 2;
         }
     }
 
