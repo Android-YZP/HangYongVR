@@ -258,7 +258,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Glide.with(VideoDetialActivity.this)
+                Glide.with(getApplicationContext())
                         .load(url)
                         .crossFade()
                         .into(imageView);
@@ -281,6 +281,12 @@ public class VideoDetialActivity extends SwipeBackActivity {
         panoWidgetView.setStereoModeButtonEnabled(false);
         panoWidgetView.setOnTouchListener(null);//禁用手势滑动
         panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     /**

@@ -17,14 +17,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.SearchTopicBean;
 import com.jt.base.http.responsebean.SearchVideoBean;
-import com.jt.base.updtaeapk.CheckUpdate;
 import com.jt.base.utils.LocalUtils;
 import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
@@ -32,11 +30,9 @@ import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.adapters.SearchAdapter;
 import com.jt.base.videos.adapters.SearchHAdapter;
 import com.jt.base.videos.adapters.SearchHeadTypeAdapter;
-
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +87,6 @@ public class SearchFragment extends Fragment {
                         mSearchHistoryAdapter.notifyDataSetChanged();
                         LocalUtils.addSearchHistory(getContext(), search);
                         search(search, 1 + "");
-
                     }
                     return true;
                 }
@@ -132,7 +127,6 @@ public class SearchFragment extends Fragment {
         mRvsearchhistory.setNestedScrollingEnabled(false);
         mRvsearchhistory.setLayoutManager(linearLayoutManager);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         searchHistorys = LocalUtils.getSearchHistory(getContext());
         if (searchHistorys != null) {
             UIUtils.showTip(searchHistorys.size() + "");
@@ -175,12 +169,10 @@ public class SearchFragment extends Fragment {
             relativeLayoutTopics.setVisibility(View.GONE);
             SearchHead.setVisibility(View.GONE);
         }
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         SearchHead.setNestedScrollingEnabled(false);
         SearchHead.setLayoutManager(linearLayoutManager);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
         mSearchHeadTypeAdapter = new SearchHeadTypeAdapter(getActivity(), mSearchTopicResult);
         SearchHead.setAdapter(mSearchHeadTypeAdapter);
         mSearchAdapter.setHeaderView(view);
@@ -209,7 +201,6 @@ public class SearchFragment extends Fragment {
 
 
     private void search(String keywords, String page) {
-
         HttpSearchTopic(keywords, 1 + "");
     }
 
@@ -238,9 +229,7 @@ public class SearchFragment extends Fragment {
                 if (searchVideoBean.getCode() == HTTP_SUCCESS) {
                     results = searchVideoBean.getResult();
                     mSearchAdapter = new SearchAdapter(getActivity(), results);
-
                     setHead(results);
-
                     mRvsearchvideo.setAdapter(mSearchAdapter);
                     mLlsearchresult.setVisibility(View.VISIBLE);
                     mLlsearchHistory.setVisibility(View.GONE);

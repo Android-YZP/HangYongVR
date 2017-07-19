@@ -126,32 +126,6 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, VideoDetialActivity.class);
-
-//                    intent.putExtra("pic", HttpURL.IV_HOST + resultBean.get(position).getImg1());
-//
-//                    intent.putExtra("desc", resultBean.get(position).getChannelName());
-//                    //判断1直播，0点播
-//                    int type = resultBean.get(position).getType();
-//
-//                    if (type == VedioContants.Video) {//点播
-//                        intent.putExtra("url", resultBean.get(position).getRtmpDownstreamAddress());
-//                    } else if (type == VedioContants.Living) {//直播
-//                        intent.putExtra("url", resultBean.get(position).getRtmpDownstreamAddress());
-//                    }
-//
-//
-//                    //判断视频类型
-//                    int isall = resultBean.get(position).getIsall();
-//                    if (isall == VedioContants.TWO_D_VEDIO) {//2D
-//                        intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-//                    } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
-//                        intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-//                    } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
-//                        intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-//                    } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
-//                        intent.putExtra(com.jt.base.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-//                    }
-
                     intent.putExtra(VedioContants.Position, position);//首次显示在哪一个封面
                     intent.putExtra(VedioContants.TopicId, TopicId);//哪个话题
                     context.startActivity(intent);

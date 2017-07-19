@@ -11,11 +11,13 @@ public class HttpURL {
     //    private static String Host = "http://192.168.1.133:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.135:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
-        private static String Host = "http://123.206.67.115:8080/api/";
+    private static String Host = "http://123.206.67.115:8080/api/";
     public static String Token = "C47B1071";
-//    public static String IV_HOST = "http://118.89.246.194:8080/head/";
+    public static String SourceNum = "222";
+    //    public static String IV_HOST = "http://118.89.246.194:8080/head/";
     public static String IV_HOST = "http://123.206.67.115:8080/head/";
-    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
+    //    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
+    public static String APK_HOST = "http://123.206.67.115:8080/head/apk/";
 
     /**
      * 登录
@@ -88,10 +90,16 @@ public class HttpURL {
      * 搜索话题的視頻
      */
     public static String vod = Host + "login/search/vod";
-    /**
-     * 搜索话题的視頻
-     */
     public static String Topic = Host + "login/search/topic";
+    /**
+     * 用户的观看历史
+     */
+    public static String History = Host + "history/put";
+
+    /**
+     * 用户的获取观看历史
+     */
+    public static String GetHistory = Host + "history/gets";
 
 
 }

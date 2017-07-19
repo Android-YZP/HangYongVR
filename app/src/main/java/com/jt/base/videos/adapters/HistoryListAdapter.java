@@ -18,9 +18,13 @@ import android.widget.RelativeLayout;
 
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
+import com.jt.base.http.responsebean.GetHistoryBean;
 import com.jt.base.http.responsebean.SeeHistory;
+import com.jt.base.personal.HistoryActivity;
 import com.jt.base.utils.DialogUtils;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
@@ -39,12 +43,12 @@ import static com.jt.base.R.style.dialog;
  */
 
 public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryReViewHolder> {
-    public Activity context;
+    public HistoryActivity context;
     private TextView delete;
     private TextView cancel;
-    private List<SeeHistory> seeHistory;
+    private List<GetHistoryBean.ResultBean> seeHistory;
 
-    public HistoryListAdapter(Activity context, List<SeeHistory> seeHistory) {
+    public HistoryListAdapter(HistoryActivity context, List<GetHistoryBean.ResultBean> seeHistory) {
         this.context = context;
         this.seeHistory = seeHistory;
     }
@@ -57,22 +61,25 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     @Override
     public void onBindViewHolder(HistoryReViewHolder holder, final int position) {
-        holder.mTvtitle.setText(seeHistory.get(position).getDesc());
-        holder.mTvpersent.setText(seeHistory.get(position).getPersent());
+        holder.mTvtitle.setText(seeHistory.get(position).getChannelName());
+        holder.mTvpersent.setText(seeHistory.get(position).getWatchTime() + "%");
+
+        Glide.with(context)
+                .load(HttpURL.IV_HOST + seeHistory.get(position).getImg1())
+                .asBitmap()
+                .into(holder.mIvImg);
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, VideoPlayActivity.class);
-                intent.putExtra("desc", seeHistory.get(position).getDesc());
+                intent.putExtra("desc", seeHistory.get(position).getChannelName());
                 intent.putExtra(VedioContants.PlayType, VedioContants.Video);
-                intent.putExtra("isBack", true);
-                intent.putExtra(VedioContants.PlayUrl, seeHistory.get(position).getUrl());
-                intent.putExtra("position", seeHistory.get(position).getPositon());
-                UIUtils.showTip(seeHistory.get(position).getDesc() + "<<<<" + seeHistory.get(position).getUrl() + ">>>>>>" + seeHistory.get(position).getPlayerMode());
-
+                intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(seeHistory.get(position).getVodInfos()));
+                intent.putExtra("position", seeHistory.get(position).getWatchTime());
+                intent.putExtra("vid", seeHistory.get(position).getId());
                 //判断视频类型
-                int isall = seeHistory.get(position).getPlayerMode();
+                int isall = seeHistory.get(position).getIsall();
                 if (isall == VedioContants.TWO_D_VEDIO) {//2D
                     intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
                 } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
@@ -82,10 +89,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                 } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
                     intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
                 }
-
                 context.startActivity(intent);
-
-
             }
         });
 

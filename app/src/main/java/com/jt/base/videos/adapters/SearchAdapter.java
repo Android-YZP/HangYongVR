@@ -15,12 +15,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.SearchVideoBean;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoListActivity;
+import com.jt.base.vrplayer.PlayActivity;
+import com.jt.base.vrplayer.VideoPlayActivity;
 
 import java.util.List;
 
@@ -40,6 +44,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private View mFooterView;
     private Activity context;
     private List<SearchVideoBean.ResultBean> results;
+    private Intent intent;
     //构造函数
 
     public SearchAdapter(Activity context, List<SearchVideoBean.ResultBean> results) {
@@ -104,16 +109,48 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     //绑定View，这里是根据返回的这个position的类型，从而进行绑定的，   HeaderView和FooterView, 就不同绑定了
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
                 ((ListHolder) holder).mTvSearchVideoDesc.setText(results.get(position - 1).getChannelName());
 
                 Glide.with(context)
-                        .load(HttpURL.IV_HOST+results.get(position-1).getImg())
+                        .load(HttpURL.IV_HOST + results.get(position - 1).getImg1())
                         .asBitmap()
                         .into(((ListHolder) holder).mIvImg);
+
+                ((ListHolder) holder).mIvImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int type = results.get(position-1).getType();
+                        if (type == VedioContants.Video) {//点播
+                            intent = new Intent(context, VideoPlayActivity.class);
+                            intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(results.get(position-1).getVodInfos()));
+                            intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+                        } else if (type == VedioContants.Living) {//直播
+                            intent = new Intent(context, PlayActivity.class);
+                            intent.putExtra(VedioContants.PlayUrl, results.get(position-1).getRtmpDownstreamAddress());
+                            intent.putExtra(VedioContants.PlayType, VedioContants.Living);
+                        }
+                        intent.putExtra("desc", results.get(position-1).getChannelName());
+                        intent.putExtra("vid", results.get(position-1).getId());
+
+                        //判断视频类型
+                        int isall = results.get(position-1).getIsall();
+                        if (isall == VedioContants.TWO_D_VEDIO) {//2D
+                            intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+                        } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+                            intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                        } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+                            intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
+                        } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+                            intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+                        }
+                        context.startActivity(intent);
+                    }
+                });
 
                 return;
             }

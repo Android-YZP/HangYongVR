@@ -43,6 +43,7 @@ public class VideoListActivity extends SwipeBackActivity {
     private List<VodbyTopicBean.ResultBean> mData;
     private int mDataTotal;
     private int mTopicId;
+    private TextView mTvTopicTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +59,13 @@ public class VideoListActivity extends SwipeBackActivity {
         mRvVideolist = (RecyclerView) findViewById(R.id.rv_video_list);
         mVideoback = (ImageView) findViewById(R.id.im_video_list_return);
         mSrlListTopic = (SwipeRefreshLayout) findViewById(R.id.srl_video_list_topic);
+        mTvTopicTitle = (TextView) findViewById(R.id.tv_list_topic_title);
     }
 
     private void initData() {
         mTopicId = getIntent().getIntExtra(VedioContants.TopicId, 0);
+        String mTopicTitle = getIntent().getStringExtra(VedioContants.TopicTitle);
+        mTvTopicTitle.setText(mTopicTitle);
         HttpTopic(mTopicId, mPager);
     }
 
@@ -72,7 +76,6 @@ public class VideoListActivity extends SwipeBackActivity {
                 finish();
             }
         });
-
         //下拉刷新的操作
         mSrlListTopic.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

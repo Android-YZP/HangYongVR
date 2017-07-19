@@ -59,8 +59,12 @@ public class MainFragment extends Fragment {
     private ImageButton mIbMenu;
     private TextView mMainTitle;
     private ViewPager mViewpager;
-    private int tote;
     private List<VideoTypeBean.ResultBean> mDatas;
+    private TopicBean mTopicBean;
+    private int mPager = 1;
+    private int mTopicId;
+    private List<TopicBean.ResultBeanX> results;
+
 
     public MainFragment() {
     }
@@ -99,6 +103,9 @@ public class MainFragment extends Fragment {
         mRecyclerfreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                results = null;
+                mPager = 1;
+                HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
                 mRecyclerfreshLayout.setRefreshing(false);
             }
         });
@@ -115,10 +122,11 @@ public class MainFragment extends Fragment {
                     mDrawerAdapter.notifyDataSetChanged();
                     TextView tvTitle = (TextView) view.findViewById(R.id.tv_drawer_item_title);
                     mMainTitle.setText(tvTitle.getText());
-
-                    HttpGetVideoTopic(mDatas.get(position).getId() + "", "222");
+                    mTopicId = mDatas.get(position).getId();
+                    results = null;
+                    mPager = 1;
+                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
                     mDlLayout.closeDrawer(GravityCompat.START, true);
-
 
                 }
             });
@@ -148,12 +156,13 @@ public class MainFragment extends Fragment {
                 boolean visBottom = UIUtils.isVisBottom(mRecycler);
                 if (visBottom) {
                     if (mMainAdapter.getFooterView() == null) {
-                        tote++;
-                        UIUtils.showTip("到底部了,开始加载数据");
+                        ++mPager;
+                        HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
                     } else {
                         return;
                     }
-                    if (tote == 1) {
+
+                    if (mTopicBean.getPage().getTotalPage() <= mPager) {
                         View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
                         mMainAdapter.setFooterView(v);
                         mMainAdapter.notifyDataSetChanged();
@@ -201,8 +210,8 @@ public class MainFragment extends Fragment {
                     }
                     mDrawerAdapter = new DrawerAdapter(mDatas, getContext(), mItemPress);
                     mLvDrawerItem.setAdapter(mDrawerAdapter);
-
-                    HttpGetVideoTopic(mDatas.get(0).getId() + "", "222");
+                    mTopicId = mDatas.get(0).getId();
+                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
                 }
             }
 
@@ -230,16 +239,27 @@ public class MainFragment extends Fragment {
         requestParams.addHeader("token", HttpURL.Token);
         requestParams.addBodyParameter("typeId", typeid);
         requestParams.addBodyParameter("sourceNum", sourceNum);
+        requestParams.addBodyParameter("page", mPager + "");//
+        requestParams.addBodyParameter("count", 7 + "");//
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
                 LongLogUtil.e("-----------", result);
-                TopicBean topicBean = new Gson().fromJson(result, TopicBean.class);
-                if (topicBean.getCode() == 0) {//数据获取成功/code话题ID，msg话题名称
-                    mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, topicBean);
-                    mRecycler.setAdapter(mMainAdapter);
+                mTopicBean = new Gson().fromJson(result, TopicBean.class);
+
+                if (mTopicBean.getCode() == 0) {//数据获取成功/code话题ID，msg话题名称
+
+                    if (results != null && results.size() > 0) {
+                        results.addAll(mTopicBean.getResult());
+                        mMainAdapter.notifyDataSetChanged();
+                    } else {
+                        results = mTopicBean.getResult();
+                        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, results);
+                        mRecycler.setAdapter(mMainAdapter);
+                    }
                 }
+
             }
 
             @Override

@@ -1,5 +1,6 @@
 package com.jt.base.activitys;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,12 +19,13 @@ public class Guide1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_guide1);
         mIvguidegif = (ImageView) findViewById(R.id.iv_guide_gif);
         Glide.with(Guide1Activity.this)
-                .load(R.mipmap.guide2)
+                .load(R.mipmap.guide1)
                 .into(mIvguidegif);
         mIvguidegif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+                startActivity(new Intent(Guide1Activity.this,Guide2Activity.class));
             }
         });
      }

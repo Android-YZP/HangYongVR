@@ -19,9 +19,12 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.updtaeapk.CheckUpdate;
+import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.fragments.VideoDetailFragment;
 import com.jt.base.videos.fragments.VideosFragment;
+
+import org.xutils.common.util.LogUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState!=null){
+            LogUtil.i("这是储存的数据22222222");
+        }
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -49,11 +57,45 @@ public class MainActivity extends AppCompatActivity {
         initPanorama();
         initViewPager();
         initListenter();
-        startActivity(new Intent(MainActivity.this, Guide1Activity.class));
+
 
         //检查版本更新
         CheckUpdate.getInstance().startCheck(MainActivity.this, true);
+        //开启新手引导
+        boolean guide3 = (boolean) SPUtil.get(MainActivity.this, "Guide3", false);
+        if (!guide3)
+            startActivity(new Intent(MainActivity.this, Guide3Activity.class));
     }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //当前Activity被异常销毁重建时调用,此时可以获取销毁时保存的状态
+        //在onStart之后被调用
+
+        char destory = (char) savedInstanceState.get("destory");
+        Log.e("ground", destory + "");
+        initView();
+        initPanorama();
+        initViewPager();
+        initListenter();
+        //检查版本更新
+        CheckUpdate.getInstance().startCheck(MainActivity.this, true);
+        //开启新手引导
+        boolean guide3 = (boolean) SPUtil.get(MainActivity.this, "Guide3", false);
+        if (!guide3)
+            startActivity(new Intent(MainActivity.this, Guide3Activity.class));
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putChar("destory", 'a');
+        LogUtil.i("这是储存的数据");
+    }
+
 
     private void initView() {
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
@@ -95,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
     private void initViewPager() {
         mViewpager = (ViewPager) findViewById(R.id.vp_viewpager);
         mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager(), panoWidgetView, mIvTwoDBg));
+        mViewpager.setCurrentItem(1, false);
+
     }
 
 
@@ -122,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         panoWidgetView.shutdown();
         super.onDestroy();
     }
+
 
 
     /**

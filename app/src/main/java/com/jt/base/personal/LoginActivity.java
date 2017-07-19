@@ -453,7 +453,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         };
         //从现在起过10毫秒以后，每隔1000毫秒执行一次。
         mTimer.schedule(task, 10, 1000);    // timeTask
-
     }
 
     /**

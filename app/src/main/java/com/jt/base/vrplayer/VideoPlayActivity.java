@@ -6,16 +6,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,17 +26,15 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
+import com.jt.base.application.User;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.RoomNumberBean;
-import com.jt.base.http.responsebean.SeeHistory;
 import com.jt.base.http.responsebean.VodbyTopicBean;
-import com.jt.base.utils.LocalUtils;
 import com.jt.base.utils.NetUtil;
+import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.SnailNetReceiver.NetStateChangedListener;
@@ -49,17 +45,11 @@ import com.snail.media.player.ISnailPlayer.EventType;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerErrorNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerEventNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
-
-import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
-import org.xutils.image.ImageOptions;
 import org.xutils.x;
-
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class VideoPlayActivity extends Activity {
     private static final String TAG = "PlayActivity";
@@ -177,12 +167,14 @@ public class VideoPlayActivity extends Activity {
     private String desc;
     private int vedioode;
     private int playType;
-    private SeeHistory seeHistory;
+    private int mVid;
+    private int mVideoPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        seeHistory = new SeeHistory();
+
         Log.d(TAG, "surfaceCreated");
         mPlayUrl = getIntent().getStringExtra(VedioContants.PlayUrl);
         mFov = uiutils.getPreferenceKeyIntValue(getApplicationContext(),
@@ -227,6 +219,7 @@ public class VideoPlayActivity extends Activity {
         mIbBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 VideoPlayActivity.this.finish();
             }
         });
@@ -272,6 +265,7 @@ public class VideoPlayActivity extends Activity {
                     mBufferingView.setVisibility(View.GONE);
                     mIsPrepared = true;
                     mDuration = mVideoView.getDuration();
+                    mVideoView.seekTo(mVideoView.getDuration() * mVideoPosition / 100);
                     if (mDuration == 0) {
                         mIsLive = true;
                         mSeekBar.setEnabled(false);
@@ -447,9 +441,9 @@ public class VideoPlayActivity extends Activity {
         Intent intent = getIntent();
         vedioode = intent.getIntExtra(Definition.PLEAR_MODE, 4);
         desc = intent.getStringExtra("desc");
-        UIUtils.showTip(desc);
-        boolean isBack = intent.getBooleanExtra("isBack", false);
-        int position = intent.getIntExtra("position", 0);
+        mVid = intent.getIntExtra("vid", 0);
+        mVideoPosition = intent.getIntExtra("position", 0);
+
 
         TextView title = (TextView) findViewById(R.id.tv_play_title);
         title.setText(desc);
@@ -471,19 +465,12 @@ public class VideoPlayActivity extends Activity {
             for (int i = 0; i < urlList.size(); i++) {
                 if (urlList.get(i).getDefinition() == 45) {
                     mVideoView.setVideoPath(urlList.get(i).getUrl());
-                    if (isBack) {
-                        mVideoView.seekTo(position);
-                    }
-
-
                     return;
                 }
             }
         } else if (playType == VedioContants.Living) {
             mVideoView.setVideoPath(mPlayUrl);
         }
-
-
     }
 
 
@@ -736,23 +723,24 @@ public class VideoPlayActivity extends Activity {
         super.onDestroy();
 
 
-        seeHistory.setDesc(desc);
-        seeHistory.setPlayerMode(vedioode);
-        seeHistory.setPlayType(playType);
-        seeHistory.setUrl(mPlayUrl);
+
         int duration = pausePostion;
         int Tduration = mVideoView.getDuration();
+        int Persent;
         double i = (double) duration / Tduration;
         double v = i * 100;
         if (v < 1) {
             v = 1;
-            seeHistory.setPersent(v + "%");
+            Persent = (int) v;
         } else {
-            seeHistory.setPersent((int) v + "%");
+            Persent = (int) v;
         }
-        seeHistory.setPositon(duration);
-        LocalUtils.addSeeHistory(VideoPlayActivity.this, seeHistory);
-
+        VideoPlayActivity.this.setResult(Persent);
+        User user = SPUtil.getUser();
+        if (user != null) {
+            LogUtil.i(Persent + "______" + user.getResult().getUser().getUid());
+            HttpHistory(user.getResult().getUser().getUid() + "", "" + Persent);
+        }
 
         mHandler.removeMessages(SHOW_PROGRESS);
         if (mVideoView != null) {
@@ -760,6 +748,10 @@ public class VideoPlayActivity extends Activity {
             mVideoView.stopPlayback();
             mVideoView = null;
         }
+
+    }
+
+    private void currentPersent() {
     }
 
 
@@ -772,6 +764,7 @@ public class VideoPlayActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -812,6 +805,45 @@ public class VideoPlayActivity extends Activity {
             }
         }
     }
+
+
+    /**
+     * 保存用户历史观看数据
+     */
+    private void HttpHistory(String uid, String watchtime) {
+
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.History);
+        requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getUid() + "");
+        //包装请求参数
+        requestParams.addBodyParameter("vid", mVid + "");//视频ID
+        requestParams.addBodyParameter("uid", uid);//用户id
+        requestParams.addBodyParameter("watchTime", watchtime);//用户名
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("服务端连接失败");
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
+    }
+
 
     /**
      * 滑动改变声音大小
@@ -924,7 +956,6 @@ public class VideoPlayActivity extends Activity {
                     sendMessageDelayed(msg, 1000 - (pos % 1000));
                     updatePausePlay();
                 }
-
             }
         }
     };
