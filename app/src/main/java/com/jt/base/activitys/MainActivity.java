@@ -19,6 +19,7 @@ import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.updtaeapk.CheckUpdate;
+import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.fragments.VideoDetailFragment;
 import com.jt.base.videos.fragments.VideosFragment;
@@ -49,10 +50,14 @@ public class MainActivity extends AppCompatActivity {
         initPanorama();
         initViewPager();
         initListenter();
-        startActivity(new Intent(MainActivity.this, Guide1Activity.class));
+
 
         //检查版本更新
         CheckUpdate.getInstance().startCheck(MainActivity.this, true);
+        //开启新手引导
+        boolean guide3 = (boolean) SPUtil.get(MainActivity.this, "Guide3", false);
+        if (!guide3)
+            startActivity(new Intent(MainActivity.this, Guide3Activity.class));
     }
 
     private void initView() {
@@ -95,6 +100,26 @@ public class MainActivity extends AppCompatActivity {
     private void initViewPager() {
         mViewpager = (ViewPager) findViewById(R.id.vp_viewpager);
         mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager(), panoWidgetView, mIvTwoDBg));
+        mViewpager.setCurrentItem(1, false);
+        mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {//主页
+                    boolean guide1 = (boolean) SPUtil.get(MainActivity.this, "Guide1", false);
+                    if (!guide1)
+                        startActivity(new Intent(MainActivity.this, Guide1Activity.class));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 

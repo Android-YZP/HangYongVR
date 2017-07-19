@@ -15,7 +15,8 @@ public class HttpURL {
     public static String Token = "C47B1071";
 //    public static String IV_HOST = "http://118.89.246.194:8080/head/";
     public static String IV_HOST = "http://123.206.67.115:8080/head/";
-    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
+//    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
+    public static String APK_HOST = "http://123.206.67.115:8080/head/apk/";
 
     /**
      * 登录

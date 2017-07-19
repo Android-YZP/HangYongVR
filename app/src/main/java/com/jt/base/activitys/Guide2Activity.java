@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.jt.base.R;
+import com.jt.base.utils.SPUtil;
 
 public class Guide2Activity extends AppCompatActivity {
     private ImageView mIvguidegif;
@@ -21,6 +22,7 @@ public class Guide2Activity extends AppCompatActivity {
         mIvguidegif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SPUtil.put(Guide2Activity.this,"Guide1",true);
                 finish();
             }
         });
