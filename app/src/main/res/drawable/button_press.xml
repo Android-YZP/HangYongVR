@@ -4,7 +4,7 @@
 
 
     <!-- 填充 -->
-    <solid android:color="#fff" /> <!-- 定义填充的颜色值 -->
+    <solid android:color="#04a4be" /> <!-- 定义填充的颜色值 -->
 
     <!-- 圆角 -->
     <corners

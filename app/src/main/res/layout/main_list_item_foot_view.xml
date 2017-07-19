@@ -10,6 +10,6 @@
         android:layout_height="83dp"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-        android:background="@drawable/main_video_list_more" />
+        android:background="@mipmap/main_video_list_more" />
 
 </LinearLayout>
