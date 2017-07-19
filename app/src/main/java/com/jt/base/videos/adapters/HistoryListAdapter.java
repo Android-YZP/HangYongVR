@@ -18,10 +18,13 @@ import android.widget.RelativeLayout;
 
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jt.base.R;
+import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetHistoryBean;
 import com.jt.base.http.responsebean.SeeHistory;
+import com.jt.base.personal.HistoryActivity;
 import com.jt.base.utils.DialogUtils;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
@@ -40,12 +43,12 @@ import static com.jt.base.R.style.dialog;
  */
 
 public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryReViewHolder> {
-    public Activity context;
+    public HistoryActivity context;
     private TextView delete;
     private TextView cancel;
     private List<GetHistoryBean.ResultBean> seeHistory;
 
-    public HistoryListAdapter(Activity context, List<GetHistoryBean.ResultBean> seeHistory) {
+    public HistoryListAdapter(HistoryActivity context, List<GetHistoryBean.ResultBean> seeHistory) {
         this.context = context;
         this.seeHistory = seeHistory;
     }
@@ -60,6 +63,11 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public void onBindViewHolder(HistoryReViewHolder holder, final int position) {
         holder.mTvtitle.setText(seeHistory.get(position).getChannelName());
         holder.mTvpersent.setText(seeHistory.get(position).getWatchTime() + "%");
+
+        Glide.with(context)
+                .load(HttpURL.IV_HOST + seeHistory.get(position).getImg1())
+                .asBitmap()
+                .into(holder.mIvImg);
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override

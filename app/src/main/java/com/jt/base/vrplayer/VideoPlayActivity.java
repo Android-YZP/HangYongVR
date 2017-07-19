@@ -10,6 +10,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -218,6 +219,7 @@ public class VideoPlayActivity extends Activity {
         mIbBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 VideoPlayActivity.this.finish();
             }
         });
@@ -721,11 +723,6 @@ public class VideoPlayActivity extends Activity {
         super.onDestroy();
 
 
-//        seeHistory.setDesc(desc);
-//        seeHistory.setPlayerMode(vedioode);
-//        seeHistory.setPlayType(playType);
-//        seeHistory.setUrl(mPlayUrl);
-
 
         int duration = pausePostion;
         int Tduration = mVideoView.getDuration();
@@ -738,7 +735,7 @@ public class VideoPlayActivity extends Activity {
         } else {
             Persent = (int) v;
         }
-
+        VideoPlayActivity.this.setResult(Persent);
         User user = SPUtil.getUser();
         if (user != null) {
             LogUtil.i(Persent + "______" + user.getResult().getUser().getUid());
@@ -751,6 +748,10 @@ public class VideoPlayActivity extends Activity {
             mVideoView.stopPlayback();
             mVideoView = null;
         }
+
+    }
+
+    private void currentPersent() {
     }
 
 

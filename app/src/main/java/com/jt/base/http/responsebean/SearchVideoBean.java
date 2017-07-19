@@ -11,8 +11,8 @@ public class SearchVideoBean {
     /**
      * code : 0
      * msg : success
-     * result : [{"id":295,"uid":1,"type":1,"channelId":"10263_148deed7bbb34fe5a5be8c894ab779d3","channelName":"测试视频","isall":0,"status":0,"price":0,"img":"9e7b2e26-54ca-461b-a57a-97ac958464e7.jpg","createDate":null,"alipay":"","place":0,"outputSourceType":3,"upstreamAddress":"rtmp://10263.livepush.myqcloud.com/live/10263_148deed7bbb34fe5a5be8c894ab779d3?bizid=10263&txSecret=32c62dad47d92039bcee95a6bb993ea7&txTime=596E307F","rtmpDownstreamAddress":"rtmp://10263.liveplay.myqcloud.com/live/10263_148deed7bbb34fe5a5be8c894ab779d3","flvDownstreamAddress":"http://10263.liveplay.myqcloud.com/live/10263_148deed7bbb34fe5a5be8c894ab779d3.flv","hlsDownstreamAddress":"http://10263.liveplay.myqcloud.com/10263_148deed7bbb34fe5a5be8c894ab779d3.m3u8","playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"0798de34-d890-44d3-936a-64628d8233d4.jpg","typeId":46,"topicId":62,"img1":"84b09f10-d7bf-45fa-8944-10e89af3c22f.jpg","time":null,"format":null,"size":null,"rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":"2017-07-17 10:02:18","vodStatus":null,"vodInfos":null,"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}]
-     * page : {"total":1,"totalPage":1,"page":1,"count":5,"startDate":null,"endDate":null,"keywords":"测试","order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":null,"isall":null,"sourceNum":222,"topicImg":null,"intrduce":null,"startIndex":0}
+     * result : [{"id":280,"uid":1,"type":0,"channelId":"9031868223034315984","channelName":"沉睡魔咒","isall":0,"status":0,"price":0,"img":"b934091f-da47-473a-ba50-46ce165147a9.jpg","createDate":null,"alipay":null,"place":null,"outputSourceType":3,"upstreamAddress":null,"rtmpDownstreamAddress":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4","flvDownstreamAddress":null,"hlsDownstreamAddress":null,"playerPassword":null,"watermarkId":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"head":"3.jpg","typeId":46,"topicId":62,"img1":"b84b7d38-965b-4f99-a758-7810a9a1f957.jpg","time":"230","format":null,"size":"121.931","rate":null,"vodTaskId":null,"top":null,"isVip":null,"publish":null,"vodStatus":5,"vodInfos":[{"id":693,"vodId":280,"vbitrate":4430011,"definition":0,"url":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4","time":230,"size":121.94,"md5":""},{"id":694,"vodId":280,"vbitrate":580600,"definition":25,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f25.mp4","time":230,"size":121.94,"md5":"90946b66844ac19ec1d3fb1e60b7f07f"},{"id":695,"vodId":280,"vbitrate":2586394,"definition":60,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f60.mp4","time":230,"size":121.94,"md5":"f1f713440fecf9d051bde4bc3627b9f7"},{"id":696,"vodId":280,"vbitrate":656001,"definition":225,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f225.m3u8","time":230,"size":121.94,"md5":"d5551592f3d6049ef2cd20c0c3da4204"},{"id":697,"vodId":280,"vbitrate":2819208,"definition":260,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f260.m3u8","time":230,"size":121.94,"md5":"572585f700b35b37ba385ab428169fd3"},{"id":698,"vodId":280,"vbitrate":1067686,"definition":35,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f35.mp4","time":230,"size":121.94,"md5":"54e4e4242580f0aa42c8fea52a51db43"},{"id":699,"vodId":280,"vbitrate":1180894,"definition":235,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f235.m3u8","time":230,"size":121.94,"md5":"a2756258c68dd0cee9856fc719310a79"},{"id":700,"vodId":280,"vbitrate":1993157,"definition":45,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f45.mp4","time":230,"size":121.94,"md5":"a806ab52acd0ec08ef2b4d0f495bad2e"},{"id":701,"vodId":280,"vbitrate":2226275,"definition":245,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f245.m3u8","time":230,"size":121.94,"md5":"abbe9e16660bffc21b362b4882ecf411"}],"username":null,"typeName":null,"topicName":null,"reason":null,"introduce":null,"num":null}]
+     * page : {"total":1,"totalPage":1,"page":1,"count":5,"startDate":null,"endDate":null,"keywords":"睡","order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"vodStatus":null,"typeId":null,"topicId":null,"isall":null,"sourceNum":222,"topicImg":null,"intrduce":null,"startIndex":0}
      */
 
     private int code;
@@ -60,7 +60,7 @@ public class SearchVideoBean {
          * count : 5
          * startDate : null
          * endDate : null
-         * keywords : 测试
+         * keywords : 睡
          * order : null
          * asc : null
          * partition : null
@@ -280,42 +280,42 @@ public class SearchVideoBean {
 
     public static class ResultBean {
         /**
-         * id : 295
+         * id : 280
          * uid : 1
-         * type : 1
-         * channelId : 10263_148deed7bbb34fe5a5be8c894ab779d3
-         * channelName : 测试视频
+         * type : 0
+         * channelId : 9031868223034315984
+         * channelName : 沉睡魔咒
          * isall : 0
          * status : 0
          * price : 0
-         * img : 9e7b2e26-54ca-461b-a57a-97ac958464e7.jpg
+         * img : b934091f-da47-473a-ba50-46ce165147a9.jpg
          * createDate : null
-         * alipay :
-         * place : 0
+         * alipay : null
+         * place : null
          * outputSourceType : 3
-         * upstreamAddress : rtmp://10263.livepush.myqcloud.com/live/10263_148deed7bbb34fe5a5be8c894ab779d3?bizid=10263&txSecret=32c62dad47d92039bcee95a6bb993ea7&txTime=596E307F
-         * rtmpDownstreamAddress : rtmp://10263.liveplay.myqcloud.com/live/10263_148deed7bbb34fe5a5be8c894ab779d3
-         * flvDownstreamAddress : http://10263.liveplay.myqcloud.com/live/10263_148deed7bbb34fe5a5be8c894ab779d3.flv
-         * hlsDownstreamAddress : http://10263.liveplay.myqcloud.com/10263_148deed7bbb34fe5a5be8c894ab779d3.m3u8
+         * upstreamAddress : null
+         * rtmpDownstreamAddress : http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4
+         * flvDownstreamAddress : null
+         * hlsDownstreamAddress : null
          * playerPassword : null
          * watermarkId : null
          * outputrateOne : null
          * outputrateTow : null
          * outputrateThree : null
-         * head : 0798de34-d890-44d3-936a-64628d8233d4.jpg
+         * head : 3.jpg
          * typeId : 46
          * topicId : 62
-         * img1 : 84b09f10-d7bf-45fa-8944-10e89af3c22f.jpg
-         * time : null
+         * img1 : b84b7d38-965b-4f99-a758-7810a9a1f957.jpg
+         * time : 230
          * format : null
-         * size : null
+         * size : 121.931
          * rate : null
          * vodTaskId : null
          * top : null
          * isVip : null
-         * publish : 2017-07-17 10:02:18
-         * vodStatus : null
-         * vodInfos : null
+         * publish : null
+         * vodStatus : 5
+         * vodInfos : [{"id":693,"vodId":280,"vbitrate":4430011,"definition":0,"url":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4","time":230,"size":121.94,"md5":""},{"id":694,"vodId":280,"vbitrate":580600,"definition":25,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f25.mp4","time":230,"size":121.94,"md5":"90946b66844ac19ec1d3fb1e60b7f07f"},{"id":695,"vodId":280,"vbitrate":2586394,"definition":60,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f60.mp4","time":230,"size":121.94,"md5":"f1f713440fecf9d051bde4bc3627b9f7"},{"id":696,"vodId":280,"vbitrate":656001,"definition":225,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f225.m3u8","time":230,"size":121.94,"md5":"d5551592f3d6049ef2cd20c0c3da4204"},{"id":697,"vodId":280,"vbitrate":2819208,"definition":260,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f260.m3u8","time":230,"size":121.94,"md5":"572585f700b35b37ba385ab428169fd3"},{"id":698,"vodId":280,"vbitrate":1067686,"definition":35,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f35.mp4","time":230,"size":121.94,"md5":"54e4e4242580f0aa42c8fea52a51db43"},{"id":699,"vodId":280,"vbitrate":1180894,"definition":235,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f235.m3u8","time":230,"size":121.94,"md5":"a2756258c68dd0cee9856fc719310a79"},{"id":700,"vodId":280,"vbitrate":1993157,"definition":45,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f45.mp4","time":230,"size":121.94,"md5":"a806ab52acd0ec08ef2b4d0f495bad2e"},{"id":701,"vodId":280,"vbitrate":2226275,"definition":245,"url":"http://1253690353.vod2.myqcloud.com/e7308fecvodtransgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.f245.m3u8","time":230,"size":121.94,"md5":"abbe9e16660bffc21b362b4882ecf411"}]
          * username : null
          * typeName : null
          * topicName : null
@@ -334,13 +334,13 @@ public class SearchVideoBean {
         private int price;
         private String img;
         private Object createDate;
-        private String alipay;
-        private int place;
+        private Object alipay;
+        private Object place;
         private int outputSourceType;
-        private String upstreamAddress;
+        private Object upstreamAddress;
         private String rtmpDownstreamAddress;
-        private String flvDownstreamAddress;
-        private String hlsDownstreamAddress;
+        private Object flvDownstreamAddress;
+        private Object hlsDownstreamAddress;
         private Object playerPassword;
         private Object watermarkId;
         private Object outputrateOne;
@@ -350,22 +350,22 @@ public class SearchVideoBean {
         private int typeId;
         private int topicId;
         private String img1;
-        private Object time;
+        private String time;
         private Object format;
-        private Object size;
+        private String size;
         private Object rate;
         private Object vodTaskId;
         private Object top;
         private Object isVip;
-        private String publish;
-        private Object vodStatus;
-        private Object vodInfos;
+        private Object publish;
+        private int vodStatus;
         private Object username;
         private Object typeName;
         private Object topicName;
         private Object reason;
         private Object introduce;
         private Object num;
+        private List<VodInfosBean> vodInfos;
 
         public int getId() {
             return id;
@@ -447,19 +447,19 @@ public class SearchVideoBean {
             this.createDate = createDate;
         }
 
-        public String getAlipay() {
+        public Object getAlipay() {
             return alipay;
         }
 
-        public void setAlipay(String alipay) {
+        public void setAlipay(Object alipay) {
             this.alipay = alipay;
         }
 
-        public int getPlace() {
+        public Object getPlace() {
             return place;
         }
 
-        public void setPlace(int place) {
+        public void setPlace(Object place) {
             this.place = place;
         }
 
@@ -471,11 +471,11 @@ public class SearchVideoBean {
             this.outputSourceType = outputSourceType;
         }
 
-        public String getUpstreamAddress() {
+        public Object getUpstreamAddress() {
             return upstreamAddress;
         }
 
-        public void setUpstreamAddress(String upstreamAddress) {
+        public void setUpstreamAddress(Object upstreamAddress) {
             this.upstreamAddress = upstreamAddress;
         }
 
@@ -487,19 +487,19 @@ public class SearchVideoBean {
             this.rtmpDownstreamAddress = rtmpDownstreamAddress;
         }
 
-        public String getFlvDownstreamAddress() {
+        public Object getFlvDownstreamAddress() {
             return flvDownstreamAddress;
         }
 
-        public void setFlvDownstreamAddress(String flvDownstreamAddress) {
+        public void setFlvDownstreamAddress(Object flvDownstreamAddress) {
             this.flvDownstreamAddress = flvDownstreamAddress;
         }
 
-        public String getHlsDownstreamAddress() {
+        public Object getHlsDownstreamAddress() {
             return hlsDownstreamAddress;
         }
 
-        public void setHlsDownstreamAddress(String hlsDownstreamAddress) {
+        public void setHlsDownstreamAddress(Object hlsDownstreamAddress) {
             this.hlsDownstreamAddress = hlsDownstreamAddress;
         }
 
@@ -575,11 +575,11 @@ public class SearchVideoBean {
             this.img1 = img1;
         }
 
-        public Object getTime() {
+        public String getTime() {
             return time;
         }
 
-        public void setTime(Object time) {
+        public void setTime(String time) {
             this.time = time;
         }
 
@@ -591,11 +591,11 @@ public class SearchVideoBean {
             this.format = format;
         }
 
-        public Object getSize() {
+        public String getSize() {
             return size;
         }
 
-        public void setSize(Object size) {
+        public void setSize(String size) {
             this.size = size;
         }
 
@@ -631,28 +631,20 @@ public class SearchVideoBean {
             this.isVip = isVip;
         }
 
-        public String getPublish() {
+        public Object getPublish() {
             return publish;
         }
 
-        public void setPublish(String publish) {
+        public void setPublish(Object publish) {
             this.publish = publish;
         }
 
-        public Object getVodStatus() {
+        public int getVodStatus() {
             return vodStatus;
         }
 
-        public void setVodStatus(Object vodStatus) {
+        public void setVodStatus(int vodStatus) {
             this.vodStatus = vodStatus;
-        }
-
-        public Object getVodInfos() {
-            return vodInfos;
-        }
-
-        public void setVodInfos(Object vodInfos) {
-            this.vodInfos = vodInfos;
         }
 
         public Object getUsername() {
@@ -701,6 +693,100 @@ public class SearchVideoBean {
 
         public void setNum(Object num) {
             this.num = num;
+        }
+
+        public List<VodInfosBean> getVodInfos() {
+            return vodInfos;
+        }
+
+        public void setVodInfos(List<VodInfosBean> vodInfos) {
+            this.vodInfos = vodInfos;
+        }
+
+        public static class VodInfosBean {
+            /**
+             * id : 693
+             * vodId : 280
+             * vbitrate : 4430011
+             * definition : 0
+             * url : http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/d374dc649031868223034315984/V1O4oOfBxZ8A.mp4
+             * time : 230
+             * size : 121.94
+             * md5 :
+             */
+
+            private int id;
+            private int vodId;
+            private int vbitrate;
+            private int definition;
+            private String url;
+            private int time;
+            private double size;
+            private String md5;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getVodId() {
+                return vodId;
+            }
+
+            public void setVodId(int vodId) {
+                this.vodId = vodId;
+            }
+
+            public int getVbitrate() {
+                return vbitrate;
+            }
+
+            public void setVbitrate(int vbitrate) {
+                this.vbitrate = vbitrate;
+            }
+
+            public int getDefinition() {
+                return definition;
+            }
+
+            public void setDefinition(int definition) {
+                this.definition = definition;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public int getTime() {
+                return time;
+            }
+
+            public void setTime(int time) {
+                this.time = time;
+            }
+
+            public double getSize() {
+                return size;
+            }
+
+            public void setSize(double size) {
+                this.size = size;
+            }
+
+            public String getMd5() {
+                return md5;
+            }
+
+            public void setMd5(String md5) {
+                this.md5 = md5;
+            }
         }
     }
 }

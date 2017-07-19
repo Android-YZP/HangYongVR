@@ -1,5 +1,6 @@
 package com.jt.base.personal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -44,10 +45,14 @@ public class HistoryActivity extends AppCompatActivity {
     private TimerTask task;
     private int recLen;
     private Timer mTimer;
+    private List<GetHistoryBean.ResultBean> resultData;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
         initView();
         initData();
         initListener();
@@ -55,7 +60,10 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void initData() {
-
+        user = SPUtil.getUser();
+        if (user != null) {
+            HttpGetHistory(user.getResult().getUser().getUid() + "");
+        }
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this) {
             @Override
@@ -69,12 +77,8 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        user = SPUtil.getUser();
-        if (user != null) {
-            HttpGetHistory(user.getResult().getUser().getUid() + "");
-        }
 
-        timekeeping();
+
     }
 
     private void initListener() {
@@ -127,7 +131,8 @@ public class HistoryActivity extends AppCompatActivity {
                 LogUtil.i(result);
                 GetHistoryBean HistoryBean = new Gson().fromJson(result, GetHistoryBean.class);
                 if (HistoryBean.getCode() == 0) {
-                    adapter = new HistoryListAdapter(HistoryActivity.this, HistoryBean.getResult());
+                    resultData = HistoryBean.getResult();
+                    adapter = new HistoryListAdapter(HistoryActivity.this, resultData);
                     mRecycler.setAdapter(adapter);
                 }
 
@@ -145,11 +150,12 @@ public class HistoryActivity extends AppCompatActivity {
 
         });
     }
+
     /**
      * 计时重新发送验证码
      */
     private void timekeeping() {
-        recLen = 4;
+        recLen = 1;
         mTimer = new Timer();
         // UI thread
         task = new TimerTask() {
@@ -172,7 +178,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
         };
         //从现在起过10毫秒以后，每隔1000毫秒执行一次。
-        mTimer.schedule(task, 10, 1000);    // timeTask
+        mTimer.schedule(task, 4000, 1000);    // timeTask
 
     }
 
