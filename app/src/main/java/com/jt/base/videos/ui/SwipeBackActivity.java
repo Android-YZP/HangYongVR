@@ -3,6 +3,7 @@ package com.jt.base.videos.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.jt.base.R;
@@ -14,7 +15,7 @@ import com.jt.base.R;
  * @author xiaanming
  *
  */
-public class SwipeBackActivity extends Activity {
+public class SwipeBackActivity extends AppCompatActivity {
 	protected SwipeBackLayout layout;
 
 	@Override
