@@ -140,10 +140,13 @@ public class SearchFragment extends Fragment {
                     // 先隐藏键盘
                     ((InputMethodManager) mEtsearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                 }
             });
         }
     }
+
+
 
     //设置话题的头部局
     private void setHead(List<SearchVideoBean.ResultBean> results) {

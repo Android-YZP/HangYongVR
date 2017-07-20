@@ -7,40 +7,35 @@
 
     <RelativeLayout
         android:id="@+id/lll_root_login1"
-        android:layout_width="wrap_content"
-        android:layout_height="320dp"
-        android:background="@mipmap/fragment_my_title">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/fragment_my_title" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="83dp"
-            android:background="@mipmap/fragment_my_head" />
-
+            android:background="@mipmap/fragment_my_head"
+            android:layout_marginTop="110dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="220dp"
             android:text="点击图片登录"
             android:textColor="#000"
             android:textSize="14sp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="15454565dp"
-            android:orientation="vertical">
-
-
-        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/lll_root_login"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <LinearLayout
             android:id="@+id/ll_root_login"

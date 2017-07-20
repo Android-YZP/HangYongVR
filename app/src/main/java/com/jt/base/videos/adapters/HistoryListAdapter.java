@@ -103,8 +103,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     }
 
     private void showToastStyleDialog() {
-
-
         DialogUtils dialogUtils = new DialogUtils(context);
         View contentView = LayoutInflater.from(context).inflate(
                 R.layout.history_delete, null);
