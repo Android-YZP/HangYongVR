@@ -81,10 +81,12 @@ public class CheckUpdate {
 
         if (newVersion > versionCode) {
             DialogUtils dialogUtils = new DialogUtils(mcontext);
+
             View contentView = LayoutInflater.from(mcontext).inflate(
                     R.layout.update, null);
-            dialogUtils.setContentView(contentView).setContentViewSize(width * 2 / 3 , height * 3 / 4);//ps获取议一下屏幕宽和高，然后通过设置百分比形式适配屏幕
-
+            dialogUtils.setContentView(contentView).setContentViewSize(width * 2 / 3, height * 3 / 4);//ps获取议一下屏幕宽和高，然后通过设置百分比形式适配屏幕
+            dialogUtils.setXY(0, height / 4);
+            dialogUtils.setGravity(Gravity.CENTER_HORIZONTAL);
             dialogUtils.show();
             mUpdate = (Button) contentView.findViewById(R.id.btn_update);
             mClose = (ImageButton) contentView.findViewById(R.id.img_update_close);
