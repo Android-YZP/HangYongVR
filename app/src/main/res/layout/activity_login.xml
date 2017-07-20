@@ -95,8 +95,7 @@
 
             <include
                 android:id="@+id/root_login_login"
-                layout="@layout/item_login_logo"
-                />
+                layout="@layout/item_login_logo" />
 
         </FrameLayout>
 

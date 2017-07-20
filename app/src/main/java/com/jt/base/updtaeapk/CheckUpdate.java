@@ -8,12 +8,20 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.UpdateVersionBean;
+import com.jt.base.utils.DialogUtils;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 
@@ -27,12 +35,16 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import static com.jt.base.R.drawable.close;
+
 /**
  * Created by qtfreet on 2016/1/5.
  */
 public class CheckUpdate {
 
     private static final int HTTP_SUCCESS = 0;
+    private Button mUpdate;
+    private ImageButton mClose;
 
     //单例化检查更新类
     private CheckUpdate() {
@@ -58,27 +70,45 @@ public class CheckUpdate {
 
 
     private void compareVersion(int newVersion, String intro, final String url) {
+        WindowManager wm = (WindowManager) mcontext
+                .getSystemService(Context.WINDOW_SERVICE);
+
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+
+
         int versionCode = getVerCode(mcontext);
 
         if (newVersion > versionCode) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
-            builder.setTitle("发现更新");
-            builder.setMessage(intro);
-            builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(mcontext, DownloadService.class);
-                    intent.putExtra("url", url);
-                    mcontext.startService(intent);
-                    LogUtil.i(url + "");
-                }
-            });
-            builder.setNegativeButton("退出", null);
-            builder.show();
-        } else {
-            if (!isAutoCheck) {
-                Toast.makeText(mcontext, "当前已是最新版本", Toast.LENGTH_SHORT).show();
-            }
+            DialogUtils dialogUtils = new DialogUtils(mcontext);
+
+            View contentView = LayoutInflater.from(mcontext).inflate(
+                    R.layout.update, null);
+            dialogUtils.setContentView(contentView).setContentViewSize(width * 2 / 3, height * 3 / 4);//ps获取议一下屏幕宽和高，然后通过设置百分比形式适配屏幕
+            dialogUtils.setXY(0, height / 4);
+            dialogUtils.setGravity(Gravity.CENTER_HORIZONTAL);
+            dialogUtils.show();
+            mUpdate = (Button) contentView.findViewById(R.id.btn_update);
+            mClose = (ImageButton) contentView.findViewById(R.id.img_update_close);
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
+//            builder.setTitle("发现更新");
+//            builder.setMessage(intro);
+//            builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    Intent intent = new Intent(mcontext, DownloadService.class);
+//                    intent.putExtra("url", url);
+//                    mcontext.startService(intent);
+//                    LogUtil.i(url + "");
+//                }
+//            });
+//            builder.setNegativeButton("退出", null);
+//            builder.show();
+//        } else {
+//            if (!isAutoCheck) {
+//                Toast.makeText(mcontext, "当前已是最新版本", Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 

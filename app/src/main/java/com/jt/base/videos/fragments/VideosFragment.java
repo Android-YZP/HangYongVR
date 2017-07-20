@@ -77,16 +77,19 @@ public class VideosFragment extends Fragment {
             mVpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
                     if (position == 1) {
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     } else {
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                     }
-                }
 
-                @Override
-                public void onPageSelected(int position) {
-
+                    UIUtils.hideKeyBoard(getActivity());
                 }
 
                 @Override
