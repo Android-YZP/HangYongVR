@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="196dp">
 
-        <com.jt.base.ui.XCRoundRectImageView
+        <ImageView
             android:id="@+id/tv_video_list_header"
             android:layout_width="match_parent"
             android:layout_height="196dp" />

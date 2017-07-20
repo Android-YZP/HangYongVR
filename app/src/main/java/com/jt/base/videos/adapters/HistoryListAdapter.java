@@ -23,30 +23,44 @@ import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetHistoryBean;
-import com.jt.base.http.responsebean.SeeHistory;
 import com.jt.base.personal.HistoryActivity;
-import com.jt.base.utils.DialogUtils;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.VideoPlayActivity;
-
 import java.util.List;
-
-import static com.ashokvarma.bottomnavigation.utils.Utils.dp2px;
-import static com.ashokvarma.bottomnavigation.utils.Utils.getScreenWidth;
-import static com.jt.base.R.id.rl_history_list;
-import static com.jt.base.R.style.dialog;
 
 
 /**
  * Created by wzq930102 on 2017/7/17.
  */
 
-public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryReViewHolder> {
+public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryReViewHolder> implements View.OnLongClickListener{
     public HistoryActivity context;
-    private TextView delete;
-    private TextView cancel;
     private List<GetHistoryBean.ResultBean> seeHistory;
+
+
+    /************************************设置点击事件********************************************************/
+    private OnItemClickListener mOnItemClickListener = null;
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+        }
+        return true;
+    }
+
+    //define interface
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+
 
     public HistoryListAdapter(HistoryActivity context, List<GetHistoryBean.ResultBean> seeHistory) {
         this.context = context;
@@ -56,11 +70,16 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     @Override
     public HistoryReViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_history_item, parent, false);
+
         return new HistoryReViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(HistoryReViewHolder holder, final int position) {
+
+
+
+
         holder.mTvtitle.setText(seeHistory.get(position).getChannelName());
         holder.mTvpersent.setText(seeHistory.get(position).getWatchTime() + "%");
 
@@ -89,71 +108,12 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                 } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
                     intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
                 }
-                context.startActivity(intent);
+                context.startActivityForResult(intent,position);
             }
         });
 
-        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showToastStyleDialog();
-                return true;
-            }
-        });
-    }
-
-    private void showToastStyleDialog() {
-        DialogUtils dialogUtils = new DialogUtils(context);
-        View contentView = LayoutInflater.from(context).inflate(
-                R.layout.history_delete, null);
-        dialogUtils.setContentView(contentView);
-        dialogUtils.setGravity(Gravity.BOTTOM);
-        dialogUtils.setXY(100, 100);
-        dialogUtils.show();
-        delete = (Button) contentView.findViewById(R.id.btn_history_delete);
-        cancel = (Button) contentView.findViewById(R.id.btn_history_cancel);
-        delete.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-
-            }
-        });
-
-
-        // 设置dialog的宽度
-//        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-//        params.width = getScreenWidth(context) - dp2px(context, 50);
-//        dialog.getWindow().setAttributes(params);}
-//
-//        /**
-//         * 获得屏幕宽度
-//         *
-//         * @param context
-//         * @return
-//         */
-//        public int getScreenWidth(Context context) {
-//            WindowManager wm = (WindowManager) context
-//                    .getSystemService(Context.WINDOW_SERVICE);
-//            DisplayMetrics outMetrics = new DisplayMetrics();
-//            wm.getDefaultDisplay().getMetrics(outMetrics);
-//            return outMetrics.widthPixels;
-//        }
-//    /**
-//     * dp转px
-//     *
-//     * @param context
-//     * @param
-//     * @return
-//     */
-//    public int dp2px(Context context, float dpVal) {
-//        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-//                dpVal, context.getResources().getDisplayMetrics());
-//    }
+        holder.layout.setTag(position);
+        holder.layout.setOnLongClickListener(this);
     }
 
     @Override
@@ -176,4 +136,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             mTvpersent = (TextView) itemView.findViewById(R.id.tv_history_persent);
         }
     }
+
+
+
+
 }

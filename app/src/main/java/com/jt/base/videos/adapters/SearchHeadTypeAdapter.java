@@ -1,6 +1,9 @@
 package com.jt.base.videos.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,9 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.SearchTopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.videoDetails.VedioContants;
+import com.jt.base.videos.activitys.VideoDetialActivity;
+import com.jt.base.videos.activitys.VideoListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +27,10 @@ import java.util.List;
  */
 
 public class SearchHeadTypeAdapter extends RecyclerView.Adapter<SearchHeadTypeAdapter.MainReViewHolder> {
-    public Context context;
+    public FragmentActivity context;
     public List<SearchTopicBean.ResultBean> mSearchResult ;
 
-    public SearchHeadTypeAdapter(Context context, List<SearchTopicBean.ResultBean> mSearchResult) {
+    public SearchHeadTypeAdapter(FragmentActivity context, List<SearchTopicBean.ResultBean> mSearchResult) {
         this.context = context;
         this.mSearchResult = mSearchResult;
     }
@@ -48,6 +54,15 @@ public class SearchHeadTypeAdapter extends RecyclerView.Adapter<SearchHeadTypeAd
                 .asBitmap()
                 .into(holder.mivVideoImg);
 
+        holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, VideoListActivity.class);
+                intent.putExtra(VedioContants.TopicId, mSearchResult.get(position).getId());//哪个话题
+                context.startActivity(intent);
+                context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+            }
+        });
     }
 
     @Override

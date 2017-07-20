@@ -17,7 +17,7 @@ public class HttpURL {
     //    public static String IV_HOST = "http://118.89.246.194:8080/head/";
     public static String IV_HOST = "http://123.206.67.115:8080/head/";
     //    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
-    public static String APK_HOST = "http://123.206.67.115:8080/head/apk/";
+    public static String APK_HOST = "";
 
     /**
      * 登录
@@ -100,6 +100,11 @@ public class HttpURL {
      * 用户的获取观看历史
      */
     public static String GetHistory = Host + "history/gets";
+
+    /**
+     * 用户的获取观看历史
+     */
+    public static String DeleteHistory = Host + "history/delete";
 
 
 }

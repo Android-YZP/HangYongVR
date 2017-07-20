@@ -173,7 +173,7 @@ public class VideoListActivity extends SwipeBackActivity {
      */
     private void setHeaderView(RecyclerView view, VodbyTopicBean.PageBean page) {
         View header = LayoutInflater.from(VideoListActivity.this).inflate(R.layout.vedio_list_head, view, false);
-        XCRoundRectImageView IvHead = (XCRoundRectImageView) header.findViewById(R.id.tv_video_list_header);
+        ImageView IvHead = (ImageView) header.findViewById(R.id.tv_video_list_header);
         TextView TvTopicDesc = (TextView) header.findViewById(R.id.video_list_topic_desc);
         Glide.with(VideoListActivity.this)
                 .load(HttpURL.IV_HOST + page.getTopicImg())

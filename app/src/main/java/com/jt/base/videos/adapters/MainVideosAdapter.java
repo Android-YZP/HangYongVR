@@ -121,7 +121,6 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
             if (resultBean.get(position).getTime() != null)
                 holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(resultBean.get(position).getTime())));//设置时间
 
-
             holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
