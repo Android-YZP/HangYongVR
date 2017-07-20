@@ -119,7 +119,7 @@ public class UIUtils {
         }
     }
 
-    public static void hideKeyBord(Activity context) {
+    public static void hideKeyBoard(Activity context) {
         // 先隐藏键盘
         ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

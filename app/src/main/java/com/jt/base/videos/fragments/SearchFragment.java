@@ -81,7 +81,7 @@ public class SearchFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     // 先隐藏键盘
-                    UIUtils.hideKeyBord(getActivity());
+                    UIUtils.hideKeyBoard(getActivity());
                     String search = mEtsearch.getText().toString();
                     if (!TextUtils.isEmpty(search)) {
                         LogUtil.i(search);
@@ -99,7 +99,7 @@ public class SearchFragment extends Fragment {
         mTvSearchCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.hideKeyBord(getActivity());
+                UIUtils.hideKeyBoard(getActivity());
                 mEtsearch.setText("");
                 mLlsearchresult.setVisibility(View.GONE);
                 mLlsearchHistory.setVisibility(View.VISIBLE);
