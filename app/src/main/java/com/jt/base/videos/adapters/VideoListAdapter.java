@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -142,7 +143,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class ListHolder extends RecyclerView.ViewHolder {
 
 
-        private XCRoundRectImageView mXuImg;
+        private ImageView mXuImg;
         private TextView mTvVideoDesc;
 
         public ListHolder(View itemView) {
@@ -154,7 +155,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (itemView == mFooterView) {
                 return;
             }
-            mXuImg = (XCRoundRectImageView) itemView.findViewById(R.id.tv_video_list_img);
+            mXuImg = (ImageView) itemView.findViewById(R.id.tv_video_list_img);
             mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
         }
     }

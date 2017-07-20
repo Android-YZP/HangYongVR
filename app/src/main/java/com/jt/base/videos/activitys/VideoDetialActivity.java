@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,7 +50,7 @@ import java.util.List;
 public class VideoDetialActivity extends SwipeBackActivity {
     private static final String ACTION = "com.jt.base.SENDBROADCAST";
     private static final int HTTP_SUCCESS = 0;
-    private static final String COUNT = "3";//每次获取到的数据
+    private static final String COUNT = "10";//每次获取到的数据
     private RecyclerViewPager mRvVideoDetaillist;
     private VrPanoramaView panoWidgetView;
     private SwipyRefreshLayout mSwipyRefresh;
@@ -72,6 +73,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
     private List<VodbyTopicBean.ResultBean> mData;
     private VideoDetialAdapter mVideoDetialAdapter;
     private int mTotalpage;
+    private boolean isFling;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +82,9 @@ public class VideoDetialActivity extends SwipeBackActivity {
             UIUtils.showTip(savedInstanceState.getString("id") + "");
         setContentView(R.layout.activity_video_detials);
         initView();
+        initPanorama();
         initData();
         initListenter();
-        initPanorama();
         initRecyclerViewPager();
     }
 
@@ -136,14 +138,17 @@ public class VideoDetialActivity extends SwipeBackActivity {
         LinearLayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRvVideoDetaillist.setLayoutManager(layout);
         //控制全景图的显示和影藏
-        mRvVideoDetaillist.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRvVideoDetaillist.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isFling = true;
+                    LogUtil.e("SCROLL_STATE_TOUCH_SCROLL");
                     panoWidgetView.setVisibility(View.GONE);
                     mIvTwoDBg.setVisibility(View.GONE);//显示2D图片
                 } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    LogUtil.e("SCROLL_STATE_IDLE");
                     //得到当前显示的位置，判别背景图显示那一张？
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     //判断是当前layoutManager是否为LinearLayoutManager
@@ -153,8 +158,11 @@ public class VideoDetialActivity extends SwipeBackActivity {
                         //获取第一个可见view的位置
                         int firstItemPosition = linearManager.findFirstVisibleItemPosition();
 //                       //判断是不是全景图片，来显示到底要不要显示全景图片
-                        showBg(firstItemPosition);
+                        if (!isFling)
+                            showBg(firstItemPosition);
                     }
+                } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                    isFling = false;
                 }
             }
         });
@@ -170,7 +178,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
     private void showBg(int firstItemPosition) {
         int isall = mData.get(firstItemPosition).getIsall();
         if (isall == VedioContants.ALL_VIEW_VEDIO) {
-            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
             initPanorama(HttpURL.IV_HOST + mData.get(firstItemPosition).getImg());
         } else if (isall == VedioContants.TWO_D_VEDIO) {
             initTwoD(HttpURL.IV_HOST + mData.get(firstItemPosition).getImg(), mIvTwoDBg);
@@ -192,7 +199,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
         requestParams.addBodyParameter("topicId", topicId + "");//
         requestParams.addBodyParameter("sourceNum", "222");//
         requestParams.addBodyParameter("page", pager + "");//
-        requestParams.addBodyParameter("count", 3 + "");//
+        requestParams.addBodyParameter("count", COUNT);//
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
@@ -231,42 +238,33 @@ public class VideoDetialActivity extends SwipeBackActivity {
      * 初始化全景图播放器
      */
     private void initPanorama(final String url) {
-        LogUtil.i(url);
+
         //加载背景图片
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Glide.with(VideoDetialActivity.this)
-                        .load(url)
-                        .asBitmap()
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
-                                panoWidgetView.loadImageFromBitmap(resource, panoOptions);
-                            }
-                        });
-            }
-        }, 400);
+        Glide.with(VideoDetialActivity.this)
+                .load(url)
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                        panoWidgetView.loadImageFromBitmap(resource, panoOptions);
+                        LogUtil.i(url);
+                    }
+                });
     }
 
     /**
      * 初始化2D图播放器
      */
     private void initTwoD(final String url, final ImageView imageView) {
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Glide.with(getApplicationContext())
-                        .load(url)
-                        .crossFade()
-                        .into(imageView);
-                panoWidgetView.setVisibility(View.GONE);
-                mIvTwoDBg.setVisibility(View.VISIBLE);
-            }
-        }, 300);
         mIvTwoDBg.setImageBitmap(null);
+        mIvTwoDBg.setVisibility(View.VISIBLE);
+        Glide.with(getApplicationContext())
+                .load(url)
+                .crossFade()
+                .into(imageView);
+
+
     }
 
     /**
@@ -281,13 +279,29 @@ public class VideoDetialActivity extends SwipeBackActivity {
         panoWidgetView.setStereoModeButtonEnabled(false);
         panoWidgetView.setOnTouchListener(null);//禁用手势滑动
         panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        panoWidgetView.pauseRendering();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        panoWidgetView.resumeRendering();
+        super.onResume();
     }
 
     @Override
     protected void onDestroy() {
+        // Destroy the widget and free memory.
+        panoWidgetView.shutdown();
         super.onDestroy();
-
     }
+
 
     /**
      * Listen to the important events from widget.

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
@@ -30,9 +31,11 @@ import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.adapters.SearchAdapter;
 import com.jt.base.videos.adapters.SearchHAdapter;
 import com.jt.base.videos.adapters.SearchHeadTypeAdapter;
+
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,8 +81,7 @@ public class SearchFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     // 先隐藏键盘
-                    ((InputMethodManager) mEtsearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    UIUtils.hideKeyBord(getActivity());
                     String search = mEtsearch.getText().toString();
                     if (!TextUtils.isEmpty(search)) {
                         LogUtil.i(search);
@@ -97,6 +99,8 @@ public class SearchFragment extends Fragment {
         mTvSearchCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UIUtils.hideKeyBord(getActivity());
+                mEtsearch.setText("");
                 mLlsearchresult.setVisibility(View.GONE);
                 mLlsearchHistory.setVisibility(View.VISIBLE);
             }
@@ -129,7 +133,6 @@ public class SearchFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         searchHistorys = LocalUtils.getSearchHistory(getContext());
         if (searchHistorys != null) {
-            UIUtils.showTip(searchHistorys.size() + "");
             mSearchHistoryAdapter = new SearchHAdapter(getActivity(), searchHistorys);
             mRvsearchhistory.setAdapter(mSearchHistoryAdapter);
             setHistoryFoot();
@@ -137,6 +140,7 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onItemClick(View view, int position) {
                     search(searchHistorys.get(position), 1 + "");
+                    mEtsearch.setText(searchHistorys.get(position));
                     // 先隐藏键盘
                     ((InputMethodManager) mEtsearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

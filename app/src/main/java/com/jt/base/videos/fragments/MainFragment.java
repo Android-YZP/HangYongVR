@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,7 +65,8 @@ public class MainFragment extends Fragment {
     private TopicBean mTopicBean;
     private int mPager = 1;
     private int mTopicId;
-    private List<TopicBean.ResultBeanX> results;
+    private List<TopicBean.ResultBeanX> results = new ArrayList<>();
+    private LinearLayout mLlNoNetBg;
 
 
     public MainFragment() {
@@ -88,6 +91,7 @@ public class MainFragment extends Fragment {
         mRecyclerfreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.srl_main_swipe_refresh);
         mIbMenu = (ImageButton) view.findViewById(R.id.ib_menu);
         mMainTitle = (TextView) view.findViewById(R.id.tv_main_title);
+        mLlNoNetBg = (LinearLayout) view.findViewById(R.id.iv_main_fragment_bg);
         return view;
     }
 
@@ -103,10 +107,16 @@ public class MainFragment extends Fragment {
         mRecyclerfreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                results = null;
-                mPager = 1;
-                HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
-                mRecyclerfreshLayout.setRefreshing(false);
+                if (mLlNoNetBg.getVisibility() == View.VISIBLE) {//没有数据
+                    initDatas();
+                    LogUtil.e("没有王");
+                } else if (mLlNoNetBg.getVisibility() == View.GONE) {//有数据的情况下
+                    results.clear();
+                    mPager = 1;
+                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
+                    mRecyclerfreshLayout.setRefreshing(false);
+                    LogUtil.e("有王");
+                }
             }
         });
 
@@ -115,6 +125,11 @@ public class MainFragment extends Fragment {
             mLvDrawerItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (!NetUtil.isOpenNetwork()) {
+                        UIUtils.showTip("请打开网络");
+                        return;
+                    }
+
                     if (position != mPressPostion) mItemPress.put(mPressPostion, true);
                     mPressPostion = position;
                     //按下状态
@@ -123,7 +138,7 @@ public class MainFragment extends Fragment {
                     TextView tvTitle = (TextView) view.findViewById(R.id.tv_drawer_item_title);
                     mMainTitle.setText(tvTitle.getText());
                     mTopicId = mDatas.get(position).getId();
-                    results = null;
+                    results.clear();
                     mPager = 1;
                     HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
                     mDlLayout.closeDrawer(GravityCompat.START, true);
@@ -176,6 +191,8 @@ public class MainFragment extends Fragment {
      * 初始化数据
      */
     private void initDatas() {
+        mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, results);
+        mRecycler.setAdapter(mMainAdapter);
         HttpVideoType();
     }
 
@@ -183,11 +200,13 @@ public class MainFragment extends Fragment {
      * 请求侧边栏列表
      */
     private void HttpVideoType() {
+        LogUtil.e("请求侧边栏列表");
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
+            mLlNoNetBg.setVisibility(View.VISIBLE);
+            mRecyclerfreshLayout.setRefreshing(false);
             return;
         }
-
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.VideoType);
         requestParams.addHeader("token", HttpURL.Token);
@@ -198,6 +217,7 @@ public class MainFragment extends Fragment {
                 LogUtil.i(result);
                 VideoTypeBean videoTypeBean = new Gson().fromJson(result, VideoTypeBean.class);
                 if (videoTypeBean.getCode() == HTTP_SUCCESS) {//获取数据成功
+                    mLlNoNetBg.setVisibility(View.GONE);
                     mDatas = videoTypeBean.getResult();
                     //初始化HashMap数据
                     mItemPress.clear();
@@ -229,9 +249,15 @@ public class MainFragment extends Fragment {
      */
     private void HttpGetVideoTopic(String typeid, String sourceNum) {
         mRecyclerfreshLayout.setRefreshing(true);
+        LogUtil.e("请求话题列表");
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
+            mLlNoNetBg.setVisibility(View.VISIBLE);
             mRecyclerfreshLayout.setRefreshing(false);
+            results.clear();
+            mMainAdapter.notifyDataSetChanged();
+            if (mMainAdapter.getFooterView() != null)
+                mMainAdapter.getFooterView().setVisibility(View.GONE);
             return;
         }
         //使用xutils3访问网络并获取返回值
@@ -249,6 +275,7 @@ public class MainFragment extends Fragment {
                 mTopicBean = new Gson().fromJson(result, TopicBean.class);
 
                 if (mTopicBean.getCode() == 0) {//数据获取成功/code话题ID，msg话题名称
+                    mLlNoNetBg.setVisibility(View.GONE);
 
                     if (results != null && results.size() > 0) {
                         results.addAll(mTopicBean.getResult());
@@ -256,10 +283,15 @@ public class MainFragment extends Fragment {
                     } else {
                         results = mTopicBean.getResult();
                         mMainAdapter = new MainAdapter(getActivity(), mRecyclerfreshLayout, mRecycler, mViewpager, results);
+                        if (mTopicBean.getPage().getTotal() <= 7){
+                            View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
+                            mMainAdapter.setFooterView(v);
+                        }
                         mRecycler.setAdapter(mMainAdapter);
+
+
                     }
                 }
-
             }
 
             @Override

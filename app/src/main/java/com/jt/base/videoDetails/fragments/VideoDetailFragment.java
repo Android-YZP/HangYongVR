@@ -77,6 +77,7 @@ public class VideoDetailFragment extends Fragment {
     private Handler handler = new Handler();
     private int mCurrentPosition = 0;//判断这个界面的第一屏应该展示哪一个界面,默认第一页
     boolean isScroll = true;//是不是手指滑动过来的
+    private boolean isFling;//判断界面在不在自己滑动,在自己滑动的时候不显示背景图
 
     public VideoDetailFragment() {
     }
@@ -148,6 +149,7 @@ public class VideoDetailFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isFling = true;
                     panoWidgetView.setVisibility(View.GONE);
                     mIvTwoDBg.setVisibility(View.GONE);//显示2D图片
                 } else if (newState == OnScrollListener.SCROLL_STATE_IDLE) {
@@ -162,15 +164,11 @@ public class VideoDetailFragment extends Fragment {
                         LogUtil.i(firstItemPosition + "------------------------");
                         if (mRoomLists == null || mRoomLists.size() < 1) return;
                         //判断是不是全景图片，来显示到底要不要显示全景图片
-                        int isall = mRoomLists.get(firstItemPosition).getIsall();
-                        if (isall == VedioContants.ALL_VIEW_VEDIO) {
-                            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
-                            initPanorama(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg());
-                        } else if (isall == VedioContants.TWO_D_VEDIO) {
-
-                            initTwoD(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg(), mIvTwoDBg);
-                        }
+                        if (!isFling)
+                            showBg(firstItemPosition);
                     }
+                } else if (newState == OnScrollListener.SCROLL_STATE_FLING) {
+                    isFling = false;
                 }
             }
         });
@@ -262,6 +260,20 @@ public class VideoDetailFragment extends Fragment {
 
 
     /**
+     * 显示背景图
+     */
+    private void showBg(int firstItemPosition) {
+        int isall = mRoomLists.get(firstItemPosition).getIsall();
+        if (isall == VedioContants.ALL_VIEW_VEDIO) {
+            mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+            initPanorama(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg());
+        } else if (isall == VedioContants.TWO_D_VEDIO) {
+            initTwoD(HttpURL.IV_HOST + mRoomLists.get(firstItemPosition).getImg(), mIvTwoDBg);
+        }
+    }
+
+
+    /**
      * 直播列表
      */
     private void HttpRoomList(String pager, final Boolean isLodingMore) {
@@ -291,7 +303,6 @@ public class VideoDetailFragment extends Fragment {
         requestParams.addBodyParameter("count", COUNT);//数量
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
-
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
@@ -367,11 +378,6 @@ public class VideoDetailFragment extends Fragment {
      * 初始化全景图播放器
      */
     private void initPanorama(final String url) {
-        LogUtil.i(url);
-        //加载背景图片
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
                 Glide.with(getContext())
                         .load(url)
                         .asBitmap()
@@ -382,8 +388,7 @@ public class VideoDetailFragment extends Fragment {
                                 panoWidgetView.loadImageFromBitmap(resource, panoOptions);
                             }
                         });
-            }
-        }, 400);
+
     }
 
 
@@ -392,19 +397,16 @@ public class VideoDetailFragment extends Fragment {
      */
 
     private void initTwoD(final String url, final ImageView imageView) {
+        mIvTwoDBg.setImageBitmap(null);
+        mIvTwoDBg.setVisibility(View.VISIBLE);
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Glide.with(getActivity())
+        Glide.with(getActivity())
                         .load(url)
                         .crossFade()
                         .into(imageView);
-                panoWidgetView.setVisibility(View.GONE);
-                mIvTwoDBg.setVisibility(View.VISIBLE);
-            }
-        }, 300);
-        mIvTwoDBg.setImageBitmap(null);
+        panoWidgetView.setVisibility(View.GONE);
+
+
 
     }
 

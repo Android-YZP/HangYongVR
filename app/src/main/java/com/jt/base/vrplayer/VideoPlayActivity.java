@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
@@ -45,9 +46,11 @@ import com.snail.media.player.ISnailPlayer.EventType;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerErrorNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerEventNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
+
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -219,7 +222,9 @@ public class VideoPlayActivity extends Activity {
         mIbBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent();
+                intent.putExtra("position", currentPersent());
+                setResult(101, intent);
                 VideoPlayActivity.this.finish();
             }
         });
@@ -722,8 +727,6 @@ public class VideoPlayActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
-
-
         int duration = pausePostion;
         int Tduration = mVideoView.getDuration();
         int Persent;
@@ -751,7 +754,22 @@ public class VideoPlayActivity extends Activity {
 
     }
 
-    private void currentPersent() {
+    private int currentPersent() {
+
+        int duration = mVideoView.getCurrentPosition();
+        int Tduration = mVideoView.getDuration();
+        int Persent;
+        double i = (double) duration / Tduration;
+        double v = i * 100;
+        if (v < 1) {
+            v = 1;
+            Persent = (int) v;
+        } else {
+            Persent = (int) v;
+        }
+        LogUtil.i(Persent + "---------------");
+        return Persent;
+
     }
 
 
@@ -818,7 +836,7 @@ public class VideoPlayActivity extends Activity {
         }
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.History);
-        requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getUid() + "");
+        requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken() + "");
         //包装请求参数
         requestParams.addBodyParameter("vid", mVid + "");//视频ID
         requestParams.addBodyParameter("uid", uid);//用户id
