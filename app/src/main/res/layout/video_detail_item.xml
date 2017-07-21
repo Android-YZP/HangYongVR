@@ -78,6 +78,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/ll_root_person_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_root_room_name"

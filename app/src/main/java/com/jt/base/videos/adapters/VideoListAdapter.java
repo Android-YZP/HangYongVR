@@ -125,7 +125,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         intent.putExtra(VedioContants.Position, position - 1);//哪个话题
                         intent.putExtra(VedioContants.TopicId, topicBean.get(position - 1).getTopicId());//哪个话题
                         context.startActivity(intent);
-
                     }
                 });
 

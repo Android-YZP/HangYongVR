@@ -87,12 +87,12 @@ public class HttpURL {
     public static String UpdateVersion = Host + "login/search/version";
 
     /**
-     * 搜索话题的視頻
+     * 搜索话题的視頻和类型
      */
     public static String vod = Host + "login/search/vod";
     public static String Topic = Host + "login/search/topic";
     /**
-     * 用户的观看历史
+     * 添加用户的观看历史
      */
     public static String History = Host + "history/put";
 
@@ -102,9 +102,15 @@ public class HttpURL {
     public static String GetHistory = Host + "history/gets";
 
     /**
-     * 用户的获取观看历史
+     * 用户的删除观看历史
      */
     public static String DeleteHistory = Host + "history/delete";
+
+
+    /**
+     *首页数据
+     */
+    public static String Resource = Host + "login/get/resource";
 
 
 }

@@ -78,8 +78,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
-            UIUtils.showTip(savedInstanceState.getString("id") + "");
+
         setContentView(R.layout.activity_video_detials);
         initView();
         initPanorama();

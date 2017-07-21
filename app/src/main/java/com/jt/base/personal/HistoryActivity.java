@@ -25,6 +25,7 @@ import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.adapters.HistoryListAdapter;
+import com.jt.base.videos.ui.SwipeBackActivity;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
@@ -37,7 +38,7 @@ import java.util.TimerTask;
 /**
  * Created by wzq930102 on 2017/7/11.
  */
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends SwipeBackActivity {
     private HistoryListAdapter adapter;
     private TextView mTvReturn;
     private RelativeLayout mReDialog;

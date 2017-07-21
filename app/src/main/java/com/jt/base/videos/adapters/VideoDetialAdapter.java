@@ -56,8 +56,6 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.showTip(mData.get(position).getChannelName() + position);
-
                 int type = mData.get(position).getType();
                 if (type == VedioContants.Video) {//点播
                     intent = new Intent(context, VideoPlayActivity.class);

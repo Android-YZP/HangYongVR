@@ -66,11 +66,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     @Override
     public void onBindViewHolder(HistoryReViewHolder holder, final int position) {
 
-
-
-
         holder.mTvtitle.setText(seeHistory.get(position).getChannelName());
-        holder.mTvpersent.setText(seeHistory.get(position).getWatchTime() + "%");
+        holder.mTvpersent.setText("以观看至"+seeHistory.get(position).getWatchTime() + "%");
 
         Glide.with(context)
                 .load(HttpURL.IV_HOST + seeHistory.get(position).getImg1())
