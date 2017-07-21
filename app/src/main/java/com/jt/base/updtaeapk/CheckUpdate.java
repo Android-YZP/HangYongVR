@@ -80,7 +80,7 @@ public class CheckUpdate {
         int versionCode = getVerCode(mcontext);
 
         if (newVersion > versionCode) {
-            DialogUtils dialogUtils = new DialogUtils(mcontext);
+            final DialogUtils dialogUtils = new DialogUtils(mcontext);
 
             View contentView = LayoutInflater.from(mcontext).inflate(
                     R.layout.update, null);
@@ -90,6 +90,23 @@ public class CheckUpdate {
             dialogUtils.show();
             mUpdate = (Button) contentView.findViewById(R.id.btn_update);
             mClose = (ImageButton) contentView.findViewById(R.id.img_update_close);
+            mClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogUtils.getBaseDialog().dismiss();
+                }
+            });
+            mUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+//            dialogUtils.getBaseDialog().dismiss();
+//        } else {
+//            if (!isAutoCheck) {
+//                Toast.makeText(mcontext, "当前已是最新版本", Toast.LENGTH_SHORT).show();
+//            }
 //
 //            AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
 //            builder.setTitle("发现更新");
