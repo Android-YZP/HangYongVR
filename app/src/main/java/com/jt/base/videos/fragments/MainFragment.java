@@ -109,13 +109,11 @@ public class MainFragment extends Fragment {
             public void onRefresh() {
                 if (mLlNoNetBg.getVisibility() == View.VISIBLE) {//没有数据
                     initDatas();
-                    LogUtil.e("没有王");
                 } else if (mLlNoNetBg.getVisibility() == View.GONE) {//有数据的情况下
                     results.clear();
                     mPager = 1;
                     HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
                     mRecyclerfreshLayout.setRefreshing(false);
-                    LogUtil.e("有王");
                 }
             }
         });

@@ -133,21 +133,26 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
-                ///////////////////////////////////////////////////设置头布局/////////////////////////////////////////////////
+                ///////////////////////////////////////////////////设置脚布局/////////////////////////////////////////////////
 
-                View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
-                mTvMore1 = (TextView) v.findViewById(R.id.tv_main_more);
-                mTvMore1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, VideoListActivity.class);
-                        intent.putExtra(VedioContants.TopicId, topicBean.get(position).getCode());
-                        context.startActivity(intent);
-                        context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-                    }
-                });
+                if (topicBean.get(position).getResult().size() <= 10) {
+                    View noview = View.inflate(context, R.layout.main_list_item_foot_no_view, null);
+                    mainVideosAdapter.setFooterView(noview);
+                }else {
+                    View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
+                    mTvMore1 = (TextView) v.findViewById(R.id.tv_main_more);
+                    mTvMore1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, VideoListActivity.class);
+                            intent.putExtra(VedioContants.TopicId, topicBean.get(position).getCode());
+                            context.startActivity(intent);
+                            context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                        }
+                    });
+                    mainVideosAdapter.setFooterView(v);
+                }
 
-                mainVideosAdapter.setFooterView(v);
 
                 //修复滑动事件的冲突
                 ((ListHolder) holder).mRvVideoList.addOnScrollListener(new RecyclerView.OnScrollListener() {

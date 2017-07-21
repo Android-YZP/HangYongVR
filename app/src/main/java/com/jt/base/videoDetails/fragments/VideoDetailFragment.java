@@ -405,9 +405,6 @@ public class VideoDetailFragment extends Fragment {
                         .crossFade()
                         .into(imageView);
         panoWidgetView.setVisibility(View.GONE);
-
-
-
     }
 
     /**
