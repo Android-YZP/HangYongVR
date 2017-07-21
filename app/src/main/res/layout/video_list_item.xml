@@ -14,9 +14,16 @@
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp" />
+
+    <com.jt.base.ui.XCRoundRectImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:background="@mipmap/vedio_details_c" />
-
 
     <TextView
         android:id="@+id/tv_video_time"

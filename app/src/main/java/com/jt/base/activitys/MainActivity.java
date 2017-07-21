@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.ui.CustomViewPager;
 import com.jt.base.updtaeapk.CheckUpdate;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
-    private ViewPager mViewpager;
+    private CustomViewPager mViewpager;
     private ImageView mIvTwoDBg;
     private DrawerLayout mDlLayout;
     private ListView mLvDrawerItem;
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     //
     private void initViewPager() {
-        mViewpager = (ViewPager) findViewById(R.id.vp_viewpager);
+        mViewpager = (CustomViewPager) findViewById(R.id.vp_viewpager);
         mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager(), panoWidgetView, mIvTwoDBg));
         mViewpager.setCurrentItem(1, false);
 

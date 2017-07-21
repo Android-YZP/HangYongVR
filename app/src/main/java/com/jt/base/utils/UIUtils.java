@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
+
 import com.jt.base.application.VrApplication;
 
 import org.xutils.common.util.LogUtil;
@@ -83,7 +85,7 @@ public class UIUtils {
     }
 
     //判断recycleview是否达到底部
-    public static boolean isVisBottom(RecyclerView recyclerView){
+    public static boolean isVisBottom(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         //屏幕中最后一个可见子项的position
         int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
@@ -93,36 +95,39 @@ public class UIUtils {
         int totalItemCount = layoutManager.getItemCount();
         //RecyclerView的滑动状态
         int state = recyclerView.getScrollState();
-        if(visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && state == recyclerView.SCROLL_STATE_IDLE){
+        if (visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && state == recyclerView.SCROLL_STATE_IDLE) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
     //判断recycleview第一位是否显示
-    public static boolean isVisTOP(RecyclerView recyclerView){
+    public static boolean isVisTOP(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         //屏幕中最后一个可见子项的position
         int fistVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-        LogUtil.i(fistVisibleItemPosition+"__________________________________");
+        LogUtil.i(fistVisibleItemPosition + "__________________________________");
         //当前屏幕所看到的子项个数
         int visibleItemCount = layoutManager.getChildCount();
         //当前RecyclerView的所有子项个数
 //        int totalItemCount = layoutManager.getItemCount();
         //RecyclerView的滑动状态
         int state = recyclerView.getScrollState();
-        if(visibleItemCount > 0 && fistVisibleItemPosition == 1 && state == recyclerView.SCROLL_STATE_IDLE){
+        if (visibleItemCount > 0 && fistVisibleItemPosition == 1 && state == recyclerView.SCROLL_STATE_IDLE) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public static void hideKeyBoard(Activity context) {
+    public static void hideKeyBoard(View view) {
         // 先隐藏键盘
-        ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE))
-                .hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+//1.得到InputMethodManager对象
+        InputMethodManager imm = (InputMethodManager) UIUtils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//2.调用hideSoftInputFromWindow方法隐藏软键盘
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
     }
 
 }

@@ -47,7 +47,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
     public RvAdapter(Context context, List<ResourceBean.ResultBean> mRoomLists) {
         this.context = context;
         this.mRoomLists = mRoomLists;
-
     }
 
     @Override
@@ -56,6 +55,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                 false));
         return holder;
     }
+
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
@@ -73,6 +73,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                     Intent intent = new Intent(context, VideoPlayActivity.class);
                     intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(mRoomLists.get(position).getVodInfos()));
                     intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+                    intent.putExtra("vid", mRoomLists.get(position).getId());
+                    intent.putExtra("desc", mRoomLists.get(position).getChannelName());
 
                     //判断视频类型
                     int isall = mRoomLists.get(position).getIsall();

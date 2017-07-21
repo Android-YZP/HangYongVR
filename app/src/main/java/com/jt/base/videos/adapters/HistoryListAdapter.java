@@ -1,10 +1,13 @@
 package com.jt.base.videos.adapters;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,11 +18,14 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetHistoryBean;
 import com.jt.base.personal.HistoryActivity;
+import com.jt.base.ui.XCRoundRectImageView;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
+import com.jt.base.vrplayer.Definition;
+import com.jt.base.vrplayer.PlayActivity;
 import com.jt.base.vrplayer.VideoPlayActivity;
-
+import org.xutils.common.util.LogUtil;
 import java.util.List;
 
 
@@ -67,10 +73,16 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(HistoryReViewHolder holder, final int position) {
+    public void onBindViewHolder(final HistoryReViewHolder holder, final int position) {
 
         holder.mTvtitle.setText(seeHistory.get(position).getChannelName());
-        holder.mTvpersent.setText("以观看至" + seeHistory.get(position).getWatchTime() + "%");
+        if (seeHistory.get(position).getType() == VedioContants.Video) {
+            holder.mTvpersent.setText("已观看至" + seeHistory.get(position).getWatchTime() + "%");
+            holder.mTvpersent.setVisibility(View.VISIBLE);
+        } else if (seeHistory.get(position).getType() == VedioContants.Living) {
+            holder.mTvpersent.setVisibility(View.GONE);
+        }
+
 
         Glide.with(context)
                 .load(HttpURL.IV_HOST + seeHistory.get(position).getImg1())
@@ -80,36 +92,60 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, VideoPlayActivity.class);
-                intent.putExtra("desc", seeHistory.get(position).getChannelName());
-                intent.putExtra(VedioContants.PlayType, VedioContants.Video);
-                intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(seeHistory.get(position).getVodInfos()));
-                intent.putExtra("position", seeHistory.get(position).getWatchTime());
-                intent.putExtra("vid", seeHistory.get(position).getId());
-                //判断视频类型
-                int isall = seeHistory.get(position).getIsall();
-                if (isall == VedioContants.TWO_D_VEDIO) {//2D
-                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-                } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
-                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-                } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
-                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
-                } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
-                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+                //判断1直播，0点播
+                int type = seeHistory.get(position).getType();
+                if (type == VedioContants.Video) {//点播
+                    Intent intent = new Intent(context, VideoPlayActivity.class);
+                    intent.putExtra("desc", seeHistory.get(position).getChannelName());
+                    intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+                    intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(seeHistory.get(position).getVodInfos()));
+                    intent.putExtra("position", seeHistory.get(position).getWatchTime());
+                    intent.putExtra("vid", seeHistory.get(position).getId());
+                    //判断视频类型
+                    int isall = seeHistory.get(position).getIsall();
+                    if (isall == VedioContants.TWO_D_VEDIO) {//2D
+                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+                    } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                    } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
+                    } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+                    }
+                    if (NetUtil.isOpenNetwork()) {
+                        context.startActivityForResult(intent, position);
+                    } else {
+                        UIUtils.showTip("请连接网络");
+                    }
+                } else if (type == VedioContants.Living) {//直播
+                    goToPlay(position);
                 }
-
-                if (NetUtil.isOpenNetwork()) {
-                    context.startActivityForResult(intent, position);
-                } else {
-                    UIUtils.showTip("请连接网络");
-                }
-
             }
         });
-
         holder.layout.setTag(position);
         holder.layout.setOnLongClickListener(this);
     }
+
+    private void goToPlay(int position) {
+        Intent i = new Intent(context, PlayActivity.class);
+        int isall = seeHistory.get(position).getIsall();
+        if (isall == VedioContants.TWO_D_VEDIO) {
+            i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+        } else if (isall == VedioContants.ALL_VIEW_VEDIO) {
+            i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+        }
+        LogUtil.i(seeHistory.get(position).getRtmpDownstreamAddress() + "");
+        i.putExtra(VedioContants.PlayUrl, seeHistory.get(position).getRtmpDownstreamAddress() + "");
+        i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_HOST + seeHistory.get(position).getHead() + "");
+        i.putExtra(VedioContants.KEY_PLAY_USERNAME, seeHistory.get(position).getUsername() + "");
+        i.putExtra(VedioContants.KEY_PLAY_ID, seeHistory.get(position).getId() + "");
+        if (NetUtil.isOpenNetwork()) {
+            context.startActivity(i);
+        } else {
+            UIUtils.showTip("请连接网络");
+        }
+    }
+
 
     @Override
     public int getItemCount() {
@@ -119,14 +155,14 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public class HistoryReViewHolder extends RecyclerView.ViewHolder {
 
         private final RelativeLayout layout;
-        private final ImageView mIvImg;
+        private final XCRoundRectImageView mIvImg;
         private final TextView mTvtitle;
         private final TextView mTvpersent;
 
         public HistoryReViewHolder(View itemView) {
             super(itemView);
             layout = (RelativeLayout) itemView.findViewById(R.id.rl_history_list);
-            mIvImg = (ImageView) itemView.findViewById(R.id.iv_history_img);
+            mIvImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_history_img);
             mTvtitle = (TextView) itemView.findViewById(R.id.tv_history_title);
             mTvpersent = (TextView) itemView.findViewById(R.id.tv_history_persent);
         }

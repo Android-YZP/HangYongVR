@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -90,6 +91,8 @@ public class CheckUpdate {
             dialogUtils.show();
             mUpdate = (Button) contentView.findViewById(R.id.btn_update);
             mClose = (ImageButton) contentView.findViewById(R.id.img_update_close);
+            TextView mUpdateContent = (TextView) contentView.findViewById(R.id.tv_update_content);
+            mUpdateContent.setText(intro);
             mClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,7 +102,7 @@ public class CheckUpdate {
             mUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                                        Intent intent = new Intent(mcontext, DownloadService.class);
+                    Intent intent = new Intent(mcontext, DownloadService.class);
                     intent.putExtra("url", url);
                     mcontext.startService(intent);
                     dialogUtils.getBaseDialog().dismiss();

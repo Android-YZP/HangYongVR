@@ -122,9 +122,8 @@
         <activity
             android:name=".vrplayer.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"
-            android:windowActionBarOverlay="true"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="landscape"/>
 
         <service android:name=".updtaeapk.DownloadService" />
 

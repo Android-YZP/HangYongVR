@@ -360,7 +360,7 @@ public class VodbyTopicBean {
         private Object isVip;
         private String publish;
         private Object vodStatus;
-        private Object username;
+        private String username;
         private Object typeName;
         private Object topicName;
         private Object reason;
@@ -648,11 +648,11 @@ public class VodbyTopicBean {
             this.vodStatus = vodStatus;
         }
 
-        public Object getUsername() {
+        public String getUsername() {
             return username;
         }
 
-        public void setUsername(Object username) {
+        public void setUsername(String username) {
             this.username = username;
         }
 

@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
+import com.jt.base.application.User;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.ForgetYzmBean;
@@ -39,6 +40,7 @@ import com.jt.base.http.responsebean.ResetPasswordBean;
 import com.jt.base.http.responsebean.RoomNumberBean;
 import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.utils.NetUtil;
+import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.SnailNetReceiver.NetStateChangedListener;
@@ -182,6 +184,7 @@ public class PlayActivity extends AppCompatActivity {
     private int recLen;
     private boolean isRoomNumberOut = false;
     private int mMalu;
+    private int mVid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -627,6 +630,7 @@ public class PlayActivity extends AppCompatActivity {
     //初始化播放器模式
     private void initPlayMode() {
         int vedioode = getIntent().getIntExtra(Definition.PLEAR_MODE, 4);
+        mVid = getIntent().getIntExtra("vid", 0);
         if (vedioode == VedioContants.TWO_D_VEDIO) {
             mEyesMode = PlayActivity.SNVR_SINGLE_EYES_MODE;
             mProjectionType = PlayActivity.SNVR_PROJ_PLANE;
@@ -986,6 +990,11 @@ public class PlayActivity extends AppCompatActivity {
         //退出房间
         isRoomNumberOut = true;//退出房间,结束获取在线人数
         HttpOnLineNumber(mRoomId, -1);
+        User user = SPUtil.getUser();
+        if (user != null) {
+            HttpHistory(user.getResult().getUser().getUid() + "", "");
+        }
+
     }
 
 
@@ -1068,6 +1077,45 @@ public class PlayActivity extends AppCompatActivity {
         Log.i(TAG, "present is:" + present);
         mOperTextView.setText(String.valueOf(present) + "%");
     }
+
+
+    /**
+     * 保存用户历史观看数据
+     */
+    private void HttpHistory(String uid, String watchtime) {
+
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.History);
+        requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken() + "");
+        //包装请求参数
+        requestParams.addBodyParameter("vid", mRoomId + "");//视频ID
+        requestParams.addBodyParameter("uid", uid);//用户id
+        requestParams.addBodyParameter("watchTime", watchtime);//用户名
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i(result);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("服务端连接失败");
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
+    }
+
 
     /**
      * 滑动改变亮度

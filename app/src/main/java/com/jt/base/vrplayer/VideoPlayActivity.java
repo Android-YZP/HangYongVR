@@ -53,6 +53,8 @@ import org.xutils.x;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class VideoPlayActivity extends Activity {
     private static final String TAG = "PlayActivity";
@@ -150,7 +152,9 @@ public class VideoPlayActivity extends Activity {
     private TextView mEndTime;
     private int mDuration;
     private boolean mDragging;
-
+    private TimerTask task;
+    private int recLen;
+    private Timer mTimer;
 
     private int mFov;
     private int mProjectionType = SNVR_PROJ_PLANE;
@@ -172,6 +176,7 @@ public class VideoPlayActivity extends Activity {
     private int playType;
     private int mVid;
     private int mVideoPosition;
+    private boolean isRestart = false;
 
 
     @Override
@@ -195,7 +200,7 @@ public class VideoPlayActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //直播界面是竖屏显示,//播放器界面是横屏显示
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         setContentView(R.layout.activity_video_play);////////////////////////////////////////////////界面
 //        getWindow().getDecorView().setSystemUiVisibility(
@@ -229,7 +234,7 @@ public class VideoPlayActivity extends Activity {
             }
         });
 
-
+        timekeeping();
         mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -265,12 +270,17 @@ public class VideoPlayActivity extends Activity {
 
                 if (state == ISnailPlayer.State.PLAYER_STARTED) {
                     mVideoView.start();
+                    LogUtil.e("oView.star-----------------------");
                     mImageView_PlayPause
                             .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
                     mBufferingView.setVisibility(View.GONE);
                     mIsPrepared = true;
                     mDuration = mVideoView.getDuration();
-                    mVideoView.seekTo(mVideoView.getDuration() * mVideoPosition / 100);
+
+                    if (!isRestart) {
+                        mVideoView.seekTo(mVideoView.getDuration() * mVideoPosition / 100);
+                    }
+
                     if (mDuration == 0) {
                         mIsLive = true;
                         mSeekBar.setEnabled(false);
@@ -476,6 +486,32 @@ public class VideoPlayActivity extends Activity {
         } else if (playType == VedioContants.Living) {
             mVideoView.setVideoPath(mPlayUrl);
         }
+    }
+
+    /**
+     * 计时重新发送验证码
+     */
+    private void timekeeping() {
+
+        recLen = 3;
+        mTimer = new Timer();
+        // UI thread
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {      // UI thread
+                    @Override
+                    public void run() {
+                        recLen--;
+                        if (recLen < 0) {
+                            toggleMediaControlsVisiblity();
+                        }
+                    }
+                });
+            }
+        };
+        //从现在起过10毫秒以后，每隔1000毫秒执行一次。
+        mTimer.schedule(task, 10, 1000);    // timeTask
     }
 
 
@@ -688,22 +724,31 @@ public class VideoPlayActivity extends Activity {
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        LogUtil.e("onStart-----------------------");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        isRestart = true;
+    }
+
+    @Override
     protected void onResume() {
         mNetReceiver.registNetBroadCast(this);
         mNetReceiver.addNetStateChangeListener(mNetChangedListener);
-
-
+        LogUtil.e("onResume-----------------------");
         if (mVideoView != null) {
-
+            LogUtil.e("mVideoView-----------------------");
+            mVideoView.pause();
             mVideoView.setPlayFov(mFov);
             mVideoView.setScale(mScale);
-
             if (mVideoView.IsSurfaceHolderValid()) {
-                mVideoView.resetUrl();
+
             }
-
         }
-
         super.onResume();
     }
 
@@ -711,15 +756,13 @@ public class VideoPlayActivity extends Activity {
     protected void onPause() {
         mNetReceiver.remoteNetStateChangeListener(mNetChangedListener);
         mNetReceiver.unRegistNetBroadCast(this);
-        Log.d(TAG, "onPause()");
+        mVideoView.pause();
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        Log.d(TAG, "onPause()");
-        pausePostion = mVideoView.getCurrentPosition();
-        mVideoView.stop();
+        LogUtil.e("onStop-----------------------");
         super.onStop();
     }
 
@@ -727,7 +770,7 @@ public class VideoPlayActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
-        int duration = pausePostion;
+        int duration = mVideoView.getCurrentPosition();
         int Tduration = mVideoView.getDuration();
         int Persent;
         double i = (double) duration / Tduration;
@@ -747,7 +790,7 @@ public class VideoPlayActivity extends Activity {
 
         mHandler.removeMessages(SHOW_PROGRESS);
         if (mVideoView != null) {
-            mVideoView.stop();
+            mVideoView.pause();
             mVideoView.stopPlayback();
             mVideoView = null;
         }
@@ -755,7 +798,6 @@ public class VideoPlayActivity extends Activity {
     }
 
     private int currentPersent() {
-
         int duration = mVideoView.getCurrentPosition();
         int Tduration = mVideoView.getDuration();
         int Persent;
@@ -929,11 +971,14 @@ public class VideoPlayActivity extends Activity {
             mLayoutPlayerControllerFull.setVisibility(View.GONE);
             mShowing = false;
             mHandler.removeMessages(SHOW_PROGRESS);
+            if (mTimer != null)
+                mTimer.cancel();
         } else {
             mLayoutPlayerControllerFull.setVisibility(View.VISIBLE);
             mShowing = true;
             updatePausePlay();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
+            timekeeping();
         }
     }
 

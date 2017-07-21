@@ -77,7 +77,6 @@ public class VideoListActivity extends SwipeBackActivity {
             @Override
             public void onRefresh() {
                 mPager = 1;
-                mData.clear();
                 HttpTopic(mTopicId, mPager);
             }
         });
@@ -180,7 +179,6 @@ public class VideoListActivity extends SwipeBackActivity {
         TvTopicTotal.setText(page.getTotal()+"个视频");
         mVideoListAdapter.setHeaderView(header);//影藏轮播图
     }
-
 
 }
 

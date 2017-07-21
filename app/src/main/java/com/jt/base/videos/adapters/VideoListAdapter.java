@@ -113,6 +113,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
+
+
+
+
+
+
                 Glide.with(context)
                         .load(HttpURL.IV_HOST + topicBean.get(position - 1).getImg1())
                         .asBitmap()
@@ -129,10 +135,17 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 });
 
-                if (topicBean.get(position - 1).getTime() != null)
-                    ((ListHolder) holder).mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt((String) topicBean.get(position - 1).getTime())));//设置时间
+                if (topicBean.get(position - 1).getType() == VedioContants.Video){
+                    if (topicBean.get(position - 1).getTime() != null)
+                        ((ListHolder) holder).mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt((String) topicBean.get(position - 1).getTime())));//设置时间
+                }else {
+                    ((ListHolder) holder).mTvVideoTime.setVisibility(View.GONE);
+                }
+
                 return;
             }
+
+
             return;
         } else if (getItemViewType(position) == TYPE_HEADER) {
             return;

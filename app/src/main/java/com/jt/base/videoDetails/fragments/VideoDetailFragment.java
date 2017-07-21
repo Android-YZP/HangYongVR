@@ -41,6 +41,7 @@ import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.http.responsebean.ResourceBean;
+import com.jt.base.ui.CustomViewPager;
 import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
@@ -74,7 +75,7 @@ public class VideoDetailFragment extends Fragment {
     private ResourceBean mRoomListBean;
     private LinearLayout mIvDetialErrorBg;
     private ImageView mIvTwoDBg;
-    private ViewPager mViewpager;
+    private CustomViewPager mViewpager;
     private DrawerLayout mDlLayout;
     private Handler handler = new Handler();
     private int mCurrentPosition = 0;//判断这个界面的第一屏应该展示哪一个界面,默认第一页
@@ -84,7 +85,7 @@ public class VideoDetailFragment extends Fragment {
     public VideoDetailFragment() {
     }
 
-    public VideoDetailFragment(VrPanoramaView panoWidgetView, VrPanoramaView.Options panoOptions, ImageView mIvTwoDBg, ViewPager mViewpager, DrawerLayout mDlLayout) {
+    public VideoDetailFragment(VrPanoramaView panoWidgetView, VrPanoramaView.Options panoOptions, ImageView mIvTwoDBg, CustomViewPager mViewpager, DrawerLayout mDlLayout) {
         this.panoWidgetView = panoWidgetView;
         this.panoOptions = panoOptions;
         this.mIvTwoDBg = mIvTwoDBg;
@@ -133,12 +134,11 @@ public class VideoDetailFragment extends Fragment {
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRvVideoDetaillist.setLayoutManager(layout);
 
-
     }
 
     private void initListenter() {
         //控制全景图的显示和影藏
-        mRvVideoDetaillist.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRvVideoDetaillist.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -147,20 +147,24 @@ public class VideoDetailFragment extends Fragment {
                     panoWidgetView.setVisibility(View.GONE);
                     mIvTwoDBg.setVisibility(View.GONE);//显示2D图片
                 } else if (newState == OnScrollListener.SCROLL_STATE_IDLE) {
-                    if (!isFling) {
-                        //得到当前显示的位置，判别背景图显示那一张？
-                        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                        //判断是当前layoutManager是否为LinearLayoutManager
-                        // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
-                        if (layoutManager instanceof LinearLayoutManager) {
-                            LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-                            //获取第一个可见view的位置
-                            int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-                            LogUtil.i(firstItemPosition + "------------------------");
-                            if (mRoomLists == null || mRoomLists.size() < 1) return;
-                            //判断是不是全景图片，来显示到底要不要显示全景图片
+                    //得到当前显示的位置，判别背景图显示那一张？
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    //判断是当前layoutManager是否为LinearLayoutManager
+                    // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
+                    if (layoutManager instanceof LinearLayoutManager) {
+                        LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+                        //获取第一个可见view的位置
+                        int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+                        LogUtil.i(firstItemPosition + "------------------------");
+                        if (mRoomLists == null || mRoomLists.size() < 1) return;
+                        //判断是不是全景图片，来显示到底要不要显示全景图片
+                        if (firstItemPosition == 0)
                             showBg(firstItemPosition);
-                        }
+
+                        if (!isFling)
+                            showBg(firstItemPosition);
+
+
                     }
                 } else if (newState == OnScrollListener.SCROLL_STATE_FLING) {
                     isFling = false;
@@ -302,7 +306,7 @@ public class VideoDetailFragment extends Fragment {
             public void onSuccess(String result) {
                 LongLogUtil.e("---------------------------", result);
 
-                 mRoomListBean = new Gson().fromJson(result, ResourceBean.class);
+                mRoomListBean = new Gson().fromJson(result, ResourceBean.class);
 
                 if (mRoomListBean.getCode() == HTTP_SUCCESS) {
                     if (mRoomListBean.getResult().size() < 1) {

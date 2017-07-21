@@ -72,7 +72,7 @@ public class HttpURL {
      */
     public static String VidByType = Host + "login/get/vodByType";
     /**
-     * 获取话题
+     * 获取视频
      */
     public static String vodByTopic = Host + "login/get/vodByTopic";
     /**

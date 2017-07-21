@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/rl_history_list"
         android:layout_width="match_parent"
         android:layout_height="80dp">
-        <ImageView
+
+        <com.jt.base.ui.XCRoundRectImageView
             android:id="@+id/iv_history_img"
-            android:layout_width="60dp"
+            android:layout_width="110dp"
             android:layout_height="60dp"
-            android:scaleType="fitXY"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="19dp"/>
+            android:layout_marginLeft="19dp"
+            android:scaleType="fitXY" />
+
 
         <TextView
             android:id="@+id/tv_history_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="142dp"
+            android:layout_marginRight="18dp"
+            android:ellipsize="end"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
             android:text="科幻之旅"
             android:textColor="#000000"
-            android:textSize="15sp"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="122dp"/>
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/tv_history_persent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已观看至10%"
-            android:textSize="10sp"
-            android:textColor="#666666"
+            android:layout_marginLeft="142dp"
             android:layout_marginTop="60dp"
-            android:layout_marginLeft="122dp"/>
+            android:text="已观看至10%"
+            android:textColor="#666666"
+            android:textSize="10sp" />
     </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:background="#d9d9d9"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:background="#d9d9d9" />
 </LinearLayout>

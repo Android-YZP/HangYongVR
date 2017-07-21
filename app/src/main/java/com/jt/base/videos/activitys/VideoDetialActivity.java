@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,19 +14,16 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.GetRoomBean;
-import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
@@ -114,8 +110,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
                 LogUtil.i(direction + "");
                 if (direction.equals(SwipyRefreshLayoutDirection.TOP)) {
                     //刷新列表
-                    if (mData != null)
-                        mData.clear();
                     mPosition = 0;
                     mPager = 1;
                     HttpTopic(mTopicId, mPager);
@@ -142,25 +136,30 @@ public class VideoDetialActivity extends SwipeBackActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    isFling = true;
                     LogUtil.e("SCROLL_STATE_TOUCH_SCROLL");
+                    isFling = true;
+                    mSwipyRefresh.setEnabled(false);
                     panoWidgetView.setVisibility(View.GONE);
-                    mIvTwoDBg.setVisibility(View.GONE);//显示2D图片
+                    mIvTwoDBg.setVisibility(View.GONE);
                 } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     LogUtil.e("SCROLL_STATE_IDLE");
-                    //得到当前显示的位置，判别背景图显示那一张？
+                    mSwipyRefresh.setEnabled(true);
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                    //判断是当前layoutManager是否为LinearLayoutManager
-                    // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
                     if (layoutManager instanceof LinearLayoutManager) {
                         LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-                        //获取第一个可见view的位置
                         int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-//                       //判断是不是全景图片，来显示到底要不要显示全景图片
+
+                        if (firstItemPosition == 0) {
+                            showBg(firstItemPosition);
+                        }
+
+
                         if (!isFling)
                             showBg(firstItemPosition);
+
                     }
                 } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                    LogUtil.e("SCROLL_STATE_FLING");
                     isFling = false;
                 }
             }
@@ -175,11 +174,13 @@ public class VideoDetialActivity extends SwipeBackActivity {
      * 显示背景图
      */
     private void showBg(int firstItemPosition) {
-        int isall = mData.get(firstItemPosition).getIsall();
-        if (isall == VedioContants.ALL_VIEW_VEDIO) {
-            initPanorama(HttpURL.IV_HOST + mData.get(firstItemPosition).getImg());
-        } else if (isall == VedioContants.TWO_D_VEDIO) {
-            initTwoD(HttpURL.IV_HOST + mData.get(firstItemPosition).getImg(), mIvTwoDBg);
+        if (mData != null && mData.size() > 0) {
+            int isall = mData.get(firstItemPosition).getIsall();
+            if (isall == VedioContants.ALL_VIEW_VEDIO) {
+                initPanorama(HttpURL.IV_HOST + mData.get(firstItemPosition).getImg());
+            } else if (isall == VedioContants.TWO_D_VEDIO) {
+                initTwoD(HttpURL.IV_HOST + mData.get(firstItemPosition).getImg(), mIvTwoDBg);
+            }
         }
     }
 

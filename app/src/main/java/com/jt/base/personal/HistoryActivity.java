@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,7 +41,7 @@ import java.util.TimerTask;
  */
 public class HistoryActivity extends SwipeBackActivity {
     private HistoryListAdapter adapter;
-    private TextView mTvReturn;
+    private ImageView mTvReturn;
     private RelativeLayout mReDialog;
     private List<SeeHistory> seeHistory;
     private RecyclerView mRecycler;
@@ -131,7 +132,7 @@ public class HistoryActivity extends SwipeBackActivity {
     }
 
     private void initView() {
-        mTvReturn = ((TextView) findViewById(R.id.tv_history_return));
+        mTvReturn = (ImageView) findViewById(R.id.tv_history_return);
 //        mReDialog = ((RelativeLayout) findViewById(R.id.rl_history_list));
         mRecycler = (RecyclerView) findViewById(R.id.history_list);
         mRecyclerRefresh = (SwipeRefreshLayout) findViewById(R.id.srl_history_refreshing);
