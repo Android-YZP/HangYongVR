@@ -448,6 +448,14 @@ public class VideoPlayActivity extends Activity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("position", currentPersent());
+        setResult(101, intent);
+        super.onBackPressed();
+    }
+
     /******************************************我是华丽的分割线**********************************************************************
      */
 

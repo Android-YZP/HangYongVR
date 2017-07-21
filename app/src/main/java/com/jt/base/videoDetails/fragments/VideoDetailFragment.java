@@ -81,6 +81,7 @@ public class VideoDetailFragment extends Fragment {
     private int mCurrentPosition = 0;//判断这个界面的第一屏应该展示哪一个界面,默认第一页
     boolean isScroll = true;//是不是手指滑动过来的
     private boolean isFling;//判断界面在不在自己滑动,在自己滑动的时候不显示背景图
+    private int firstItemPosition;
 
     public VideoDetailFragment() {
     }
@@ -154,7 +155,7 @@ public class VideoDetailFragment extends Fragment {
                     if (layoutManager instanceof LinearLayoutManager) {
                         LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                         //获取第一个可见view的位置
-                        int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+                        firstItemPosition = linearManager.findFirstVisibleItemPosition();
                         LogUtil.i(firstItemPosition + "------------------------");
                         if (mRoomLists == null || mRoomLists.size() < 1) return;
                         //判断是不是全景图片，来显示到底要不要显示全景图片
@@ -222,14 +223,21 @@ public class VideoDetailFragment extends Fragment {
             mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-
                     if (position == 1) {
                         if (isScroll) {
-                            panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
-                            mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
+                            if (mRoomLists != null && mRoomLists.size() > 0) {
+                                if (mRoomLists.get(firstItemPosition).getIsall() == VedioContants.ALL_VIEW_VEDIO) {
+                                    panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
+                                    mIvTwoDBg.setVisibility(View.GONE);//显示全景图
+                                } else if (mRoomLists.get(firstItemPosition).getIsall() == VedioContants.TWO_D_VEDIO) {
+                                    mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
+                                    panoWidgetView.setVisibility(View.GONE);//显示全景图
+                                }
+                            }
                         }
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        mRvVideoDetaillist.scrollToPosition(firstItemPosition);
+
                     } else {
                         panoWidgetView.setVisibility(View.GONE);
                         mIvTwoDBg.setVisibility(View.GONE);

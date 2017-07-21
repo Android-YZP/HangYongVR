@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" 
     android:id="@+id/id_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#FF000000">
+
     <com.jt.base.vrplayer.SnailPlayerVideoView
         android:id="@+id/id_videoview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="center" 
-        />
+        android:layout_gravity="center" />
+
     <LinearLayout
         android:id="@+id/ll_root_room_name"
         android:layout_width="wrap_content"
@@ -34,14 +35,18 @@
             android:layout_marginRight="20dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.jt.base.ui.MaequeeText
                 android:id="@+id/tv_room_person_name"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="小贱"
-                android:maxLength="4"
-                android:ellipsize="end"
-                android:layout_marginTop="5dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="5dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:text="企业直播"
                 android:textColor="#fff"
                 android:textSize="11sp" />
 
@@ -50,8 +55,9 @@
                 android:id="@+id/tv_play_room_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="正在直播"
                 android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:text="正在直播"
                 android:textColor="#fff"
                 android:textSize="12sp" />
 
@@ -63,43 +69,41 @@
         android:id="@+id/iv_play_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/play_back"
         android:layout_gravity="bottom|right"
-        android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
-        />
+        android:layout_marginRight="30dp"
+        android:background="@mipmap/play_back" />
 
-    
+
     <!-- full screen controller -->
-    <include 
+    <include
         android:id="@+id/id_mediaplayer_controller"
-        android:visibility="gone"
-        layout="@layout/layout_play_full_controller"/>
-    
- 	<include
+        layout="@layout/layout_play_full_controller"
+        android:visibility="gone" />
+
+    <include
         android:id="@+id/id_mediaplay_buffering_view"
+        layout="@layout/media_player_buffering_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        layout="@layout/media_player_buffering_view" />
- 	
-	<include 
-      android:id="@+id/layout_volume_bright_transparent"
-      android:visibility="gone"
-      layout="@layout/layout_volume_brightness"/>
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/layout_volume_bright_transparent"
+        layout="@layout/layout_volume_brightness"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/txt_view_erro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:visibility="gone"
-        android:textSize="14sp"
-        android:textColor="@color/wifi_text_color_normal"
+        android:layout_marginBottom="100dp"
         android:text="dsfdsfkjdskfkdkf"
-        android:layout_marginBottom="100dp" />
+        android:textColor="@color/wifi_text_color_normal"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
 
-    
 </FrameLayout>
