@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.PlayActivity;
@@ -164,7 +165,14 @@ public class VedioDeatilsActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_play:
-                startActivity(intent);
+                if (NetUtil.isOpenNetwork()){
+                    startActivity(intent);
+                }else {
+                    UIUtils.showTip("请连接网络");
+                }
+
+
+
 //                Intent intent = new Intent(VedioDeatilsActivity.this, VedioDeatilsActivity.class);
 //                //单数点击全景，双数点击2D
 //                if (position % 2 == 0) {

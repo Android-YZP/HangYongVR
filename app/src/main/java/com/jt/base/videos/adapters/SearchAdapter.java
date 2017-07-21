@@ -21,6 +21,8 @@ import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.SearchVideoBean;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.utils.NetUtil;
+import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoListActivity;
 import com.jt.base.vrplayer.PlayActivity;
@@ -148,7 +150,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
                             intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
                         }
-                        context.startActivity(intent);
+                        if (NetUtil.isOpenNetwork()){
+                            context.startActivity(intent);
+                        }else {
+                            UIUtils.showTip("请连接网络");
+                        }
                     }
                 });
 

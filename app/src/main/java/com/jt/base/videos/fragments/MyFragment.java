@@ -33,6 +33,7 @@ public class MyFragment extends Fragment {
     private RelativeLayout mRootGoLogin;
     private RelativeLayout mRootGoLogin1;
     private TextView mTvName;
+    private LinearLayout mLlMyPay;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class MyFragment extends Fragment {
 
                 if (isLogin) {
                     startActivity(new Intent(getActivity(), PersonalActivity.class));
-                   getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                    getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
 
                 } else {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -100,6 +101,12 @@ public class MyFragment extends Fragment {
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), HistoryActivity.class));
                 getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+            }
+        });
+        mLlMyPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.showTip("敬请期待");
             }
         });
     }
@@ -129,6 +136,7 @@ public class MyFragment extends Fragment {
         mRootHistory = (LinearLayout) view.findViewById(R.id.ll_root_history);
         mRootLogined = (LinearLayout) view.findViewById(R.id.my_logined);
         mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
+        mLlMyPay = (LinearLayout) view.findViewById(R.id.ll_my_pay);
         mTvName = (TextView) view.findViewById(R.id.tv_my_name);
         mRootGoLogin = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login);
         mRootGoLogin1 = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login1);

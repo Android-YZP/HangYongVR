@@ -19,6 +19,7 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetRoomBean;
 import com.jt.base.http.responsebean.ResourceBean;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.Definition;
@@ -84,7 +85,13 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                     } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
                         intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
                     }
-                    context.startActivity(intent);
+
+                    if (NetUtil.isOpenNetwork()) {
+                        context.startActivity(intent);
+                    } else {
+                        UIUtils.showTip("请连接网络");
+                    }
+
 
                 }
             });
@@ -224,13 +231,15 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
         }
         LogUtil.i(mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-        i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-        i.putExtra(Definition.KEY_PLAY_HEAD, HttpURL.IV_HOST + mRoomLists.get(position).getHead() + "");
-        i.putExtra(Definition.KEY_PLAY_USERNAME, mRoomLists.get(position).getUsername() + "");
-        i.putExtra(Definition.KEY_PLAY_ID, mRoomLists.get(position).getId() + "");
-
-//                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
-        context.startActivity(i);
+        i.putExtra(VedioContants.PlayUrl, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+        i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_HOST + mRoomLists.get(position).getHead() + "");
+        i.putExtra(VedioContants.KEY_PLAY_USERNAME, mRoomLists.get(position).getUsername() + "");
+        i.putExtra(VedioContants.KEY_PLAY_ID, mRoomLists.get(position).getId() + "");
+        if (NetUtil.isOpenNetwork()){
+            context.startActivity(i);
+        }else {
+            UIUtils.showTip("请连接网络");
+        }
     }
 
 

@@ -1,12 +1,10 @@
 package com.jt.base.vrplayer;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -594,10 +592,10 @@ public class PlayActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ImageView ivHead = (ImageView) findViewById(R.id.iv_room_head);
         TextView tvUserName = (TextView) findViewById(R.id.tv_room_person_name);
-        String HeadImg = intent.getStringExtra(Definition.KEY_PLAY_HEAD);
-        String UserName = intent.getStringExtra(Definition.KEY_PLAY_USERNAME);
+        String HeadImg = intent.getStringExtra(VedioContants.KEY_PLAY_HEAD);
+        String UserName = intent.getStringExtra(VedioContants.KEY_PLAY_USERNAME);
         int PlayType = intent.getIntExtra(VedioContants.PlayType, 4);
-        mRoomId = intent.getStringExtra(Definition.KEY_PLAY_ID);
+        mRoomId = intent.getStringExtra(VedioContants.KEY_PLAY_ID);
 
         ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
         if (!TextUtils.isEmpty(HeadImg))
@@ -623,21 +621,7 @@ public class PlayActivity extends AppCompatActivity {
 
         //获取在线人数
         HttpOnLineNumber(mRoomId, 1);
-
-        if (PlayType == VedioContants.Video) {
-            List<VodbyTopicBean.ResultBean.VodInfosBean> urlList = new Gson().fromJson(mPlayUrl, new TypeToken<List<VodbyTopicBean.ResultBean.VodInfosBean>>() {
-            }.getType());
-            for (int i = 0; i < urlList.size(); i++) {
-                if (urlList.get(i).getDefinition() == mMalu) {
-                    mVideoView.setVideoPath(urlList.get(i).getUrl());
-                    return;
-                }
-            }
-        } else if (PlayType == VedioContants.Living) {
-            mVideoView.setVideoPath(mPlayUrl);
-        }
-
-
+        mVideoView.setVideoPath(mPlayUrl);
     }
 
     //初始化播放器模式

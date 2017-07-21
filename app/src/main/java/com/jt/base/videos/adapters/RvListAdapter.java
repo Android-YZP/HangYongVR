@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetRoomBean;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.Definition;
@@ -151,8 +152,11 @@ public class RvListAdapter extends RecyclerView.Adapter<RvListAdapter.MyViewHold
         i.putExtra(Definition.KEY_PLAY_HEAD,HttpURL.IV_HOST + mRoomLists.get(position).getHead() + "");
         i.putExtra(Definition.KEY_PLAY_USERNAME,mRoomLists.get(position).getUsername() + "");
         i.putExtra(Definition.KEY_PLAY_ID,mRoomLists.get(position).getId() + "");
-
-        context.startActivity(i);
+        if (NetUtil.isOpenNetwork()){
+            context.startActivity(i);
+        }else {
+            UIUtils.showTip("请连接网络");
+        }
     }
 
 

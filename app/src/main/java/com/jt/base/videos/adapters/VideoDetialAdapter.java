@@ -17,6 +17,7 @@ import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.utils.LocalUtils;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoDetialActivity;
@@ -80,8 +81,11 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
                 } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
                     intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
                 }
-
-                context.startActivity(intent);
+                if (NetUtil.isOpenNetwork()){
+                    context.startActivity(intent);
+                }else {
+                    UIUtils.showTip("请连接网络");
+                }
             }
         });
 

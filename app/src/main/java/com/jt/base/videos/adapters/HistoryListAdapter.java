@@ -8,14 +8,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetHistoryBean;
 import com.jt.base.personal.HistoryActivity;
+import com.jt.base.utils.NetUtil;
+import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.VideoPlayActivity;
+
 import java.util.List;
 
 
@@ -23,7 +27,7 @@ import java.util.List;
  * Created by wzq930102 on 2017/7/17.
  */
 
-public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryReViewHolder> implements View.OnLongClickListener{
+public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryReViewHolder> implements View.OnLongClickListener {
     public HistoryActivity context;
     private List<GetHistoryBean.ResultBean> seeHistory;
 
@@ -35,7 +39,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public boolean onLongClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
         return true;
     }
@@ -48,7 +52,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
-
 
 
     public HistoryListAdapter(HistoryActivity context, List<GetHistoryBean.ResultBean> seeHistory) {
@@ -67,7 +70,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public void onBindViewHolder(HistoryReViewHolder holder, final int position) {
 
         holder.mTvtitle.setText(seeHistory.get(position).getChannelName());
-        holder.mTvpersent.setText("以观看至"+seeHistory.get(position).getWatchTime() + "%");
+        holder.mTvpersent.setText("以观看至" + seeHistory.get(position).getWatchTime() + "%");
 
         Glide.with(context)
                 .load(HttpURL.IV_HOST + seeHistory.get(position).getImg1())
@@ -94,7 +97,13 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                 } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
                     intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
                 }
-                context.startActivityForResult(intent,position);
+
+                if (NetUtil.isOpenNetwork()) {
+                    context.startActivityForResult(intent, position);
+                } else {
+                    UIUtils.showTip("请连接网络");
+                }
+
             }
         });
 
@@ -122,8 +131,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             mTvpersent = (TextView) itemView.findViewById(R.id.tv_history_persent);
         }
     }
-
-
 
 
 }

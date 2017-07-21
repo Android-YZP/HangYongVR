@@ -216,7 +216,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
                         mRvVideoDetaillist.setAdapter(mVideoDetialAdapter);
                         showBg(mPosition);
                     }
-
                 }
             }
 

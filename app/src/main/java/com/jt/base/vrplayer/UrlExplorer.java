@@ -154,6 +154,9 @@ public class UrlExplorer {
 				i.putExtra(Definition.KEY_PLAY_URL, mUrl);
                 SPUtils.put(m_context,Definition.HISTORY_URL,mUrl);
 				m_context.startActivity(i);
+
+
+
                 m_dialog.dismiss();
 			}
 			
