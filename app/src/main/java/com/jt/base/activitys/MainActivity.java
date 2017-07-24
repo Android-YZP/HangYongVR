@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         //当前Activity被异常销毁重建时调用,此时可以获取销毁时保存的状态
         //在onStart之后被调用
-
         char destory = (char) savedInstanceState.get("destory");
         Log.e("ground", destory + "");
         initView();
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         boolean guide3 = (boolean) SPUtil.get(MainActivity.this, "Guide3", false);
         if (!guide3)
             startActivity(new Intent(MainActivity.this, Guide3Activity.class));
-
     }
 
     @Override
@@ -106,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListenter() {
-
-
     }
 
     @Override

@@ -62,7 +62,6 @@ import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class VideoDetailFragment extends Fragment {
-    private static final String ACTION = "com.jt.base.SENDBROADCAST";
     private static final int HTTP_SUCCESS = 0;
     private static final String COUNT = "3";//每次获取到的数据
     private RecyclerViewPager mRvVideoDetaillist;
@@ -113,7 +112,6 @@ public class VideoDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     private void initView(View view) {
@@ -123,18 +121,14 @@ public class VideoDetailFragment extends Fragment {
     }
 
     private void initData() {
-        //注册广播
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION);
         initRecyclerViewPager();
-        HttpRoomList(mPager + "", false);
+//        HttpRoomList(mPager + "", false);
     }
 
     private void initRecyclerViewPager() {
         //初始化竖直的viewPager
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRvVideoDetaillist.setLayoutManager(layout);
-
     }
 
     private void initListenter() {
