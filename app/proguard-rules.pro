@@ -199,7 +199,9 @@
       **[] $VALUES;
       public *;
     }
-    #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+  #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
@@ -210,8 +212,9 @@
 #-keep class com.google.gson.stream.** { *; }
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.jt.base.http.responsebean.** { *; }  ##这里需要改成解析到哪个  javabean
-
 ##---------------End: proguard configuration for Gson  ----------
+
+
 
 
 # OkHttp3
@@ -219,13 +222,18 @@
 -keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
 
+
+
 # Okio
 -dontwarn com.squareup.**
 -dontwarn okio.**
 -keep public class org.codehaus.* { *; }
 -keep public class java.nio.* { *; }
 
+
+
 #google vr
+
 -keep class com.google.vr.**
 -keepclassmembers class com.google.vr.** { *; }
 -keep class com.google.vr.**$*
@@ -233,6 +241,38 @@
 -keep class com.google.geo.render.**
 -keepclassmembers class com.google.geo.render.** { *; }
 -keep class com.google.vrtoolkit.cardboard.** { *; }
+
+# Don't obfuscate any NDK/SDK code. This makes the debugging of stack traces in
+# in release builds easier.
+-keepnames class com.google.vr.ndk.** { *; }
+-keepnames class com.google.vr.sdk.** { *; }
+
+
+
+# These are part of the Java <-> native interfaces for GVR.
+-keepclasseswithmembernames,includedescriptorclasses class com.google.vr.** {
+    native <methods>;
+}
+
+
+
+-keep class com.google.vr.cardboard.UsedByNative
+-keep @com.google.vr.cardboard.UsedByNative class *
+-keepclassmembers class * {
+    @com.google.vr.cardboard.UsedByNative *;
+}
+
+-keep class com.google.vr.cardboard.annotations.UsedByNative
+-keep @com.google.vr.cardboard.annotations.UsedByNative class *
+-keepclassmembers class * {
+    @com.google.vr.cardboard.annotations.UsedByNative *;
+}
+
+-keep class com.google.vr.cardboard.annotations.UsedByReflection
+-keep @com.google.vr.cardboard.annotations.UsedByReflection class *
+-keepclassmembers class * {
+    @com.google.vr.cardboard.annotations.UsedByReflection *;
+}
 
     #Xutils的注解
 -keep class * extends java.lang.annotation.Annotation { *; }
