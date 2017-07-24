@@ -122,7 +122,7 @@ public class VideoDetailFragment extends Fragment {
 
     private void initData() {
         initRecyclerViewPager();
-//        HttpRoomList(mPager + "", false);
+        HttpRoomList(mPager + "", false);
     }
 
     private void initRecyclerViewPager() {
@@ -240,18 +240,14 @@ public class VideoDetailFragment extends Fragment {
                 public void onPageSelected(int position) {
                     if (position == 0) {
                         isScroll = true;
-
                         boolean guide1 = (boolean) SPUtil.get(getContext(), "Guide1", false);
                         if (!guide1)
                             startActivity(new Intent(getContext(), Guide1Activity.class));
                     }
-
-
                 }
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-
                 }
             });
     }
