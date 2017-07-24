@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState!=null){
-            LogUtil.i("这是储存的数据22222222");
         }
 
 

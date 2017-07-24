@@ -73,7 +73,6 @@ public class VideosFragment extends Fragment {
 
 
     private void setNavigationBar() {
-
         mBottomBar.init(mVpMain);//初始化
         if (mDlLayout != null)
             mVpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
