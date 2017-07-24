@@ -1,8 +1,6 @@
 package com.jt.base.videos.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +23,6 @@ import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.ForgetYzmBean;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.VideoTypeBean;
 import com.jt.base.ui.VerticalSwipeRefreshLayout;
@@ -35,7 +31,6 @@ import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.adapters.DrawerAdapter;
 import com.jt.base.videos.adapters.MainAdapter;
-import com.jt.base.videos.define.Definition;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
@@ -67,6 +62,8 @@ public class MainFragment extends Fragment {
     private int mTopicId;
     private List<TopicBean.ResultBeanX> results = new ArrayList<>();
     private LinearLayout mLlNoNetBg;
+    private boolean islodingMore = false;
+
 
 
     public MainFragment() {
@@ -109,10 +106,10 @@ public class MainFragment extends Fragment {
             public void onRefresh() {
                 if (mLlNoNetBg.getVisibility() == View.VISIBLE) {//没有数据
                     initDatas();
-                } else if (mLlNoNetBg.getVisibility() == View.GONE) {//有数据的情况下
-                    results.clear();
+                } else if (mLlNoNetBg.getVisibility() == View.GONE) {//有数据的情况下刷新
                     mPager = 1;
-                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
+                    islodingMore = false;
+                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum,islodingMore);
                     mRecyclerfreshLayout.setRefreshing(false);
                 }
             }
@@ -127,7 +124,6 @@ public class MainFragment extends Fragment {
                         UIUtils.showTip("请打开网络");
                         return;
                     }
-
                     if (position != mPressPostion) mItemPress.put(mPressPostion, true);
                     mPressPostion = position;
                     //按下状态
@@ -138,9 +134,9 @@ public class MainFragment extends Fragment {
                     mTopicId = mDatas.get(position).getId();
                     results.clear();
                     mPager = 1;
-                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
+                    islodingMore = false;
+                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum, islodingMore);
                     mDlLayout.closeDrawer(GravityCompat.START, true);
-
                 }
             });
 
@@ -150,7 +146,6 @@ public class MainFragment extends Fragment {
                 mDlLayout.openDrawer(GravityCompat.START, true);
             }
         });
-
     }
 
     private void initRecycleView() {
@@ -170,7 +165,8 @@ public class MainFragment extends Fragment {
                 if (visBottom) {
                     if (mMainAdapter.getFooterView() == null) {
                         ++mPager;
-                        HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
+                        islodingMore = true;
+                        HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum, islodingMore);
                     } else {
                         return;
                     }
@@ -229,7 +225,8 @@ public class MainFragment extends Fragment {
                     mDrawerAdapter = new DrawerAdapter(mDatas, getContext(), mItemPress);
                     mLvDrawerItem.setAdapter(mDrawerAdapter);
                     mTopicId = mDatas.get(0).getId();
-                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum);
+                    islodingMore = false;
+                    HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum, islodingMore);
                 }
             }
 
@@ -245,7 +242,7 @@ public class MainFragment extends Fragment {
     /**
      * 请求话题列表
      */
-    private void HttpGetVideoTopic(String typeid, String sourceNum) {
+    private void HttpGetVideoTopic(String typeid, String sourceNum, final boolean islodingMore) {
         mRecyclerfreshLayout.setRefreshing(true);
         LogUtil.e("请求话题列表");
         if (!NetUtil.isOpenNetwork()) {
@@ -275,7 +272,7 @@ public class MainFragment extends Fragment {
                 if (mTopicBean.getCode() == 0) {//数据获取成功/code话题ID，msg话题名称
                     mLlNoNetBg.setVisibility(View.GONE);
 
-                    if (results != null && results.size() > 0) {
+                    if (islodingMore) {
                         results.addAll(mTopicBean.getResult());
                         mMainAdapter.notifyDataSetChanged();
                     } else {
