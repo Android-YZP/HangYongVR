@@ -245,6 +245,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+
             }
         });
     }
