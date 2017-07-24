@@ -267,7 +267,7 @@
             android:layout_height="25dp"
             android:layout_marginLeft="5dp"
             android:gravity="center_vertical"
-            android:text="我已阅读并同意《天焱用户使用协议》"
+            android:text="我已阅读并同意《三眼蛙用户使用协议》"
             android:textSize="11sp"
             android:textColor="@color/white"/>
 
