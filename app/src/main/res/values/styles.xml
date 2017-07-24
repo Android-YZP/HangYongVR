@@ -362,9 +362,9 @@
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/transparent</item>    <!-- 状态栏 -->
-        <item name="colorPrimaryDark">@color/transparent</item> <!-- toolbar -->
-        <item name="colorAccent">@color/colorAccent</item>  <!-- 重点 -->
+        <item name="colorPrimary">@color/black</item>    <!-- 状态栏 -->
+        <item name="colorPrimaryDark">@color/black</item> <!-- toolbar -->
+        <item name="colorAccent">@color/black</item>  <!-- 重点 -->
     </style>
 
 </resources>

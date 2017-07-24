@@ -17,6 +17,7 @@ public class Guide1Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide1);
+        overridePendingTransition(R.anim.fade,R.anim.hold);
         mIvguidegif = (ImageView) findViewById(R.id.iv_guide_gif);
         Glide.with(Guide1Activity.this)
                 .load(R.mipmap.guide1)
