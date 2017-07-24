@@ -161,11 +161,8 @@ public class VideoDetailFragment extends Fragment {
                         //判断是不是全景图片，来显示到底要不要显示全景图片
                         if (firstItemPosition == 0)
                             showBg(firstItemPosition);
-
                         if (!isFling)
                             showBg(firstItemPosition);
-
-
                     }
                 } else if (newState == OnScrollListener.SCROLL_STATE_FLING) {
                     isFling = false;

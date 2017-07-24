@@ -9,7 +9,7 @@ android {
         targetSdkVersion 25
         versionCode 2
         versionName "1.0"
-//        ndk { abiFilters 'armeabi-v7a' }//完美填坑CUP不同手机的崩溃问题
+
     }
     sourceSets {
         main {
@@ -19,10 +19,10 @@ android {
 
     buildTypes {
         release {
-//            minifyEnabled false
+            minifyEnabled false
             zipAlignEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'),
-//                    'proguard-rules.pro'
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -31,7 +31,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile('com.github.lsjwzh.RecyclerViewPager:lib:v1.1.2@aar') { transitive = true }
 //竖直的viewPager
-    compile 'com.google.vr:sdk-base:1.10.0'
     compile 'com.google.vr:sdk-panowidget:1.40.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.3.1'
