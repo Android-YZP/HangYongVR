@@ -21,6 +21,8 @@ import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.SearchVideoBean;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.utils.NetUtil;
+import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoListActivity;
 import com.jt.base.vrplayer.PlayActivity;
@@ -124,21 +126,25 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onClick(View v) {
 
-                        int type = results.get(position-1).getType();
+                        int type = results.get(position - 1).getType();
                         if (type == VedioContants.Video) {//点播
                             intent = new Intent(context, VideoPlayActivity.class);
-                            intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(results.get(position-1).getVodInfos()));
+                            intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(results.get(position - 1).getVodInfos()));
                             intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+                            intent.putExtra("vid", results.get(position - 1).getId());
+                            intent.putExtra("desc", results.get(position - 1).getChannelName());
+
                         } else if (type == VedioContants.Living) {//直播
                             intent = new Intent(context, PlayActivity.class);
-                            intent.putExtra(VedioContants.PlayUrl, results.get(position-1).getRtmpDownstreamAddress());
+                            intent.putExtra(VedioContants.PlayUrl, results.get(position - 1).getRtmpDownstreamAddress());
                             intent.putExtra(VedioContants.PlayType, VedioContants.Living);
+                            intent.putExtra(VedioContants.KEY_PLAY_USERNAME, results.get(position - 1).getUsername() + "");
+                            intent.putExtra(VedioContants.KEY_PLAY_ID, results.get(position - 1).getId() + "");
                         }
-                        intent.putExtra("desc", results.get(position-1).getChannelName());
-                        intent.putExtra("vid", results.get(position-1).getId());
+
 
                         //判断视频类型
-                        int isall = results.get(position-1).getIsall();
+                        int isall = results.get(position - 1).getIsall();
                         if (isall == VedioContants.TWO_D_VEDIO) {//2D
                             intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
                         } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
@@ -148,7 +154,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
                             intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
                         }
-                        context.startActivity(intent);
+                        if (NetUtil.isOpenNetwork()) {
+                            context.startActivity(intent);
+                        } else {
+                            UIUtils.showTip("请连接网络");
+                        }
                     }
                 });
 

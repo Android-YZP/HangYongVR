@@ -40,6 +40,9 @@ import com.jt.base.activitys.MainActivity;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.GetRoomBean;
+import com.jt.base.http.responsebean.ResourceBean;
+import com.jt.base.ui.CustomViewPager;
+import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
@@ -67,22 +70,23 @@ public class VideoDetailFragment extends Fragment {
     private VrPanoramaView.Options panoOptions;
     private SwipyRefreshLayout mSwipyRefresh;
     private int mPager = 1;
-    private List<GetRoomBean.ResultBean> mRoomLists;
+    private List<ResourceBean.ResultBean> mRoomLists;
     private RvAdapter mRvAdapter;
-    private GetRoomBean mRoomListBean;
+    private ResourceBean mRoomListBean;
     private LinearLayout mIvDetialErrorBg;
     private ImageView mIvTwoDBg;
-    private ViewPager mViewpager;
+    private CustomViewPager mViewpager;
     private DrawerLayout mDlLayout;
     private Handler handler = new Handler();
     private int mCurrentPosition = 0;//判断这个界面的第一屏应该展示哪一个界面,默认第一页
     boolean isScroll = true;//是不是手指滑动过来的
     private boolean isFling;//判断界面在不在自己滑动,在自己滑动的时候不显示背景图
+    private int firstItemPosition;
 
     public VideoDetailFragment() {
     }
 
-    public VideoDetailFragment(VrPanoramaView panoWidgetView, VrPanoramaView.Options panoOptions, ImageView mIvTwoDBg, ViewPager mViewpager, DrawerLayout mDlLayout) {
+    public VideoDetailFragment(VrPanoramaView panoWidgetView, VrPanoramaView.Options panoOptions, ImageView mIvTwoDBg, CustomViewPager mViewpager, DrawerLayout mDlLayout) {
         this.panoWidgetView = panoWidgetView;
         this.panoOptions = panoOptions;
         this.mIvTwoDBg = mIvTwoDBg;
@@ -112,13 +116,6 @@ public class VideoDetailFragment extends Fragment {
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //反注册广播
-        getActivity().unregisterReceiver(myReceiver);
-    }
-
     private void initView(View view) {
         mSwipyRefresh = (SwipyRefreshLayout) view.findViewById(R.id.sf_detail_SwipeRefreshLayout);
         mRvVideoDetaillist = (RecyclerViewPager) view.findViewById(R.id.rv_video_detail_list);
@@ -129,7 +126,6 @@ public class VideoDetailFragment extends Fragment {
         //注册广播
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION);
-        getActivity().registerReceiver(myReceiver, filter);
         initRecyclerViewPager();
         HttpRoomList(mPager + "", false);
     }
@@ -139,12 +135,11 @@ public class VideoDetailFragment extends Fragment {
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRvVideoDetaillist.setLayoutManager(layout);
 
-
     }
 
     private void initListenter() {
         //控制全景图的显示和影藏
-        mRvVideoDetaillist.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRvVideoDetaillist.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -160,12 +155,17 @@ public class VideoDetailFragment extends Fragment {
                     if (layoutManager instanceof LinearLayoutManager) {
                         LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                         //获取第一个可见view的位置
-                        int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+                        firstItemPosition = linearManager.findFirstVisibleItemPosition();
                         LogUtil.i(firstItemPosition + "------------------------");
                         if (mRoomLists == null || mRoomLists.size() < 1) return;
                         //判断是不是全景图片，来显示到底要不要显示全景图片
+                        if (firstItemPosition == 0)
+                            showBg(firstItemPosition);
+
                         if (!isFling)
                             showBg(firstItemPosition);
+
+
                     }
                 } else if (newState == OnScrollListener.SCROLL_STATE_FLING) {
                     isFling = false;
@@ -223,14 +223,21 @@ public class VideoDetailFragment extends Fragment {
             mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-
                     if (position == 1) {
                         if (isScroll) {
-                            panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
-                            mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
+                            if (mRoomLists != null && mRoomLists.size() > 0) {
+                                if (mRoomLists.get(firstItemPosition).getIsall() == VedioContants.ALL_VIEW_VEDIO) {
+                                    panoWidgetView.setVisibility(View.VISIBLE);//显示全景图
+                                    mIvTwoDBg.setVisibility(View.GONE);//显示全景图
+                                } else if (mRoomLists.get(firstItemPosition).getIsall() == VedioContants.TWO_D_VEDIO) {
+                                    mIvTwoDBg.setVisibility(View.VISIBLE);//显示全景图
+                                    panoWidgetView.setVisibility(View.GONE);//显示全景图
+                                }
+                            }
                         }
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        mRvVideoDetaillist.scrollToPosition(firstItemPosition);
+
                     } else {
                         panoWidgetView.setVisibility(View.GONE);
                         mIvTwoDBg.setVisibility(View.GONE);
@@ -294,19 +301,21 @@ public class VideoDetailFragment extends Fragment {
             return;
         }
 
-        //使用xutils3访问网络并获取返回值
-        RequestParams requestParams = new RequestParams(HttpURL.RoomList);
+        RequestParams requestParams = new RequestParams(HttpURL.Resource);
         requestParams.setConnectTimeout(1000 * 6);
         requestParams.addHeader("token", HttpURL.Token);
         //包装请求参数
         requestParams.addBodyParameter("page", pager);//页数
         requestParams.addBodyParameter("count", COUNT);//数量
+        requestParams.addBodyParameter("sourceNum", HttpURL.SourceNum);//渠道号
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LogUtil.i(result);
-                mRoomListBean = new Gson().fromJson(result, GetRoomBean.class);
+                LongLogUtil.e("---------------------------", result);
+
+                mRoomListBean = new Gson().fromJson(result, ResourceBean.class);
+
                 if (mRoomListBean.getCode() == HTTP_SUCCESS) {
                     if (mRoomListBean.getResult().size() < 1) {
                         panoWidgetView.setVisibility(View.GONE);
@@ -329,7 +338,6 @@ public class VideoDetailFragment extends Fragment {
                         mRvAdapter = new RvAdapter(getContext(), mRoomLists);
                         mRvVideoDetaillist.setAdapter(mRvAdapter);
                         initBg();
-
                     }
                 } else {
                     UIUtils.showTip(mRoomListBean.getMsg());
@@ -378,16 +386,16 @@ public class VideoDetailFragment extends Fragment {
      * 初始化全景图播放器
      */
     private void initPanorama(final String url) {
-                Glide.with(getContext())
-                        .load(url)
-                        .asBitmap()
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
-                                panoWidgetView.loadImageFromBitmap(resource, panoOptions);
-                            }
-                        });
+        Glide.with(getContext())
+                .load(url)
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        mIvTwoDBg.setVisibility(View.GONE);//隐藏2D图片
+                        panoWidgetView.loadImageFromBitmap(resource, panoOptions);
+                    }
+                });
 
     }
 
@@ -401,37 +409,15 @@ public class VideoDetailFragment extends Fragment {
         mIvTwoDBg.setVisibility(View.VISIBLE);
 
         Glide.with(getActivity())
-                        .load(url)
-                        .crossFade()
-                        .into(imageView);
+                .load(url)
+                .crossFade()
+                .into(imageView);
         panoWidgetView.setVisibility(View.GONE);
     }
 
     /**
      * 注册一个广播
      */
-
-    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String type = intent.getStringExtra(Definition.TYPE);
-            if (type.equals(Definition.VideoType)) {
-                mCurrentPosition = intent.getIntExtra(Definition.POSITION, 0);
-                mRvVideoDetaillist.scrollToPosition(mCurrentPosition);
-                isScroll = false;
-                initBg();
-
-            } else if (type.equals(Definition.MoreType)) {
-
-            } else if (type.equals(Definition.NorType)) {
-
-            }
-
-            Toast.makeText(context, "myReceiver receive", Toast.LENGTH_SHORT).show();
-        }
-
-    };
 
 
 }

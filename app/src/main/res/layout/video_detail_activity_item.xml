@@ -37,42 +37,43 @@
             android:layout_marginRight="15dp"
             android:orientation="vertical">
 
-
-            <com.jt.base.ui.MaequeeText
+            <TextView
                 android:id="@+id/tv_room_person_name"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="2dp"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:text="企业直播"
+                android:text="小贱"
+                android:maxLength="4"
+                android:layout_marginTop="5dp"
                 android:textColor="#fff"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:text="正在直播"
-                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
                 android:textColor="#fff"
                 android:textSize="12sp" />
 
         </LinearLayout>
-
         <TextView
             android:id="@+id/tv_pay"
             android:layout_width="45dp"
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/detail_pay_bg"
-            android:gravity="center"
             android:text="收费"
             android:textColor="#fff"
+            android:gravity="center"
+            android:background="@mipmap/detail_pay_bg"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -89,14 +90,15 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:text="企业直播"
             android:layout_margin="5dp"
+            android:textColor="#fff"
+            android:textSize="11sp"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:singleLine="true"
-            android:text="企业直播"
-            android:textColor="#fff"
-            android:textSize="11sp" />
+            />
 
     </RelativeLayout>
 

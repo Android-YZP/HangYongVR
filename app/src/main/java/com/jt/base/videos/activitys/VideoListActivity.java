@@ -14,17 +14,13 @@ import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.TopicImgBean;
 import com.jt.base.http.responsebean.VodbyTopicBean;
-import com.jt.base.ui.XCRoundRectImageView;
-import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.adapters.VideoListAdapter;
 import com.jt.base.videos.ui.SwipeBackActivity;
 
-import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -81,7 +77,6 @@ public class VideoListActivity extends SwipeBackActivity {
             @Override
             public void onRefresh() {
                 mPager = 1;
-                mData.clear();
                 HttpTopic(mTopicId, mPager);
             }
         });
@@ -172,17 +167,18 @@ public class VideoListActivity extends SwipeBackActivity {
      * 设置头布局
      */
     private void setHeaderView(RecyclerView view, VodbyTopicBean.PageBean page) {
-        View header = LayoutInflater.from(VideoListActivity.this).inflate(R.layout.vedio_list_head, view, false);
+        View header = LayoutInflater.from(VideoListActivity.this).inflate(R.layout.video_list_head, view, false);
         ImageView IvHead = (ImageView) header.findViewById(R.id.tv_video_list_header);
         TextView TvTopicDesc = (TextView) header.findViewById(R.id.video_list_topic_desc);
+        TextView TvTopicTotal = (TextView) header.findViewById(R.id.video_list_total);
         Glide.with(VideoListActivity.this)
                 .load(HttpURL.IV_HOST + page.getTopicImg())
                 .asBitmap()
                 .into(IvHead);
         TvTopicDesc.setText(page.getIntrduce());
+        TvTopicTotal.setText(page.getTotal()+"个视频");
         mVideoListAdapter.setHeaderView(header);//影藏轮播图
     }
-
 
 }
 

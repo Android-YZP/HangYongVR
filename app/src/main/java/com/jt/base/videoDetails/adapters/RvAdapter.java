@@ -10,15 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.GetRoomBean;
+import com.jt.base.http.responsebean.ResourceBean;
+import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.Definition;
 import com.jt.base.vrplayer.PlayActivity;
+import com.jt.base.vrplayer.VideoPlayActivity;
 import com.jt.base.vrplayer.utils.SPUtils;
 
 import org.xutils.common.Callback;
@@ -35,13 +41,12 @@ import java.util.List;
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
     private Context context;
 
-    private List<GetRoomBean.ResultBean> mRoomLists;
+    private List<ResourceBean.ResultBean> mRoomLists;
     private AlertDialog show;
 
-    public RvAdapter(Context context, List<GetRoomBean.ResultBean> mRoomLists) {
+    public RvAdapter(Context context, List<ResourceBean.ResultBean> mRoomLists) {
         this.context = context;
         this.mRoomLists = mRoomLists;
-
     }
 
     @Override
@@ -51,46 +56,126 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         return holder;
     }
 
+
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        //加载圆形头像
-        ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
-        x.image().bind(holder.mIvRoomHead, HttpURL.IV_HOST + mRoomLists.get(position).getHead(), imageOptions, new Callback.CommonCallback<Drawable>() {
-            @Override
-            public void onSuccess(Drawable result) {
-            }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("背景图片加载失败,请刷新重试");
-            }
+        //判断1直播，0点播
+        int type = mRoomLists.get(position).getType();
+        if (type == VedioContants.Video) {//点播
+            holder.mllRoomName.setVisibility(View.GONE);
+            holder.mRlPersonName.setVisibility(View.GONE);
 
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
+            holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //进入点播
+                    Intent intent = new Intent(context, VideoPlayActivity.class);
+                    intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(mRoomLists.get(position).getVodInfos()));
+                    intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+                    intent.putExtra("vid", mRoomLists.get(position).getId());
+                    intent.putExtra("desc", mRoomLists.get(position).getChannelName());
 
-            @Override
-            public void onFinished() {
-            }
-        });
-        holder.mTvPersonName.setText((String) mRoomLists.get(position).getUsername());
-        holder.mTvChannelName.setText(mRoomLists.get(position).getChannelName());
-        //是否付费
-        if (mRoomLists.get(position).getPrice() == 0) {
-            holder.mTvRoomPay.setVisibility(View.GONE);
-        } else {
-            holder.mTvRoomPay.setVisibility(View.VISIBLE);
-        }
-        holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mRoomLists.get(position).getPrice() == 0) {
-                    goToPlay(position);
-                } else {
-                    payDialog(position);
+                    //判断视频类型
+                    int isall = mRoomLists.get(position).getIsall();
+                    if (isall == VedioContants.TWO_D_VEDIO) {//2D
+                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+                    } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                    } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
+                    } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+                    }
+
+                    if (NetUtil.isOpenNetwork()) {
+                        context.startActivity(intent);
+                    } else {
+                        UIUtils.showTip("请连接网络");
+                    }
+
+
                 }
+            });
+
+        } else if (type == VedioContants.Living) {//直播
+            holder.mllRoomName.setVisibility(View.VISIBLE);
+            holder.mRlPersonName.setVisibility(View.VISIBLE);
+            //加载圆形头像
+            ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
+            x.image().bind(holder.mIvRoomHead, HttpURL.IV_HOST + mRoomLists.get(position).getHead(), imageOptions, new Callback.CommonCallback<Drawable>() {
+                @Override
+                public void onSuccess(Drawable result) {
+
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("背景图片加载失败,请刷新重试");
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+                }
+
+                @Override
+                public void onFinished() {
+                }
+            });
+            holder.mTvPersonName.setText(mRoomLists.get(position).getUsername());
+            holder.mTvChannelName.setText(mRoomLists.get(position).getChannelName());
+            //是否付费
+            if (mRoomLists.get(position).getPrice() == 0) {
+                holder.mTvRoomPay.setVisibility(View.GONE);
+            } else {
+                holder.mTvRoomPay.setVisibility(View.VISIBLE);
             }
-        });
+            holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mRoomLists.get(position).getPrice() == 0) {
+                        goToPlay(position);
+                    } else {
+                        payDialog(position);
+                    }
+                }
+            });
+        }
+
+
+//        holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int type = mData.get(position).getType();
+//                if (type == VedioContants.Video) {//点播
+//                    intent = new Intent(context, VideoPlayActivity.class);
+//                    intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(mData.get(position).getVodInfos()));
+//                    intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+//                } else if (type == VedioContants.Living) {//直播
+//                    intent = new Intent(context, PlayActivity.class);
+//                    intent.putExtra(VedioContants.PlayUrl, mData.get(position).getRtmpDownstreamAddress());
+//                    intent.putExtra(VedioContants.PlayType, VedioContants.Living);
+//                }
+//                intent.putExtra("desc", mData.get(position).getChannelName());
+//                intent.putExtra("vid", mData.get(position).getId());
+//
+//                //判断视频类型
+//                int isall = mData.get(position).getIsall();
+//                if (isall == VedioContants.TWO_D_VEDIO) {//2D
+//                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+//                } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+//                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+//                } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+//                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
+//                } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+//                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+//                }
+//
+//                context.startActivity(intent);
+//            }
+//        });
+
+
     }
 
     @Override
@@ -148,13 +233,15 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
         }
         LogUtil.i(mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-        i.putExtra(Definition.KEY_PLAY_URL, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
-        i.putExtra(Definition.KEY_PLAY_HEAD,HttpURL.IV_HOST + mRoomLists.get(position).getHead() + "");
-        i.putExtra(Definition.KEY_PLAY_USERNAME,mRoomLists.get(position).getUsername() + "");
-        i.putExtra(Definition.KEY_PLAY_ID,mRoomLists.get(position).getId() + "");
-
-//                i.putExtra(Definition.KEY_PLAY_URL, "rtmp://9250.liveplay.myqcloud.com/live/9250_87716a9f19111");
-        context.startActivity(i);
+        i.putExtra(VedioContants.PlayUrl, mRoomLists.get(position).getRtmpDownstreamAddress() + "");
+        i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_HOST + mRoomLists.get(position).getHead() + "");
+        i.putExtra(VedioContants.KEY_PLAY_USERNAME, mRoomLists.get(position).getUsername() + "");
+        i.putExtra(VedioContants.KEY_PLAY_ID, mRoomLists.get(position).getId() + "");
+        if (NetUtil.isOpenNetwork()){
+            context.startActivity(i);
+        }else {
+            UIUtils.showTip("请连接网络");
+        }
     }
 
 
@@ -165,6 +252,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         private TextView mTvRoomPay;
         private TextView mTvChannelName;
         private ImageView mIvRoomHead;
+        private RelativeLayout mRlPersonName;
+        private LinearLayout mllRoomName;
 
         MyViewHolder(View view) {
             super(view);
@@ -173,6 +262,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             mTvChannelName = (TextView) view.findViewById(R.id.tv_play_channelName);
             mTvRoomPay = (TextView) view.findViewById(R.id.tv_pay);
             mIvRoomHead = (ImageView) view.findViewById(R.id.iv_room_head);
+            mRlPersonName = (RelativeLayout) view.findViewById(R.id.ll_root_person_name);
+            mllRoomName = (LinearLayout) view.findViewById(R.id.ll_root_room_name);
         }
     }
 

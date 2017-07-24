@@ -7,15 +7,15 @@ package com.jt.base.http;
 public class HttpURL {
     //服务器地址
 //    private static String Host = "http://192.168.1.100:8080/hyplatform/api/";
-//    private static String Host = "http://118.89.246.194:8080/api/";
     //    private static String Host = "http://192.168.1.133:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.135:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
-    private static String Host = "http://123.206.67.115:8080/api/";
+    private static String Host = "http://118.89.246.194:8080/api/";
+//    private static String Host = "http://123.206.67.115:8080/api/";
     public static String Token = "C47B1071";
     public static String SourceNum = "222";
-    //    public static String IV_HOST = "http://118.89.246.194:8080/head/";
-    public static String IV_HOST = "http://123.206.67.115:8080/head/";
+        public static String IV_HOST = "http://118.89.246.194:8080/head/";
+//    public static String IV_HOST = "http://123.206.67.115:8080/head/";
     //    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
     public static String APK_HOST = "";
 
@@ -72,7 +72,7 @@ public class HttpURL {
      */
     public static String VidByType = Host + "login/get/vodByType";
     /**
-     * 获取话题
+     * 获取视频
      */
     public static String vodByTopic = Host + "login/get/vodByTopic";
     /**
@@ -87,12 +87,12 @@ public class HttpURL {
     public static String UpdateVersion = Host + "login/search/version";
 
     /**
-     * 搜索话题的視頻
+     * 搜索话题的視頻和类型
      */
     public static String vod = Host + "login/search/vod";
     public static String Topic = Host + "login/search/topic";
     /**
-     * 用户的观看历史
+     * 添加用户的观看历史
      */
     public static String History = Host + "history/put";
 
@@ -102,9 +102,15 @@ public class HttpURL {
     public static String GetHistory = Host + "history/gets";
 
     /**
-     * 用户的获取观看历史
+     * 用户的删除观看历史
      */
     public static String DeleteHistory = Host + "history/delete";
+
+
+    /**
+     *首页数据
+     */
+    public static String Resource = Host + "login/get/resource";
 
 
 }

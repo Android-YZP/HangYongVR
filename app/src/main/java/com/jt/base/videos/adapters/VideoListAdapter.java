@@ -20,6 +20,7 @@ import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.TopicByVideoBean;
 import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.ui.XCRoundRectImageView;
+import com.jt.base.utils.TimeUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.activitys.VideoDetialActivity;
 import com.jt.base.videos.activitys.VideoListActivity;
@@ -112,6 +113,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
+
+
+
+
+
+
                 Glide.with(context)
                         .load(HttpURL.IV_HOST + topicBean.get(position - 1).getImg1())
                         .asBitmap()
@@ -125,12 +132,20 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         intent.putExtra(VedioContants.Position, position - 1);//哪个话题
                         intent.putExtra(VedioContants.TopicId, topicBean.get(position - 1).getTopicId());//哪个话题
                         context.startActivity(intent);
-
                     }
                 });
 
+                if (topicBean.get(position - 1).getType() == VedioContants.Video){
+                    if (topicBean.get(position - 1).getTime() != null)
+                        ((ListHolder) holder).mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt((String) topicBean.get(position - 1).getTime())));//设置时间
+                }else {
+                    ((ListHolder) holder).mTvVideoTime.setVisibility(View.GONE);
+                }
+
                 return;
             }
+
+
             return;
         } else if (getItemViewType(position) == TYPE_HEADER) {
             return;
@@ -145,6 +160,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         private ImageView mXuImg;
         private TextView mTvVideoDesc;
+        private TextView mTvVideoTime;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -157,6 +173,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             mXuImg = (ImageView) itemView.findViewById(R.id.tv_video_list_img);
             mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
+            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_time);
         }
     }
 

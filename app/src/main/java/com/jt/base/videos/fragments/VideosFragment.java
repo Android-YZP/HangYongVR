@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.ResetPasswordBean;
+import com.jt.base.ui.CustomViewPager;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.ui.BottomBar;
@@ -34,12 +36,12 @@ public class VideosFragment extends Fragment {
     private BottomBar mBottomBar;
     private DrawerLayout mDlLayout;
     private ListView mLvDrawerItem;
-    private ViewPager mViewpager;
+    private CustomViewPager mViewpager;
 
     public VideosFragment() {
     }
 
-    public VideosFragment(DrawerLayout mDlLayout, ListView mLvDrawerItem, ViewPager mViewpager) {
+    public VideosFragment(DrawerLayout mDlLayout, ListView mLvDrawerItem, CustomViewPager mViewpager) {
         this.mDlLayout = mDlLayout;
         this.mLvDrawerItem = mLvDrawerItem;
         this.mViewpager = mViewpager;
@@ -83,13 +85,16 @@ public class VideosFragment extends Fragment {
 
                 @Override
                 public void onPageSelected(int position) {
+
                     if (position == 1) {
+                        mViewpager.setScanScroll(true);
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     } else {
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        mViewpager.setScanScroll(false);
                     }
 
-                    UIUtils.hideKeyBoard(getActivity());
+                    UIUtils.hideKeyBoard(mVpMain);
                 }
 
                 @Override
@@ -97,6 +102,8 @@ public class VideosFragment extends Fragment {
 
                 }
             });
+
+
     }
 
 }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -90,6 +91,8 @@ public class CheckUpdate {
             dialogUtils.show();
             mUpdate = (Button) contentView.findViewById(R.id.btn_update);
             mClose = (ImageButton) contentView.findViewById(R.id.img_update_close);
+            TextView mUpdateContent = (TextView) contentView.findViewById(R.id.tv_update_content);
+            mUpdateContent.setText(intro);
             mClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,33 +102,12 @@ public class CheckUpdate {
             mUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(mcontext, DownloadService.class);
+                    intent.putExtra("url", url);
+                    mcontext.startService(intent);
+                    dialogUtils.getBaseDialog().dismiss();
                 }
             });
-//            dialogUtils.getBaseDialog().dismiss();
-//        } else {
-//            if (!isAutoCheck) {
-//                Toast.makeText(mcontext, "当前已是最新版本", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
-//            builder.setTitle("发现更新");
-//            builder.setMessage(intro);
-//            builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    Intent intent = new Intent(mcontext, DownloadService.class);
-//                    intent.putExtra("url", url);
-//                    mcontext.startService(intent);
-//                    LogUtil.i(url + "");
-//                }
-//            });
-//            builder.setNegativeButton("退出", null);
-//            builder.show();
-//        } else {
-//            if (!isAutoCheck) {
-//                Toast.makeText(mcontext, "当前已是最新版本", Toast.LENGTH_SHORT).show();
-//            }
         }
     }
 

@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.adapters.HistoryListAdapter;
+import com.jt.base.videos.ui.SwipeBackActivity;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
@@ -37,9 +39,9 @@ import java.util.TimerTask;
 /**
  * Created by wzq930102 on 2017/7/11.
  */
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends SwipeBackActivity {
     private HistoryListAdapter adapter;
-    private TextView mTvReturn;
+    private ImageView mTvReturn;
     private RelativeLayout mReDialog;
     private List<SeeHistory> seeHistory;
     private RecyclerView mRecycler;
@@ -130,7 +132,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mTvReturn = ((TextView) findViewById(R.id.tv_history_return));
+        mTvReturn = (ImageView) findViewById(R.id.tv_history_return);
 //        mReDialog = ((RelativeLayout) findViewById(R.id.rl_history_list));
         mRecycler = (RecyclerView) findViewById(R.id.history_list);
         mRecyclerRefresh = (SwipeRefreshLayout) findViewById(R.id.srl_history_refreshing);
