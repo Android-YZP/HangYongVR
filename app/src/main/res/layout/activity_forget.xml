@@ -57,7 +57,7 @@
             android:layout_height="45dp"
             android:gravity="center"
             android:text="忘记密码"
-            android:textColor="@color/white"
+            android:textColor="#fff"
             android:textSize="22sp" />
 
         <include layout="@layout/item_regision_zz" />
@@ -72,7 +72,7 @@
             android:background="@drawable/btn_vr_login"
             android:gravity="center"
             android:text="提交"
-            android:textColor="@color/white"
+            android:textColor="#fff"
             android:textSize="22sp" />
 
     </LinearLayout>

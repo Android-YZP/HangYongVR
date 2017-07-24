@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="translucent_full">#00000000</color>
-    <color name="translucent_15_black">#26000000</color>
-    <color name="list_item_color_pressed">#151515</color>
+
+
     <color name="colorPrimary">#1c1c1c</color>
-    <color name="colorPrimaryDark">#1c1c1c</color>
-    <color name="colorAccent">#000000</color>
-    <color name="window_background">#121212</color>
-    <color name="tab_indicator_color">#009cc3</color>
+
+
+
+
     <color name="toolbar_title_color">#cccccc</color>
-    <color name="list_item_color_normal">#181818</color>
-    <color name="common_toolbar_bg">#1c1c1c</color>
-    <color name="download_title_color">#cccccc</color>
+
+
+
     <color name="download_item_total_size_color">#616161</color>
     <color name="common_divider_color">#242424</color>
     <color name="progress_bg_color">#303030</color>
