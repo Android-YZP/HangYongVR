@@ -59,7 +59,6 @@ public class VideosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_videos, container, false);
         initView(view);
         setNavigationBar();
-
         return view;
     }
 
@@ -78,12 +77,10 @@ public class VideosFragment extends Fragment {
             mVpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
                 }
 
                 @Override
                 public void onPageSelected(int position) {
-
                     if (position == 1) {
                         mViewpager.setScanScroll(true);
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -91,7 +88,6 @@ public class VideosFragment extends Fragment {
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         mViewpager.setScanScroll(false);
                     }
-
                     UIUtils.hideKeyBoard(mVpMain);
                 }
 
