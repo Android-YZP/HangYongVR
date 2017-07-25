@@ -270,7 +270,6 @@ public class VideoPlayActivity extends Activity {
 
                 if (state == ISnailPlayer.State.PLAYER_STARTED) {
                     mVideoView.start();
-                    LogUtil.e("oView.star-----------------------");
                     mImageView_PlayPause
                             .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
                     mBufferingView.setVisibility(View.GONE);
