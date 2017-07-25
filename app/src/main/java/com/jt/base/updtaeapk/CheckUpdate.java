@@ -45,7 +45,7 @@ public class CheckUpdate {
 
     private static final int HTTP_SUCCESS = 0;
     private Button mUpdate;
-    private ImageButton mClose;
+    private Button mClose;
 
     //单例化检查更新类
     private CheckUpdate() {
@@ -90,7 +90,7 @@ public class CheckUpdate {
             dialogUtils.setGravity(Gravity.CENTER_HORIZONTAL);
             dialogUtils.show();
             mUpdate = (Button) contentView.findViewById(R.id.btn_update);
-            mClose = (ImageButton) contentView.findViewById(R.id.img_update_close);
+            mClose = (Button) contentView.findViewById(R.id.btn_update_close);
             TextView mUpdateContent = (TextView) contentView.findViewById(R.id.tv_update_content);
             mUpdateContent.setText(intro);
             mClose.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +129,7 @@ public class CheckUpdate {
      * 检查更新版本
      */
     private void HttpUpdateVersion(String sourceNum) {
+        compareVersion(2, "", ""); //与本地版本进行比较
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;

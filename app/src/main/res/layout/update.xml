@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#000">
+ >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -28,32 +28,41 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:text="1.增加直播回放功能\n 2.增加个人直播模块\n 3.部分bug优化"
+            android:text="1.增加直播回放功能\n 2.增加个人直播模块\n 2.增加个人直播模块\n3.部分bug优化"
             android:textColor="#666666"
             android:textSize="17sp" />
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btn_update_close"
+            android:layout_width="100dp"
+            android:layout_height="36dp"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/search_delate"
+            android:gravity="center"
+            android:text="稍后再说"
+            android:textColor="#afafaf"
+            android:textSize="17sp" />
         <Button
             android:id="@+id/btn_update"
-            android:layout_width="188dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="100dp"
+            android:layout_height="36dp"
+            android:layout_marginBottom="18dp"
             android:background="@drawable/btn_vr_update"
             android:gravity="center"
-            android:text="去更新"
+            android:text="立即更新"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="15sp"
+            android:layout_marginLeft="110dp"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+        </RelativeLayout>
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/img_update_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="7dp"
-
-        android:background="@mipmap/update_close" />
 
 </LinearLayout>
