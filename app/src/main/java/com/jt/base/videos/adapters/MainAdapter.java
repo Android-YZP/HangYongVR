@@ -116,16 +116,16 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.get(position).getMsg());
                 ((ListHolder) holder).mTvTotalVideos.setText(topicBean.get(position).getPage().getTotal() + "个视频");
 
-//                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent intent = new Intent(context, VideoListActivity.class);
-//                        intent.putExtra(VedioContants.TopicId, topicBean.get(position).getCode());
-//                        intent.putExtra(VedioContants.TopicTitle, topicBean.get(position).getMsg());
-//                        context.startActivity(intent);
-//                        context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-//                    }
-//                });
+                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, VideoListActivity.class);
+                        intent.putExtra(VedioContants.TopicId, topicBean.get(position).getCode());
+                        intent.putExtra(VedioContants.TopicTitle, topicBean.get(position).getMsg());
+                        context.startActivity(intent);
+                        context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                    }
+                });
 
                 //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
