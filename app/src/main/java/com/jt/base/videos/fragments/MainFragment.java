@@ -64,8 +64,6 @@ public class MainFragment extends Fragment {
     private LinearLayout mLlNoNetBg;
     private boolean islodingMore = false;
 
-
-
     public MainFragment() {
     }
 
@@ -155,6 +153,7 @@ public class MainFragment extends Fragment {
                 return false;
             }
         };
+
         mRecycler.setLayoutManager(mLayoutManager);
         setHeaderView(mRecycler);
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {

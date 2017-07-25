@@ -3,7 +3,6 @@ package com.jt.base.personal;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -26,7 +25,7 @@ import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videos.adapters.HistoryListAdapter;
-import com.jt.base.videos.ui.SwipeBackActivity;
+import com.jt.base.ui.SwipeBackActivity;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;

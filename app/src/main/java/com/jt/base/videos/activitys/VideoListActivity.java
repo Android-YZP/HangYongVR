@@ -19,7 +19,7 @@ import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.adapters.VideoListAdapter;
-import com.jt.base.videos.ui.SwipeBackActivity;
+import com.jt.base.ui.SwipeBackActivity;
 
 import org.xutils.http.RequestParams;
 import org.xutils.x;
