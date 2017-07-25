@@ -115,6 +115,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.get(position).getMsg());
                 ((ListHolder) holder).mTvTotalVideos.setText(topicBean.get(position).getPage().getTotal() + "个视频");
+
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -75,11 +75,9 @@
         <com.jt.base.ui.VerticalSwipeRefreshLayout
             android:id="@+id/srl_main_swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusableInTouchMode="true"
-            android:scrollbars="vertical">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
+            <com.jt.base.ui.MainRecycleView
                 android:id="@+id/re_main_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

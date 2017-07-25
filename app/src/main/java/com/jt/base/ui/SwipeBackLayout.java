@@ -1,4 +1,4 @@
-package com.jt.base.videos.ui;
+package com.jt.base.ui;
 
 import android.app.Activity;
 import android.content.Context;

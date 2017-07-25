@@ -25,6 +25,7 @@ import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.VideoTypeBean;
+import com.jt.base.ui.MainRecycleView;
 import com.jt.base.ui.VerticalSwipeRefreshLayout;
 import com.jt.base.utils.LongLogUtil;
 import com.jt.base.utils.NetUtil;
@@ -45,7 +46,7 @@ public class MainFragment extends Fragment {
 
     private static final int HTTP_SUCCESS = 0;
     private LinearLayoutManager mLayoutManager;
-    private RecyclerView mRecycler;
+    private MainRecycleView mRecycler;
     private MainAdapter mMainAdapter;
     private VerticalSwipeRefreshLayout mRecyclerfreshLayout;
     private DrawerLayout mDlLayout;
@@ -63,8 +64,6 @@ public class MainFragment extends Fragment {
     private List<TopicBean.ResultBeanX> results = new ArrayList<>();
     private LinearLayout mLlNoNetBg;
     private boolean islodingMore = false;
-
-
 
     public MainFragment() {
     }
@@ -84,7 +83,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        mRecycler = (RecyclerView) view.findViewById(R.id.re_main_recycler);
+        mRecycler = (MainRecycleView) view.findViewById(R.id.re_main_recycler);
         mRecyclerfreshLayout = (VerticalSwipeRefreshLayout) view.findViewById(R.id.srl_main_swipe_refresh);
         mIbMenu = (ImageButton) view.findViewById(R.id.ib_menu);
         mMainTitle = (TextView) view.findViewById(R.id.tv_main_title);
@@ -149,12 +148,8 @@ public class MainFragment extends Fragment {
     }
 
     private void initRecycleView() {
-        mLayoutManager = new LinearLayoutManager(getActivity()) {
-            @Override
-            public boolean canScrollHorizontally() {
-                return false;
-            }
-        };
+        mLayoutManager = new LinearLayoutManager(getActivity()) ;
+
         mRecycler.setLayoutManager(mLayoutManager);
         setHeaderView(mRecycler);
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {

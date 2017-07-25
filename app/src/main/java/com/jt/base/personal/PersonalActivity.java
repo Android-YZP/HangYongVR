@@ -2,11 +2,8 @@ package com.jt.base.personal;
 
 import android.Manifest;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,8 +14,7 @@ import com.jt.base.application.User;
 import com.jt.base.personal.takepic.PermissionsChecker;
 import com.jt.base.personal.takepic.PhotoUtil;
 import com.jt.base.utils.SPUtil;
-import com.jt.base.utils.UIUtils;
-import com.jt.base.videos.ui.SwipeBackActivity;
+import com.jt.base.ui.SwipeBackActivity;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;

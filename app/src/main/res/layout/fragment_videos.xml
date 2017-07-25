@@ -7,13 +7,13 @@
     android:background="@color/black"
     tools:context="com.jt.base.videos.fragments.VideosFragment">
 
-    <com.jt.base.videos.ui.NoScrollViewPager
+    <com.jt.base.ui.NoScrollViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <com.jt.base.videos.ui.BottomBar
+    <com.jt.base.ui.BottomBar
         android:id="@+id/main_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
