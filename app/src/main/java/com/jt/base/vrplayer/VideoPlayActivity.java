@@ -274,7 +274,6 @@ public class VideoPlayActivity extends Activity {
 
                 if (state == ISnailPlayer.State.PLAYER_STARTED) {
                     mVideoView.start();
-
                     mImageView_PlayPause
                             .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
                     mBufferingView.setVisibility(View.GONE);
@@ -299,14 +298,12 @@ public class VideoPlayActivity extends Activity {
         });
 
         mVideoView.setOnEventListener(new ISnailPlayerEventNotification() {
-
             @Override
             public boolean notify(ISnailPlayer mp, EventType what, int extra) {
                 if (what == EventType.PLAYER_EVENT_BUFFERING) {
                     Log.i(TAG, "PLAYER_EVENT_BUFFERING");
                     mBufferingView.setVisibility(View.VISIBLE);
                 } else if (what == EventType.PLAYER_EVENT_BUFFERED) {
-
                     Log.i(TAG, "PLAYER_EVENT_BUFFERED");
                     mBufferingView.setVisibility(View.GONE);
                 } else if (what == EventType.PLAYER_EVENT_FINISHED) {
@@ -321,14 +318,12 @@ public class VideoPlayActivity extends Activity {
         mVideoView.setOnErrorListener(new ISnailPlayerErrorNotification() {
             @Override
             public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
-
                 if (error.equals("PLAYER_ERROR_EXIT")) {
                     LogUtil.i("11111111111" + error);
                     showErrorDialog();
                 }
             }
         });
-
 
         mImageView_PlayPause = (ImageView) findViewById(R.id.id_imageview_play_pause_full);
         mImageView_PlayPause.setOnClickListener(new OnClickListener() {
