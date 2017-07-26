@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.jt.base.R;
 import com.jt.base.application.User;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
