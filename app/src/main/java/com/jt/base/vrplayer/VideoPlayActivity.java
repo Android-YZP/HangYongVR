@@ -177,6 +177,7 @@ public class VideoPlayActivity extends Activity {
     private int mVid;
     private int mVideoPosition;
     private boolean isRestart = false;
+    private boolean isBack = false;
 
 
     @Override
@@ -227,10 +228,13 @@ public class VideoPlayActivity extends Activity {
         mIbBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("position", currentPersent());
-                setResult(101, intent);
-                VideoPlayActivity.this.finish();
+                if (isBack) {
+                    isBack = false;
+                    Intent intent = new Intent();
+                    intent.putExtra("position", currentPersent());
+                    setResult(101, intent);
+                    VideoPlayActivity.this.finish();
+                }
             }
         });
 
@@ -270,6 +274,7 @@ public class VideoPlayActivity extends Activity {
 
                 if (state == ISnailPlayer.State.PLAYER_STARTED) {
                     mVideoView.start();
+
                     mImageView_PlayPause
                             .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
                     mBufferingView.setVisibility(View.GONE);
@@ -484,12 +489,19 @@ public class VideoPlayActivity extends Activity {
         if (playType == VedioContants.Video) {
             List<VodbyTopicBean.ResultBean.VodInfosBean> urlList = new Gson().fromJson(mPlayUrl, new TypeToken<List<VodbyTopicBean.ResultBean.VodInfosBean>>() {
             }.getType());
+
             for (int i = 0; i < urlList.size(); i++) {
                 if (urlList.get(i).getDefinition() == 45) {
                     mVideoView.setVideoPath(urlList.get(i).getUrl());
                     return;
+                } else if (urlList.get(i).getDefinition() == 47) {
+                    mVideoView.setVideoPath(urlList.get(i).getUrl());
+                    return;
                 }
+
             }
+
+
         } else if (playType == VedioContants.Living) {
             mVideoView.setVideoPath(mPlayUrl);
         }
@@ -767,32 +779,26 @@ public class VideoPlayActivity extends Activity {
         super.onPause();
     }
 
-    @Override
-    protected void onStop() {
-        LogUtil.e("onStop-----------------------");
-        super.onStop();
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        int duration = mVideoView.getCurrentPosition();
-        int Tduration = mVideoView.getDuration();
-        int Persent;
-        double i = (double) duration / Tduration;
-        double v = i * 100;
-        if (v < 1) {
-            v = 1;
-            Persent = (int) v;
-        } else {
-            Persent = (int) v;
-        }
-        VideoPlayActivity.this.setResult(Persent);
+//        int duration = mVideoView.getCurrentPosition();
+//        int Tduration = mVideoView.getDuration();
+//        int Persent;
+//        double i = (double) duration / Tduration;
+//        double v = i * 100;
+//        if (v < 1) {
+//            v = 1;
+//            Persent = (int) v;
+//        } else {
+//            Persent = (int) v;
+//        }
+//        VideoPlayActivity.this.setResult(Persent);
         User user = SPUtil.getUser();
         if (user != null) {
-            LogUtil.i(Persent + "______" + user.getResult().getUser().getUid());
-            HttpHistory(user.getResult().getUser().getUid() + "", "" + Persent);
+            HttpHistory(user.getResult().getUser().getUid() + "", "" + currentPersent());
         }
 
         mHandler.removeMessages(SHOW_PROGRESS);
@@ -1006,11 +1012,12 @@ public class VideoPlayActivity extends Activity {
     }
 
     private void updatePausePlay() {
-        if (mVideoView.isPlaying()) {
-            mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_pause_big);
-        } else {
-            mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_play_big);
-        }
+        if (mVideoView != null)
+            if (mVideoView.isPlaying()) {
+                mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_pause_big);
+            } else {
+                mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_play_big);
+            }
     }
 
 
@@ -1018,13 +1025,14 @@ public class VideoPlayActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             long pos;
-            if (msg.what == SHOW_PROGRESS) {
+            if (msg.what == SHOW_PROGRESS && mVideoView != null) {
                 pos = setProgress();
                 mSeekBar.setMax(mVideoView.getDuration());
                 if (!mDragging && mShowing) {
                     msg = obtainMessage(SHOW_PROGRESS);
                     sendMessageDelayed(msg, 1000 - (pos % 1000));
                     updatePausePlay();
+                    isBack = true;
                 }
             }
         }
