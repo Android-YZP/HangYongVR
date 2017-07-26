@@ -221,12 +221,14 @@ public class MainFragment extends Fragment {
                     mLvDrawerItem.setAdapter(mDrawerAdapter);
                     mTopicId = mDatas.get(0).getId();
                     islodingMore = false;
+                    mMainTitle.setText(mDatas.get(0).getName());
                     HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum, islodingMore);
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+
             }
 
 
