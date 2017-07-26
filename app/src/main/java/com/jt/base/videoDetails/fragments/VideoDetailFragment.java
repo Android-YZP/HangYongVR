@@ -195,16 +195,13 @@ public class VideoDetailFragment extends Fragment {
                     //刷新列表
                     mPager = 1;
                     HttpRoomList(mPager + "", false);
-
                 } else if (direction.equals(SwipyRefreshLayoutDirection.BOTTOM)) {
                     if (mRoomListBean == null) return;
-
                     if (mPager >= mRoomListBean.getPage().getTotalPage()) {
                         UIUtils.showTip("没有数据了");
                         mSwipyRefresh.setRefreshing(false);
                     } else {
                         HttpRoomList(++mPager + "", true);
-                        LogUtil.i(mPager + "");
                     }
 
                 }

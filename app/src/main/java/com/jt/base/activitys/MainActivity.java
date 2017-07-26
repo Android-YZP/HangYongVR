@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (savedInstanceState!=null){
+        startActivity(new Intent(this, SplashActivity.class));
+
+
+        if (savedInstanceState != null) {
         }
 
 
@@ -162,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
         panoWidgetView.shutdown();
         super.onDestroy();
     }
-
 
 
     /**
