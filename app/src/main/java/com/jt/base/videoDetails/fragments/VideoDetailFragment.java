@@ -403,9 +403,4 @@ public class VideoDetailFragment extends Fragment {
         panoWidgetView.setVisibility(View.GONE);
     }
 
-    /**
-     * 注册一个广播
-     */
-
-
 }
