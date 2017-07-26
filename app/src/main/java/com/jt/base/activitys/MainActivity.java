@@ -43,10 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (savedInstanceState!=null){
+        startActivity(new Intent(this, SplashActivity.class));
+        if (savedInstanceState != null) {
         }
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -57,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         initPanorama();
         initViewPager();
         initListenter();
-
-
         //检查版本更新
         CheckUpdate.getInstance().startCheck(MainActivity.this, true);
         //开启新手引导
@@ -162,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
         panoWidgetView.shutdown();
         super.onDestroy();
     }
-
 
 
     /**
