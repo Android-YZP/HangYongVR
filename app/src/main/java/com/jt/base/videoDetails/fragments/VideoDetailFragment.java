@@ -63,7 +63,7 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class VideoDetailFragment extends Fragment {
     private static final int HTTP_SUCCESS = 0;
-    private static final String COUNT = "3";//每次获取到的数据
+    private static final String COUNT = "7";//每次获取到的数据
     private RecyclerViewPager mRvVideoDetaillist;
     private VrPanoramaView panoWidgetView;
     private VrPanoramaView.Options panoOptions;
@@ -195,17 +195,15 @@ public class VideoDetailFragment extends Fragment {
                     //刷新列表
                     mPager = 1;
                     HttpRoomList(mPager + "", false);
-
                 } else if (direction.equals(SwipyRefreshLayoutDirection.BOTTOM)) {
                     if (mRoomListBean == null) return;
-                    mPager++;
                     if (mPager >= mRoomListBean.getPage().getTotalPage()) {
                         UIUtils.showTip("没有数据了");
                         mSwipyRefresh.setRefreshing(false);
                     } else {
-                        HttpRoomList(mPager + "", true);
-                        LogUtil.i(mPager + "");
+                        HttpRoomList(++mPager + "", true);
                     }
+
                 }
             }
         });
@@ -401,10 +399,5 @@ public class VideoDetailFragment extends Fragment {
                 .into(imageView);
         panoWidgetView.setVisibility(View.GONE);
     }
-
-    /**
-     * 注册一个广播
-     */
-
 
 }

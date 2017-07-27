@@ -59,7 +59,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme">
-
         <activity
             android:name=".activitys.MainActivity"
             android:screenOrientation="portrait">
@@ -92,8 +91,7 @@
         <activity
             android:name=".personal.HistoryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoTitleTranslucentTheme"
-          />
+            android:theme="@style/NoTitleTranslucentTheme" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -114,16 +112,15 @@
         <activity
             android:name=".videos.activitys.VideoMoreActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".videos.activitys.VideoDetialActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoTitleTranslucentTheme"/>
+            android:theme="@style/NoTitleTranslucentTheme" />
         <activity
             android:name=".vrplayer.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <service android:name=".updtaeapk.DownloadService" />
 
@@ -132,6 +129,7 @@
         <activity android:name=".activitys.Guide3Activity" />
         <activity android:name=".activitys.Guide4Activity"/>
         <activity android:name=".activitys.SearchActivity"  android:theme="@style/NoTitleTranslucentTheme"/>
+        <activity android:name=".activitys.SplashActivity"></activity>
     </application>
 
 </manifest>

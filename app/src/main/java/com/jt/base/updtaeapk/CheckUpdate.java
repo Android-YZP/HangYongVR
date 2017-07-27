@@ -129,7 +129,7 @@ public class CheckUpdate {
      * 检查更新版本
      */
     private void HttpUpdateVersion(String sourceNum) {
-        compareVersion(2, "", ""); //与本地版本进行比较
+
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
