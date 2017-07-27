@@ -77,7 +77,8 @@
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".personal.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".videos.activitys.VideoListActivity"
             android:screenOrientation="portrait"
@@ -123,10 +124,11 @@
 
         <service android:name=".updtaeapk.DownloadService" />
 
-        <activity android:name=".activitys.Guide2Activity"  android:screenOrientation="portrait"/>
-        <activity android:name=".activitys.Guide1Activity" android:screenOrientation="portrait" />
-        <activity android:name=".activitys.Guide3Activity" android:screenOrientation="portrait"/>
-        <activity android:name=".activitys.Guide4Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".activitys.Guide2Activity" />
+        <activity android:name=".activitys.Guide1Activity" />
+        <activity android:name=".activitys.Guide3Activity" />
+        <activity android:name=".activitys.Guide4Activity"/>
+        <activity android:name=".activitys.SearchActivity"  android:theme="@style/NoTitleTranslucentTheme"/>
         <activity android:name=".activitys.SplashActivity"></activity>
     </application>
 
