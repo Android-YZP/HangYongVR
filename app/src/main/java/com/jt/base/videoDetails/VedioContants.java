@@ -21,6 +21,8 @@ public class VedioContants {
     public static final String TopicTitle = "TopicTitle";
     public static final String SearchHistory = "SearchHistory";
     public static final String See = "See";
+    public static final String Desc = "desc";
+    public static final String Vid = "vid";
 
 
     /**
