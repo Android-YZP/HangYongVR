@@ -58,17 +58,17 @@
             android:textColor="#999999"
             android:textSize="14sp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
 
             <Button
-                android:id="@+id/btn_pay_cancel"
+                android:id="@+id/iv_pay_cancel"
                 android:layout_width="119dp"
-                android:layout_height="36dp"
-                android:layout_marginBottom="18dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="12dp"
                 android:background="@drawable/search_delate"
                 android:gravity="center"
                 android:text="取消"
@@ -77,16 +77,15 @@
             <Button
                 android:id="@+id/btn_go_pay"
                 android:layout_width="119dp"
-                android:layout_height="36dp"
-                android:layout_marginBottom="18dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/btn_vr_update"
                 android:gravity="center"
                 android:text="去支付"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                android:layout_marginLeft="110dp"
                 style="@style/Widget.AppCompat.Button.Borderless"/>
-        </RelativeLayout>
+        </LinearLayout>
 
 
     </LinearLayout>
