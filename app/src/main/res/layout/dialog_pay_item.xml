@@ -65,7 +65,7 @@
             android:layout_marginTop="20dp">
 
             <Button
-                android:id="@+id/iv_pay_cancel"
+                android:id="@+id/btn_pay_cancel"
                 android:layout_width="119dp"
                 android:layout_height="37dp"
                 android:layout_marginLeft="12dp"
