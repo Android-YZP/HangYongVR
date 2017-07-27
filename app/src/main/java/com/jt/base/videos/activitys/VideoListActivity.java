@@ -77,6 +77,7 @@ public class VideoListActivity extends SwipeBackActivity {
             @Override
             public void onRefresh() {
                 mPager = 1;
+                mData.clear();
                 HttpTopic(mTopicId, mPager);
             }
         });

@@ -1,6 +1,7 @@
 package com.jt.base.videos.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jt.base.R;
+import com.jt.base.activitys.SearchActivity;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.TopicBean;
@@ -64,6 +66,7 @@ public class MainFragment extends Fragment {
     private List<TopicBean.ResultBeanX> results = new ArrayList<>();
     private LinearLayout mLlNoNetBg;
     private boolean islodingMore = false;
+    private LinearLayout mSearchLl;
 
     public MainFragment() {
     }
@@ -88,6 +91,7 @@ public class MainFragment extends Fragment {
         mIbMenu = (ImageButton) view.findViewById(R.id.ib_menu);
         mMainTitle = (TextView) view.findViewById(R.id.tv_main_title);
         mLlNoNetBg = (LinearLayout) view.findViewById(R.id.iv_main_fragment_bg);
+        mSearchLl = (LinearLayout)view.findViewById(R.id.ll_search_topic);
         return view;
     }
 
@@ -143,6 +147,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mDlLayout.openDrawer(GravityCompat.START, true);
+            }
+        });
+
+        mSearchLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), SearchActivity.class));
+                getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
             }
         });
     }

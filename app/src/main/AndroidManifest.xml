@@ -130,7 +130,8 @@
         <activity android:name=".activitys.Guide2Activity" />
         <activity android:name=".activitys.Guide1Activity" />
         <activity android:name=".activitys.Guide3Activity" />
-        <activity android:name=".activitys.Guide4Activity"></activity>
+        <activity android:name=".activitys.Guide4Activity"/>
+        <activity android:name=".activitys.SearchActivity"  android:theme="@style/NoTitleTranslucentTheme"/>
     </application>
 
 </manifest>
