@@ -65,8 +65,8 @@
             android:layout_gravity="center_horizontal">
 
             <Button
-                android:id="@+id/iv_pay_cancel"
-                android:layout_width="100dp"
+                android:id="@+id/btn_pay_cancel"
+                android:layout_width="119dp"
                 android:layout_height="36dp"
                 android:layout_marginBottom="18dp"
                 android:background="@drawable/search_delate"
@@ -76,7 +76,7 @@
                 android:textSize="17sp" />
             <Button
                 android:id="@+id/btn_go_pay"
-                android:layout_width="100dp"
+                android:layout_width="119dp"
                 android:layout_height="36dp"
                 android:layout_marginBottom="18dp"
                 android:background="@drawable/btn_vr_update"
