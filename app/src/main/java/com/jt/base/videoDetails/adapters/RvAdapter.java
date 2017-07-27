@@ -196,7 +196,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
 
         final View dialogView = LayoutInflater.from(context)
                 .inflate(R.layout.dialog_pay_item, null);
-        ImageView ivPayChacha = (ImageView) dialogView.findViewById(R.id.iv_pay_chacha);
+        Button ivPayChacha = (Button) dialogView.findViewById(R.id.btn_pay_cancel);
         TextView TvPayDiaprice = (TextView) dialogView.findViewById(R.id.tv_play_dia_price);
         TvPayDiaprice.setText("价格： " + mRoomLists.get(position).getPrice() + "元");
         TextView TvPayId = (TextView) dialogView.findViewById(R.id.tv_play_dia_id);
