@@ -30,7 +30,7 @@ import com.jt.base.ui.SwipeBackActivity;
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
+import com.jt.base.R;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;

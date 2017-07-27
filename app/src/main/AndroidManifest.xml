@@ -123,10 +123,10 @@
 
         <service android:name=".updtaeapk.DownloadService" />
 
-        <activity android:name=".activitys.Guide2Activity" />
-        <activity android:name=".activitys.Guide1Activity" />
-        <activity android:name=".activitys.Guide3Activity" />
-        <activity android:name=".activitys.Guide4Activity" />
+        <activity android:name=".activitys.Guide2Activity"  android:screenOrientation="portrait"/>
+        <activity android:name=".activitys.Guide1Activity" android:screenOrientation="portrait" />
+        <activity android:name=".activitys.Guide3Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".activitys.Guide4Activity" android:screenOrientation="portrait"/>
         <activity android:name=".activitys.SplashActivity"></activity>
     </application>
 
