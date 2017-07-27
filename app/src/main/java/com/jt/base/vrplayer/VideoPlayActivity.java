@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -56,7 +57,13 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VideoPlayActivity extends Activity {
+/**
+ * @author 姚中平
+ * @version 2.0
+ * @date 创建于 2017/7/27
+ * @description
+ */
+public class VideoPlayActivity extends AppCompatActivity {
     private static final String TAG = "PlayActivity";
     private static final int HTTP_SUCCESS = 0;
 
@@ -127,26 +134,14 @@ public class VideoPlayActivity extends Activity {
      * 当前亮度
      */
     private float mBrightness = -1f;
+
     /**
      * 调节亮度和声音的控件
      */
     private RelativeLayout mOperLayout;
     private ImageView mOperationBg;
     private TextView mOperTextView;
-
-    // media_meta 信息展示页面
-    private ImageView mImageView_MediaMeta;
-    private TextView mTextView_MediaMeta;
-    private String mMediaMeta;
-
-    private ImageView mImageView_MediaInfo;
-    private ImageView mImageView_ResetAngle;
-    private TextView mTextView_MediaInfo;
-
-    private TextView mErroText;
-
     private RelativeLayout mLayoutPlayerControllerFull;
-
     private SeekBar mSeekBar;
     private TextView mCurrentTime;
     private TextView mEndTime;
@@ -155,17 +150,13 @@ public class VideoPlayActivity extends Activity {
     private TimerTask task;
     private int recLen;
     private Timer mTimer;
-
     private int mFov;
     private int mProjectionType = SNVR_PROJ_PLANE;
     private int mVideoSpliceFormat = SNVR_VIDEO_SPLICE_FMT_2D;
     private int mNavigationMode = SNVR_NAVIGATION_BOTH;
     private int mEyesMode = SNVR_SINGLE_EYES_MODE;
-
     private int mScale = SCALE_10;
-
     private int pausePostion;
-
     public static final int FOV_DEFAULT = 90;
     private SnailNetReceiver mNetReceiver;
     private NetStateChangedListener mNetChangedListener;
@@ -183,48 +174,33 @@ public class VideoPlayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d(TAG, "surfaceCreated");
-        mPlayUrl = getIntent().getStringExtra(VedioContants.PlayUrl);
-        mFov = uiutils.getPreferenceKeyIntValue(getApplicationContext(),
-                Definition.KEY_FOV, 90);
-        mProjectionType = uiutils.getPreferenceKeyIntValue(
-                getApplicationContext(), Definition.KEY_PROJECTIONTYPE,
-                SNVR_PROJ_PLANE);
-        mVideoSpliceFormat = uiutils.getPreferenceKeyIntValue(
-                getApplicationContext(), Definition.KEY_VIDEOSPLICEFORMAT,
-                SNVR_VIDEO_SPLICE_FMT_2D);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //直播界面是竖屏显示,//播放器界面是横屏显示
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
-        setContentView(R.layout.activity_video_play);////////////////////////////////////////////////界面
-//        getWindow().getDecorView().setSystemUiVisibility(
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-//                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
-        mVideoView.setVideoPlayerType(ISnailPlayer.PlayerType.PLAYER_TYPE_SNAIL_VR);
-        mVideoView.setPlayFov(mFov);
-        mVideoView.setProjectionType(mProjectionType);
-        mVideoView.setNavigationmode(mNavigationMode);
-        mVideoView.setVideoSpliceFormat(mVideoSpliceFormat);
-        mVideoView.setScale(SCALE_10);
-        mErroText = (TextView) findViewById(R.id.txt_view_erro);
+        setContentView(R.layout.activity_video_play);
+        initPlayView();
+        playControll();
+        playGesture();
+        LogUtil.i(mPlayUrl + "");
+        initPlayMode();
+    }
+
+
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/7/27
+     * @description 播放器控制器
+     */
+    private void playControll() {
         mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
         mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
         mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
         mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
         mIbBack = (ImageButton) findViewById(R.id.ib_play_back);
         mSeekBar.setThumbOffset(1);
-
         mIbBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,11 +243,49 @@ public class VideoPlayActivity extends Activity {
                 mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
             }
         });
+        mImageView_PlayPause = (ImageView) findViewById(R.id.id_imageview_play_pause_full);
+        mImageView_PlayPause.setOnClickListener(new OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                if (mVideoView.isPlaying()) {
+                    mVideoView.pause();
+                    mImageView_PlayPause
+                            .setBackgroundResource(R.drawable.btn_selector_player_play_big);
+                } else {
+                    mVideoView.start();
+                    mImageView_PlayPause
+                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
+                }
+            }
+        });
+        mBufferingView = (RelativeLayout) findViewById(R.id.id_mediaplay_buffering_view);
+        mTextViewBufferPercent = (TextView) findViewById(R.id.tv_buffering);
+        mBufferingView.setVisibility(View.GONE);
+        // 声音和亮度调节图标
+        mOperLayout = (RelativeLayout) findViewById(R.id.layout_volume_bright_transparent);
+        mOperLayout.setVisibility(View.GONE);
+        mOperationBg = (ImageView) findViewById(R.id.video_player_voiceortranparent_img);
+        mOperTextView = (TextView) findViewById(R.id.video_player_voiceortranparent_value);
+    }
+
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/7/27
+     * @description 初始化播放器
+     */
+    private void initPlayView() {
+        mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
+        mVideoView.setVideoPlayerType(ISnailPlayer.PlayerType.PLAYER_TYPE_SNAIL_VR);
+        mVideoView.setPlayFov(mFov);
+        mVideoView.setProjectionType(mProjectionType);
+        mVideoView.setNavigationmode(mNavigationMode);
+        mVideoView.setVideoSpliceFormat(mVideoSpliceFormat);
+        mVideoView.setScale(SCALE_10);
         mVideoView.setOnStatListener(new ISnailPlayerStateChangeNotification() {
             @Override
             public void notify(ISnailPlayer player, ISnailPlayer.State state) {
-
                 if (state == ISnailPlayer.State.PLAYER_STARTED) {
                     mVideoView.start();
                     mImageView_PlayPause
@@ -320,38 +334,48 @@ public class VideoPlayActivity extends Activity {
             public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
                 if (error.equals("PLAYER_ERROR_EXIT")) {
                     LogUtil.i("11111111111" + error);
-                    showErrorDialog();
+
                 }
             }
         });
 
-        mImageView_PlayPause = (ImageView) findViewById(R.id.id_imageview_play_pause_full);
-        mImageView_PlayPause.setOnClickListener(new OnClickListener() {
+
+        /************************网络监听*******************************************************************/
+        mNetReceiver = SnailNetReceiver.getInstance();
+        mNetChangedListener = new NetStateChangedListener() {
 
             @Override
-            public void onClick(View v) {
-                if (mVideoView.isPlaying()) {
-                    mVideoView.pause();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_play_big);
-                } else {
-                    mVideoView.start();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
+            public void onNetStateChanged(SnailNetReceiver.NetState netCode) {
+                switch (netCode) {
+                    case NET_2G:
+                    case NET_3G:
+                    case NET_4G:
+                        UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
+                        break;
+                    case NET_UNKNOWN:
+                        UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
+                        break;
+                    case NET_NO:
+                        showNetErrorDialog();
+                        break;
+                    default:
                 }
             }
-        });
+        };
+    }
 
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/7/27
+     * @description 播放器内的手势识别
+     */
+    private void playGesture() {
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mMaxVolume = mAudioManager
+                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-        mBufferingView = (RelativeLayout) findViewById(R.id.id_mediaplay_buffering_view);
-        mTextViewBufferPercent = (TextView) findViewById(R.id.tv_buffering);
-        mBufferingView.setVisibility(View.GONE);
-
-        // 声音和亮度调节图标
-        mOperLayout = (RelativeLayout) findViewById(R.id.layout_volume_bright_transparent);
-        mOperLayout.setVisibility(View.GONE);
-        mOperationBg = (ImageView) findViewById(R.id.video_player_voiceortranparent_img);
-        mOperTextView = (TextView) findViewById(R.id.video_player_voiceortranparent_value);
         mGestureDetector = new GestureDetector(this, new OnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
@@ -416,36 +440,8 @@ public class VideoPlayActivity extends Activity {
             }
         });
 
-        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mMaxVolume = mAudioManager
-                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        mVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-        mNetReceiver = SnailNetReceiver.getInstance();
-        mNetChangedListener = new NetStateChangedListener() {
-
-            @Override
-            public void onNetStateChanged(SnailNetReceiver.NetState netCode) {
-                switch (netCode) {
-                    case NET_2G:
-                    case NET_3G:
-                    case NET_4G:
-                        UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
-                        break;
-                    case NET_UNKNOWN:
-                        UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
-                        break;
-                    case NET_NO:
-                        showNetErrorDialog();
-                        break;
-                    default:
-                }
-            }
-        };
-        LogUtil.i(mPlayUrl + "");
-        initPlayMode();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -461,12 +457,11 @@ public class VideoPlayActivity extends Activity {
     //初始化播放器模式
     private void initPlayMode() {
         Intent intent = getIntent();
-        vedioode = intent.getIntExtra(Definition.PLEAR_MODE, 4);
-        desc = intent.getStringExtra("desc");
-        mVid = intent.getIntExtra("vid", 0);
-        mVideoPosition = intent.getIntExtra("position", 0);
-
-
+        mPlayUrl = intent.getStringExtra(VedioContants.PlayUrl);
+        vedioode = intent.getIntExtra(VedioContants.PLEAR_MODE, 4);
+        desc = intent.getStringExtra(VedioContants.Desc);
+        mVid = intent.getIntExtra(VedioContants.Vid, 0);
+        mVideoPosition = intent.getIntExtra(VedioContants.Position, 0);
         TextView title = (TextView) findViewById(R.id.tv_play_title);
         title.setText(desc);
 
@@ -479,12 +474,9 @@ public class VideoPlayActivity extends Activity {
         }
         mVideoView.setProjectionType(mProjectionType);
         mVideoView.setEyesMode(mEyesMode);
-
-
         if (playType == VedioContants.Video) {
             List<VodbyTopicBean.ResultBean.VodInfosBean> urlList = new Gson().fromJson(mPlayUrl, new TypeToken<List<VodbyTopicBean.ResultBean.VodInfosBean>>() {
             }.getType());
-
             for (int i = 0; i < urlList.size(); i++) {
                 if (urlList.get(i).getDefinition() == 45) {
                     mVideoView.setVideoPath(urlList.get(i).getUrl());
@@ -493,10 +485,7 @@ public class VideoPlayActivity extends Activity {
                     mVideoView.setVideoPath(urlList.get(i).getUrl());
                     return;
                 }
-
             }
-
-
         } else if (playType == VedioContants.Living) {
             mVideoView.setVideoPath(mPlayUrl);
         }
@@ -778,19 +767,6 @@ public class VideoPlayActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-//        int duration = mVideoView.getCurrentPosition();
-//        int Tduration = mVideoView.getDuration();
-//        int Persent;
-//        double i = (double) duration / Tduration;
-//        double v = i * 100;
-//        if (v < 1) {
-//            v = 1;
-//            Persent = (int) v;
-//        } else {
-//            Persent = (int) v;
-//        }
-//        VideoPlayActivity.this.setResult(Persent);
         User user = SPUtil.getUser();
         if (user != null) {
             HttpHistory(user.getResult().getUser().getUid() + "", "" + currentPersent());
@@ -974,6 +950,12 @@ public class VideoPlayActivity extends Activity {
 
     }
 
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/7/27
+     * @description
+     */
     private void toggleMediaControlsVisiblity() {
         if (mLayoutPlayerControllerFull.getVisibility() == View.VISIBLE) {
             mLayoutPlayerControllerFull.setVisibility(View.GONE);
