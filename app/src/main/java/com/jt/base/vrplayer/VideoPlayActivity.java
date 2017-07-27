@@ -1,16 +1,13 @@
 package com.jt.base.vrplayer;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -19,7 +16,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
@@ -47,11 +42,9 @@ import com.snail.media.player.ISnailPlayer.EventType;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerErrorNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerEventNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
-
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -178,7 +171,6 @@ public class VideoPlayActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_video_play);
         initPlayView();
         playControll();
@@ -742,14 +734,11 @@ public class VideoPlayActivity extends AppCompatActivity {
     protected void onResume() {
         mNetReceiver.registNetBroadCast(this);
         mNetReceiver.addNetStateChangeListener(mNetChangedListener);
-        LogUtil.e("onResume-----------------------");
         if (mVideoView != null) {
-            LogUtil.e("mVideoView-----------------------");
             mVideoView.pause();
             mVideoView.setPlayFov(mFov);
             mVideoView.setScale(mScale);
             if (mVideoView.IsSurfaceHolderValid()) {
-
             }
         }
         super.onResume();
@@ -771,16 +760,20 @@ public class VideoPlayActivity extends AppCompatActivity {
         if (user != null) {
             HttpHistory(user.getResult().getUser().getUid() + "", "" + currentPersent());
         }
-
         mHandler.removeMessages(SHOW_PROGRESS);
         if (mVideoView != null) {
             mVideoView.pause();
             mVideoView.stopPlayback();
             mVideoView = null;
         }
-
     }
 
+    /**
+    * @version 2.0
+    * @author 姚中平
+    * @date 创建于 2017/7/27
+    * @description 获取当前播放的百分比数值，用于储存
+    */
     private int currentPersent() {
         int duration = mVideoView.getCurrentPosition();
         int Tduration = mVideoView.getDuration();
@@ -795,7 +788,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         }
         LogUtil.i(Persent + "---------------");
         return Persent;
-
     }
 
 
