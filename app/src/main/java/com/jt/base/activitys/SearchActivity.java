@@ -109,10 +109,7 @@ public class SearchActivity extends SwipeBackActivity {
         mTvSearchCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.hideKeyBoard(mTvSearchCancel);
-                mEtsearch.setText("");
-                mLlsearchresult.setVisibility(View.GONE);
-                mLlsearchHistory.setVisibility(View.VISIBLE);
+               SearchActivity.this.finish();
             }
         });
     }
