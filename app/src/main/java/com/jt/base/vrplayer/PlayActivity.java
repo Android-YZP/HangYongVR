@@ -190,175 +190,24 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(TAG, "surfaceCreated");
-        mPlayUrl = getIntent().getStringExtra(VedioContants.PlayUrl);
-
-
-        LogUtil.i(mPlayUrl + "000000000000000");
-        mFov = uiutils.getPreferenceKeyIntValue(getApplicationContext(),
-                Definition.KEY_FOV, 90);
-        mProjectionType = uiutils.getPreferenceKeyIntValue(
-                getApplicationContext(), Definition.KEY_PROJECTIONTYPE,
-                PlayActivity.SNVR_PROJ_PLANE);
-        mVideoSpliceFormat = uiutils.getPreferenceKeyIntValue(
-                getApplicationContext(), Definition.KEY_VIDEOSPLICEFORMAT,
-                PlayActivity.SNVR_VIDEO_SPLICE_FMT_2D);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        //直播界面是竖屏显示,//播放器界面是横屏显示
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         setContentView(R.layout.activity_play);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
-        mVideoView.setVideoPlayerType(ISnailPlayer.PlayerType.PLAYER_TYPE_SNAIL_VR);
-        mVideoView.setPlayFov(mFov);
-        mVideoView.setProjectionType(mProjectionType);
-        mVideoView.setNavigationmode(mNavigationMode);
-        mVideoView.setVideoSpliceFormat(mVideoSpliceFormat);
-        mVideoView.setScale(PlayActivity.SCALE_10);
-        mErroText = (TextView) findViewById(R.id.txt_view_erro);
-        mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
 
-        mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
-        mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
-        mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
-        mSeekBar.setThumbOffset(1);
-        mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mVideoView.seekTo(seekBar.getProgress());
-                mHandler.removeMessages(SHOW_PROGRESS);
-                mDragging = false;
-                mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
-                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
-            }
+        initPlayView();
+        playControll();
+        playGesture();
+        LogUtil.i(mPlayUrl + "");
+        initPlayMode();
+        initInfo();
 
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress,
-                                          boolean fromUser) {
-                if (!fromUser)
-                    return;
-                //int newposition = (mDuration * progress) / 1000;
-                String time = generateTime(progress);
-                if (mCurrentTime != null)
-                    mCurrentTime.setText(time);
-            }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                mHandler.removeMessages(SHOW_PROGRESS);
-                mDragging = true;
-                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
-            }
-        });
+    }
 
-        mVideoView.setOnStatListener(new ISnailPlayerStateChangeNotification() {
-            @Override
-            public void notify(ISnailPlayer player, ISnailPlayer.State state) {
-
-                if (state == ISnailPlayer.State.PLAYER_STARTED) {
-                    mVideoView.start();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
-                    mBufferingView.setVisibility(View.GONE);
-                    mIsPrepared = true;
-                    mDuration = mVideoView.getDuration();
-                    if (mDuration == 0) {
-                        mIsLive = true;
-                        mSeekBar.setEnabled(false);
-                    } else {
-                        mIsLive = false;
-                        mSeekBar.setEnabled(true);
-                    }
-                    mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
-                    Log.d(TAG, "player duration :" + mDuration);
-                }
-            }
-        });
-
-        mVideoView.setOnEventListener(new ISnailPlayerEventNotification() {
-
-            @Override
-            public boolean notify(ISnailPlayer mp, ISnailPlayer.EventType what, int extra) {
-                if (what == EventType.PLAYER_EVENT_BUFFERING) {
-                    Log.i(TAG, "PLAYER_EVENT_BUFFERING");
-                    mBufferingView.setVisibility(View.VISIBLE);
-                } else if (what == EventType.PLAYER_EVENT_BUFFERED) {
-
-                    Log.i(TAG, "PLAYER_EVENT_BUFFERED");
-                    mBufferingView.setVisibility(View.GONE);
-                } else if (what == EventType.PLAYER_EVENT_FINISHED) {
-                    Log.d(TAG, "PLAYER_EVENT_FINISHED ");
-                    mIsPrepared = false;
-                    mBufferingView.setVisibility(View.GONE);
-                }
-                return true;
-            }
-        });
-
-        mVideoView.setOnErrorListener(new ISnailPlayerErrorNotification() {
-            @Override
-            public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
-
-                if (error.equals("PLAYER_ERROR_EXIT")) {
-                    LogUtil.i("11111111111" + error);
-                    showErrorDialog();
-                }
-            }
-        });
-
-        mImageView_Back = (ImageView) findViewById(R.id.iv_play_back);
-        mImageView_Back.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlayActivity.this.finish();
-            }
-        });
-
-        mTextView_VideoUrl = (TextView) findViewById(R.id.id_textview_videourl);
-        mTextView_VideoUrl.setSelected(true);
-
-        mImageView_PlayPause = (ImageView) findViewById(R.id.id_imageview_play_pause_full);
-        mImageView_PlayPause.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mVideoView.isPlaying()) {
-                    mVideoView.pause();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_play_big);
-                } else {
-                    mVideoView.start();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
-                }
-            }
-        });
-
-        mImageView_Reload = (ImageView) findViewById(R.id.id_imageview_play_reload);
-        mImageView_Reload.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (mVideoView != null) {
-                    mVideoView.stopPlayback();
-                    mVideoView.setVideoPath(mPlayUrl);
-                    mBufferingView.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
+    private void playGesture() {
         mBufferingView = (RelativeLayout) findViewById(R.id.id_mediaplay_buffering_view);
         mTextViewBufferPercent = (TextView) findViewById(R.id.tv_buffering);
         mBufferingView.setVisibility(View.GONE);
@@ -424,7 +273,6 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onLongPress(MotionEvent e) {
 
-
             }
 
             @Override
@@ -439,41 +287,149 @@ public class PlayActivity extends AppCompatActivity {
                 .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         mVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-        mImageView_MediaMeta = (ImageView) findViewById(R.id.id_imageview_media_meta);
-        mImageView_MediaMeta.setEnabled(false);
-        mImageView_MediaMeta.setVisibility(View.GONE);
-        mImageView_MediaMeta.setOnClickListener(new OnClickListener() {
+
+    }
+
+    private void playControll() {
+        mErroText = (TextView) findViewById(R.id.txt_view_erro);
+        mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
+        mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
+        mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
+        mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
+        mSeekBar.setThumbOffset(1);
+        mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mVideoView.seekTo(seekBar.getProgress());
+                mHandler.removeMessages(SHOW_PROGRESS);
+                mDragging = false;
+                mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
+                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                if (!fromUser)
+                    return;
+                //int newposition = (mDuration * progress) / 1000;
+                String time = generateTime(progress);
+                if (mCurrentTime != null)
+                    mCurrentTime.setText(time);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mHandler.removeMessages(SHOW_PROGRESS);
+                mDragging = true;
+                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+            }
+        });
+
+
+        mImageView_Back = (ImageView) findViewById(R.id.iv_play_back);
+        mImageView_Back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mTextView_MediaMeta.getVisibility() != View.VISIBLE) {
-                    mTextView_MediaMeta.setText(mMediaMeta);
-                    mTextView_MediaMeta.setVisibility(View.VISIBLE);
+                PlayActivity.this.finish();
+            }
+        });
+
+        mTextView_VideoUrl = (TextView) findViewById(R.id.id_textview_videourl);
+        mTextView_VideoUrl.setSelected(true);
+
+        mImageView_PlayPause = (ImageView) findViewById(R.id.id_imageview_play_pause_full);
+        mImageView_PlayPause.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mVideoView.isPlaying()) {
+                    mVideoView.pause();
+                    mImageView_PlayPause
+                            .setBackgroundResource(R.drawable.btn_selector_player_play_big);
                 } else {
-                    mTextView_MediaMeta.setVisibility(View.GONE);
+                    mVideoView.start();
+                    mImageView_PlayPause
+                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
                 }
             }
         });
 
-        mImageView_MediaInfo = (ImageView) findViewById(R.id.id_imageview_media_info);
-        mImageView_MediaInfo.setVisibility(View.GONE);
-        mImageView_MediaInfo.setOnClickListener(new OnClickListener() {
+        mImageView_Reload = (ImageView) findViewById(R.id.id_imageview_play_reload);
+        mImageView_Reload.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (mTextView_MediaInfo.getVisibility() != View.VISIBLE) {
-                    mTextView_MediaInfo.setVisibility(View.VISIBLE);
-                } else {
-                    mTextView_MediaInfo.setVisibility(View.GONE);
+
+                if (mVideoView != null) {
+                    mVideoView.stopPlayback();
+                    mVideoView.setVideoPath(mPlayUrl);
+                    mBufferingView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void initPlayView() {
+        mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
+        mVideoView.setVideoPlayerType(ISnailPlayer.PlayerType.PLAYER_TYPE_SNAIL_VR);
+        mVideoView.setPlayFov(mFov);
+        mVideoView.setProjectionType(mProjectionType);
+        mVideoView.setNavigationmode(mNavigationMode);
+        mVideoView.setVideoSpliceFormat(mVideoSpliceFormat);
+        mVideoView.setScale(PlayActivity.SCALE_10);
+        mVideoView.setOnStatListener(new ISnailPlayerStateChangeNotification() {
+            @Override
+            public void notify(ISnailPlayer player, ISnailPlayer.State state) {
+
+                if (state == ISnailPlayer.State.PLAYER_STARTED) {
+                    mVideoView.start();
+                    mImageView_PlayPause
+                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
+                    mBufferingView.setVisibility(View.GONE);
+                    mIsPrepared = true;
+                    mDuration = mVideoView.getDuration();
+                    if (mDuration == 0) {
+                        mIsLive = true;
+                        mSeekBar.setEnabled(false);
+                    } else {
+                        mIsLive = false;
+                        mSeekBar.setEnabled(true);
+                    }
+                    mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
+                    Log.d(TAG, "player duration :" + mDuration);
                 }
             }
         });
 
-        mImageView_ResetAngle = (ImageView) findViewById(R.id.id_imageview_resetAngle);
-        mImageView_ResetAngle.setOnClickListener(new OnClickListener() {
+        mVideoView.setOnEventListener(new ISnailPlayerEventNotification() {
 
             @Override
-            public void onClick(View v) {
-                mVideoView.setOriginalAngle();
+            public boolean notify(ISnailPlayer mp, ISnailPlayer.EventType what, int extra) {
+                if (what == EventType.PLAYER_EVENT_BUFFERING) {
+                    Log.i(TAG, "PLAYER_EVENT_BUFFERING");
+                    mBufferingView.setVisibility(View.VISIBLE);
+                } else if (what == EventType.PLAYER_EVENT_BUFFERED) {
+
+                    Log.i(TAG, "PLAYER_EVENT_BUFFERED");
+                    mBufferingView.setVisibility(View.GONE);
+                } else if (what == EventType.PLAYER_EVENT_FINISHED) {
+                    Log.d(TAG, "PLAYER_EVENT_FINISHED ");
+                    mIsPrepared = false;
+                    mBufferingView.setVisibility(View.GONE);
+                }
+                return true;
+            }
+        });
+
+        mVideoView.setOnErrorListener(new ISnailPlayerErrorNotification() {
+            @Override
+            public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
+
+                if (error.equals("PLAYER_ERROR_EXIT")) {
+                    LogUtil.i("11111111111" + error);
+                    showErrorDialog();
+                }
             }
         });
 
@@ -503,17 +459,10 @@ public class PlayActivity extends AppCompatActivity {
                 }
             }
         };
-        LogUtil.i(mPlayUrl + "");
-        initPlayMode();
-        initInfo();
-
-
     }
 
 
-    /******************************************我是华丽的分割线**********************************************************************
-     * 设置在线人数
-     */
+    /******************************************我是华丽的分割线***********************************************************************/
 
 
     /**
@@ -593,6 +542,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private void initInfo() {
         Intent intent = getIntent();
+        mPlayUrl = intent.getStringExtra(VedioContants.PlayUrl);
         ImageView ivHead = (ImageView) findViewById(R.id.iv_room_head);
         TextView tvUserName = (TextView) findViewById(R.id.tv_room_person_name);
         String HeadImg = intent.getStringExtra(VedioContants.KEY_PLAY_HEAD);
@@ -601,7 +551,7 @@ public class PlayActivity extends AppCompatActivity {
         mRoomId = intent.getStringExtra(VedioContants.KEY_PLAY_ID);
 
         ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
-        if (!TextUtils.isEmpty(HeadImg))
+        if (!TextUtils.isEmpty(HeadImg))//加载圆形头像
             x.image().bind(ivHead, HeadImg, imageOptions, new Callback.CommonCallback<Drawable>() {
                 @Override
                 public void onSuccess(Drawable result) {
@@ -621,7 +571,6 @@ public class PlayActivity extends AppCompatActivity {
                 }
             });
         tvUserName.setText(UserName);
-
         //获取在线人数
         HttpOnLineNumber(mRoomId, 1);
         mVideoView.setVideoPath(mPlayUrl);

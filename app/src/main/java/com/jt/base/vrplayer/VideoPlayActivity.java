@@ -356,6 +356,7 @@ public class VideoPlayActivity extends AppCompatActivity {
         };
     }
 
+
     /**
      * @version 2.0
      * @author 姚中平
@@ -367,7 +368,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         mMaxVolume = mAudioManager
                 .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         mVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-
         mGestureDetector = new GestureDetector(this, new OnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
@@ -411,7 +411,6 @@ public class VideoPlayActivity extends AppCompatActivity {
 
             @Override
             public boolean onDown(MotionEvent e) {
-
                 return true;
             }
 
@@ -421,8 +420,6 @@ public class VideoPlayActivity extends AppCompatActivity {
 
             @Override
             public void onLongPress(MotionEvent e) {
-
-
             }
 
             @Override
@@ -772,7 +769,7 @@ public class VideoPlayActivity extends AppCompatActivity {
     * @version 2.0
     * @author 姚中平
     * @date 创建于 2017/7/27
-    * @description 获取当前播放的百分比数值，用于储存
+    * @description 获取当前播放的百分比数值，用于储存历史数据
     */
     private int currentPersent() {
         int duration = mVideoView.getCurrentPosition();
