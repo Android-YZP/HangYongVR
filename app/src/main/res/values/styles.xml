@@ -253,15 +253,12 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-
-
-
     <!--透明，有任务栏电量时间等-->
     <style name="NoTitleTranslucentTheme" parent="BaseAppTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
+
     </style>
 
 
@@ -284,5 +281,5 @@
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
 
-    
+
 </resources>
