@@ -56,7 +56,6 @@ public class SwipeBackLayout extends FrameLayout {
 		mShadowDrawable = getResources().getDrawable(R.color.transparent);
 	}
 
-
 	public void attachToActivity(Activity activity) {
 		mActivity = activity;
 		TypedArray a = activity.getTheme().obtainStyledAttributes(

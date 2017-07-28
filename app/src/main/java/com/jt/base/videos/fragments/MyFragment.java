@@ -23,7 +23,7 @@ import com.jt.base.utils.UIUtils;
 @SuppressLint("ValidFragment")
 public class MyFragment extends Fragment {
 
-
+    private static final String TAG = MyFragment.class.getSimpleName();
     private Button mBtnLogin;
     private boolean isLogin;
     private LinearLayout mRootPersonInfo;

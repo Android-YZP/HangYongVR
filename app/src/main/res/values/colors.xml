@@ -143,4 +143,8 @@
     <color name="umeng_divide">#C3C6C9</color>
     <color name="translate">#00000000</color>
 
+    <!-- 对话框 -->
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+
 </resources>

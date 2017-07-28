@@ -3,126 +3,143 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:weightSum="4"
+    android:background="@color/white"
     android:gravity="center"
+    android:layout_gravity="center"
 
     >
-
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="2"
+        android:layout_height="300dp"
+        android:background="@mipmap/virtue_price_title"
+        android:orientation="vertical"
         >
-
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/dialog_pay_virtual_title"
-            />
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="150dp"
 
-        <TextView
-            android:id="@+id/tv_dialog_pay_virtual_title"
-            android:layout_width="0dp"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dialog_pay_virtual_title"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_dialog_pay_virtual_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=""
-            />
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp"
+
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dialog_pay_virtual_price"
+                android:textSize="16dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_dialog_pay_virtual_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="16dp"
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp">
+            "
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dialog_pay_virtual_account_balance"
+                />
+
+            <TextView
+                android:id="@+id/tv_dialog_pay_virtual_account_balance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_dialog_pay_virtual_cancel"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dialog_pay_virtual_cancel"
+                android:background="@drawable/bg_virtue_price_cancel"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_dialog_pay_virtual_account_confirm_pay"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginRight="20dp"
+                android:text="@string/dialog_pay_virtual_confirm_pay"
+                android:background="@drawable/bg_dialog_virtual_confirm_pay"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="10dp"
-        >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/dialog_pay_virtual_price"
-            />
-
-        <TextView
-            android:id="@+id/tv_dialog_pay_virtual_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=""
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="10dp"
-        >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/dialog_pay_virtual_account_balance"
-            />
-
-        <TextView
-            android:id="@+id/tv_dialog_pay_virtual_account_balance"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=""
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3"
-        android:layout_marginTop="10dp"
-        >
-
-        <TextView
-            android:id="@+id/tv_dialog_pay_virtual_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:text="@string/dialog_pay_virtual_cancel"
-            android:textColor="@color/colorPrimaryDark"
-            />
-
-        <TextView
-            android:id="@+id/tv_dialog_pay_virtual_account_confirm_pay"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:layout_marginRight="20dp"
-            android:text="@string/dialog_pay_virtual_confirm_pay"
-            android:background="@drawable/bg_dialog_virtual_confirm_pay"
-            />
-
-    </LinearLayout>
-
 
 </LinearLayout>

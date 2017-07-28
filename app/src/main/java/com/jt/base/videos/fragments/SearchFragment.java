@@ -101,7 +101,7 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 UIUtils.hideKeyBoard(mTvSearchCancel);
                 mEtsearch.setText("");
-                mLlsearchresult.setVisibility(View.GONE);
+                setHistoryFoot();
                 mLlsearchHistory.setVisibility(View.VISIBLE);
             }
         });
@@ -194,6 +194,7 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 LocalUtils.deleteAllSearchHistory(getContext());
                 searchHistorys.clear();
+                searchHistoryHead.setVisibility(View.GONE);
                 mSearchHistoryAdapter.notifyDataSetChanged();
             }
         });
