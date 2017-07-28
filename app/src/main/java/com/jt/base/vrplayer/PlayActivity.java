@@ -163,7 +163,7 @@ public class PlayActivity extends AppCompatActivity {
     private boolean mDragging;
 
 
-    private int mFov;
+    private int mFov = 87;
     private int mProjectionType = SNVR_PROJ_PLANE;
     private int mVideoSpliceFormat = SNVR_VIDEO_SPLICE_FMT_2D;
     private int mNavigationMode = SNVR_NAVIGATION_BOTH;
