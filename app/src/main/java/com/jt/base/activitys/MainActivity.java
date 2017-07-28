@@ -78,12 +78,6 @@ public class MainActivity extends AppCompatActivity {
         initPanorama();
         initViewPager();
         initListenter();
-        //检查版本更新
-        CheckUpdate.getInstance().startCheck(MainActivity.this, true);
-        //开启新手引导
-        boolean guide3 = (boolean) SPUtil.get(MainActivity.this, "Guide3", false);
-        if (!guide3)
-            startActivity(new Intent(MainActivity.this, Guide3Activity.class));
     }
 
     @Override
