@@ -162,6 +162,7 @@ public class VideoPlayActivity extends AppCompatActivity {
     private int mVideoPosition;
     private boolean isRestart = false;
     private boolean isBack = false;
+    private ImageButton mIbDoubleEye;
 
 
     @Override
@@ -192,6 +193,7 @@ public class VideoPlayActivity extends AppCompatActivity {
         mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
         mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
         mIbBack = (ImageButton) findViewById(R.id.ib_play_back);
+        mIbDoubleEye = (ImageButton) findViewById(R.id.ib_double_eye);
         mSeekBar.setThumbOffset(1);
         mIbBack.setOnClickListener(new OnClickListener() {
             @Override
@@ -203,6 +205,18 @@ public class VideoPlayActivity extends AppCompatActivity {
                     setResult(101, intent);
                     VideoPlayActivity.this.finish();
                 }
+            }
+        });
+        //双眼模式
+        mIbDoubleEye.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEyesMode == SNVR_DOUBLE_EYES_MODE){
+                    mEyesMode = SNVR_SINGLE_EYES_MODE;
+                }else if (mEyesMode == SNVR_SINGLE_EYES_MODE){
+                    mEyesMode = SNVR_DOUBLE_EYES_MODE;
+                }
+                mVideoView.setEyesMode(mEyesMode);
             }
         });
 
@@ -478,6 +492,7 @@ public class VideoPlayActivity extends AppCompatActivity {
         } else if (playType == VedioContants.Living) {
             mVideoView.setVideoPath(mPlayUrl);
         }
+
     }
 
     /**

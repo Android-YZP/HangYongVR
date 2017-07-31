@@ -126,6 +126,14 @@
                 android:textColor="#fff"
                 android:textSize="13sp" />
 
+            <ImageButton
+                android:id="@+id/ib_double_eye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="10dp"
+                android:src="@mipmap/double_eye"/>
+
         </LinearLayout>
     </RelativeLayout>
 
