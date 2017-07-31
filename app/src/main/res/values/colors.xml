@@ -148,5 +148,5 @@
     <color name="actionsheet_blue">#037BFF</color>
 
     <color name="upload_summit">#BBFFFF</color>
-
+    <color name="bg_video_list">#50ffffff</color>
 </resources>
