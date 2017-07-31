@@ -81,7 +81,6 @@ public class VideoListActivity extends SwipeBackActivity {
                 HttpTopic(mTopicId, mPager);
             }
         });
-
     }
 
 

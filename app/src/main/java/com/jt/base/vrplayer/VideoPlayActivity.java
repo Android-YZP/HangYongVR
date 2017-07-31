@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
@@ -42,9 +43,11 @@ import com.snail.media.player.ISnailPlayer.EventType;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerErrorNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerEventNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
+
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -143,10 +146,10 @@ public class VideoPlayActivity extends AppCompatActivity {
     private TimerTask task;
     private int recLen;
     private Timer mTimer;
-    private int mFov =87;
+    private int mFov = 87;
     private int mProjectionType = SNVR_PROJ_PLANE;
     private int mVideoSpliceFormat = SNVR_VIDEO_SPLICE_FMT_2D;
-    private int mNavigationMode = SNVR_NAVIGATION_BOTH;
+    private int mNavigationMode = SNVR_NAVIGATION_SENSOR;
     private int mEyesMode = SNVR_SINGLE_EYES_MODE;
     private int mScale = SCALE_10;
     private int pausePostion;
@@ -211,9 +214,9 @@ public class VideoPlayActivity extends AppCompatActivity {
         mIbDoubleEye.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEyesMode == SNVR_DOUBLE_EYES_MODE){
+                if (mEyesMode == SNVR_DOUBLE_EYES_MODE) {
                     mEyesMode = SNVR_SINGLE_EYES_MODE;
-                }else if (mEyesMode == SNVR_SINGLE_EYES_MODE){
+                } else if (mEyesMode == SNVR_SINGLE_EYES_MODE) {
                     mEyesMode = SNVR_DOUBLE_EYES_MODE;
                 }
                 mVideoView.setEyesMode(mEyesMode);
@@ -270,7 +273,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         mBufferingView.setVisibility(View.GONE);
         // 声音和亮度调节图标
         mOperLayout = (RelativeLayout) findViewById(R.id.layout_volume_bright_transparent);
-        mOperLayout.setVisibility(View.GONE);
         mOperationBg = (ImageView) findViewById(R.id.video_player_voiceortranparent_img);
         mOperTextView = (TextView) findViewById(R.id.video_player_voiceortranparent_value);
     }
@@ -415,9 +417,8 @@ public class VideoPlayActivity extends AppCompatActivity {
                             onVolumeSlide(_percent);
                         } else {
                             Log.i(TAG, "Left");
+                            onBrightnessSlide(_percent);
                         }
-                    } else if (cur_gesture_type == GESTURE_TYPE_HRO) {
-                        Log.i(TAG, "横向移动");
                     }
                 }
                 return true;
@@ -733,7 +734,6 @@ public class VideoPlayActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        LogUtil.e("onStart-----------------------");
     }
 
     @Override
@@ -781,11 +781,11 @@ public class VideoPlayActivity extends AppCompatActivity {
     }
 
     /**
-    * @version 2.0
-    * @author 姚中平
-    * @date 创建于 2017/7/27
-    * @description 获取当前播放的百分比数值，用于储存历史数据
-    */
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/7/27
+     * @description 获取当前播放的百分比数值，用于储存历史数据
+     */
     private int currentPersent() {
         int duration = mVideoView.getCurrentPosition();
         int Tduration = mVideoView.getDuration();
@@ -903,11 +903,11 @@ public class VideoPlayActivity extends AppCompatActivity {
             mVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
             if (mVolume < 0)
                 mVolume = 0;
-            // 显示
-            mOperationBg.setImageResource(R.drawable.video_player_voice);
-            mOperLayout.setVisibility(View.VISIBLE);
         }
 
+        // 显示
+        mOperationBg.setImageResource(R.drawable.video_player_voice);
+        mOperLayout.setVisibility(View.VISIBLE);
         int index = (int) (percent * mMaxVolume) + mVolume;
         if (index > mMaxVolume)
             index = mMaxVolume;
@@ -935,11 +935,10 @@ public class VideoPlayActivity extends AppCompatActivity {
                 mBrightness = 0.50f;
             if (mBrightness < 0.01f)
                 mBrightness = 0.01f;
-
             // 显示
-            mOperationBg.setImageResource(R.drawable.video_player_bright);
-            mOperLayout.setVisibility(View.VISIBLE);
         }
+        mOperationBg.setImageResource(R.drawable.video_player_bright);
+        mOperLayout.setVisibility(View.VISIBLE);
         WindowManager.LayoutParams lpa = getWindow().getAttributes();
         lpa.screenBrightness = mBrightness + percent;
         if (lpa.screenBrightness > 1.0f)
@@ -947,7 +946,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         else if (lpa.screenBrightness < 0.01f)
             lpa.screenBrightness = 0.01f;
         getWindow().setAttributes(lpa);
-
         int present = (int) (lpa.screenBrightness * 100);
         Log.i(TAG, "present is:" + present);
         mOperTextView.setText(String.valueOf(present) + "%");
