@@ -57,8 +57,6 @@ public class VirtualPayDialog {
         Window dialogWindow = dialog.getWindow();
         dialogWindow.setGravity( Gravity.CENTER);
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.x = 0;
-        lp.y = 0;
         dialogWindow.setAttributes(lp);
 
         return this;

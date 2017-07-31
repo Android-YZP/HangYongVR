@@ -111,6 +111,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
                     //刷新列表
                     mPosition = 0;
                     mPager = 1;
+                    mData.clear();
                     HttpTopic(mTopicId, mPager);
                 } else if (direction.equals(SwipyRefreshLayoutDirection.BOTTOM)) {
                     if (mPager >= mTotalpage) {

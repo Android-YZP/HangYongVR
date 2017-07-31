@@ -3,8 +3,10 @@ package com.jt.base.videoDetails.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,8 +65,22 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         //判断1直播，0点播
         int type = mRoomLists.get(position).getType();
         if (type == VedioContants.Video) {//点播
+
+            Log.i("直播数据",mRoomLists.get(position).getVodInfos().toString());
             holder.mllRoomName.setVisibility(View.GONE);
             holder.mRlPersonName.setVisibility(View.GONE);
+            holder.mVideoLiveLl.setVisibility(View.VISIBLE);
+
+            int isall = mRoomLists.get(position).getIsall();
+            if (isall == VedioContants.TWO_D_VEDIO) {//2D
+                holder.mVideo3DImg.setImageResource(R.mipmap.video_play_2d);
+            } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+                holder.mVideo3DImg.setImageResource(R.mipmap.video_play_view);
+            } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+                holder.mVideo3DImg.setImageResource(R.mipmap.video_play_3d);
+            } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+                holder.mVideo3DImg.setImageResource(R.mipmap.video_play_vr);
+            }
 
             holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,12 +95,16 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                     //判断视频类型
                     int isall = mRoomLists.get(position).getIsall();
                     if (isall == VedioContants.TWO_D_VEDIO) {//2D
+                        holder.mVideo3DImg.setImageResource(R.mipmap.video_play_2d);
                         intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
                     } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
                         intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                        holder.mVideo3DImg.setImageResource(R.mipmap.video_play_view);
                     } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+                        holder.mVideo3DImg.setImageResource(R.mipmap.video_play_3d);
                         intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
                     } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+                        holder.mVideo3DImg.setImageResource(R.mipmap.video_play_vr);
                         intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
                     }
 
@@ -101,6 +121,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         } else if (type == VedioContants.Living) {//直播
             holder.mllRoomName.setVisibility(View.VISIBLE);
             holder.mRlPersonName.setVisibility(View.VISIBLE);
+            holder.mVideoLiveLl.setVisibility(View.GONE);
             //加载圆形头像
             ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
             x.image().bind(holder.mIvRoomHead, HttpURL.IV_HOST + mRoomLists.get(position).getHead(), imageOptions, new Callback.CommonCallback<Drawable>() {
@@ -255,6 +276,15 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
         private RelativeLayout mRlPersonName;
         private LinearLayout mllRoomName;
 
+        private LinearLayout mVideoLiveLl;
+        private TextView mVideoPlayTitleTv;
+        private TextView mVideoPlayDateTv;
+        private TextView mVideoPlayBig;
+        private TextView mVideoPLayTimeTv;
+        private TextView mVideoPlayMessageTv;
+        private ImageView mVideo3DImg;
+        private ImageView mVideoPlayAttentionImg;
+
         MyViewHolder(View view) {
             super(view);
             mTvPlayer = (TextView) view.findViewById(R.id.title);
@@ -264,6 +294,16 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             mIvRoomHead = (ImageView) view.findViewById(R.id.iv_room_head);
             mRlPersonName = (RelativeLayout) view.findViewById(R.id.ll_root_person_name);
             mllRoomName = (LinearLayout) view.findViewById(R.id.ll_root_room_name);
+
+            mVideoLiveLl = (LinearLayout)view.findViewById(R.id.ll_video_live);
+            mVideoPlayTitleTv = (TextView)view.findViewById(R.id.tv_video_play_title);
+            mVideoPLayTimeTv = (TextView)view.findViewById(R.id.tv_video_play_time);
+            mVideoPlayDateTv = (TextView)view.findViewById(R.id.tv_video_play_date);
+            mVideoPlayBig = (TextView)view.findViewById(R.id.tv_video_play_big);
+            mVideoPlayMessageTv = (TextView)view.findViewById(R.id.tv_video_play_message);
+
+            mVideo3DImg = (ImageView)view.findViewById(R.id.img_video_play_3d);
+            mVideoPlayAttentionImg  = (ImageView)view.findViewById(R.id.img_video_play_attention);
         }
     }
 

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,10 +19,12 @@ import android.widget.ListView;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.jt.base.R;
+import com.jt.base.personal.LoginActivity;
 import com.jt.base.ui.CustomViewPager;
 import com.jt.base.updtaeapk.CheckUpdate;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
+import com.jt.base.utils.UserInfoUtil;
 import com.jt.base.videoDetails.fragments.VideoDetailFragment;
 import com.jt.base.videos.fragments.VideosFragment;
 
@@ -55,6 +58,15 @@ public class MainActivity extends AppCompatActivity {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+
+        if (SPUtil.getUser() != null){
+            String phone = (String) SPUtil.get(MainActivity.this, "phone", "");
+            String password = (String) SPUtil.get(MainActivity.this, "password", "");
+            if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(password)){
+                UserInfoUtil.getInstance().HttpLogin(this,phone,password);
+            }
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
@@ -78,12 +90,6 @@ public class MainActivity extends AppCompatActivity {
         initPanorama();
         initViewPager();
         initListenter();
-        //检查版本更新
-        CheckUpdate.getInstance().startCheck(MainActivity.this, true);
-        //开启新手引导
-        boolean guide3 = (boolean) SPUtil.get(MainActivity.this, "Guide3", false);
-        if (!guide3)
-            startActivity(new Intent(MainActivity.this, Guide3Activity.class));
     }
 
     @Override

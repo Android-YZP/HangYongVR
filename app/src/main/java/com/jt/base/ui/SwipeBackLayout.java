@@ -53,9 +53,8 @@ public class SwipeBackLayout extends FrameLayout {
 		mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 		mScroller = new Scroller(context);
 
-		mShadowDrawable = getResources().getDrawable(R.drawable.shadow_left);
+		mShadowDrawable = getResources().getDrawable(R.color.transparent);
 	}
-
 
 	public void attachToActivity(Activity activity) {
 		mActivity = activity;

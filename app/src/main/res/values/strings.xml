@@ -246,7 +246,9 @@
     <!--价格-->
     <string name="dialog_pay_virtual_title">影片名称:</string>
     <string name="dialog_pay_virtual_price">价格:</string>
-    <string name="dialog_pay_virtual_account_balance">账户余额:</string>
+    <string name="dialog_pay_virtual_account_balance">余额:</string>
+    <string name="dialog_pay_virtual_house_id">房间id</string>
+    <string name="dialog_pay_virtual_house_live">当前直播</string>
     <string name="dialog_pay_virtual_cancel">取消</string>
     <string name="dialog_pay_virtual_confirm_pay">确定支付</string>
 </resources>

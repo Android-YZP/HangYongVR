@@ -12,6 +12,14 @@ import com.jt.base.application.User;
 
 public class SPUtil {
 
+    private static SPUtil instance;
+
+    public static SPUtil getInstance(){
+        if (instance == null){
+            instance = new SPUtil();
+        }
+        return  instance;
+    }
 
     public static User getUser() {
         String userString = (String) get(UIUtils.getContext(), "user", "");
@@ -84,7 +92,6 @@ public class SPUtil {
         } else if (defaultObject instanceof Long) {
             return sp.getLong(key, (Long) defaultObject);
         }
-
         return null;
     }
 

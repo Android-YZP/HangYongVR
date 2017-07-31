@@ -18,13 +18,15 @@ import com.jt.base.personal.HistoryActivity;
 import com.jt.base.personal.HistoryPayActivity;
 import com.jt.base.personal.LoginActivity;
 import com.jt.base.personal.PersonalActivity;
+import com.jt.base.personinformation.UploadingDocumentsActivity;
+import com.jt.base.ui.VirtuelPayPriceDialog;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 
 @SuppressLint("ValidFragment")
 public class MyFragment extends Fragment {
 
-
+    private static final String TAG = MyFragment.class.getSimpleName();
     private Button mBtnLogin;
     private boolean isLogin;
     private LinearLayout mRootPersonInfo;

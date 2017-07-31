@@ -1,23 +1,14 @@
 package com.jt.base.vrplayer;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,42 +16,28 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
 import com.jt.base.application.User;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.ForgetYzmBean;
-import com.jt.base.http.responsebean.ResetPasswordBean;
 import com.jt.base.http.responsebean.RoomNumberBean;
-import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.SnailNetReceiver.NetStateChangedListener;
-import com.jt.base.vrplayer.seekbar.DiscreteSeekBar;
-import com.jt.base.vrplayer.utils.DialogUtils;
-import com.snail.media.player.IMediaPlayer;
 import com.snail.media.player.ISnailPlayer;
 import com.snail.media.player.ISnailPlayer.EventType;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerErrorNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerEventNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
-
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
-
-import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -71,18 +48,9 @@ public class PlayActivity extends AppCompatActivity {
     private SnailPlayerVideoView mVideoView;
 
     private ImageView mImageView_Back;
-    private TextView mTextView_VideoUrl;
-
-    private ImageView mImageView_PlayPause;
-    private ImageView mImageView_Reload;
-
     private RelativeLayout mBufferingView;
     private TextView mTextViewBufferPercent;
-
-    private final String mUrl = "http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8";
     private String mPlayUrl = "";
-
-    private GestureDetector mGestureDetector = null;
 
     private static final int GESTURE_TYPE_NO = 0;
     private static final int GESTURE_TYPE_HRO = 1;
@@ -163,11 +131,11 @@ public class PlayActivity extends AppCompatActivity {
     private boolean mDragging;
 
 
-    private int mFov;
-    private int mProjectionType = PlayActivity.SNVR_PROJ_PLANE;
-    private int mVideoSpliceFormat = PlayActivity.SNVR_VIDEO_SPLICE_FMT_2D;
-    private int mNavigationMode = PlayActivity.SNVR_NAVIGATION_BOTH;
-    private int mEyesMode = PlayActivity.SNVR_SINGLE_EYES_MODE;
+    private int mFov = 87;
+    private int mProjectionType = SNVR_PROJ_PLANE;
+    private int mVideoSpliceFormat = SNVR_VIDEO_SPLICE_FMT_2D;
+    private int mNavigationMode = SNVR_NAVIGATION_BOTH;
+    private int mEyesMode = SNVR_SINGLE_EYES_MODE;
 
     private int mScale = SCALE_10;
 
@@ -189,36 +157,36 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d(TAG, "surfaceCreated");
-        mPlayUrl = getIntent().getStringExtra(VedioContants.PlayUrl);
-
-
-        LogUtil.i(mPlayUrl + "000000000000000");
-        mFov = uiutils.getPreferenceKeyIntValue(getApplicationContext(),
-                Definition.KEY_FOV, 90);
-        mProjectionType = uiutils.getPreferenceKeyIntValue(
-                getApplicationContext(), Definition.KEY_PROJECTIONTYPE,
-                PlayActivity.SNVR_PROJ_PLANE);
-        mVideoSpliceFormat = uiutils.getPreferenceKeyIntValue(
-                getApplicationContext(), Definition.KEY_VIDEOSPLICEFORMAT,
-                PlayActivity.SNVR_VIDEO_SPLICE_FMT_2D);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        //直播界面是竖屏显示,//播放器界面是横屏显示
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         setContentView(R.layout.activity_play);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        initPlayView();
+        playControll();
+        playGesture();
+        initPlayMode();
+        initInfo();
+    }
+
+    private void playGesture() {
+        mBufferingView = (RelativeLayout) findViewById(R.id.id_mediaplay_buffering_view);
+        mTextViewBufferPercent = (TextView) findViewById(R.id.tv_buffering);
+        mBufferingView.setVisibility(View.VISIBLE);
+    }
+
+    private void playControll() {
+        mImageView_Back = (ImageView) findViewById(R.id.iv_play_back);
+        mImageView_Back.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlayActivity.this.finish();
+            }
+        });
+    }
+
+    private void initPlayView() {
         mVideoView = (SnailPlayerVideoView) findViewById(R.id.id_videoview);
         mVideoView.setVideoPlayerType(ISnailPlayer.PlayerType.PLAYER_TYPE_SNAIL_VR);
         mVideoView.setPlayFov(mFov);
@@ -226,62 +194,19 @@ public class PlayActivity extends AppCompatActivity {
         mVideoView.setNavigationmode(mNavigationMode);
         mVideoView.setVideoSpliceFormat(mVideoSpliceFormat);
         mVideoView.setScale(PlayActivity.SCALE_10);
-        mErroText = (TextView) findViewById(R.id.txt_view_erro);
-        mLayoutPlayerControllerFull = (RelativeLayout) findViewById(R.id.id_mediaplayer_controller);
-
-        mSeekBar = (SeekBar) findViewById(R.id.id_video_player_seekbar);
-        mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
-        mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
-        mSeekBar.setThumbOffset(1);
-        mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mVideoView.seekTo(seekBar.getProgress());
-                mHandler.removeMessages(SHOW_PROGRESS);
-                mDragging = false;
-                mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
-                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress,
-                                          boolean fromUser) {
-                if (!fromUser)
-                    return;
-                //int newposition = (mDuration * progress) / 1000;
-                String time = generateTime(progress);
-                if (mCurrentTime != null)
-                    mCurrentTime.setText(time);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                mHandler.removeMessages(SHOW_PROGRESS);
-                mDragging = true;
-                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
-            }
-        });
-
         mVideoView.setOnStatListener(new ISnailPlayerStateChangeNotification() {
             @Override
             public void notify(ISnailPlayer player, ISnailPlayer.State state) {
-
                 if (state == ISnailPlayer.State.PLAYER_STARTED) {
                     mVideoView.start();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
                     mBufferingView.setVisibility(View.GONE);
                     mIsPrepared = true;
                     mDuration = mVideoView.getDuration();
                     if (mDuration == 0) {
                         mIsLive = true;
-                        mSeekBar.setEnabled(false);
                     } else {
                         mIsLive = false;
-                        mSeekBar.setEnabled(true);
                     }
-                    mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
-                    Log.d(TAG, "player duration :" + mDuration);
                 }
             }
         });
@@ -317,166 +242,6 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
 
-        mImageView_Back = (ImageView) findViewById(R.id.iv_play_back);
-        mImageView_Back.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlayActivity.this.finish();
-            }
-        });
-
-        mTextView_VideoUrl = (TextView) findViewById(R.id.id_textview_videourl);
-        mTextView_VideoUrl.setSelected(true);
-
-        mImageView_PlayPause = (ImageView) findViewById(R.id.id_imageview_play_pause_full);
-        mImageView_PlayPause.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mVideoView.isPlaying()) {
-                    mVideoView.pause();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_play_big);
-                } else {
-                    mVideoView.start();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
-                }
-            }
-        });
-
-        mImageView_Reload = (ImageView) findViewById(R.id.id_imageview_play_reload);
-        mImageView_Reload.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (mVideoView != null) {
-                    mVideoView.stopPlayback();
-                    mVideoView.setVideoPath(mPlayUrl);
-                    mBufferingView.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        mBufferingView = (RelativeLayout) findViewById(R.id.id_mediaplay_buffering_view);
-        mTextViewBufferPercent = (TextView) findViewById(R.id.tv_buffering);
-        mBufferingView.setVisibility(View.GONE);
-
-        // 声音和亮度调节图标
-        mOperLayout = (RelativeLayout) findViewById(R.id.layout_volume_bright_transparent);
-        mOperLayout.setVisibility(View.GONE);
-        mOperationBg = (ImageView) findViewById(R.id.video_player_voiceortranparent_img);
-        mOperTextView = (TextView) findViewById(R.id.video_player_voiceortranparent_value);
-        mGestureDetector = new GestureDetector(this, new OnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                float nFristX = e1.getX();
-                float nFristY = e1.getY();
-                int video_width = mVideoView.getWidth();
-                int video_height = mVideoView.getHeight();
-                Log.i(TAG, " video_width:" + video_width);
-                float nCurrentX = e2.getRawX();
-                float nCurrentY = e2.getRawY();
-
-                int movePosX = (int) Math.abs(distanceX);
-                int movePosY = (int) Math.abs(distanceY);
-
-                if (mNavigationMode != SNVR_NAVIGATION_SENSOR) {
-                    float phi = distanceX * 360 / video_width;
-                    float theta = distanceY * mFov / video_height;
-                    mVideoView.setTouchInfo(phi, theta);
-
-                } else {
-                    getGestureDirection(movePosX, movePosY);
-
-                    if (cur_gesture_type == GESTURE_TYPE_VER) {
-                        float _percent = (nFristY - nCurrentY) / video_height;
-
-                        if (nFristX > video_width / 2) {
-                            Log.i(TAG, "right");
-                            onVolumeSlide(_percent);
-                        } else {
-                            Log.i(TAG, "Left");
-                        }
-                    } else if (cur_gesture_type == GESTURE_TYPE_HRO) {
-                        Log.i(TAG, "横向移动");
-                    }
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onDown(MotionEvent e) {
-
-                return true;
-            }
-
-            @Override
-            public void onShowPress(MotionEvent e) {
-            }
-
-            @Override
-            public void onLongPress(MotionEvent e) {
-
-
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2,
-                                   float velocityX, float velocityY) {
-                return false;
-            }
-        });
-
-        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mMaxVolume = mAudioManager
-                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        mVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-
-        mImageView_MediaMeta = (ImageView) findViewById(R.id.id_imageview_media_meta);
-        mImageView_MediaMeta.setEnabled(false);
-        mImageView_MediaMeta.setVisibility(View.GONE);
-        mImageView_MediaMeta.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mTextView_MediaMeta.getVisibility() != View.VISIBLE) {
-                    mTextView_MediaMeta.setText(mMediaMeta);
-                    mTextView_MediaMeta.setVisibility(View.VISIBLE);
-                } else {
-                    mTextView_MediaMeta.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        mImageView_MediaInfo = (ImageView) findViewById(R.id.id_imageview_media_info);
-        mImageView_MediaInfo.setVisibility(View.GONE);
-        mImageView_MediaInfo.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mTextView_MediaInfo.getVisibility() != View.VISIBLE) {
-                    mTextView_MediaInfo.setVisibility(View.VISIBLE);
-                } else {
-                    mTextView_MediaInfo.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        mImageView_ResetAngle = (ImageView) findViewById(R.id.id_imageview_resetAngle);
-        mImageView_ResetAngle.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                mVideoView.setOriginalAngle();
-            }
-        });
-
 
         mNetReceiver = SnailNetReceiver.getInstance();
         mNetChangedListener = new NetStateChangedListener() {
@@ -498,22 +263,13 @@ public class PlayActivity extends AppCompatActivity {
                         showNetErrorDialog();
                         break;
                     default:
-
-
                 }
             }
         };
-        LogUtil.i(mPlayUrl + "");
-        initPlayMode();
-        initInfo();
-
-
     }
 
 
-    /******************************************我是华丽的分割线**********************************************************************
-     * 设置在线人数
-     */
+    /******************************************我是华丽的分割线***********************************************************************/
 
 
     /**
@@ -579,7 +335,7 @@ public class PlayActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
+                UIUtils.showTip("在线人数--服务端连接失败");
             }
 
             @Override
@@ -593,15 +349,14 @@ public class PlayActivity extends AppCompatActivity {
 
     private void initInfo() {
         Intent intent = getIntent();
+        mPlayUrl = intent.getStringExtra(VedioContants.PlayUrl);
         ImageView ivHead = (ImageView) findViewById(R.id.iv_room_head);
         TextView tvUserName = (TextView) findViewById(R.id.tv_room_person_name);
         String HeadImg = intent.getStringExtra(VedioContants.KEY_PLAY_HEAD);
         String UserName = intent.getStringExtra(VedioContants.KEY_PLAY_USERNAME);
-        int PlayType = intent.getIntExtra(VedioContants.PlayType, 4);
         mRoomId = intent.getStringExtra(VedioContants.KEY_PLAY_ID);
-
         ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
-        if (!TextUtils.isEmpty(HeadImg))
+        if (!TextUtils.isEmpty(HeadImg))//加载圆形头像
             x.image().bind(ivHead, HeadImg, imageOptions, new Callback.CommonCallback<Drawable>() {
                 @Override
                 public void onSuccess(Drawable result) {
@@ -621,7 +376,6 @@ public class PlayActivity extends AppCompatActivity {
                 }
             });
         tvUserName.setText(UserName);
-
         //获取在线人数
         HttpOnLineNumber(mRoomId, 1);
         mVideoView.setVideoPath(mPlayUrl);
@@ -642,260 +396,6 @@ public class PlayActivity extends AppCompatActivity {
         }
         mVideoView.setProjectionType(mProjectionType);
         mVideoView.setEyesMode(mEyesMode);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.play, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        MenuItem menuItem = menu.findItem(R.id.projection_type);
-        if (SNVR_PROJ_PLANE == mProjectionType) {
-            menuItem.setIcon(R.drawable.vn_projection_plane);
-        } else if (SNVR_PROJ_SPHERE == mProjectionType) {
-            menuItem.setIcon(R.drawable.vn_projection_sphere);
-        } else if (SNVR_PROJ_DOME == mProjectionType) {
-            menuItem.setIcon(R.drawable.vn_projection_dome);
-        }
-
-        menuItem = menu.findItem(R.id.vsplice_format);
-        if (SNVR_VIDEO_SPLICE_FMT_2D == mVideoSpliceFormat) {
-            menuItem.setIcon(R.drawable.vn_display_mono);
-        } else if (SNVR_VIDEO_SPLICE_FMT_3D_SBS == mVideoSpliceFormat) {
-            menuItem.setIcon(R.drawable.vn_display_side_by_side);
-        } else if (SNVR_VIDEO_SPLICE_FMT_3D_OVU == mVideoSpliceFormat) {
-            menuItem.setIcon(R.drawable.vn_display_over_under);
-        }
-
-        menuItem = menu.findItem(R.id.vn_eyesmode);
-        if (SNVR_SINGLE_EYES_MODE == mEyesMode) {
-            menuItem.setIcon(R.drawable.vn_double_eye);
-        } else if (SNVR_DOUBLE_EYES_MODE == mEyesMode) {
-            menuItem.setIcon(R.drawable.vn_double_eye_light);
-        }
-
-        menuItem = menu.findItem(R.id.sensor_mode);
-        if (SNVR_NAVIGATION_SENSOR == mNavigationMode) {
-            menuItem.setIcon(R.drawable.sensor);
-        } else if (SNVR_NAVIGATION_BOTH == mNavigationMode) {
-            menuItem.setIcon(R.drawable.both);
-        } else if (SNVR_NAVIGATION_TOUCH == mNavigationMode) {
-            menuItem.setIcon(R.drawable.touch);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.projection_type:
-                popProjectionTypeDialog(item);
-                break;
-            case R.id.vsplice_format:
-                popDisplayModeDialog(item);
-                break;
-            case R.id.vn_eyesmode:
-                popEyesModeDialog(item);
-                break;
-            case R.id.sensor_mode:
-                popSensorModeDialog(item);
-                break;
-            case R.id.fov_set:
-                popFovSetDialog(item);
-                break;
-            case R.id.scale_set:
-                popScaleDialog(item);
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void popFovSetDialog(final MenuItem item) {
-
-        DialogUtils.showSelectFovDialog(this, new DiscreteSeekBar.OnProgressChangeListener() {
-                    @Override
-                    public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
-                        if (fromUser) {
-                            mVideoView.setPlayFov(value);
-                        }
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-//                            mVideoView.setPlayFov(seekBar.getValue());
-                    }
-                }, new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int angle = (int) v.getTag();
-                        mFov = angle;
-                        mVideoView.setPlayFov(mFov);
-                    }
-                }
-                , new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mVideoView.setPlayFov(mFov);
-                    }
-                });
-
-    }
-
-
-    private void popScaleDialog(final MenuItem item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setSingleChoiceItems(new String[]{"X0.5", "X1.0",
-                        "X2.0"}, mScale,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (0 == which) {
-                            item.setIcon(R.drawable.x_05);
-                        } else if (1 == which) {
-                            item.setIcon(R.drawable.x_10);
-                        } else if (2 == which) {
-                            item.setIcon(R.drawable.x_20);
-                        }
-                        mScale = which;
-                        mVideoView.setScale(mScale);
-                        uiutils.setPreferenceKeyIntValue(
-                                getApplicationContext(),
-                                Definition.KEY_SCALE, mScale);
-                        dialog.dismiss();
-                    }
-                });
-        builder.setNegativeButton("Cancel", null);
-        AlertDialog myDialog = builder.create();
-        myDialog.setTitle("Select Scale Mode");
-        myDialog.show();
-
-    }
-
-    private void popSensorModeDialog(final MenuItem item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setSingleChoiceItems(new String[]{"Sensor", "Touch",
-                        "Double Sensor"}, mNavigationMode,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (PlayActivity.SNVR_NAVIGATION_TOUCH == which) {
-                            item.setIcon(R.drawable.touch);
-                        } else if (PlayActivity.SNVR_NAVIGATION_BOTH == which) {
-                            item.setIcon(R.drawable.both);
-                        } else if (PlayActivity.SNVR_NAVIGATION_SENSOR == which) {
-                            item.setIcon(R.drawable.sensor);
-                        }
-                        mNavigationMode = which;
-                        mVideoView.setNavigationmode(mNavigationMode);
-                        uiutils.setPreferenceKeyIntValue(
-                                getApplicationContext(),
-                                Definition.KEY_SENSORMODE, mNavigationMode);
-                        dialog.dismiss();
-                    }
-                });
-        builder.setNegativeButton("Cancel", null);
-        AlertDialog myDialog = builder.create();
-        myDialog.setTitle("Select Sensor Mode");
-        myDialog.show();
-
-    }
-
-    private void popEyesModeDialog(final MenuItem item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setSingleChoiceItems(new String[]{"single eyes",
-                        "double eyes"}, mEyesMode,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (PlayActivity.SNVR_SINGLE_EYES_MODE == which) {
-                            item.setIcon(R.drawable.vn_double_eye);
-                        } else if (PlayActivity.SNVR_DOUBLE_EYES_MODE == which) {
-                            item.setIcon(R.drawable.vn_double_eye_light);
-                        }
-
-                        mEyesMode = which;
-                        mVideoView.setEyesMode(mEyesMode);
-                        dialog.dismiss();
-                    }
-                });
-        builder.setNegativeButton("Cancel", null);
-        AlertDialog myDialog = builder.create();
-        myDialog.setTitle("Select Eyes Mode");
-        myDialog.show();
-
-    }
-
-    private void popProjectionTypeDialog(final MenuItem item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setSingleChoiceItems(
-                new String[]{"Plane", "Sphere", "Dome"}, mProjectionType,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (PlayActivity.SNVR_PROJ_PLANE == which) {
-                            item.setIcon(R.drawable.vn_projection_plane);
-                        } else if (PlayActivity.SNVR_PROJ_SPHERE == which) {
-                            item.setIcon(R.drawable.vn_projection_sphere);
-                        } else if (PlayActivity.SNVR_PROJ_DOME == which) {
-                            item.setIcon(R.drawable.vn_projection_dome);
-                        }
-
-                        mProjectionType = which;
-                        Log.d(TAG, "selected projection = " + mProjectionType);
-                        mVideoView.setProjectionType(mProjectionType);
-                        uiutils.setPreferenceKeyIntValue(
-                                getApplicationContext(),
-                                Definition.KEY_PROJECTIONTYPE, mProjectionType);
-                        dialog.dismiss();
-                    }
-                });
-
-        builder.setNegativeButton("Cancel", null);
-        AlertDialog myDialog = builder.create();
-        myDialog.setTitle("Select projection type");
-        myDialog.show();
-    }
-
-    private void popDisplayModeDialog(final MenuItem item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setSingleChoiceItems(new String[]{"2D", "3D Side By Side",
-                        "3D Over/Under"}, mVideoSpliceFormat,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (PlayActivity.SNVR_VIDEO_SPLICE_FMT_2D == which) {
-                            item.setIcon(R.drawable.vn_display_mono);
-                        } else if (PlayActivity.SNVR_VIDEO_SPLICE_FMT_3D_SBS == which) {
-                            item.setIcon(R.drawable.vn_display_side_by_side);
-                        } else if (PlayActivity.SNVR_VIDEO_SPLICE_FMT_3D_OVU == which) {
-                            item.setIcon(R.drawable.vn_display_over_under);
-                        }
-                        mVideoSpliceFormat = which;
-                        mVideoView.setVideoSpliceFormat(mVideoSpliceFormat);
-                        uiutils.setPreferenceKeyIntValue(
-                                getApplicationContext(),
-                                Definition.KEY_VIDEOSPLICEFORMAT,
-                                mVideoSpliceFormat);
-                        dialog.dismiss();
-                    }
-                });
-        builder.setNegativeButton("Cancel", null);
-        AlertDialog myDialog = builder.create();
-        myDialog.setTitle("Select Format");
-        myDialog.show();
     }
 
     private void showErrorDialog() {
@@ -931,28 +431,18 @@ public class PlayActivity extends AppCompatActivity {
         show = normalDialog.show();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-//		mBufferingView.setVisibility(View.VISIBLE);
-    }
+
 
     @Override
     protected void onResume() {
         mNetReceiver.registNetBroadCast(this);
         mNetReceiver.addNetStateChangeListener(mNetChangedListener);
-
-
         if (mVideoView != null) {
-
             mVideoView.setPlayFov(mFov);
             mVideoView.setScale(mScale);
-
             if (mVideoView.IsSurfaceHolderValid()) {
-
                 mVideoView.resetUrl();
             }
-
         }
 
         super.onResume();
@@ -981,7 +471,6 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mHandler.removeMessages(SHOW_PROGRESS);
         if (mVideoView != null) {
             mVideoView.stop();
             mVideoView.stopPlayback();
@@ -1007,77 +496,6 @@ public class PlayActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (mGestureDetector.onTouchEvent(event))
-            return true;
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_UP:
-                endGesture();
-                return true;
-        }
-        return super.onTouchEvent(event);
-    }
-
-    private void endGesture() {
-        mVolume = -1;
-        mBrightness = -1f;
-        cur_gesture_type = GESTURE_TYPE_NO;
-        mOperLayout.setVisibility(View.GONE);
-    }
-
-    private void getGestureDirection(float nX, float nY) {
-
-        if (cur_gesture_type == GESTURE_TYPE_NO) {
-            if (nX == 0) {
-                if (nY > 15) {
-                    cur_gesture_type = GESTURE_TYPE_VER;
-                }
-            } else if (nY == 0) {
-                if (nX > 5) {
-                    cur_gesture_type = GESTURE_TYPE_HRO;
-                }
-            } else {
-                if (nX / nY > 3) {
-                    cur_gesture_type = GESTURE_TYPE_HRO;
-                } else if (nY / nX > 3) {
-                    cur_gesture_type = GESTURE_TYPE_VER;
-                }
-            }
-        }
-    }
-
-    /**
-     * 滑动改变声音大小
-     *
-     * @param percent
-     */
-    private void onVolumeSlide(float percent) {
-        if (mVolume == -1) {
-            mVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            if (mVolume < 0)
-                mVolume = 0;
-            // 显示
-            mOperationBg.setImageResource(R.drawable.video_player_voice);
-            mOperLayout.setVisibility(View.VISIBLE);
-        }
-
-        int index = (int) (percent * mMaxVolume) + mVolume;
-        if (index > mMaxVolume)
-            index = mMaxVolume;
-        else if (index < 0)
-            index = 0;
-
-        // 变更声音
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, index, 0);
-
-        // 变更进度条
-        int present = index * 100 / mMaxVolume;
-        Log.i(TAG, "present is:" + present);
-        mOperTextView.setText(String.valueOf(present) + "%");
-    }
-
 
     /**
      * 保存用户历史观看数据
@@ -1116,118 +534,6 @@ public class PlayActivity extends AppCompatActivity {
         });
     }
 
-
-    /**
-     * 滑动改变亮度
-     *
-     * @param percent
-     */
-    private void onBrightnessSlide(float percent) {
-        if (mBrightness < 0) {
-            mBrightness = getWindow().getAttributes().screenBrightness;
-            if (mBrightness <= 0.00f)
-                mBrightness = 0.50f;
-            if (mBrightness < 0.01f)
-                mBrightness = 0.01f;
-
-            // 显示
-            mOperationBg.setImageResource(R.drawable.video_player_bright);
-            mOperLayout.setVisibility(View.VISIBLE);
-        }
-        WindowManager.LayoutParams lpa = getWindow().getAttributes();
-        lpa.screenBrightness = mBrightness + percent;
-        if (lpa.screenBrightness > 1.0f)
-            lpa.screenBrightness = 1.0f;
-        else if (lpa.screenBrightness < 0.01f)
-            lpa.screenBrightness = 0.01f;
-        getWindow().setAttributes(lpa);
-
-        int present = (int) (lpa.screenBrightness * 100);
-        Log.i(TAG, "present is:" + present);
-        mOperTextView.setText(String.valueOf(present) + "%");
-
-    }
-
-    private void toggleMediaControlsVisiblity() {
-        if (mLayoutPlayerControllerFull.getVisibility() == View.VISIBLE) {
-            mLayoutPlayerControllerFull.setVisibility(View.GONE);
-            mShowing = false;
-            mHandler.removeMessages(SHOW_PROGRESS);
-        } else {
-            mLayoutPlayerControllerFull.setVisibility(View.VISIBLE);
-            mShowing = true;
-            updatePausePlay();
-            mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        }
-    }
-
-    private static String generateTime(long position) {
-        int totalSeconds = (int) (position / 1000);
-
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours = totalSeconds / 3600;
-
-        if (hours > 0) {
-            return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes,
-                    seconds).toString();
-        } else {
-            return String.format(Locale.US, "%02d:%02d", minutes, seconds)
-                    .toString();
-        }
-    }
-
-    private void updatePausePlay() {
-        if (mVideoView.isPlaying()) {
-            mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_pause_big);
-        } else {
-            mImageView_PlayPause.setBackgroundResource(R.drawable.btn_selector_player_play_big);
-        }
-    }
-
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            long pos;
-            if (msg.what == SHOW_PROGRESS) {
-                pos = setProgress();
-                mSeekBar.setMax(mVideoView.getDuration());
-                if (!mDragging && mShowing) {
-                    msg = obtainMessage(SHOW_PROGRESS);
-                    sendMessageDelayed(msg, 1000 - (pos % 1000));
-                    updatePausePlay();
-                }
-
-            }
-        }
-    };
-
-    private long setProgress() {
-        if (mVideoView == null || mDragging)
-            return 0;
-
-        int position = mVideoView.getCurrentPosition();
-        int duration = mVideoView.getDuration();
-        if (mSeekBar != null) {
-            if (duration > 0) {
-                //long pos = 1000L * position / duration;
-                mSeekBar.setProgress(position);
-            }
-            int percent = mVideoView.getBufferPercentage();
-            mSeekBar.setSecondaryProgress(percent);
-        }
-
-        mDuration = duration;
-
-        if (mEndTime != null)
-            mEndTime.setText(generateTime(mDuration));
-        if (mCurrentTime != null)
-            mCurrentTime.setText(generateTime(position));
-
-        return position;
-    }
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -1240,6 +546,5 @@ public class PlayActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
-
 
 }

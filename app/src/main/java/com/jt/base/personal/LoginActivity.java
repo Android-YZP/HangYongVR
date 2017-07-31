@@ -602,6 +602,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LogUtil.i(result);
                 if (userBean.getCode() == HTTP_SUCCESS) {
                     SPUtil.putUser(userBean);
+                    SPUtil.put(UIUtils.getContext(),"password",mEtPassWord.getText().toString());
+                    SPUtil.put(UIUtils.getContext(),"phone",mEtPhone.getText().toString());
                     SPUtil.put(LoginActivity.this, "isLogin", true);
                     if (isRegist) {//判断用户是注册还是登陆
                         UIUtils.showTip("注册成功");
@@ -617,7 +619,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
+//                UIUtils.showTip("服务端连接失败");
             }
 
             @Override

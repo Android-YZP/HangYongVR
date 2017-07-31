@@ -28,9 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:background="@null"
             android:paddingLeft="25dp"
             android:paddingRight="23dp"
-            android:background="@null"
             android:src="@mipmap/video_player_back" />
 
         <TextView
@@ -49,9 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:visibility="gone"
         android:layout_marginTop="50dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -85,8 +85,7 @@
         android:id="@+id/id_relativelayout_full_controller"
         android:layout_width="match_parent"
         android:layout_height="@dimen/controller_height"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/id_relativelayout_full_controller_top">
+        android:layout_alignParentBottom="true">
 
 
         <LinearLayout
@@ -95,8 +94,6 @@
             android:layout_height="@dimen/controller_height"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/id_imageview_play_reload"
-            android:layout_toStartOf="@+id/id_imageview_resetAngle"
             android:orientation="horizontal">
 
             <TextView
@@ -128,6 +125,14 @@
                 android:text="00:00"
                 android:textColor="#fff"
                 android:textSize="13sp" />
+
+            <ImageButton
+                android:id="@+id/ib_double_eye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="10dp"
+                android:src="@mipmap/double_eye"/>
 
         </LinearLayout>
     </RelativeLayout>

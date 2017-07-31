@@ -77,8 +77,7 @@
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".personal.LoginActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".videos.activitys.VideoListActivity"
             android:screenOrientation="portrait"
@@ -132,8 +131,10 @@
         <activity android:name=".activitys.Guide1Activity" />
         <activity android:name=".activitys.Guide3Activity" />
         <activity android:name=".activitys.Guide4Activity"/>
-        <activity android:name=".activitys.SearchActivity"  android:theme="@style/NoTitleTranslucentTheme"/>
+        <activity android:name=".activitys.SearchActivity"  android:screenOrientation="portrait" android:theme="@style/NoTitleTranslucentTheme"/>
         <activity android:name=".activitys.SplashActivity"></activity>
+
+        <activity android:name=".personinformation.UploadingDocumentsActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

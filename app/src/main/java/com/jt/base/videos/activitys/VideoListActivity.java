@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 
 public class VideoListActivity extends SwipeBackActivity {
-    private ImageView mVideoback;
+    private LinearLayout mVideobackLl;
     private RecyclerView mRvVideolist;
     private VideoListAdapter mVideoListAdapter;
     private int mPager = 1;
@@ -53,7 +54,7 @@ public class VideoListActivity extends SwipeBackActivity {
 
     private void initView() {
         mRvVideolist = (RecyclerView) findViewById(R.id.rv_video_list);
-        mVideoback = (ImageView) findViewById(R.id.im_video_list_return);
+        mVideobackLl = (LinearLayout) findViewById(R.id.ll_video_list_return);
         mSrlListTopic = (SwipeRefreshLayout) findViewById(R.id.srl_video_list_topic);
         mTvTopicTitle = (TextView) findViewById(R.id.tv_list_topic_title);
     }
@@ -66,7 +67,7 @@ public class VideoListActivity extends SwipeBackActivity {
     }
 
     private void initListenter() {
-        mVideoback.setOnClickListener(new View.OnClickListener() {
+        mVideobackLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -81,7 +82,6 @@ public class VideoListActivity extends SwipeBackActivity {
                 HttpTopic(mTopicId, mPager);
             }
         });
-
     }
 
 

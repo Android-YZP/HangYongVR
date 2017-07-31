@@ -83,6 +83,18 @@
 
 # 保留support下的所有类及其内部类
 -keep class android.support.** {*;}
+#-libraryjars /libs/snailplayer.jar
+
+#蜗牛VR的代码混淆
+-keep class com.snail.media.player.** { *;}
+-keep class com.unity3d.player.**{ *;}
+-dontwarn com.snail.media.player.**
+-dontwarn com.unity3d.player.**
+-keep class com.snail.**{*;}
+-keep class com.dac.**{*;}
+
+
+
 
 # 保留继承的
 -keep public class * extends android.support.v4.**
