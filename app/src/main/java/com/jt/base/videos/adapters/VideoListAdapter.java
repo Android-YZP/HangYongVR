@@ -113,12 +113,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
-
-
-
-
-
-
                 Glide.with(context)
                         .load(HttpURL.IV_HOST + topicBean.get(position - 1).getImg1())
                         .asBitmap()

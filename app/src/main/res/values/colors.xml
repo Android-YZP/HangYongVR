@@ -147,4 +147,6 @@
     <color name="alertdialog_line">#c6c6c6</color>
     <color name="actionsheet_blue">#037BFF</color>
 
+    <color name="upload_summit">#BBFFFF</color>
+
 </resources>

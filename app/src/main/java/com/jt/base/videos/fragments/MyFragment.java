@@ -17,6 +17,8 @@ import com.jt.base.R;
 import com.jt.base.personal.HistoryActivity;
 import com.jt.base.personal.LoginActivity;
 import com.jt.base.personal.PersonalActivity;
+import com.jt.base.personinformation.UploadingDocumentsActivity;
+import com.jt.base.ui.VirtuelPayPriceDialog;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 

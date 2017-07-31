@@ -46,7 +46,6 @@ public class UserInfoUtil {
                     SPUtil.putUser(userBean);
                 } else {
                     context.startActivity(new Intent(context, LoginActivity.class));
-
                 }
             }
 
