@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.jt.base.R;
 import com.jt.base.personal.HistoryActivity;
+import com.jt.base.personal.HistoryPayActivity;
 import com.jt.base.personal.LoginActivity;
 import com.jt.base.personal.PersonalActivity;
 import com.jt.base.utils.SPUtil;
@@ -106,7 +107,8 @@ public class MyFragment extends Fragment {
         mLlMyPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.showTip("敬请期待");
+                startActivity(new Intent(getActivity(), HistoryPayActivity.class));
+                getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
             }
         });
     }

@@ -417,7 +417,7 @@ public class ForgetActivity extends AppCompatActivity implements View.OnClickLis
         task = new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {      // UI thread
+                runOnUiThread( new Runnable() {      // UI thread
                     @Override
                     public void run() {
                         recLen--;

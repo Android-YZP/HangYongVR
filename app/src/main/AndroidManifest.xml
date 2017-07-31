@@ -92,6 +92,10 @@
             android:name=".personal.HistoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
+        <activity
+            android:name=".personal.HistoryPayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleTranslucentTheme" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

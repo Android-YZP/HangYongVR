@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/rl_history_list"
@@ -25,7 +26,7 @@
             android:layout_marginLeft="142dp"
             android:layout_marginRight="18dp"
             android:ellipsize="end"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
             android:singleLine="true"
             android:text="科幻之旅"
             android:textColor="#000000"
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="142dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="55dp"
             android:text="已观看至10%"
             android:textColor="#666666"
             android:textSize="10sp" />

@@ -119,6 +119,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
                 public void onCancelled(CancelledException cex) {
                 }
 
+
                 @Override
                 public void onFinished() {
                 }

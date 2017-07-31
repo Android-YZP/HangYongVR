@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_my_pay_list"
+        android:layout_width="match_parent"
+        android:layout_height="131dp">
+
+        <com.jt.base.ui.XCRoundRectImageView
+            android:id="@+id/iv_my_pay_img"
+            android:layout_width="155dp"
+            android:layout_height="81dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            android:scaleType="fitXY"
+            android:background="@mipmap/main_video_list_more"/>
+
+
+        <TextView
+            android:id="@+id/tv_my_pay_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="186dp"
+            android:layout_marginRight="18dp"
+            android:ellipsize="end"
+            android:layout_marginTop="25dp"
+            android:singleLine="true"
+            android:text="科幻之旅"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_my_pay_persent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="186dp"
+            android:layout_marginTop="55dp"
+            android:text="支付金额：10元"
+            android:textColor="#666666"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_my_pay_shijian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mypay_shijian"
+            android:text="2017-3-12  12:22"
+            android:textColor="#bdbdc3"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginLeft="186dp"
+            android:layout_marginTop="82dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:background="#d9d9d9" />
+</LinearLayout>
