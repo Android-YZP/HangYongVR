@@ -1,23 +1,14 @@
 package com.jt.base.vrplayer;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,42 +16,28 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.jt.base.R;
 import com.jt.base.application.User;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
-import com.jt.base.http.responsebean.ForgetYzmBean;
-import com.jt.base.http.responsebean.ResetPasswordBean;
 import com.jt.base.http.responsebean.RoomNumberBean;
-import com.jt.base.http.responsebean.VodbyTopicBean;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.vrplayer.SnailNetReceiver.NetStateChangedListener;
-import com.jt.base.vrplayer.seekbar.DiscreteSeekBar;
-import com.jt.base.vrplayer.utils.DialogUtils;
-import com.snail.media.player.IMediaPlayer;
 import com.snail.media.player.ISnailPlayer;
 import com.snail.media.player.ISnailPlayer.EventType;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerErrorNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerEventNotification;
 import com.snail.media.player.ISnailPlayer.ISnailPlayerStateChangeNotification;
-
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
-
-import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -71,18 +48,9 @@ public class PlayActivity extends AppCompatActivity {
     private SnailPlayerVideoView mVideoView;
 
     private ImageView mImageView_Back;
-    private TextView mTextView_VideoUrl;
-
-    private ImageView mImageView_PlayPause;
-    private ImageView mImageView_Reload;
-
     private RelativeLayout mBufferingView;
     private TextView mTextViewBufferPercent;
-
-    private final String mUrl = "http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8";
     private String mPlayUrl = "";
-
-    private GestureDetector mGestureDetector = null;
 
     private static final int GESTURE_TYPE_NO = 0;
     private static final int GESTURE_TYPE_HRO = 1;
@@ -189,7 +157,6 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -199,7 +166,6 @@ public class PlayActivity extends AppCompatActivity {
         initPlayView();
         playControll();
         playGesture();
-        LogUtil.i(mPlayUrl + "");
         initPlayMode();
         initInfo();
     }
@@ -207,7 +173,7 @@ public class PlayActivity extends AppCompatActivity {
     private void playGesture() {
         mBufferingView = (RelativeLayout) findViewById(R.id.id_mediaplay_buffering_view);
         mTextViewBufferPercent = (TextView) findViewById(R.id.tv_buffering);
-        mBufferingView.setVisibility(View.GONE);
+        mBufferingView.setVisibility(View.VISIBLE);
     }
 
     private void playControll() {
@@ -233,8 +199,6 @@ public class PlayActivity extends AppCompatActivity {
             public void notify(ISnailPlayer player, ISnailPlayer.State state) {
                 if (state == ISnailPlayer.State.PLAYER_STARTED) {
                     mVideoView.start();
-                    mImageView_PlayPause
-                            .setBackgroundResource(R.drawable.btn_selector_player_pause_big);
                     mBufferingView.setVisibility(View.GONE);
                     mIsPrepared = true;
                     mDuration = mVideoView.getDuration();
@@ -243,7 +207,6 @@ public class PlayActivity extends AppCompatActivity {
                     } else {
                         mIsLive = false;
                     }
-                    Log.d(TAG, "player duration :" + mDuration);
                 }
             }
         });
@@ -372,7 +335,7 @@ public class PlayActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
+                UIUtils.showTip("在线人数--服务端连接失败");
             }
 
             @Override
