@@ -353,7 +353,6 @@ public class VideoPlayActivity extends AppCompatActivity {
             public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
                 if (error.equals("PLAYER_ERROR_EXIT")) {
                     LogUtil.i("11111111111" + error);
-
                 }
             }
         });
@@ -375,6 +374,7 @@ public class VideoPlayActivity extends AppCompatActivity {
                         UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
                         break;
                     case NET_NO:
+                        mVideoView.pause();
                         showNetErrorDialog();
                         break;
                     default:
@@ -742,15 +742,19 @@ public class VideoPlayActivity extends AppCompatActivity {
 
     private void showNetErrorDialog() {
         AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(VideoPlayActivity.this, R.style.MyDialogStyle);
+                new AlertDialog.Builder(VideoPlayActivity.this);
         normalDialog.setCancelable(false);
         normalDialog.setMessage("网络被拐走了...");
-        normalDialog.setPositiveButton("确定",
+        normalDialog.setPositiveButton("点击重试",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        show.dismiss();
-                        VideoPlayActivity.this.finish();
+                        if (NetUtil.isOpenNetwork()){
+                            show.dismiss();
+                            mVideoView.start();
+                        }else {
+                            showNetErrorDialog();
+                        }
                     }
                 });
         show = normalDialog.show();
