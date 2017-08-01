@@ -61,7 +61,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-
         //判断1直播，0点播
         int type = mRoomLists.get(position).getType();
         if (type == VedioContants.Video) {//点播
