@@ -22,12 +22,13 @@ import java.util.List;
  */
 
 public class MyPayAdapter extends RecyclerView.Adapter<MyPayAdapter.MyPayViewHolder>{
-    public Context context;
+    private Context context;
+    private List<String> list;
 
 
-    public MyPayAdapter(HistoryActivity context) {
+    public MyPayAdapter(HistoryActivity context, List<String> list) {
         this.context = context;
-
+        this.list = list;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class MyPayAdapter extends RecyclerView.Adapter<MyPayAdapter.MyPayViewHol
 
     @Override
     public int getItemCount() {
-        return 10;
+        return list.size();
     }
 
     public class MyPayViewHolder extends RecyclerView.ViewHolder {
