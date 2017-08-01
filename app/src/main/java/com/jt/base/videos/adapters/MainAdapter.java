@@ -136,7 +136,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 ///////////////////////////////////////////////////设置脚布局/////////////////////////////////////////////////
 
-                if (topicBean.get(position).getResult().size() <= 10) {
+                if (topicBean.get(position).getResult().size() <= 7) {
                     View noview = View.inflate(context, R.layout.main_list_item_foot_no_view, null);
                     mainVideosAdapter.setFooterView(noview);
                 }else {

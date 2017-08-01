@@ -161,7 +161,6 @@ public class MainFragment extends Fragment {
 
     private void initRecycleView() {
         mLayoutManager = new LinearLayoutManager(getActivity()) ;
-
         mRecycler.setLayoutManager(mLayoutManager);
         setHeaderView(mRecycler);
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -240,10 +239,13 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
             }
 
-
+            @Override
+            public void onFinished() {
+                super.onFinished();
+                mRecyclerfreshLayout.setRefreshing(false);
+            }
         });
     }
 
@@ -292,8 +294,6 @@ public class MainFragment extends Fragment {
                             mMainAdapter.setFooterView(v);
                         }
                         mRecycler.setAdapter(mMainAdapter);
-
-
                     }
                 }
             }

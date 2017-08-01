@@ -203,7 +203,6 @@ public class VideoDetailFragment extends Fragment {
                     } else {
                         HttpRoomList(++mPager + "", true);
                     }
-
                 }
             }
         });
@@ -226,7 +225,6 @@ public class VideoDetailFragment extends Fragment {
                         }
                         mDlLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         mRvVideoDetaillist.scrollToPosition(firstItemPosition);
-
                     } else {
                         panoWidgetView.setVisibility(View.GONE);
                         mIvTwoDBg.setVisibility(View.GONE);
