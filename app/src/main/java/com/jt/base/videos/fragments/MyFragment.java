@@ -14,12 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jt.base.R;
+import com.jt.base.persioninformation.UploadingDocumentsActivity;
 import com.jt.base.personal.HistoryActivity;
 import com.jt.base.personal.HistoryPayActivity;
 import com.jt.base.personal.LoginActivity;
 import com.jt.base.personal.PersonalActivity;
-import com.jt.base.personinformation.UploadingDocumentsActivity;
-import com.jt.base.ui.VirtuelPayPriceDialog;
 import com.jt.base.utils.SPUtil;
 import com.jt.base.utils.UIUtils;
 
@@ -33,6 +32,7 @@ public class MyFragment extends Fragment {
     private LinearLayout mRootUnLogin;
     private LinearLayout mRootHistory;
     private LinearLayout mRootLogined;
+    private LinearLayout mCertification;
     private RelativeLayout mRootGoLogin;
     private RelativeLayout mRootGoLogin1;
     private TextView mTvName;
@@ -113,6 +113,13 @@ public class MyFragment extends Fragment {
                 getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
             }
         });
+
+        mCertification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), UploadingDocumentsActivity.class));
+            }
+        });
     }
 
     private void initData() {
@@ -140,6 +147,7 @@ public class MyFragment extends Fragment {
         mRootHistory = (LinearLayout) view.findViewById(R.id.ll_root_history);
         mRootLogined = (LinearLayout) view.findViewById(R.id.my_logined);
         mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
+        mCertification = (LinearLayout)view.findViewById(R.id.ll_my_certification);
         mLlMyPay = (LinearLayout) view.findViewById(R.id.ll_my_pay);
         mTvName = (TextView) view.findViewById(R.id.tv_my_name);
         mRootGoLogin = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login);

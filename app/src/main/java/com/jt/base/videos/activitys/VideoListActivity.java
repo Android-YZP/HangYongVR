@@ -1,11 +1,13 @@
 package com.jt.base.videos.activitys;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,9 +43,11 @@ public class VideoListActivity extends SwipeBackActivity {
     private int mDataTotal;
     private int mTopicId;
     private TextView mTvTopicTitle;
+    private LinearLayout mEmptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vedio_list_activity);
         initView();
@@ -57,6 +61,7 @@ public class VideoListActivity extends SwipeBackActivity {
         mVideobackLl = (LinearLayout) findViewById(R.id.ll_video_list_return);
         mSrlListTopic = (SwipeRefreshLayout) findViewById(R.id.srl_video_list_topic);
         mTvTopicTitle = (TextView) findViewById(R.id.tv_list_topic_title);
+        mEmptyView = (LinearLayout)findViewById(R.id.ll_video_list_no_network);
     }
 
     private void initData() {
@@ -121,7 +126,9 @@ public class VideoListActivity extends SwipeBackActivity {
     private void HttpTopic(int topicId, int pager) {
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
-            return;
+            mEmptyView.setVisibility(View.VISIBLE);
+        }else {
+            mEmptyView.setVisibility(View.GONE);
         }
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.vodByTopic);
@@ -147,6 +154,7 @@ public class VideoListActivity extends SwipeBackActivity {
                         setHeaderView(mRvVideolist, topicByVideoBean.getPage());
                         mRvVideolist.setAdapter(mVideoListAdapter);
                     }
+
                 }
             }
 

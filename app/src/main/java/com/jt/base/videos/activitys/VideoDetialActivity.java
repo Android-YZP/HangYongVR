@@ -14,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -101,7 +102,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
 
 
     private void initListenter() {
-
         //刷新和下拉加载的监听
         mSwipyRefresh.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
@@ -111,7 +111,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
                     //刷新列表
                     mPosition = 0;
                     mPager = 1;
-                    mData.clear();
+                    if (mData != null) mData.clear();
                     HttpTopic(mTopicId, mPager);
                 } else if (direction.equals(SwipyRefreshLayoutDirection.BOTTOM)) {
                     if (mPager >= mTotalpage) {
@@ -184,12 +184,14 @@ public class VideoDetialActivity extends SwipeBackActivity {
         }
     }
 
+
     /**
      * 获取话题
      */
     private void HttpTopic(int topicId, int pager) {
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
+            mIvDetialErrorBg.setVisibility(View.VISIBLE);
             return;
         }
         //使用xutils3访问网络并获取返回值
@@ -207,6 +209,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
                 LongLogUtil.e("---------------", result);
                 VodbyTopicBean topicByVideoBean = new Gson().fromJson(result, VodbyTopicBean.class);
                 if (topicByVideoBean.getCode() == 0) {
+                    mIvDetialErrorBg.setVisibility(View.GONE);
                     mTotalpage = topicByVideoBean.getPage().getTotalPage();
                     if (mData != null && mData.size() > 0) {//下拉加载
                         mData.addAll(topicByVideoBean.getResult());
@@ -262,8 +265,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
                 .load(url)
                 .crossFade()
                 .into(imageView);
-
-
     }
 
     /**
