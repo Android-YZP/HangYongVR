@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <solid android:color="@color/alertdialog_line"></solid>
+
+    <corners android:radius="10dp"></corners>
     <solid android:color="@color/bg_video_list"/>
 
     <corners android:radius="18dp"/>

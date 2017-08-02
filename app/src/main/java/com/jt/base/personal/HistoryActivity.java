@@ -224,6 +224,10 @@ public class HistoryActivity extends SwipeBackActivity {
         });
     }
 
+    /**
+     *
+     * 视频播放本地缓存
+     */
 
     private void showToastStyleDialog(final int position) {
 
