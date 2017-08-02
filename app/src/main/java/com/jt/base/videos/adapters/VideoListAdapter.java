@@ -138,8 +138,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 return;
             }
-
-
             return;
         } else if (getItemViewType(position) == TYPE_HEADER) {
             return;
