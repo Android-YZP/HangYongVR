@@ -1,5 +1,6 @@
 package com.jt.base.videos.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -59,6 +60,7 @@ public class SearchHeadTypeAdapter extends RecyclerView.Adapter<SearchHeadTypeAd
             public void onClick(View v) {
                 Intent intent = new Intent(context, VideoListActivity.class);
                 intent.putExtra(VedioContants.TopicId, mSearchResult.get(position).getId());//哪个话题
+                intent.putExtra(VedioContants.TopicTitle,mSearchResult.get(position).getName());
                 context.startActivity(intent);
                 context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
             }

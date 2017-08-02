@@ -20,6 +20,7 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.responsebean.TopicBean;
 import com.jt.base.http.responsebean.VodbyTopicBean;
+import com.jt.base.ui.CircleImageView;
 import com.jt.base.utils.LocalUtils;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
@@ -66,6 +67,31 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         if (type == VedioContants.Video) {//点播
             holder.mllRoomName.setVisibility(View.GONE);
             holder.mRlPersonName.setVisibility(View.GONE);
+            holder.mVideoLiveLl.setVisibility(View.VISIBLE);
+            holder.mVideoName.setVisibility(View.VISIBLE);
+
+            int isall = mData.get(position).getIsall();
+            if (isall == VedioContants.TWO_D_VEDIO) {//2D
+                holder.mVideo3DImg.setImageResource(R.mipmap.video_play_2d);
+            } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+                holder.mVideo3DImg.setImageResource(R.mipmap.video_play_view);
+            } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+                holder.mVideo3DImg.setImageResource(R.mipmap.video_play_3d);
+            } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+                holder.mVideo3DImg.setImageResource(R.mipmap.video_play_vr);
+            }
+
+            Glide.with(context).load(mData.get(position).getHead()).into(holder.mVideoNameHead);
+            holder.mVideoNameTv.setText(mData.get(position).getUsername());
+            holder.mVideoPlayTitleTv.setText(mData.get(position).getChannelName());
+            holder.mVideoPLayTimeTv.setText(String.valueOf(mData.get(position).getTime()));
+            if (mData.get(position).getFormat() != null){
+                holder.mVideoPlayDateTv.setText((String)mData.get(position).getFormat());
+            }
+            holder.mVideoPlayBig.setText(String.valueOf(mData.get(position).getSize()));
+            if (mData.get(position).getIntroduce() != null){
+                holder.mVideoPlayMessageTv.setText((String)mData.get(position).getIntroduce());
+            }
 
             holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,6 +128,8 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         } else if (type == VedioContants.Living) {//直播
             holder.mllRoomName.setVisibility(View.VISIBLE);
             holder.mRlPersonName.setVisibility(View.VISIBLE);
+            holder.mVideoLiveLl.setVisibility(View.GONE);
+            holder.mVideoName.setVisibility(View.GONE);
             //加载圆形头像
             ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
             x.image().bind(holder.mIvRoomHead, HttpURL.IV_HOST + mData.get(position).getHead(), imageOptions, new Callback.CommonCallback<Drawable>() {
@@ -222,6 +250,20 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         private RelativeLayout mRlPersonName;
         private LinearLayout mllRoomName;
 
+        private LinearLayout mVideoLiveLl;
+        private TextView mVideoPlayTitleTv;
+        private TextView mVideoPlayTitleSecond;
+        private TextView mVideoPlayDateTv;
+        private TextView mVideoPlayBig;
+        private TextView mVideoPLayTimeTv;
+        private TextView mVideoPlayMessageTv;
+        private ImageView mVideo3DImg;
+        private ImageView mVideoPlayAttentionImg;
+        private LinearLayout mVideoName;
+
+        private CircleImageView mVideoNameHead;
+        private TextView mVideoNameTv;
+
         MyViewHolder(View view) {
             super(view);
             mTvPlayer = (TextView) view.findViewById(R.id.title);
@@ -231,6 +273,22 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             mIvRoomHead = (ImageView) view.findViewById(R.id.iv_room_head);
             mRlPersonName = (RelativeLayout) view.findViewById(R.id.ll_root_person_name);
             mllRoomName = (LinearLayout) view.findViewById(R.id.ll_root_room_name);
+
+            mVideoLiveLl = (LinearLayout)view.findViewById(R.id.ll_video_live);
+            mVideoPlayTitleTv = (TextView)view.findViewById(R.id.tv_video_play_title);
+            mVideoPlayTitleSecond = (TextView)view.findViewById(R.id.tv_video_play_title_second);
+            mVideoPLayTimeTv = (TextView)view.findViewById(R.id.tv_video_play_time);
+            mVideoPlayDateTv = (TextView)view.findViewById(R.id.tv_video_play_date);
+            mVideoPlayBig = (TextView)view.findViewById(R.id.tv_video_play_big);
+            mVideoPlayMessageTv = (TextView)view.findViewById(R.id.tv_video_play_message);
+
+            mVideo3DImg = (ImageView)view.findViewById(R.id.img_video_play_3d);
+            mVideoPlayAttentionImg  = (ImageView)view.findViewById(R.id.img_video_play_attention);
+
+            mVideoName = (LinearLayout)view.findViewById(R.id.ll_video_name);
+            mVideoNameHead = (CircleImageView)view.findViewById(R.id.img_video_head);
+            mVideoNameTv = (TextView)view.findViewById(R.id.tv_video_name);
+
         }
     }
 

@@ -14,7 +14,7 @@
         android:id="@+id/pano_view_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="@null" />
+        android:scrollbars="none" />
     <ImageView
         android:id="@+id/iv_two_bg"
         android:layout_width="match_parent"

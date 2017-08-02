@@ -35,44 +35,51 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_video_list_no_network"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="150dp"
-            android:background="@mipmap/vedio_detial_no_net" />
+        <LinearLayout
+            android:id="@+id/ll_video_list_no_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:text="网络被掳走,请下拉刷新"
-            android:textColor="#bbbbbb"
-            android:textSize="20sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="150dp"
+                android:background="@mipmap/vedio_detial_no_net" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:text="网络被掳走,请下拉刷新"
+                android:textColor="#bbbbbb"
+                android:textSize="20sp" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srl_video_list_topic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_video_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <com.jt.base.ui.VerticalSwipeRefreshLayout
+            android:id="@+id/srl_video_list_topic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_video_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.jt.base.ui.VerticalSwipeRefreshLayout>
+
+    </RelativeLayout>
+
 
 </LinearLayout>
 
