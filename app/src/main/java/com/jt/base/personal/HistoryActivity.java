@@ -1,6 +1,8 @@
 package com.jt.base.personal;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +37,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import db.HistorySpliteOpenHelper;
+
 /**
  * Created by wzq930102 on 2017/7/11.
  */
@@ -52,6 +56,7 @@ public class HistoryActivity extends SwipeBackActivity {
     private List<GetHistoryBean.ResultBean> resultData;
     final int RESULT_CODE = 101;
     private TextView mTvhistorydelete;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,11 @@ public class HistoryActivity extends SwipeBackActivity {
         initView();
         initData();
         initListener();
+        mContext = this;
+        //创建一个帮助类对象
+        HistorySpliteOpenHelper mySqliteOpenHelper = new HistorySpliteOpenHelper(mContext);
+        //调用getReadableDatabase方法,来初始化数据库的创建
+        SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
     }
 
 

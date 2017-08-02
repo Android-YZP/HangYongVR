@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:layout_weight="1" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="226dp"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp">
+
+            <TextView
+                android:id="@+id/tv_bean_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50"
+                android:textSize="38sp"
+                android:textColor="#000"
+                android:layout_marginLeft="17dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/big_bean"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="65dp"/>
+
+            <ImageView
+                android:id="@+id/img_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/pay_cha"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="19dp"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_detailed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="影片名称：疯狂的蛙豆"
+            android:textSize="17dp"
+            android:textColor="#666666"
+            android:layout_marginLeft="17dp"/>
+        <Button
+            android:id="@+id/btn_pay"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            android:layout_marginTop="21dp"
+            android:text="支  付"
+            android:textColor="#ffffff"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:background="@drawable/btn_vr_update"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d9d9d9"
+            android:layout_marginTop="25dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+          >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="余额："
+                android:textSize="15sp"
+                android:textColor="#666666"
+                android:layout_marginLeft="17dp"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/smart_bean"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="60dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="100"
+                android:textSize="15sp"
+                android:textColor="#666666"
+                android:layout_marginLeft="70dp"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/tv_top_up"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="充值"
+                android:textSize="15sp"
+                android:textColor="#00f5d3"
+                android:layout_marginLeft="110dp"
+                android:gravity="center"/>
+            <ImageView
+                android:id="@+id/img_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="145dp"
+                android:background="@mipmap/pay_go"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
