@@ -149,4 +149,7 @@
 
     <color name="upload_summit">#BBFFFF</color>
     <color name="bg_video_list">#50ffffff</color>
+    <drawable name="white">#fff</drawable>
+    <drawable name="gray">#666666</drawable>
+
 </resources>
