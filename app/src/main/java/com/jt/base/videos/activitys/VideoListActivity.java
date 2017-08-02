@@ -18,12 +18,14 @@ import com.jt.base.R;
 import com.jt.base.http.HttpURL;
 import com.jt.base.http.JsonCallBack;
 import com.jt.base.http.responsebean.VodbyTopicBean;
+import com.jt.base.ui.VerticalSwipeRefreshLayout;
 import com.jt.base.utils.NetUtil;
 import com.jt.base.utils.UIUtils;
 import com.jt.base.videoDetails.VedioContants;
 import com.jt.base.videos.adapters.VideoListAdapter;
 import com.jt.base.ui.SwipeBackActivity;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -38,7 +40,7 @@ public class VideoListActivity extends SwipeBackActivity {
     private RecyclerView mRvVideolist;
     private VideoListAdapter mVideoListAdapter;
     private int mPager = 1;
-    private SwipeRefreshLayout mSrlListTopic;
+    private VerticalSwipeRefreshLayout mSrlListTopic;
     private List<VodbyTopicBean.ResultBean> mData;
     private int mDataTotal;
     private int mTopicId;
@@ -59,7 +61,7 @@ public class VideoListActivity extends SwipeBackActivity {
     private void initView() {
         mRvVideolist = (RecyclerView) findViewById(R.id.rv_video_list);
         mVideobackLl = (LinearLayout) findViewById(R.id.ll_video_list_return);
-        mSrlListTopic = (SwipeRefreshLayout) findViewById(R.id.srl_video_list_topic);
+        mSrlListTopic = (VerticalSwipeRefreshLayout) findViewById(R.id.srl_video_list_topic);
         mTvTopicTitle = (TextView) findViewById(R.id.tv_list_topic_title);
         mEmptyView = (LinearLayout)findViewById(R.id.ll_video_list_no_network);
     }
@@ -82,6 +84,7 @@ public class VideoListActivity extends SwipeBackActivity {
         mSrlListTopic.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                LogUtil.i("isFresher");
                 mPager = 1;
                 mData.clear();
                 HttpTopic(mTopicId, mPager);
@@ -124,11 +127,20 @@ public class VideoListActivity extends SwipeBackActivity {
      * 获取话题
      */
     private void HttpTopic(int topicId, int pager) {
+//        mSrlListTopic.setRefreshing(true);
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
+            mSrlListTopic.setRefreshing(false);
             mEmptyView.setVisibility(View.VISIBLE);
-        }else {
-            mEmptyView.setVisibility(View.GONE);
+            if (mData != null){
+                mData.clear();
+                mVideoListAdapter.notifyDataSetChanged();
+                if (mVideoListAdapter.getFooterView() != null || mVideoListAdapter.getHeaderView() != null)
+                    mVideoListAdapter.getFooterView().setVisibility(View.GONE);
+                    mVideoListAdapter.getHeaderView().setVisibility(View.GONE);
+            }
+
+            return;
         }
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.vodByTopic);
@@ -144,6 +156,7 @@ public class VideoListActivity extends SwipeBackActivity {
             public void onSuccess(String result) {
                 VodbyTopicBean topicByVideoBean = new Gson().fromJson(result, VodbyTopicBean.class);
                 if (topicByVideoBean.getCode() == 0) {
+                    mEmptyView.setVisibility(View.GONE);
                     mDataTotal = topicByVideoBean.getPage().getTotal();
                     if (mData != null && mData.size() > 0) {
                         mData.addAll(topicByVideoBean.getResult());
@@ -161,7 +174,6 @@ public class VideoListActivity extends SwipeBackActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 ex.printStackTrace();
-                UIUtils.showTip("服务端连接失败");
             }
 
             @Override

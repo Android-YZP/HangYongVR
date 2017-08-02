@@ -12,9 +12,9 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+   public *;
+}
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
@@ -289,3 +289,18 @@
     #Xutils的注解
 -keep class * extends java.lang.annotation.Annotation { *; }
 
+#腾讯IM
+-keep class com.tencent.**{*;}
+-dontwarn com.tencent.**
+
+-keep class tencent.**{*;}
+-dontwarn tencent.**
+
+-keep class qalsdk.**{*;}
+-dontwarn qalsdk.**
+
+
+ -keep class org.apache.http.** { *; }
+ -keep class android.net.http.** { *; }
+ -dontwarn org.apache.http.**
+ -dontwarn android.net.http.**

@@ -56,10 +56,6 @@ public class SearchHAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mDatas = mDatas;
     }
 
-
-
-
-
     //HeaderView和FooterView的get和set函数
     public View getHeaderView() {
         return mHeaderView;
