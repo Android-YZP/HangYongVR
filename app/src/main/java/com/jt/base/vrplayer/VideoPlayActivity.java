@@ -428,25 +428,6 @@ public class VideoPlayActivity extends AppCompatActivity {
                     float theta = distanceY * mFov / video_height;
                     mVideoView.setTouchInfo(phi, theta);
                 }
-
-
-//                if (mNavigationMode != SNVR_NAVIGATION_SENSOR) {
-//                    float phi = distanceX * 360 / video_width;
-//                    float theta = distanceY * mFov / video_height;
-//                    mVideoView.setTouchInfo(phi, theta);
-//                } else {
-//                    getGestureDirection(movePosX, movePosY);
-//                    if (cur_gesture_type == GESTURE_TYPE_VER) {
-//                        float _percent = (nFristY - nCurrentY) / video_height;
-//                        if (nFristX > video_width / 2) {
-//                            Log.i(TAG, "right");
-//                            onVolumeSlide(_percent);
-//                        } else {
-//                            Log.i(TAG, "Left");
-//                            onBrightnessSlide(_percent);
-//                        }
-//                    }
-//                }
                 return true;
             }
 

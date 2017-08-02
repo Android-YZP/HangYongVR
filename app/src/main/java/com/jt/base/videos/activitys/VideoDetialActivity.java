@@ -102,7 +102,6 @@ public class VideoDetialActivity extends SwipeBackActivity {
 
 
     private void initListenter() {
-
         //刷新和下拉加载的监听
         mSwipyRefresh.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
