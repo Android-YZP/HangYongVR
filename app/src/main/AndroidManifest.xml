@@ -134,7 +134,7 @@
         <activity android:name=".activitys.SearchActivity"  android:screenOrientation="portrait" android:theme="@style/NoTitleTranslucentTheme"/>
         <activity android:name=".activitys.SplashActivity"></activity>
 
-        <activity android:name=".personinformation.UploadingDocumentsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".persioninformation.UploadingDocumentsActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

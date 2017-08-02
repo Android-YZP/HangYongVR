@@ -7,8 +7,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
-        
+        android:layout_height="50dp"
+        >
+
         <LinearLayout
             android:id="@+id/ll_video_list_return"
             android:layout_width="60dp"
@@ -33,6 +34,33 @@
             android:textColor="#000000"
             android:textSize="20sp" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_video_list_no_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="150dp"
+            android:background="@mipmap/vedio_detial_no_net" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:text="网络被掳走,请下拉刷新"
+            android:textColor="#bbbbbb"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_video_list_topic"

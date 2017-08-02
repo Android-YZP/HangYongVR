@@ -71,4 +71,12 @@
         <attr name="leftThumbDrawable" format="reference" />
         <attr name="rightThumbDrawable" format="reference" />
     </declare-styleable>
+
+    <!-- 圆形图片 开始 -->
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_hight" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+    <!-- 圆形图片结束 -->
 </resources>
