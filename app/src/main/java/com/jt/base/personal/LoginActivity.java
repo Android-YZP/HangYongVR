@@ -608,7 +608,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (isRegist) {//判断用户是注册还是登陆
                         UIUtils.showTip("注册成功");
                     } else {
-                        UIUtils.showTip("登陆成功");
+                        UIUtils.showTip("登录成功");
                     }
 
                     finish();

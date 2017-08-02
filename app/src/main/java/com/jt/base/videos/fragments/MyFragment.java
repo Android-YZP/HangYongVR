@@ -50,7 +50,6 @@ public class MyFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my, container, false);
         initView(view);
-
         initListener();
         return view;
     }
@@ -124,9 +123,10 @@ public class MyFragment extends Fragment {
 
     private void initData() {
         isLogin = (Boolean) SPUtil.get(getActivity(), "isLogin", false);
-        if (isLogin)
-            mTvName.setText(SPUtil.getUser().getResult().getUser().getUsername());
 
+        if (SPUtil.getUser() != null){
+            mTvName.setText(SPUtil.getUser().getResult().getUser().getUsername());
+        }
         refreshUI();
     }
 
@@ -147,7 +147,7 @@ public class MyFragment extends Fragment {
         mRootHistory = (LinearLayout) view.findViewById(R.id.ll_root_history);
         mRootLogined = (LinearLayout) view.findViewById(R.id.my_logined);
         mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
-        mCertification = (LinearLayout)view.findViewById(R.id.ll_my_certification);
+        mCertification = (LinearLayout) view.findViewById(R.id.ll_my_certification);
         mLlMyPay = (LinearLayout) view.findViewById(R.id.ll_my_pay);
         mTvName = (TextView) view.findViewById(R.id.tv_my_name);
         mRootGoLogin = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login);
