@@ -14,13 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hy.vrfrog.R;
-import com.hy.vrfrog.persioninformation.UploadingDocumentsActivity;
 import com.hy.vrfrog.personal.HistoryActivity;
 import com.hy.vrfrog.personal.HistoryPayActivity;
 import com.hy.vrfrog.personal.LoginActivity;
 import com.hy.vrfrog.personal.PersonalActivity;
+import com.hy.vrfrog.personal.UploadingDocumentsActivity;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
+
 
 @SuppressLint("ValidFragment")
 public class MyFragment extends Fragment {
@@ -117,6 +118,7 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), UploadingDocumentsActivity.class));
+                getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
             }
         });
     }
