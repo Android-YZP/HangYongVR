@@ -74,7 +74,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PlayActivity extends AppCompatActivity {
+public class LivePlayActivity extends AppCompatActivity {
     private static final String TAG = "PlayActivity";
     private static final int HTTP_SUCCESS = 0;
 
@@ -197,7 +197,7 @@ public class PlayActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_play);
+        setContentView(R.layout.activity_live_play);
         initPlayView();
         playControll();
         playGesture();
@@ -215,7 +215,7 @@ public class PlayActivity extends AppCompatActivity {
     private void TicInit() {
         userConfig();
         // identifier为用户名，userSig 为用户登录凭证
-        TIMManager.getInstance().login(TimConfig.Identifier, TimConfig.UserSign, new TIMCallBack() {
+        TIMManager.getInstance().login(TimConfig.Identifier2, TimConfig.UserSign2, new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
                 //错误码code和错误描述desc，可用于定位请求失败原因
@@ -245,13 +245,10 @@ public class PlayActivity extends AppCompatActivity {
 
                         //获取当前元素的类型
                         TIMElemType elemType = elem.getType();
+                        Log.e(tag, "elem type: " + elemType.name());
                         if (elemType == TIMElemType.Text) {
-
-                            //获取文本信息
                             String text = ((TIMTextElem) elem).getText();
-                            TIMUserProfile senderProfile = msg.getSenderProfile();
-                            String nickName = senderProfile.getNickName();
-                            UIUtils.showTip(text+msg.getSender()+nickName);
+                            UIUtils.showTip(text);
                         }
                     }
                 }
@@ -269,14 +266,14 @@ public class PlayActivity extends AppCompatActivity {
      */
     private void addGroup() {
         TIMGroupManager.getInstance().applyJoinGroup(TimConfig.GroupID, "some reason", new TIMCallBack() {
-            @java.lang.Override
+            @Override
             public void onError(int code, String desc) {
                 //接口返回了错误码code和错误描述desc，可用于原因
                 //错误码code列表请参见错误码表
                 Log.e(tag, "disconnected");
             }
 
-            @java.lang.Override
+            @Override
             public void onSuccess() {
                 Log.i(tag, "join group");
             }
@@ -478,9 +475,9 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                PlayActivity.this.finish();
+                LivePlayActivity.this.finish();
 
-                sendMessage();
+//                sendMessage();
             }
         });
     }
@@ -493,7 +490,7 @@ public class PlayActivity extends AppCompatActivity {
         mVideoView.setProjectionType(mProjectionType);
         mVideoView.setNavigationmode(mNavigationMode);
         mVideoView.setVideoSpliceFormat(mVideoSpliceFormat);
-        mVideoView.setScale(PlayActivity.SCALE_10);
+        mVideoView.setScale(LivePlayActivity.SCALE_10);
         mVideoView.setOnStatListener(new ISnailPlayerStateChangeNotification() {
             @Override
             public void notify(ISnailPlayer player, ISnailPlayer.State state) {
@@ -514,7 +511,7 @@ public class PlayActivity extends AppCompatActivity {
         mVideoView.setOnEventListener(new ISnailPlayerEventNotification() {
 
             @Override
-            public boolean notify(ISnailPlayer mp, ISnailPlayer.EventType what, int extra) {
+            public boolean notify(ISnailPlayer mp, EventType what, int extra) {
                 if (what == EventType.PLAYER_EVENT_BUFFERING) {
                     Log.i(TAG, "PLAYER_EVENT_BUFFERING");
                     mBufferingView.setVisibility(View.VISIBLE);
@@ -746,12 +743,12 @@ public class PlayActivity extends AppCompatActivity {
         int vedioode = getIntent().getIntExtra(Definition.PLEAR_MODE, 4);
         mVid = getIntent().getIntExtra("vid", 0);
         if (vedioode == VedioContants.TWO_D_VEDIO) {
-            mEyesMode = PlayActivity.SNVR_SINGLE_EYES_MODE;
-            mProjectionType = PlayActivity.SNVR_PROJ_PLANE;
+            mEyesMode = LivePlayActivity.SNVR_SINGLE_EYES_MODE;
+            mProjectionType = LivePlayActivity.SNVR_PROJ_PLANE;
             mMalu = 45;
         } else if (vedioode == VedioContants.ALL_VIEW_VEDIO) {
-            mEyesMode = PlayActivity.SNVR_SINGLE_EYES_MODE;
-            mProjectionType = PlayActivity.SNVR_PROJ_SPHERE;
+            mEyesMode = LivePlayActivity.SNVR_SINGLE_EYES_MODE;
+            mProjectionType = LivePlayActivity.SNVR_PROJ_SPHERE;
             mMalu = 46;
         }
         mVideoView.setProjectionType(mProjectionType);
@@ -760,7 +757,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private void showErrorDialog() {
         AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(PlayActivity.this, R.style.MyDialogStyle);
+                new AlertDialog.Builder(LivePlayActivity.this, R.style.MyDialogStyle);
         normalDialog.setCancelable(false);
         normalDialog.setInverseBackgroundForced(true);
         normalDialog.setMessage("播放结束,谢谢观看...");
@@ -769,7 +766,7 @@ public class PlayActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         show.dismiss();
-                        PlayActivity.this.finish();
+                        LivePlayActivity.this.finish();
                     }
                 });
         show = normalDialog.show();
@@ -777,7 +774,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private void showNetErrorDialog() {
         AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(PlayActivity.this, R.style.MyDialogStyle);
+                new AlertDialog.Builder(LivePlayActivity.this, R.style.MyDialogStyle);
         normalDialog.setCancelable(false);
         normalDialog.setMessage("网络被拐走了...");
         normalDialog.setPositiveButton("确定",
@@ -785,7 +782,7 @@ public class PlayActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         show.dismiss();
-                        PlayActivity.this.finish();
+                        LivePlayActivity.this.finish();
                     }
                 });
         show = normalDialog.show();

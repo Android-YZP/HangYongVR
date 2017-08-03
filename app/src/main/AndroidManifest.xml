@@ -90,6 +90,12 @@
             android:screenOrientation="landscape"
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.hy.vrfrog.vrplayer.LivePlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:windowActionBarOverlay="true"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name="com.hy.vrfrog.HomeActivity" />
         <activity
             android:name="com.hy.vrfrog.personal.LoginActivity"
