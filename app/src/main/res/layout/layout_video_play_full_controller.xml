@@ -17,11 +17,10 @@
         android:layout_alignParentBottom="true"
         android:background="@mipmap/play_mask_bottom" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="17dp">
 
         <ImageButton
             android:id="@+id/ib_play_back"
@@ -31,18 +30,36 @@
             android:background="@null"
             android:paddingLeft="25dp"
             android:paddingRight="23dp"
-            android:src="@mipmap/video_player_back" />
+            android:src="@mipmap/video_player_back"
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/tv_play_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="73dp"
             android:text="泰坦尼克号"
             android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textSize="18sp"
+            android:layout_centerVertical="true"/>
+        <ImageButton
+            android:id="@+id/imb_landscape_shang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/landscape_pay"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="71dp"/>
+        <ImageButton
+            android:id="@+id/imb_landscape_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/landscape_set"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"/>
 
-    </LinearLayout>
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -92,7 +109,6 @@
             android:id="@+id/id_video_time_progress"
             android:layout_width="match_parent"
             android:layout_height="@dimen/controller_height"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal">
 
@@ -101,10 +117,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="00:00"
+                android:layout_marginRight="10dp"
+                android:text="00:00:00"
                 android:textColor="#fff"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:layout_gravity="center"/>
 
             <SeekBar
                 android:id="@+id/id_video_player_seekbar"
@@ -114,27 +131,31 @@
                 android:maxHeight="3px"
                 android:minHeight="3px"
                 android:progressDrawable="@drawable/player_seekbar"
-                android:thumb="@drawable/seekbar_thumb_video_play" />
+                android:thumb="@drawable/seekbar_thumb_video_play"
+                android:layout_gravity="center"/>
 
             <TextView
                 android:id="@+id/id_video_player_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="40dp"
-                android:text="00:00"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="16dp"
+                android:text="00:00:00"
                 android:textColor="#fff"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:layout_gravity="center"/>
 
             <ImageButton
                 android:id="@+id/ib_double_eye"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="10dp"
-                android:src="@mipmap/double_eye"/>
+                android:background="@mipmap/landscape_eye"
+                android:layout_gravity="center"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="9dp"/>
 
         </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

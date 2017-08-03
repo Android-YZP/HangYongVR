@@ -6,7 +6,7 @@
         android:dashGap="0dp"
         android:dashWidth="6dp"
         android:width="1dp"
-        android:color="#e4572e" />
+        android:color="#afafaf" />
 
     <!--分割线-->
 
