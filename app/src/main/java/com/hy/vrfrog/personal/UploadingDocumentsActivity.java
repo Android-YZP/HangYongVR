@@ -1,4 +1,4 @@
-package com.jt.base.personalinformation;
+package com.hy.vrfrog.personal;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,8 +35,11 @@ import android.widget.Toast;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.ui.ReportDialog;
+import com.hy.vrfrog.ui.SwipeBackActivity;
+import com.hy.vrfrog.ui.VerifiedDialog;
+import com.hy.vrfrog.ui.photoChoiceDialog;
 import com.hy.vrfrog.utils.UIUtils;
-import com.jt.base.ui.ActionSheetDialog;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
@@ -50,7 +54,7 @@ import java.util.List;
  * Created by qwe on 2017/7/31.
  */
 
-public class UploadingDocumentsActivity extends Activity implements View.OnClickListener{
+public class UploadingDocumentsActivity extends SwipeBackActivity implements View.OnClickListener{
 
     public static final int TAKE_PHOTO = 1;
 
@@ -107,6 +111,7 @@ public class UploadingDocumentsActivity extends Activity implements View.OnClick
         switch (view.getId()){
             case R.id.ib_upload_back:
                 finish();
+                overridePendingTransition(0, R.anim.base_slide_right_out);
                 break;
             case R.id.rl_upload_identity_card_front:
                 choice = 1 ;
@@ -117,7 +122,66 @@ public class UploadingDocumentsActivity extends Activity implements View.OnClick
                 showPhotoDialog();
                 break;
             case R.id.btn_upload_identity_summit:
-                uploadCertificaton(mFrontPhoto,mBackPhoto);
+//                uploadCertificaton(mFrontPhoto,mBackPhoto);
+
+//                new VerifiedDialog(UploadingDocumentsActivity.this).builder()
+//                        .setCanceledOnTouchOutside(true)
+//                        .setNegativeButton("", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setPositiveButton("", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        }).show();
+//                new ReportDialog(UploadingDocumentsActivity.this).builder()
+//                        .setCanceledOnTouchOutside(true)
+//                        .setRumorListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setLewdListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setMinorListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setSmokeListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setAdvertisementListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setOtherListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setCancelListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        }).show();
                 break;
         }
     }
@@ -164,14 +228,13 @@ public class UploadingDocumentsActivity extends Activity implements View.OnClick
 
         cameraFile = getCacheFile(new File(getDiskCacheDir(this)),"output_image.jpg");
 
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             imageUri = Uri.fromFile(cameraFile);
         } else {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            imageUri = FileProvider.getUriForFile(UploadingDocumentsActivity.this, "com.vr.file", cameraFile);
+            imageUri = FileProvider.getUriForFile(UploadingDocumentsActivity.this, "com.hy.vrfrog.fileprovider", cameraFile);
         }
         // 启动相机程序
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
@@ -302,21 +365,21 @@ public class UploadingDocumentsActivity extends Activity implements View.OnClick
     }
 
     private void showPhotoDialog(){
-        new ActionSheetDialog(UploadingDocumentsActivity.this)
-                .builder().setCancelable(true).setCanceledOnTouchOutside(true)
-                .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
+        new photoChoiceDialog(UploadingDocumentsActivity.this).builder()
+                .setCanceledOnTouchOutside(true)
+                .setAlbumListener("", new View.OnClickListener() {
                     @Override
-                    public void onClick(int which) {
+                    public void onClick(View view) {
                         takePhotoForAlbum();
-
                     }
                 })
-                .addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Red, new ActionSheetDialog.OnSheetItemClickListener() {
+                .setCameraListener("", new View.OnClickListener() {
                     @Override
-                    public void onClick(int which) {
+                    public void onClick(View view) {
                         takePhotoForCamera();
                     }
-                }).show();
+                })
+               .show();
 
     }
 
@@ -334,7 +397,7 @@ public class UploadingDocumentsActivity extends Activity implements View.OnClick
 
             @Override
             public void onSuccess(String result) {
-                LogUtil.i(result);
+                LogUtil.i("上传证件 =" + result);
 
 
             }

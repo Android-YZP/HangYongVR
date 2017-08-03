@@ -1,6 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:layout_gravity="center"
+
+    >
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/bg_dialog_report_cancel"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@mipmap/pay_icon"
+                android:layout_gravity="center"
+                />
+
+
+            <TextView
+                android:id="@+id/tv_dialog_verified_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/dialog_verified_title"
+                android:textSize="16dp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                />
+
+
+
+            <TextView
+                android:id="@+id/tv_dialog_verified_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/dialog_verified_message"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/panel_black"
+                />
+
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="20dp"
+
+            >
+
+            <TextView
+                android:id="@+id/tv_dialog_verified_cancel"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dialog_pay_virtual_cancel"
+                android:background="@drawable/bg_virtue_price_cancel"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_dialog_verified_confirm_pay"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginRight="20dp"
+                android:text="@string/dialog_pay_virtual_confirm_pay"
+                android:background="@drawable/bg_dialog_virtual_confirm_pay"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

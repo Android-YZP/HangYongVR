@@ -79,4 +79,6 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
     <!-- 圆形图片结束 -->
+
+
 </resources>

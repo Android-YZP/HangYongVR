@@ -109,6 +109,8 @@ public class SearchActivity extends SwipeBackActivity {
             @Override
             public void onClick(View v) {
                SearchActivity.this.finish();
+               overridePendingTransition(0, R.anim.base_slide_right_out);
+
             }
         });
     }

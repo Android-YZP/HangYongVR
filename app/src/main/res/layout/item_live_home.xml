@@ -1,6 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center"
+    >
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_live_home_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="春天的故事"
+                />
+
+            <TextView
+                android:id="@+id/tv_live_home_people_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="123445人"
+                android:layout_marginTop="5dp"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            >
+            <ImageView
+                android:id="@+id/img_live_home_play_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/camera_off"
+                />
+
+            <TextView
+                android:id="@+id/tv_live_home_live_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="直播"
+                android:layout_marginLeft="5dp"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            >
+
+            <com.hy.vrfrog.ui.CircleImageView
+                android:id="@+id/img_live_home_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/detail_head"
+                />
+
+            <TextView
+                android:id="@+id/tv_live_home_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="李宣亚"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
