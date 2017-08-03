@@ -32,7 +32,9 @@ import com.jt.base.ui.SwipeBackActivity;
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
 import com.jt.base.R;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -67,9 +69,9 @@ public class HistoryActivity extends SwipeBackActivity {
         initListener();
         mContext = this;
         //创建一个帮助类对象
-        HistorySpliteOpenHelper mySqliteOpenHelper = new HistorySpliteOpenHelper(mContext);
+//        HistorySpliteOpenHelper mySqliteOpenHelper = new HistorySpliteOpenHelper(mContext);
         //调用getReadableDatabase方法,来初始化数据库的创建
-        SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
+//        SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
     }
 
 
@@ -79,8 +81,10 @@ public class HistoryActivity extends SwipeBackActivity {
 
         if (resultCode == RESULT_CODE) {
             int position = data.getIntExtra("position", 0);
-            resultData.get(requestCode).setWatchTime(position);
-            adapter.notifyDataSetChanged();
+            if (resultData != null && resultData.size() > 0) {
+                resultData.get(requestCode).setWatchTime(position);
+                adapter.notifyDataSetChanged();
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -107,6 +111,11 @@ public class HistoryActivity extends SwipeBackActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        resultData.clear();
+    }
 
     private void initListener() {
         mTvReturn.setOnClickListener(new View.OnClickListener() {
@@ -133,8 +142,7 @@ public class HistoryActivity extends SwipeBackActivity {
                     UIUtils.showTip("请打开网络");
                 } else {
                     HttpDeleteHistory(null);
-                    resultData.clear();
-                    adapter.notifyDataSetChanged();
+                    mRecycler.setVisibility(View.GONE);
                 }
             }
         });
@@ -181,6 +189,7 @@ public class HistoryActivity extends SwipeBackActivity {
                             showToastStyleDialog(position);
                         }
                     });
+                    mRecycler.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -235,7 +244,6 @@ public class HistoryActivity extends SwipeBackActivity {
     }
 
     /**
-     *
      * 视频播放本地缓存
      */
 

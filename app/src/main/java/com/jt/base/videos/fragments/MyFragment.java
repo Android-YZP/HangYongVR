@@ -124,8 +124,14 @@ public class MyFragment extends Fragment {
     private void initData() {
         isLogin = (Boolean) SPUtil.get(getActivity(), "isLogin", false);
 
-        if (SPUtil.getUser() != null){
-            mTvName.setText(SPUtil.getUser().getResult().getUser().getUsername());
+        if (SPUtil.getUser() != null) {
+            if (SPUtil.getUser().getResult() != null) {
+                if (SPUtil.getUser().getResult().getUser() != null) {
+                    if (SPUtil.getUser().getResult().getUser().getUsername() != null) {
+                        mTvName.setText(SPUtil.getUser().getResult().getUser().getUsername());
+                    }
+                }
+            }
         }
         refreshUI();
     }

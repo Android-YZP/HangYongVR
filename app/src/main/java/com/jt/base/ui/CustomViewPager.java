@@ -20,11 +20,12 @@ public class CustomViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    public void setScanScroll(boolean isCanScroll){
+    public void setScanScroll(boolean isCanScroll) {
         this.isCanScroll = isCanScroll;
     }
+
     @Override
-    public void scrollTo(int x, int y){
+    public void scrollTo(int x, int y) {
 //        if (isCanScroll){
         super.scrollTo(x, y);
 //        }
@@ -34,20 +35,27 @@ public class CustomViewPager extends ViewPager {
     public void setCurrentItem(int item) {
         super.setCurrentItem(item);
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent arg0) {
-        if (isCanScroll) {
+        /* return false;//super.onTouchEvent(arg0); */
+        if (isCanScroll)
             return super.onTouchEvent(arg0);
-        } else {
+        else
             return false;
-        }
     }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent arg0) {
-        if (isCanScroll) {
-            return super.onInterceptTouchEvent(arg0);
-        } else {
-            return false;
+        try {
+            if (isCanScroll)
+                return super.onInterceptTouchEvent(arg0);
+            else
+                return false;
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
         }
+        return false;
+
     }
 }

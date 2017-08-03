@@ -1,10 +1,14 @@
 package com.jt.base.activitys;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -59,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-        if (SPUtil.getUser() != null){
+        if (SPUtil.getUser() != null) {
             String phone = (String) SPUtil.get(MainActivity.this, "phone", "");
             String password = (String) SPUtil.get(MainActivity.this, "password", "");
-            if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(password)){
-                UserInfoUtil.getInstance().HttpLogin(this,phone,password);
+            if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(password)) {
+                UserInfoUtil.getInstance().HttpLogin(this, phone, password);
             }
         }
 
@@ -75,9 +79,25 @@ public class MainActivity extends AppCompatActivity {
         initListenter();
         //检查版本更新
         CheckUpdate.getInstance().startCheck(MainActivity.this, true);
-
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                UIUtils.showTip("没有这些权限，部分功能无法使用");
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {

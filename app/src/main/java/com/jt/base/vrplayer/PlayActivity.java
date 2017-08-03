@@ -839,10 +839,9 @@ public class PlayActivity extends AppCompatActivity {
         isRoomNumberOut = true;//退出房间,结束获取在线人数
         HttpOnLineNumber(mRoomId, -1);
         User user = SPUtil.getUser();
-        if (user != null) {
+        if (user != null && user.getResult() != null && user.getResult().getUser() != null) {
             HttpHistory(user.getResult().getUser().getUid() + "", "");
         }
-
     }
 
 
