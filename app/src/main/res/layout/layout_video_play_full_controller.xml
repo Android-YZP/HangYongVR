@@ -60,7 +60,7 @@
             android:background="@mipmap/video_player_volume" />
 
 
-        <com.jt.base.ui.VerticalSeekBar
+        <com.hy.vrfrog.ui.VerticalSeekBar
             android:id="@+id/verticalSeekBar"
             android:layout_width="wrap_content"
             android:layout_height="200dp"

@@ -7,7 +7,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.jt.base.ui.XCRoundRectImageView
+    <com.hy.vrfrog.ui.XCRoundRectImageView
         android:id="@+id/tv_video_list_img"
         android:layout_width="match_parent"
         android:layout_height="@dimen/video_list_item_img_height"
@@ -16,7 +16,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp" />
 
-    <com.jt.base.ui.XCRoundRectImageView
+    <com.hy.vrfrog.ui.XCRoundRectImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"

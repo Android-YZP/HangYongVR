@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jt.base.videoDetails.fragments.VideoDetailFragment">
+    tools:context="com.hy.vrfrog.videoDetails.fragments.VideoDetailFragment">
 
     <LinearLayout
         android:id="@+id/iv_detial_bg"

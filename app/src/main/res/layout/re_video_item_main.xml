@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
 
-        <com.jt.base.ui.XCRoundRectImageView
+        <com.hy.vrfrog.ui.XCRoundRectImageView
             android:id="@+id/iv_video_img"
             android:layout_width="196dp"
             android:layout_height="101dp" />

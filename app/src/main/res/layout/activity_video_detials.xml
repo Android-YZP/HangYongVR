@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
-    tools:context="com.jt.base.videos.activitys.VideoDetialActivity">
+    tools:context="com.hy.vrfrog.videos.activitys.VideoDetialActivity">
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/pano_view_main"

@@ -66,7 +66,7 @@
 
         </LinearLayout>
 
-        <com.jt.base.ui.VerticalSwipeRefreshLayout
+        <com.hy.vrfrog.ui.VerticalSwipeRefreshLayout
             android:id="@+id/srl_video_list_topic"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -76,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.jt.base.ui.VerticalSwipeRefreshLayout>
+        </com.hy.vrfrog.ui.VerticalSwipeRefreshLayout>
 
     </RelativeLayout>
 

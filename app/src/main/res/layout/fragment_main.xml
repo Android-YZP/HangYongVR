@@ -88,18 +88,18 @@
         </LinearLayout>
 
 
-        <com.jt.base.ui.VerticalSwipeRefreshLayout
+        <com.hy.vrfrog.ui.VerticalSwipeRefreshLayout
             android:id="@+id/srl_main_swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.jt.base.ui.MainRecycleView
+            <com.hy.vrfrog.ui.MainRecycleView
                 android:id="@+id/re_main_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
 
-        </com.jt.base.ui.VerticalSwipeRefreshLayout>
+        </com.hy.vrfrog.ui.VerticalSwipeRefreshLayout>
 
 
     </RelativeLayout>
