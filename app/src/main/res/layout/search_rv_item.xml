@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
 
-    <com.jt.base.ui.XCRoundRectImageView
+    <com.hy.vrfrog.ui.XCRoundRectImageView
         android:id="@+id/iv_search_video_img"
         android:layout_width="match_parent"
         android:layout_height="150dp"

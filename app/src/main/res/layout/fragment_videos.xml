@@ -5,15 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/black"
-    tools:context="com.jt.base.videos.fragments.VideosFragment">
+    tools:context="com.hy.vrfrog.videos.fragments.VideosFragment">
 
-    <com.jt.base.ui.NoScrollViewPager
+    <com.hy.vrfrog.ui.NoScrollViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <com.jt.base.ui.BottomBar
+    <com.hy.vrfrog.ui.BottomBar
         android:id="@+id/main_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"

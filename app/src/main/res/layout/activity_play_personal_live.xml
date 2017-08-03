@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#FF000000">
 
-    <com.jt.base.vrplayer.SnailPlayerVideoView
+    <com.hy.vrfrog.vrplayer.SnailPlayerVideoView
         android:id="@+id/id_videoview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -35,7 +35,7 @@
             android:layout_marginRight="20dp"
             android:orientation="vertical">
 
-            <com.jt.base.ui.MaequeeText
+            <com.hy.vrfrog.ui.MaequeeText
                 android:id="@+id/tv_room_person_name"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"

@@ -29,7 +29,7 @@
         android:orientation="horizontal"
         >
 
-        <com.jt.base.ui.CircleImageView
+        <com.hy.vrfrog.ui.CircleImageView
             android:id="@+id/img_video_head"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -79,7 +79,7 @@
             android:orientation="vertical">
 
 
-            <com.jt.base.ui.MaequeeText
+            <com.hy.vrfrog.ui.MaequeeText
                 android:id="@+id/tv_room_person_name"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/pay_layer_list_bg">
 
-        <com.jt.base.ui.MaequeeText
+        <com.hy.vrfrog.ui.MaequeeText
             android:id="@+id/tv_play_channelName"
             android:layout_width="60dp"
             android:layout_height="wrap_content"

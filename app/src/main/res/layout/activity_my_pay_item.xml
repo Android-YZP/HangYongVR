@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="131dp">
 
-        <com.jt.base.ui.XCRoundRectImageView
+        <com.hy.vrfrog.ui.XCRoundRectImageView
             android:id="@+id/iv_my_pay_img"
             android:layout_width="155dp"
             android:layout_height="81dp"

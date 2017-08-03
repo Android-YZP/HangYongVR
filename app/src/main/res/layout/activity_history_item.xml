@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
 
-        <com.jt.base.ui.XCRoundRectImageView
+        <com.hy.vrfrog.ui.XCRoundRectImageView
             android:id="@+id/iv_history_img"
             android:layout_width="110dp"
             android:layout_height="60dp"
