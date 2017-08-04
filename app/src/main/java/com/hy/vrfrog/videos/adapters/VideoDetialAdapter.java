@@ -137,6 +137,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
+                    ex.printStackTrace();
                     UIUtils.showTip("背景图片加载失败,请刷新重试");
                 }
 

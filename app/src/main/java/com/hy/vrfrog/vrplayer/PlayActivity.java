@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -26,6 +28,7 @@ import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.RoomNumberBean;
+import com.hy.vrfrog.timroomchat.TCChatEntity;
 import com.hy.vrfrog.timroomchat.TimConfig;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
@@ -46,7 +49,9 @@ import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMGroupEventListener;
 import com.tencent.imsdk.TIMGroupManager;
 import com.tencent.imsdk.TIMGroupMemberInfo;
+import com.tencent.imsdk.TIMGroupSystemElem;
 import com.tencent.imsdk.TIMGroupTipsElem;
+import com.tencent.imsdk.TIMGroupTipsType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -70,6 +75,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -189,6 +195,10 @@ public class PlayActivity extends AppCompatActivity {
     String tag = "===============";
     private GestureDetector mGestureDetector;
 
+    private RecyclerView mRvChatRomm;
+    private ArrayList<TCChatEntity> mArrayListChatEntity = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,7 +213,27 @@ public class PlayActivity extends AppCompatActivity {
         playGesture();
         initPlayMode();
         initInfo();
-        TicInit();
+//        initChatRomm();
+//        TicInit();
+    }
+
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/8/3
+     * @description 初始化聊天室
+     */
+    private void initChatRomm() {
+        mRvChatRomm = (RecyclerView) findViewById(R.id.rv_room_chat);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
+        mRvChatRomm.setLayoutManager(mLayoutManager);
+
+
     }
 
     /**
@@ -246,13 +276,25 @@ public class PlayActivity extends AppCompatActivity {
                         //获取当前元素的类型
                         TIMElemType elemType = elem.getType();
                         if (elemType == TIMElemType.Text) {
-
                             //获取文本信息
                             String text = ((TIMTextElem) elem).getText();
                             TIMUserProfile senderProfile = msg.getSenderProfile();
                             String nickName = senderProfile.getNickName();
-                            UIUtils.showTip(text+msg.getSender()+nickName);
+                            UIUtils.showTip(text + msg.getSender() + nickName);
+                        } else if (elemType == TIMElemType.GroupSystem) {
+                            String groupName = ((TIMGroupSystemElem) elem).getOpReason();
+                            UIUtils.showTip(groupName);
+
+                        } else if (elemType == TIMElemType.GroupTips) {
+                            String groupName = ((TIMGroupTipsElem) elem).getGroupName();
+                            UIUtils.showTip(groupName);
+
                         }
+//                        else if (elemType == TIMGroupTipsType.Join) {
+//                            String groupName = ((TIMGroupTipsElem) elem).getGroupName();
+//                            UIUtils.showTip(groupName);
+//
+//                        }
                     }
                 }
                 return false;
@@ -268,6 +310,7 @@ public class PlayActivity extends AppCompatActivity {
      * @description 加入群组
      */
     private void addGroup() {
+
         TIMGroupManager.getInstance().applyJoinGroup(TimConfig.GroupID, "some reason", new TIMCallBack() {
             @java.lang.Override
             public void onError(int code, String desc) {

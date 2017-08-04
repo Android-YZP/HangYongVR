@@ -223,7 +223,7 @@
 -keep class sun.misc.Unsafe { *; }
 #-keep class com.google.gson.stream.** { *; }
 # Application classes that will be serialized/deserialized over Gson
--keep class com.jt.base.http.responsebean.** { *; }  ##这里需要改成解析到哪个  javabean
+-keep class com.hy.vrfrog.http.responsebean.** { *; }  ##这里需要改成解析到哪个  javabean
 ##---------------End: proguard configuration for Gson  ----------
 
 
@@ -304,3 +304,22 @@
  -keep class android.net.http.** { *; }
  -dontwarn org.apache.http.**
  -dontwarn android.net.http.**
+
+
+ ################### region for xUtils
+ -keepattributes Signature,*Annotation*
+ -keep public class org.xutils.** {
+     public protected *;
+ }
+ -keep public interface org.xutils.** {
+     public protected *;
+ }
+ -keepclassmembers class * extends org.xutils.** {
+     public protected *;
+ }
+ -keepclassmembers @org.xutils.db.annotation.* class * {*;}
+ -keepclassmembers @org.xutils.http.annotation.* class * {*;}
+ -keepclassmembers class * {
+     @org.xutils.view.annotation.Event <methods>;
+ }
+ #################### end region

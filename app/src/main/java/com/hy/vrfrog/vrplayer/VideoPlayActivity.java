@@ -167,6 +167,7 @@ public class VideoPlayActivity extends AppCompatActivity {
     private boolean isRestart = false;
     private boolean isBack = false;
     private ImageButton mIbDoubleEye;
+    private int currentPosition;
 
 
     @Override
@@ -178,7 +179,7 @@ public class VideoPlayActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_play);
+        setContentView(R.layout.activity_video_play);
 
 
         getWindow().getDecorView().setSystemUiVisibility(
@@ -315,6 +316,12 @@ public class VideoPlayActivity extends AppCompatActivity {
 
                     if (!isRestart) {
                         mVideoView.seekTo(mVideoView.getDuration() * mVideoPosition / 100);
+                    } else {
+                        if (show != null) {
+                            show.dismiss();
+                            show = null;
+                        }
+                        mVideoView.seekTo(currentPosition);
                     }
 
                     if (mDuration == 0) {
@@ -352,8 +359,8 @@ public class VideoPlayActivity extends AppCompatActivity {
             @Override
             public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
                 if (error.equals("PLAYER_ERROR_EXIT")) {
-                    LogUtil.i("11111111111" + error);
                 }
+                LogUtil.i("11111111111" + error);
             }
         });
 
@@ -368,14 +375,19 @@ public class VideoPlayActivity extends AppCompatActivity {
                     case NET_2G:
                     case NET_3G:
                     case NET_4G:
+                        if (show != null) mVideoView.pause();
                         UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
+                        break;
+                    case NET_WIFI:
+                        if (show != null) mVideoView.pause();
                         break;
                     case NET_UNKNOWN:
                         UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
                         break;
                     case NET_NO:
                         mVideoView.pause();
-                        showNetErrorDialog();
+                        if (show == null)
+                            showNetErrorDialog();
                         break;
                     default:
                 }
@@ -490,10 +502,12 @@ public class VideoPlayActivity extends AppCompatActivity {
             }.getType());
             for (int i = 0; i < urlList.size(); i++) {
                 if (urlList.get(i).getDefinition() == 45) {
-                    mVideoView.setVideoPath(urlList.get(i).getUrl());
+                    mPlayUrl = urlList.get(i).getUrl();
+                    mVideoView.setVideoPath(mPlayUrl);
                     return;
                 } else if (urlList.get(i).getDefinition() == 47) {
-                    mVideoView.setVideoPath(urlList.get(i).getUrl());
+                    mPlayUrl = urlList.get(i).getUrl();
+                    mVideoView.setVideoPath(mPlayUrl);
                     return;
                 }
             }
@@ -730,10 +744,14 @@ public class VideoPlayActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (NetUtil.isOpenNetwork()){
+                        if (NetUtil.isOpenNetwork()) {
                             show.dismiss();
+                            show = null;
                             mVideoView.start();
-                        }else {
+                            if (isRestart) {
+                                mVideoView.setVideoPath(mPlayUrl);
+                            }
+                        } else {
                             showNetErrorDialog();
                         }
                     }
@@ -772,6 +790,7 @@ public class VideoPlayActivity extends AppCompatActivity {
         mNetReceiver.remoteNetStateChangeListener(mNetChangedListener);
         mNetReceiver.unRegistNetBroadCast(this);
         mVideoView.pause();
+        currentPosition = mVideoView.getCurrentPosition();
         super.onPause();
     }
 

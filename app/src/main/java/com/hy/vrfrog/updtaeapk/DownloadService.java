@@ -104,7 +104,7 @@ public class DownloadService extends IntentService {
             // 判断是否是7.0
             if (Build.VERSION.SDK_INT >= 24) {
                 // 适配android7.0 ，不能直接访问原路径
-                photoURI = FileProvider.getUriForFile(DownloadService.this, "com.jt.base.fileprovider", apkFile);
+                photoURI = FileProvider.getUriForFile(DownloadService.this, "com.hy.vrfrog.fileprovider", apkFile);
                 installAPKIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             } else {
                 photoURI = Uri.fromFile(apkFile);
