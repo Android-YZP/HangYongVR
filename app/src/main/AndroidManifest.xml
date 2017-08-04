@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 
     <!-- These permissions are used by Google VR SDK to get the best Google VR headset profiles. ! -->
@@ -160,8 +161,12 @@
         <activity android:name="com.hy.vrfrog.activitys.SplashActivity"/>
 
         <activity
-            android:name="com.hy.vrfrog.persioninformation.UploadingDocumentsActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".personal.UploadingDocumentsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleTranslucentTheme"
+            />
+
+        <activity android:name=".videos.activitys.LiveHomeActivity"  android:screenOrientation="portrait"></activity>
 
         <!--腾讯IM-->
         <!-- 【必须】消息收发service -->
@@ -203,7 +208,6 @@
                 <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
             </intent-filter>
         </receiver>
-
 
     </application>
 

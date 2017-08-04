@@ -63,10 +63,6 @@ public class HistoryActivity extends SwipeBackActivity {
         initData();
         initListener();
         mContext = this;
-        //创建一个帮助类对象
-//        HistorySpliteOpenHelper mySqliteOpenHelper = new HistorySpliteOpenHelper(mContext);
-        //调用getReadableDatabase方法,来初始化数据库的创建
-//        SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
     }
 
 
@@ -117,6 +113,7 @@ public class HistoryActivity extends SwipeBackActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(0, R.anim.base_slide_right_out);
             }
         });
 

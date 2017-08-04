@@ -12,18 +12,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +38,7 @@ import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
+import com.hy.vrfrog.personal.HistoryActivity;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -159,6 +166,7 @@ public class VideoPlayActivity extends AppCompatActivity {
     private NetStateChangedListener mNetChangedListener;
     private AlertDialog show;
     private ImageButton mIbBack;
+    private ImageButton mIbShang;
     private String desc;
     private int vedioode;
     private int playType;
@@ -208,8 +216,16 @@ public class VideoPlayActivity extends AppCompatActivity {
         mCurrentTime = (TextView) findViewById(R.id.id_video_player_current_time);
         mEndTime = (TextView) findViewById(R.id.id_video_player_total_time);
         mIbBack = (ImageButton) findViewById(R.id.ib_play_back);
+        mIbShang = (ImageButton) findViewById(R.id.imb_landscape_shang);
         mIbDoubleEye = (ImageButton) findViewById(R.id.ib_double_eye);
         mSeekBar.setThumbOffset(1);
+        mIbShang.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showToastStyleDialog();
+            }
+        });
         mIbBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -474,7 +490,8 @@ public class VideoPlayActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    /******************************************我是华丽的分割线**********************************************************************
+    /******************************************
+     * 我是华丽的分割线**********************************************************************
      */
 
     //初始化播放器模式
@@ -1085,4 +1102,33 @@ public class VideoPlayActivity extends AppCompatActivity {
         }
     }
 
+    private void showToastStyleDialog() {
+
+        final com.hy.vrfrog.utils.DialogUtils dialogUtils = new com.hy.vrfrog.utils.DialogUtils(VideoPlayActivity.this);
+        View contentView = LayoutInflater.from(VideoPlayActivity.this).inflate(
+                R.layout.video_exceptional, null);
+        dialogUtils.setContentView(contentView);
+        dialogUtils.setGravity(Gravity.CENTER);
+        dialogUtils.setXY(450, 300);
+        dialogUtils.show();
+        TextView no = (TextView) contentView.findViewById(R.id.tv_exceptional_no);
+        TextView yes = (TextView) contentView.findViewById(R.id.tv_exceptional_yes);
+        LinearLayout num = (LinearLayout) contentView.findViewById(R.id.ll_exceptional);
+        LinearLayout num1 = (LinearLayout) contentView.findViewById(R.id.ll_exceptional1);
+        LinearLayout num2 = (LinearLayout) contentView.findViewById(R.id.ll_exceptional2);
+        EditText num3 = (EditText) contentView.findViewById(R.id.ed_exceptional_num3);
+        yes.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.showTip("敬请期待");
+            }
+        });
+        no.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogUtils.getBaseDialog().dismiss();
+            }
+        });
+
+    }
 }
