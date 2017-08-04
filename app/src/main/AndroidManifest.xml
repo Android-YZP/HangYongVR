@@ -166,8 +166,6 @@
             android:theme="@style/NoTitleTranslucentTheme"
             />
 
-        <activity android:name=".videos.activitys.LiveHomeActivity"  android:screenOrientation="portrait"></activity>
-
         <!--腾讯IM-->
         <!-- 【必须】消息收发service -->
         <service

@@ -20,11 +20,11 @@ import java.util.ArrayList;
 public class LiveHomeAdapter  extends RecyclerView.Adapter<LiveHomeAdapter.LiveHomeAdapterHolder>{
 
     private Context mContext;
-    private ArrayList<GetLiveHomeBean.ResultBean> seeHistory;
+    private ArrayList<GetLiveHomeBean> mLiveData;
 
-    public LiveHomeAdapter(Context context, ArrayList<GetLiveHomeBean.ResultBean> seeHistory) {
+    public LiveHomeAdapter(Context context, ArrayList<GetLiveHomeBean> mLiveData) {
         this.mContext = context;
-        this.seeHistory = seeHistory;
+        this.mLiveData = mLiveData;
     }
     @Override
     public LiveHomeAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,12 +34,15 @@ public class LiveHomeAdapter  extends RecyclerView.Adapter<LiveHomeAdapter.LiveH
 
     @Override
     public void onBindViewHolder(LiveHomeAdapterHolder holder, int position) {
-
+       holder.mLiveHomeTitleTv.setText(mLiveData.get(position).getTitle());
+       holder.mLiveHomeHeadNameTv.setText(mLiveData.get(position).getName());
+       holder.mLiveHomePlayStateTv.setText(mLiveData.get(position).getPlayState());
+       holder.mLiveHomePeopleNumberTv.setText(mLiveData.get(position).getNumber());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mLiveData.size();
     }
 
     public class LiveHomeAdapterHolder extends RecyclerView.ViewHolder {

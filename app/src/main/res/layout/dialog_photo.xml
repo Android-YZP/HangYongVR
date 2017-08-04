@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white"
     >
 
         <LinearLayout
             android:id="@+id/lLayout_content"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center"
@@ -24,7 +23,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:textSize="18sp"
-                android:background="@drawable/bg_dialog_report_middle"
+                android:background="@drawable/bg_dialog_report_top"
                 />
 
             <View
@@ -43,10 +42,25 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:textSize="18sp"
-                android:background="@drawable/bg_dialog_report_middle"
+                android:background="@drawable/bg_dialog_report_bottom"
                 />
 
+
         </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_photo_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="取消"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_dialog_report_cancel"
+        />
 
 
 </LinearLayout>
