@@ -251,4 +251,18 @@
     <string name="dialog_pay_virtual_house_live">当前直播</string>
     <string name="dialog_pay_virtual_cancel">取消</string>
     <string name="dialog_pay_virtual_confirm_pay">确定支付</string>
+
+    <!--举报-->
+    <string name="dialog_report_rumor">政治谣言</string>
+    <string name="dialog_report_lewd">色情低俗</string>
+    <string name="dialog_report_minor">未成年人</string>
+    <string name="dialog_report_smoke">驾驶吸烟</string>
+    <string name="dialog_report_advertisement">商业广告</string>
+    <string name="dialog_report_cancel">取消</string>
+    <string name="dialog_report_other">其他</string>
+
+    <!--实名认证-->
+    <string name="dialog_verified_title">实名认证</string>
+    <string name="dialog_verified_message">你还没有实名认证哦~</string>
+
 </resources>

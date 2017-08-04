@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <LinearLayout
+        android:id="@+id/lLayout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/bg_dialog_report_cancel"
+        >
+        <TextView
+            android:id="@+id/tv_report_rumor"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/dialog_report_rumor"
+            android:textColor="@color/actionsheet_blue"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/bg_dialog_report_top"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/umeng_divide"
+            ></View>
+
+        <TextView
+            android:id="@+id/tv_report_lewd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/dialog_report_lewd"
+            android:textColor="@color/actionsheet_blue"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/bg_dialog_report_middle"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/umeng_divide"
+            ></View>
+
+        <TextView
+            android:id="@+id/tv_report_minor"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/dialog_report_minor"
+            android:textColor="@color/actionsheet_blue"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/bg_dialog_report_middle"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/umeng_divide"
+            ></View>
+
+        <TextView
+            android:id="@+id/tv_report_smoke"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/dialog_report_smoke"
+            android:textColor="@color/actionsheet_blue"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/bg_dialog_report_middle"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/umeng_divide"
+            ></View>
+
+        <TextView
+            android:id="@+id/tv_report_advertisement"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/dialog_report_advertisement"
+            android:textColor="@color/actionsheet_blue"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/bg_dialog_report_middle"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/umeng_divide"
+            ></View>
+
+        <TextView
+            android:id="@+id/tv_report_other"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/dialog_report_other"
+            android:textColor="@color/actionsheet_blue"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/bg_dialog_report_bottom"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_report_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/dialog_report_cancel"
+        android:textColor="@color/actionsheet_blue"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_dialog_report_cancel"
+        />
+
+</LinearLayout>
