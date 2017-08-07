@@ -21,6 +21,8 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.ResourceBean;
 import com.hy.vrfrog.ui.CircleImageView;
+import com.hy.vrfrog.ui.DemandPayDialog;
+import com.hy.vrfrog.ui.RechargeDialog;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
@@ -126,7 +128,47 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                         UIUtils.showTip("请连接网络");
                     }
 
+                }
+            });
 
+            holder.mVideoLiveLl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    new DemandPayDialog(context).builder()
+                            .setCanceledOnTouchOutside(true)
+                            .setDeleteListener("", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            })
+                            .setPayListener("", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            })
+                            .setRechargeListener("", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    new RechargeDialog(context).builder()
+                                            .setCanceledOnTouchOutside(true)
+                                            .setDeleteListener("", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+
+                                                }
+                                            })
+                                            .setPayListener("", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+
+                                                }
+                                            }).show();
+                                }
+                            })
+                            .show();
                 }
             });
 
@@ -176,40 +218,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
                 }
             });
         }
-
-
-//        holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int type = mData.get(position).getType();
-//                if (type == VedioContants.Video) {//点播
-//                    intent = new Intent(context, VideoPlayActivity.class);
-//                    intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(mData.get(position).getVodInfos()));
-//                    intent.putExtra(VedioContants.PlayType, VedioContants.Video);
-//                } else if (type == VedioContants.Living) {//直播
-//                    intent = new Intent(context, PlayActivity.class);
-//                    intent.putExtra(VedioContants.PlayUrl, mData.get(position).getRtmpDownstreamAddress());
-//                    intent.putExtra(VedioContants.PlayType, VedioContants.Living);
-//                }
-//                intent.putExtra("desc", mData.get(position).getChannelName());
-//                intent.putExtra("vid", mData.get(position).getId());
-//
-//                //判断视频类型
-//                int isall = mData.get(position).getIsall();
-//                if (isall == VedioContants.TWO_D_VEDIO) {//2D
-//                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-//                } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
-//                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-//                } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
-//                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
-//                } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
-//                    intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
-//                }
-//
-//                context.startActivity(intent);
-//            }
-//        });
-
 
     }
 
@@ -303,6 +311,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
 
         private CircleImageView mVideoNameHead;
         private TextView mVideoNameTv;
+        private LinearLayout mVideoPayLl;
 
         MyViewHolder(View view) {
             super(view);
@@ -328,6 +337,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
             mVideoName = (LinearLayout)view.findViewById(R.id.ll_video_name);
             mVideoNameHead = (CircleImageView)view.findViewById(R.id.img_video_head);
             mVideoNameTv = (TextView)view.findViewById(R.id.tv_video_name);
+            mVideoPayLl = (LinearLayout)view.findViewById(R.id.ll_enter_pay);
 
         }
     }

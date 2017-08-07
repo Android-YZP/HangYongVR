@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     >
 
-
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -147,7 +146,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
+        android:clickable="true"
         android:orientation="vertical"
         android:background="@mipmap/dian_down_yin">
 
@@ -163,18 +162,19 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/video_play_attention"
                 />
-            <ImageView
-                android:id="@+id/img_video_play_3d"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/video_play_3d"
-                android:layout_marginLeft="3dp"
-                />
+
             <ImageView
                 android:id="@+id/img_video_play_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/video_play_price"
+                android:layout_marginLeft="3dp"
+                />
+            <ImageView
+                android:id="@+id/img_video_play_3d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/video_play_3d"
                 android:layout_marginLeft="3dp"
                 />
         </LinearLayout>
@@ -222,6 +222,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_enter_pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"

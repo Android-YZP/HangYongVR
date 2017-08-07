@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <View
-        android:layout_width="0dp"
-        android:layout_height="10dp"
-        android:layout_weight="1" />
+    android:layout_height="wrap_content"
+
+    >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="226dp"
@@ -19,7 +18,7 @@
             android:layout_marginTop="23dp">
 
             <TextView
-                android:id="@+id/tv_bean_num"
+                android:id="@+id/tv_demand_pay_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="50"
@@ -34,25 +33,33 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="65dp"/>
 
-            <ImageView
-                android:id="@+id/img_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/pay_cha"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="19dp"
-                android:layout_alignParentEnd="true"/>
+         <LinearLayout
+             android:id="@+id/ll_demand_pay_delete"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:layout_alignParentEnd="true"
+             android:gravity="center"
+             >
+             <ImageView
+                 android:id="@+id/img_demand_pay_delete"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="@mipmap/pay_cha"
+                 android:layout_gravity="center"
+                 />
+         </LinearLayout>
+
         </RelativeLayout>
         <TextView
-            android:id="@+id/tv_detailed"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_demand_pay_detailed"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="影片名称：疯狂的蛙豆"
             android:textSize="17dp"
             android:textColor="#666666"
             android:layout_marginLeft="17dp"/>
         <Button
-            android:id="@+id/btn_pay"
+            android:id="@+id/btn_demand_pay"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginLeft="17dp"
@@ -69,6 +76,7 @@
             android:background="#d9d9d9"
             android:layout_marginTop="25dp"/>
         <RelativeLayout
+            android:id="@+id/rl_demand_pay_recharge"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
           >
@@ -87,6 +95,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="60dp"/>
             <TextView
+                android:id="@+id/tv_demand_pay_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="100"
@@ -95,7 +104,7 @@
                 android:layout_marginLeft="70dp"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/tv_top_up"
+                android:id="@+id/tv_demand_pay_recharge"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="充值"

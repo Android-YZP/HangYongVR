@@ -19,6 +19,7 @@ import com.hy.vrfrog.personal.HistoryPayActivity;
 import com.hy.vrfrog.personal.LoginActivity;
 import com.hy.vrfrog.personal.PersonalActivity;
 import com.hy.vrfrog.personal.UploadingDocumentsActivity;
+import com.hy.vrfrog.ui.DemandPayDialog;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 
@@ -117,6 +118,7 @@ public class MyFragment extends Fragment {
         mCertification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(getActivity(), UploadingDocumentsActivity.class));
                 getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
             }

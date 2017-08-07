@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 
+import com.hy.vrfrog.videos.fragments.LiveHomeFragment;
 import com.hy.vrfrog.videos.fragments.MainFragment;
 import com.hy.vrfrog.videos.fragments.MyFragment;
 import com.hy.vrfrog.videos.fragments.SearchFragment;
@@ -36,7 +37,7 @@ public class VpMainAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = null;
         if (position == 0) {
-            return new SearchFragment();
+            return new LiveHomeFragment();
         } else if (position == 1) {
             return new MainFragment(mLvDrawerItem,  mDlLayout,mViewpager);
         } else if (position == 2) {

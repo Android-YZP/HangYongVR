@@ -19,8 +19,7 @@
         <RadioButton
             android:id="@+id/rb_search"
             style="@style/radiobutton_style"
-            android:visibility="gone"
-            android:drawableTop="@drawable/bottom_search_slector" />
+            android:drawableTop="@drawable/bottom_home_slector" />
 
         <RadioButton
             android:id="@+id/rb_home"
