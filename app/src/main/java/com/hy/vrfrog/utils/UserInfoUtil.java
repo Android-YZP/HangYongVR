@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
-import com.hy.vrfrog.personal.LoginActivity;
+import com.hy.vrfrog.main.personal.LoginActivity;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;

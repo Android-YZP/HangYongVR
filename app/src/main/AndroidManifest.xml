@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hy.vrfrog">
-    <!--腾讯IM-->
+
+    <!-- 腾讯IM -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -16,8 +17,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- These permissions are used by Google VR SDK to get the best Google VR headset profiles. ! -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -70,14 +70,14 @@
         android:required="true" />
 
     <application
-        android:name="com.hy.vrfrog.application.TCApplication"
+        android:name=".application.TCApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme">
         <activity
-            android:name="com.hy.vrfrog.activitys.MainActivity"
+            android:name=".main.activitys.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -86,36 +86,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hy.vrfrog.vrplayer.PlayActivity"
+            android:name=".vrplayer.PlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.hy.vrfrog.vrplayer.LivePlayActivity"
+            android:name=".vrplayer.LivePlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
             android:windowActionBarOverlay="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name="com.hy.vrfrog.HomeActivity" />
+        <activity android:name=".HomeActivity" />
         <activity
-            android:name="com.hy.vrfrog.personal.LoginActivity"
+            android:name=".main.personal.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hy.vrfrog.videos.activitys.VideoListActivity"
+            android:name=".main.home.activitys.VideoListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
-        <activity android:name="com.hy.vrfrog.personal.takepic.PermissionsActivity" />
+        <activity android:name=".main.personal.takepic.PermissionsActivity" />
         <activity
-            android:name="com.hy.vrfrog.personal.PersonalActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoTitleTranslucentTheme" />
-        <activity
-            android:name="com.hy.vrfrog.personal.HistoryActivity"
+            android:name=".main.personal.PersonalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
         <activity
-            android:name="com.hy.vrfrog.personal.HistoryPayActivity"
+            android:name=".main.personal.HistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleTranslucentTheme" />
+        <activity
+            android:name=".main.personal.HistoryPayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
 
@@ -130,52 +130,50 @@
         </provider>
 
         <activity
-            android:name="com.hy.vrfrog.personal.ForgetActivity"
+            android:name=".main.personal.ForgetActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hy.vrfrog.videos.activitys.VedioDeatilsActivity"
+            android:name=".main.home.activitys.VedioDeatilsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hy.vrfrog.videos.activitys.VideoMoreActivity"
+            android:name=".main.home.activitys.VideoMoreActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hy.vrfrog.videos.activitys.VideoDetialActivity"
+            android:name=".main.home.activitys.VideoDetialActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
         <activity
-            android:name="com.hy.vrfrog.vrplayer.VideoPlayActivity"
+            android:name=".vrplayer.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <service android:name="com.hy.vrfrog.updtaeapk.DownloadService" />
+        <service android:name=".utils.updateapk.DownloadService" />
 
-        <activity android:name="com.hy.vrfrog.activitys.Guide2Activity" />
-        <activity android:name="com.hy.vrfrog.activitys.Guide1Activity" />
-        <activity android:name="com.hy.vrfrog.activitys.Guide3Activity" />
-        <activity android:name="com.hy.vrfrog.activitys.Guide4Activity" />
+        <activity android:name=".main.activitys.Guide2Activity" />
+        <activity android:name=".main.activitys.Guide1Activity" />
+        <activity android:name=".main.activitys.Guide3Activity" />
+        <activity android:name=".main.activitys.Guide4Activity" />
         <activity
-            android:name="com.hy.vrfrog.activitys.SearchActivity"
+            android:name=".main.activitys.SearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
-        <activity android:name="com.hy.vrfrog.activitys.SplashActivity"/>
-
+        <activity android:name=".main.activitys.SplashActivity" />
         <activity
-            android:name=".personal.UploadingDocumentsActivity"
+            android:name=".main.personal.UploadingDocumentsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoTitleTranslucentTheme"
-            />
+            android:theme="@style/NoTitleTranslucentTheme" />
 
-        <!--腾讯IM-->
+        <!-- 腾讯IM -->
         <!-- 【必须】消息收发service -->
         <service
             android:name="com.tencent.qalsdk.service.QalService"
             android:exported="true"
-            android:process=":QALSERVICE"/>
+            android:process=":QALSERVICE" />
         <service
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
-            android:process=":QALSERVICE"/>
+            android:process=":QALSERVICE" />
 
         <!-- 【必须】 离线消息广播接收器 -->
         <receiver
@@ -207,6 +205,7 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".main.activitys.Main2Activity"></activity>
     </application>
 
 </manifest>

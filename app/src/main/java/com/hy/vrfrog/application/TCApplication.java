@@ -4,7 +4,7 @@ package com.hy.vrfrog.application;
  * Created by 姚中平 on 2017/8/2.
  */
 
-import com.hy.vrfrog.timroomchat.TimConfig;
+import com.hy.vrfrog.vrplayer.im.TimConfig;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMSdkConfig;

@@ -7,10 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 
-import com.hy.vrfrog.videos.fragments.LiveHomeFragment;
-import com.hy.vrfrog.videos.fragments.MainFragment;
-import com.hy.vrfrog.videos.fragments.MyFragment;
-import com.hy.vrfrog.videos.fragments.SearchFragment;
+import com.hy.vrfrog.main.home.HomeFragment;
+import com.hy.vrfrog.main.home.fragments.LiveHomeFragment;
+import com.hy.vrfrog.main.home.fragments.MainFragment;
+import com.hy.vrfrog.main.home.fragments.MyFragment;
 
 
 /**
@@ -41,7 +41,7 @@ public class VpMainAdapter extends FragmentPagerAdapter {
         } else if (position == 1) {
             return new MainFragment(mLvDrawerItem,  mDlLayout,mViewpager);
         } else if (position == 2) {
-            return new MyFragment();
+            return new HomeFragment();
         }
         return null;
     }

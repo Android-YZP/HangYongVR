@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.hy.vrfrog.activitys.MainActivity;
+import com.hy.vrfrog.main.activitys.MainActivity;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.vrplayer.utils.SPUtils;
 
