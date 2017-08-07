@@ -8,9 +8,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 
 import com.hy.vrfrog.main.home.HomeFragment;
+import com.hy.vrfrog.main.home.fragments.VideoFragment;
 import com.hy.vrfrog.main.home.fragments.LiveHomeFragment;
 import com.hy.vrfrog.main.home.fragments.MainFragment;
-import com.hy.vrfrog.main.home.fragments.MyFragment;
 
 
 /**

@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.hy.vrfrog.main.home.fragments.VideoFragment">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d9d9d9" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/iv_main_fragment_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="150dp"
+                android:background="@mipmap/vedio_detial_no_net" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:text="网络被掳走,请下拉刷新"
+                android:textColor="#bbbbbb"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+        <com.hy.vrfrog.ui.VerticalSwipeRefreshLayout
+            android:id="@+id/srl_main_swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.hy.vrfrog.ui.MainRecycleView
+                android:id="@+id/re_main_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </com.hy.vrfrog.ui.VerticalSwipeRefreshLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

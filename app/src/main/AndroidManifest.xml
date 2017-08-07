@@ -77,7 +77,7 @@
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme">
         <activity
-            android:name=".main.activitys.MainActivity"
+            android:name=".main.activitys.Main2Activity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -205,7 +205,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".main.activitys.Main2Activity"></activity>
+        <activity android:name=".main.activitys.MainActivity"></activity>
     </application>
 
 </manifest>
