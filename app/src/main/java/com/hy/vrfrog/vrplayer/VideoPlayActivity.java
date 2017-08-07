@@ -777,6 +777,30 @@ public class VideoPlayActivity extends AppCompatActivity {
     }
 
 
+    private void showSettingDialog() {
+        AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(VideoPlayActivity.this);
+        normalDialog.setCancelable(false);
+        normalDialog.setMessage("网络被拐走了...");
+        normalDialog.setPositiveButton("点击重试",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (NetUtil.isOpenNetwork()) {
+                            show.dismiss();
+                            show = null;
+                            mVideoView.start();
+                            if (isRestart) {
+                                mVideoView.setVideoPath(mPlayUrl);
+                            }
+                        } else {
+                            showNetErrorDialog();
+                        }
+                    }
+                });
+        show = normalDialog.show();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -1129,6 +1153,10 @@ public class VideoPlayActivity extends AppCompatActivity {
                 dialogUtils.getBaseDialog().dismiss();
             }
         });
-
     }
+
+
+
+
+
 }
