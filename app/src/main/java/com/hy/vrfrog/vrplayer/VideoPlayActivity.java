@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -1090,14 +1092,16 @@ public class VideoPlayActivity extends AppCompatActivity {
                 R.layout.video_exceptional, null);
         dialogUtils.setContentView(contentView);
         dialogUtils.setGravity(Gravity.CENTER);
-        dialogUtils.setXY(450, 300);
         dialogUtils.show();
         TextView no = (TextView) contentView.findViewById(R.id.tv_exceptional_no);
         TextView yes = (TextView) contentView.findViewById(R.id.tv_exceptional_yes);
+        RadioButton rb1 = (RadioButton) contentView.findViewById(R.id.rb_1);
         LinearLayout num = (LinearLayout) contentView.findViewById(R.id.ll_exceptional);
         LinearLayout num1 = (LinearLayout) contentView.findViewById(R.id.ll_exceptional1);
         LinearLayout num2 = (LinearLayout) contentView.findViewById(R.id.ll_exceptional2);
         EditText num3 = (EditText) contentView.findViewById(R.id.ed_exceptional_num3);
+        changeText(rb1, 88 + "", true);
+
         yes.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1111,5 +1115,19 @@ public class VideoPlayActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    /**
+     * @param radioButton 传入对象
+     * @param price       价格
+     * @param isCheck     是否被选中
+     */
+    private void changeText(RadioButton radioButton, String price, boolean isCheck) {
+        if (isCheck) {
+            radioButton.setText((Html.fromHtml("<div><span style=\"font-size: 20px;\">88</span>&nbsp;&nbsp;<span style=\"font-size:10px;\">蛙豆</span></div>")));
+        } else {
+            radioButton.setText((Html.fromHtml("<span style=\"font-size: 20px;\">" + price + "</span>&nbsp;<span style=\"font-size:10px;\">蛙豆</span>")));
+        }
     }
 }

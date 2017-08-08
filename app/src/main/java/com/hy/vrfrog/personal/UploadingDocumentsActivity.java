@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -68,8 +69,8 @@ public class UploadingDocumentsActivity extends SwipeBackActivity implements Vie
     private  File cameraFile;
 
     private ImageButton mBack;
-    private RelativeLayout mUploadIdentityCardFront;
-    private RelativeLayout mUploadIdentityCardBack;
+    private LinearLayout mUploadIdentityCardFront;
+    private LinearLayout mUploadIdentityCardBack;
     private Button uploadSummitBtn;
     //动态获取权限监听
     private static PermissionListener mListener;
@@ -89,11 +90,11 @@ public class UploadingDocumentsActivity extends SwipeBackActivity implements Vie
         cacheFile = getCacheFile(new File(getDiskCacheDir(this)),"certificate.jpg");
 
         mBack = (ImageButton)findViewById(R.id.ib_upload_back);
-        mUploadIdentityCardFront = (RelativeLayout)findViewById(R.id.rl_upload_identity_card_front);
-        mUploadIdentityCardBack = (RelativeLayout)findViewById(R.id.rl_upload_identity_card_back);
+        mUploadIdentityCardFront = (LinearLayout)findViewById(R.id.ll_upload_identity_card_front);
+        mUploadIdentityCardBack = (LinearLayout)findViewById(R.id.rl_upload_identity_card_front1);
         uploadSummitBtn = (Button)findViewById(R.id.btn_upload_identity_summit);
         mImageFront = (ImageView)findViewById(R.id.img_upload_identity_card_front);
-        mImageBack  = (ImageView) findViewById(R.id.img_upload_identity_card_back);
+//        mImageBack  = (ImageView) findViewById(R.id.img_upload_identity_card_back);
 
         initListener();
 
@@ -113,11 +114,11 @@ public class UploadingDocumentsActivity extends SwipeBackActivity implements Vie
                 finish();
                 overridePendingTransition(0, R.anim.base_slide_right_out);
                 break;
-            case R.id.rl_upload_identity_card_front:
+            case R.id.ll_upload_identity_card_front:
                 choice = 1 ;
                 showPhotoDialog();
                 break;
-            case R.id.rl_upload_identity_card_back:
+            case R.id.rl_upload_identity_card_front1:
                 choice = 2 ;
                 showPhotoDialog();
                 break;
