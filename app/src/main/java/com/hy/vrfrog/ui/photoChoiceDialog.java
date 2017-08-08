@@ -21,7 +21,7 @@ public class photoChoiceDialog {
     private Display display;
     private TextView mAlbumTv;
     private TextView mCameraTv;
-
+    private TextView mCanceltv;
 
     public photoChoiceDialog(Context context) {
         this.context = context;
@@ -39,13 +39,23 @@ public class photoChoiceDialog {
 
         mAlbumTv = (TextView) view.findViewById(R.id.tv_album);
         mCameraTv = (TextView)view.findViewById(R.id.tv_camera);
+        mCanceltv = (TextView)view.findViewById(R.id.tv_photo_cancel);
+
+        mCanceltv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         // 定义Dialog布局和参数
         dialog = new Dialog(context,R.style.DialogTheme);
         dialog.setContentView(view);
         Window dialogWindow = dialog.getWindow();
-        dialogWindow.setGravity( Gravity.CENTER);
+        dialogWindow.setGravity( Gravity.BOTTOM);
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.x = 0;
+        lp.y = 0;
         dialogWindow.setAttributes(lp);
 
         return this;
@@ -74,7 +84,6 @@ public class photoChoiceDialog {
         });
         return this;
     }
-
 
     public photoChoiceDialog setCanceledOnTouchOutside(boolean cancel) {
         dialog.setCanceledOnTouchOutside(cancel);

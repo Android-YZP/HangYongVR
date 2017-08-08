@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup.LayoutParams;
 
 
-import com.hy.vrfrog.activitys.MainActivity;
+import com.hy.vrfrog.main.activitys.MainActivity;
 
 import java.io.File;
 import java.util.ArrayList;

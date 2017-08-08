@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     android:background="#000"
-    tools:context="com.hy.vrfrog.activitys.MainActivity">
+    tools:context=".main.activitys.MainActivity">
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/pano_view_main"

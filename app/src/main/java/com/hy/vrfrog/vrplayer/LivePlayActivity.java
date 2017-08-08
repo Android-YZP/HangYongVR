@@ -26,7 +26,7 @@ import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.RoomNumberBean;
-import com.hy.vrfrog.timroomchat.TimConfig;
+import com.hy.vrfrog.vrplayer.im.TimConfig;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;

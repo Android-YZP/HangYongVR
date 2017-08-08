@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hy.vrfrog.videos.activitys.VedioDeatilsActivity">
+    tools:context=".main.home.activitys.VedioDeatilsActivity">
 
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/pano_view_main"

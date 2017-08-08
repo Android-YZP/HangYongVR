@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".videos.fragments.MyFragment">
+    tools:context=".main.home.fragments.MyFragment">
 
     <include
         android:id="@+id/my_un_login"

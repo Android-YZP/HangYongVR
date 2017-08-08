@@ -24,7 +24,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.hy.vrfrog.R;
-import com.hy.vrfrog.activitys.Guide1Activity;
+import com.hy.vrfrog.main.activitys.Guide1Activity;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.ResourceBean;

@@ -3,6 +3,8 @@
 
     <item android:drawable="@mipmap/pay_waves" android:state_checked="true"  />
     <item android:drawable="@mipmap/pay_wave" />
+    <item android:drawable="@mipmap/pay_waves" android:state_checked="true" />
+    <item android:drawable="@mipmap/pay_wave" android:state_checked="false"/>
 
 
 </selector>

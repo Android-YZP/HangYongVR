@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/black"
-    tools:context="com.hy.vrfrog.videos.fragments.VideosFragment">
+    tools:context=".main.home.fragments.VideosFragment">
 
     <com.hy.vrfrog.ui.NoScrollViewPager
         android:id="@+id/vp_main"
