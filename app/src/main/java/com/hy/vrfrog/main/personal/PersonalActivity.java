@@ -119,8 +119,6 @@ public class PersonalActivity extends SwipeBackActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-
-
             }
 
             @Override

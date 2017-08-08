@@ -1,4 +1,4 @@
-package com.hy.vrfrog.vrplayer.im;
+package com.hy.vrfrog.main.living.im;
 
 /**
  * 消息体类

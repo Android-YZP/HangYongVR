@@ -1,4 +1,4 @@
-package com.hy.vrfrog.vrplayer.im;
+package com.hy.vrfrog.main.living.im;
 
 /**
  * Created by 姚中平 on 2017/8/2.
