@@ -89,7 +89,7 @@
                         android:textColor="#000000"
                         android:textSize="15sp" />
 
-                    <ImageView
+                    <com.hy.vrfrog.ui.CircleImageView
                         android:id="@+id/img_personal_head"
                         android:layout_width="39dp"
                         android:layout_height="39dp"

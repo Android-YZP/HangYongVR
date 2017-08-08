@@ -3,200 +3,224 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp">
+        android:layout_height="50dp">
 
         <ImageButton
             android:id="@+id/ib_upload_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:background="@null"
             android:padding="10dp"
+            android:layout_marginLeft="9dp"
             android:src="@mipmap/history_return" />
 
-        <TextView
-            android:id="@+id/tv_main_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="上传正件照"
-            android:textColor="#000"
-            android:textSize="21sp"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_upload_identity_card_front"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/img_upload_identity_card_front"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/image_add_ph"
-            android:scaleType="fitXY"
-            />
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="上传手持身份证"
-             android:layout_centerInParent="true"
-             android:visibility="gone"
-             />
-    </RelativeLayout>
-
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="示例:"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            >
-
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/login_bg" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1拍摄清晰的本人身份证正面照" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="2.请确保手持的身份证与填写的身份证保持一致"
-                    android:paddingBottom="2dp"
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_upload_identity_card_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        >
-        <ImageView
-            android:id="@+id/img_upload_identity_card_back"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/image_add_ph"
-            android:scaleType="fitXY"
-             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            />
+            android:text="上传证件照"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
     </RelativeLayout>
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="示例:"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            />
+        android:layout_height="1dp"
+        android:background="#d9d9d9" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            >
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_upload_identity_card_front"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/certificates_lineframe"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
             <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@mipmap/login_bg"
-                android:scaleType="fitXY"
-                />
+                android:id="@+id/img_upload_identity_card_front"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@mipmap/certificates_bntton_plus"
+                android:layout_marginTop="41dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上传手持身份证"
+                android:textColor="#666666"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="13dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="示例:"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="16sp"
+                android:textColor="#666666"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.省份证背面需要清晰拍摄有限期限位置"
-                    />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
-                <TextView
+                <ImageView
+                    android:layout_width="81dp"
+                    android:layout_height="90dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/login_bg" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2.身份证有效期需要一个月以上"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="23dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.拍摄清晰的本人身份证正面照"
+                        android:textSize="13sp"
+                        android:textColor="#666666"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="2.请确保手持的身份证与填写的身份证保持一致"
+                        android:paddingBottom="2dp"
+                        android:textSize="13sp"
+                        android:textColor="#666666"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rl_upload_identity_card_front1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/certificates_lineframe"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+                <ImageView
+                    android:id="@+id/img_upload_identity_card_front1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@mipmap/certificates_bntton_plus"
+                    android:layout_marginTop="41dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上传身份证背面"
+                    android:textColor="#666666"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="13dp"/>
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_upload_identity_summit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_upload_summit"
-        android:text="提交"
-        android:textColor="@color/white" />
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="示例:"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="16sp"
+                android:textColor="#666666"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="81dp"
+                    android:layout_height="90dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/login_bg" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="23dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.拍摄清晰的本人身份证正面照"
+                        android:textSize="13sp"
+                        android:textColor="#666666"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="2.请确保手持的身份证与填写的身份证保持一致"
+                        android:paddingBottom="2dp"
+                        android:textSize="13sp"
+                        android:textColor="#666666"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_upload_identity_summit"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="19dp"
+            android:background="@drawable/bg_upload_summit"
+            android:text="提 交"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:layout_marginBottom="24dp"/>
+       </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,61 +50,69 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/rl_top_up_left"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/iv_top_up_choose"
+                    android:id="@+id/iv_top_up_choose_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@drawable/pay_background" />
 
                 <TextView
-                    android:id="@+id/tv_top_up_num"
+                    android:id="@+id/tv_top_up_num_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:text="10蛙豆"
-                    android:textColor="@drawable/pay_font"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/tv_top_up_price"
+                    android:id="@+id/tv_top_up_price_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="33dp"
                     android:text="10元"
-                    android:textColor="@drawable/pay_font"
                     android:textSize="12sp" />
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/rl_top_up_middle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
+                <ImageView
+                    android:id="@+id/iv_top_up_choose_middle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/pay_background"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"/>
+
                 <TextView
-                    android:id="@+id/tv_top_up_num1"
+                    android:id="@+id/tv_top_up_num_middle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:text="100蛙豆"
-                    android:textColor="@drawable/pay_font"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    />
 
                 <TextView
-                    android:id="@+id/tv_top_up_price1"
+                    android:id="@+id/tv_top_up_price_middle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="33dp"
                     android:text="30元"
-                    android:textColor="@drawable/pay_font"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    />
 
                 <ImageView
                     android:id="@+id/iv_top_up_choose1"
@@ -112,39 +120,39 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/pay_background"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true" />
+
 
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/rl_top_up_right"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/iv_top_up_choose2"
+                    android:id="@+id/iv_top_up_choose_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@drawable/pay_background" />
 
                 <TextView
-                    android:id="@+id/tv_top_up_num2"
+                    android:id="@+id/tv_top_up_num_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:text="200蛙豆"
-                    android:textColor="@drawable/pay_font"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/tv_top_up_price2"
+                    android:id="@+id/tv_top_up_price_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="33dp"
                     android:text="100元"
-                    android:textColor="@drawable/pay_font"
                     android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>

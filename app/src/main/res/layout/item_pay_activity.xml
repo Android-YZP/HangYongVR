@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:id="@+id/ll_history_pay"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:layout_weight="5"
+        >
+
+
+
+    <com.hy.vrfrog.ui.XCRoundRectImageView
+        android:id="@+id/iv_history_img"
+        android:layout_width="0dp"
+        android:layout_height="86dp"
+        android:scaleType="fitXY"
+        android:layout_weight="2"
+        android:src="@drawable/splash_pic"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/tv_history_pay_demand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务类型: 收费点播"
+            android:textSize="12dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_history_pay_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频名称: 勇敢的心"
+            android:layout_marginTop="5dp"
+            android:textSize="12dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLength="14"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_history_pay_object"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付对象: 汉咏科技股份有限公司"
+            android:layout_marginTop="5dp"
+            android:textSize="12dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLength="14"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_history_pay_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付时间: 2017-6-18 14:21"
+            android:layout_marginTop="5dp"
+            android:textSize="12dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLength="14"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="right"
+        android:layout_weight="1"
+        >
+        <TextView
+            android:id="@+id/tv_history_pay_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-100"
+            android:layout_gravity="center"
+            android:textColor="@color/colorGreen"
+            android:textSize="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="蛙币"
+            android:layout_gravity="center"
+            android:textSize="10dp"
+            />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/umeng_divide"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="5dp"
+        ></View>
+
+
+</LinearLayout>

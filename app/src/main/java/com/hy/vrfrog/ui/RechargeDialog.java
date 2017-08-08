@@ -2,6 +2,7 @@ package com.hy.vrfrog.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +29,24 @@ public class RechargeDialog {
     private LinearLayout mVideoRechargeDeleteLl;
     private Button mVideoRechargeBtn;
     private RelativeLayout mDemandPayRl;
+
+    private ImageView mTopUpChooseLeftImg;
+    private TextView mTopChooseLeftTv;
+    private TextView mUpChooseLeftTv;
+    private RelativeLayout mTopUpChooseLeftRl;
+
+
+    private ImageView mTopUpChooseMiddleImg;
+    private TextView mTopChooseMiddleTv;
+    private TextView mUpChooseMiddleTv;
+    private RelativeLayout mTopUpChooseMiddleRl;
+
+    private ImageView mTopUpChooseRightImg;
+    private TextView mTopChooseRightTv;
+    private TextView mUpChooseRightTv;
+    private RelativeLayout mTopUpChooseRightRl;
+
+
 
     public RechargeDialog(Context context) {
         this.context = context;
@@ -48,6 +68,22 @@ public class RechargeDialog {
         mVideoRechargeBtn = (Button)view.findViewById(R.id.btn_video_recharge);
         mDemandPayRl = (RelativeLayout)view.findViewById(R.id.rl_demand_pay_recharge);
 
+        mTopUpChooseLeftImg = (ImageView)view.findViewById(R.id.iv_top_up_choose_left);
+        mTopChooseLeftTv = (TextView)view.findViewById(R.id.tv_top_up_num_left);
+        mUpChooseLeftTv = (TextView)view.findViewById(R.id.tv_top_up_price_left);
+        mTopUpChooseLeftRl = (RelativeLayout)view.findViewById(R.id.rl_top_up_left);
+
+        mTopUpChooseMiddleImg = (ImageView)view.findViewById(R.id.iv_top_up_choose_middle);
+        mTopChooseMiddleTv = (TextView)view.findViewById(R.id.tv_top_up_num_middle);
+        mUpChooseMiddleTv = (TextView)view.findViewById(R.id.tv_top_up_price_middle);
+        mTopUpChooseMiddleRl = (RelativeLayout)view.findViewById(R.id.rl_top_up_middle);
+
+        mTopUpChooseRightImg = (ImageView)view.findViewById(R.id.iv_top_up_choose_right);
+        mTopChooseRightTv = (TextView)view.findViewById(R.id.tv_top_up_num_right);
+        mUpChooseRightTv = (TextView)view.findViewById(R.id.tv_top_up_price_right);
+        mTopUpChooseRightRl = (RelativeLayout)view.findViewById(R.id.rl_top_up_right);
+
+
 
         // 定义Dialog布局和参数
         dialog = new Dialog(context,R.style.DialogTheme);
@@ -57,7 +93,64 @@ public class RechargeDialog {
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setAttributes(lp);
 
+        initListener();
+
         return this;
+    }
+
+    private void initListener() {
+        mTopUpChooseLeftRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTopUpChooseLeftImg.setImageResource(R.mipmap.pay_waves);
+                mTopChooseLeftTv.setTextColor(Color.WHITE);
+                mUpChooseLeftTv.setTextColor(Color.WHITE);
+
+                mTopUpChooseMiddleImg.setImageResource(R.mipmap.pay_wave);
+                mTopChooseMiddleTv.setTextColor(Color.parseColor("#666666"));
+                mUpChooseMiddleTv.setTextColor(Color.parseColor("#666666"));
+
+                mTopUpChooseRightImg.setImageResource(R.mipmap.pay_wave);
+                mTopChooseRightTv.setTextColor(Color.parseColor("#666666"));
+                mUpChooseRightTv.setTextColor(Color.parseColor("#666666"));
+            }
+        });
+
+        mTopUpChooseMiddleRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTopUpChooseLeftImg.setImageResource(R.mipmap.pay_wave);
+                mTopChooseLeftTv.setTextColor(Color.parseColor("#666666"));
+                mUpChooseLeftTv.setTextColor(Color.parseColor("#666666"));
+
+                mTopUpChooseMiddleImg.setImageResource(R.mipmap.pay_waves);
+                mTopChooseMiddleTv.setTextColor(Color.WHITE);
+                mUpChooseMiddleTv.setTextColor(Color.WHITE);
+
+                mTopUpChooseRightImg.setImageResource(R.mipmap.pay_wave);
+                mTopChooseRightTv.setTextColor(Color.parseColor("#666666"));
+                mUpChooseRightTv.setTextColor(Color.parseColor("#666666"));
+            }
+        });
+
+        mTopUpChooseRightRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTopUpChooseLeftImg.setImageResource(R.mipmap.pay_wave);
+                mTopChooseLeftTv.setTextColor(Color.parseColor("#666666"));
+                mUpChooseLeftTv.setTextColor(Color.parseColor("#666666"));
+
+                mTopUpChooseMiddleImg.setImageResource(R.mipmap.pay_wave);
+                mTopChooseMiddleTv.setTextColor(Color.parseColor("#666666"));
+                mUpChooseMiddleTv.setTextColor(Color.parseColor("#666666"));
+
+                mTopUpChooseRightImg.setImageResource(R.mipmap.pay_waves);
+                mTopChooseRightTv.setTextColor(Color.WHITE);
+                mUpChooseRightTv.setTextColor(Color.WHITE);
+            }
+        });
+
+
     }
 
 

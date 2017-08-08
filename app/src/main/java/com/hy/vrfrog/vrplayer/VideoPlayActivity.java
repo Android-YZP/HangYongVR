@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -20,14 +21,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +40,7 @@ import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
-import com.hy.vrfrog.main.personal.HistoryActivity;
+import com.hy.vrfrog.personal.HistoryActivity;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -173,7 +177,6 @@ public class VideoPlayActivity extends AppCompatActivity {
     private boolean isRestart = false;
     private boolean isBack = false;
     private ImageButton mIbDoubleEye;
-    private int currentPosition;
 
 
     @Override
@@ -185,7 +188,7 @@ public class VideoPlayActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_video_play);
+        setContentView(R.layout.activity_play);
 
 
         getWindow().getDecorView().setSystemUiVisibility(
@@ -330,12 +333,6 @@ public class VideoPlayActivity extends AppCompatActivity {
 
                     if (!isRestart) {
                         mVideoView.seekTo(mVideoView.getDuration() * mVideoPosition / 100);
-                    } else {
-                        if (show != null) {
-                            show.dismiss();
-                            show = null;
-                        }
-                        mVideoView.seekTo(currentPosition);
                     }
 
                     if (mDuration == 0) {
@@ -373,8 +370,8 @@ public class VideoPlayActivity extends AppCompatActivity {
             @Override
             public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
                 if (error.equals("PLAYER_ERROR_EXIT")) {
+                    LogUtil.i("11111111111" + error);
                 }
-                LogUtil.i("11111111111" + error);
             }
         });
 
@@ -389,19 +386,14 @@ public class VideoPlayActivity extends AppCompatActivity {
                     case NET_2G:
                     case NET_3G:
                     case NET_4G:
-                        if (show != null) mVideoView.pause();
                         UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
-                        break;
-                    case NET_WIFI:
-                        if (show != null) mVideoView.pause();
                         break;
                     case NET_UNKNOWN:
                         UIUtils.showTip("当前在非wifi状态下,注意流量~>_<~");
                         break;
                     case NET_NO:
                         mVideoView.pause();
-                        if (show == null)
-                            showNetErrorDialog();
+                        showNetErrorDialog();
                         break;
                     default:
                 }
@@ -517,12 +509,10 @@ public class VideoPlayActivity extends AppCompatActivity {
             }.getType());
             for (int i = 0; i < urlList.size(); i++) {
                 if (urlList.get(i).getDefinition() == 45) {
-                    mPlayUrl = urlList.get(i).getUrl();
-                    mVideoView.setVideoPath(mPlayUrl);
+                    mVideoView.setVideoPath(urlList.get(i).getUrl());
                     return;
                 } else if (urlList.get(i).getDefinition() == 47) {
-                    mPlayUrl = urlList.get(i).getUrl();
-                    mVideoView.setVideoPath(mPlayUrl);
+                    mVideoView.setVideoPath(urlList.get(i).getUrl());
                     return;
                 }
             }
@@ -761,11 +751,7 @@ public class VideoPlayActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if (NetUtil.isOpenNetwork()) {
                             show.dismiss();
-                            show = null;
                             mVideoView.start();
-                            if (isRestart) {
-                                mVideoView.setVideoPath(mPlayUrl);
-                            }
                         } else {
                             showNetErrorDialog();
                         }
@@ -774,30 +760,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         show = normalDialog.show();
     }
 
-
-    private void showSettingDialog() {
-        AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(VideoPlayActivity.this);
-        normalDialog.setCancelable(false);
-        normalDialog.setMessage("网络被拐走了...");
-        normalDialog.setPositiveButton("点击重试",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (NetUtil.isOpenNetwork()) {
-                            show.dismiss();
-                            show = null;
-                            mVideoView.start();
-                            if (isRestart) {
-                                mVideoView.setVideoPath(mPlayUrl);
-                            }
-                        } else {
-                            showNetErrorDialog();
-                        }
-                    }
-                });
-        show = normalDialog.show();
-    }
 
     @Override
     protected void onStart() {
@@ -829,7 +791,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         mNetReceiver.remoteNetStateChangeListener(mNetChangedListener);
         mNetReceiver.unRegistNetBroadCast(this);
         mVideoView.pause();
-        currentPosition = mVideoView.getCurrentPosition();
         super.onPause();
     }
 
@@ -1131,14 +1092,16 @@ public class VideoPlayActivity extends AppCompatActivity {
                 R.layout.video_exceptional, null);
         dialogUtils.setContentView(contentView);
         dialogUtils.setGravity(Gravity.CENTER);
-        dialogUtils.setXY(450, 300);
         dialogUtils.show();
         TextView no = (TextView) contentView.findViewById(R.id.tv_exceptional_no);
         TextView yes = (TextView) contentView.findViewById(R.id.tv_exceptional_yes);
+        RadioButton rb1 = (RadioButton) contentView.findViewById(R.id.rb_1);
         LinearLayout num = (LinearLayout) contentView.findViewById(R.id.ll_exceptional);
         LinearLayout num1 = (LinearLayout) contentView.findViewById(R.id.ll_exceptional1);
         LinearLayout num2 = (LinearLayout) contentView.findViewById(R.id.ll_exceptional2);
         EditText num3 = (EditText) contentView.findViewById(R.id.ed_exceptional_num3);
+        changeText(rb1, 88 + "", true);
+
         yes.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1151,10 +1114,20 @@ public class VideoPlayActivity extends AppCompatActivity {
                 dialogUtils.getBaseDialog().dismiss();
             }
         });
+
     }
 
 
-
-
-
+    /**
+     * @param radioButton 传入对象
+     * @param price       价格
+     * @param isCheck     是否被选中
+     */
+    private void changeText(RadioButton radioButton, String price, boolean isCheck) {
+        if (isCheck) {
+            radioButton.setText((Html.fromHtml("<div><span style=\"font-size: 20px;\">88</span>&nbsp;&nbsp;<span style=\"font-size:10px;\">蛙豆</span></div>")));
+        } else {
+            radioButton.setText((Html.fromHtml("<span style=\"font-size: 20px;\">" + price + "</span>&nbsp;<span style=\"font-size:10px;\">蛙豆</span>")));
+        }
+    }
 }
