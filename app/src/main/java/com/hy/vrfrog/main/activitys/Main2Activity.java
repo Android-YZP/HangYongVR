@@ -29,6 +29,7 @@ public class Main2Activity extends AppCompatActivity {
         mBottomBar = (BottomBar) findViewById(R.id.main_bottom_bar);
         mIvLivingPush = (ImageButton) findViewById(R.id.ib_living_push);
         mVpMain.setAdapter(new MainAdapter(getSupportFragmentManager()));
+        mVpMain.setCurrentItem(1);
     }
 
     private void initData() {

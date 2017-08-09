@@ -14,30 +14,29 @@ import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
 import java.util.ArrayList;
 
 /**
- * Created by qwe on 2017/8/3.
+ * Created by qwe on 2017/8/8.
  */
 
-public class LiveHomeAdapter  extends RecyclerView.Adapter<LiveHomeAdapter.LiveHomeAdapterHolder>{
-
+public class EnterpriseLiveAdapter extends RecyclerView.Adapter<EnterpriseLiveAdapter.EnterPriseLiveHomeAdapterHolder>{
     private Context mContext;
     private ArrayList<GetLiveHomeBean> mLiveData;
 
-    public LiveHomeAdapter(Context context, ArrayList<GetLiveHomeBean> mLiveData) {
+    public EnterpriseLiveAdapter(Context context, ArrayList<GetLiveHomeBean> mLiveData) {
         this.mContext = context;
         this.mLiveData = mLiveData;
     }
     @Override
-    public LiveHomeAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EnterpriseLiveAdapter.EnterPriseLiveHomeAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_live_home, parent, false);
-        return new LiveHomeAdapterHolder(view);
+        return new EnterpriseLiveAdapter.EnterPriseLiveHomeAdapterHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(LiveHomeAdapterHolder holder, int position) {
-       holder.mLiveHomeTitleTv.setText(mLiveData.get(position).getTitle());
-       holder.mLiveHomeHeadNameTv.setText(mLiveData.get(position).getName());
-       holder.mLiveHomePlayStateTv.setText(mLiveData.get(position).getPlayState());
-       holder.mLiveHomePeopleNumberTv.setText(mLiveData.get(position).getNumber());
+    public void onBindViewHolder(EnterpriseLiveAdapter.EnterPriseLiveHomeAdapterHolder holder, int position) {
+        holder.mLiveHomeTitleTv.setText(mLiveData.get(position).getTitle());
+        holder.mLiveHomeHeadNameTv.setText(mLiveData.get(position).getName());
+        holder.mLiveHomePlayStateTv.setText(mLiveData.get(position).getPlayState());
+        holder.mLiveHomePeopleNumberTv.setText(mLiveData.get(position).getNumber());
     }
 
     @Override
@@ -45,7 +44,7 @@ public class LiveHomeAdapter  extends RecyclerView.Adapter<LiveHomeAdapter.LiveH
         return mLiveData.size();
     }
 
-    public class LiveHomeAdapterHolder extends RecyclerView.ViewHolder {
+    public class EnterPriseLiveHomeAdapterHolder extends RecyclerView.ViewHolder {
 
         private TextView mLiveHomeTitleTv;
         private TextView mLiveHomePeopleNumberTv;
@@ -55,7 +54,7 @@ public class LiveHomeAdapter  extends RecyclerView.Adapter<LiveHomeAdapter.LiveH
         private ImageView mLiveHomeHeadImg;
 
 
-        public LiveHomeAdapterHolder(View itemView) {
+        public EnterPriseLiveHomeAdapterHolder(View itemView) {
             super(itemView);
 
             mLiveHomeTitleTv  = (TextView)itemView.findViewById(R.id.tv_live_home_title);

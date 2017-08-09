@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void initViewPager() {
         mViewpager = (CustomViewPager) findViewById(R.id.vp_viewpager);
         mViewpager.setAdapter(new pagerAdapter(getSupportFragmentManager(), panoWidgetView, mIvTwoDBg));
-        mViewpager.setCurrentItem(1, false);
+        mViewpager.setCurrentItem(0, false);
 
     }
 

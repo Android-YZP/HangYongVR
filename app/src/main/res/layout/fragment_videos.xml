@@ -17,7 +17,9 @@
         android:id="@+id/main_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+
+        />
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/main_bottom_navigation_bar"

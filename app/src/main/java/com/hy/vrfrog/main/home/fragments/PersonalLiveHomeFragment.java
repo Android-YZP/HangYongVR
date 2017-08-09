@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
 import com.hy.vrfrog.ui.VerticalSwipeRefreshLayout;
-import com.hy.vrfrog.main.home.adapters.LiveHomeAdapter;
+import com.hy.vrfrog.main.home.adapters.PersonalLiveHomeAdapter;
 
 import java.util.ArrayList;
 
@@ -23,12 +23,12 @@ import java.util.ArrayList;
  * Created by qwe on 2017/8/4.
  */
 @SuppressLint("ValidFragment")
-public class LiveHomeFragment extends Fragment {
+public class PersonalLiveHomeFragment extends Fragment {
 
     private LinearLayout mEmptyll;
     private VerticalSwipeRefreshLayout mSwipeRefresh;
     private RecyclerView mRecyclerView;
-    private LiveHomeAdapter mAdapter;
+    private PersonalLiveHomeAdapter mAdapter;
     private ArrayList<GetLiveHomeBean> mList  ;
     @Nullable
     @Override
@@ -62,7 +62,7 @@ public class LiveHomeFragment extends Fragment {
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_live_home_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
-        mAdapter = new LiveHomeAdapter(getActivity(),mList);
+        mAdapter = new PersonalLiveHomeAdapter(getActivity(),mList);
         mRecyclerView.setAdapter(mAdapter);
 
     }
