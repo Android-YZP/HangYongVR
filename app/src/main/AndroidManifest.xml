@@ -155,7 +155,7 @@
         <activity android:name=".main.activitys.Guide3Activity" />
         <activity android:name=".main.activitys.Guide4Activity" />
         <activity
-            android:name=".main.activitys.SearchActivity"
+            android:name=".main.home.activitys.SearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
         <activity android:name=".main.activitys.SplashActivity" />

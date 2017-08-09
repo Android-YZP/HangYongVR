@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment {
     private MagicIndicator mMagicIndicator;
     private ImageView mIvSearch;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,13 +91,22 @@ public class HomeFragment extends Fragment {
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-                return mTitle == null ? 0 : mTitle.size();
+                return mTitle == null ? 0 : mTitle.size() +3;
             }
 
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
-                simplePagerTitleView.setText(mTitle.get(index).getName());
+
+                if (index == 0){
+                    simplePagerTitleView.setText("推荐");
+                }else if (index == 1){
+                    simplePagerTitleView.setText("个人直播");
+                }else if (index == 2){
+                    simplePagerTitleView.setText("企业直播");
+                }else {
+                    simplePagerTitleView.setText(mTitle.get(index - 3).getName());
+                }
                 simplePagerTitleView.setNormalColor(Color.parseColor("#333333"));
                 simplePagerTitleView.setSelectedColor(Color.parseColor("#e94220"));
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +149,7 @@ public class HomeFragment extends Fragment {
                 LogUtil.i(result);
                 VideoTypeBean videoTypeBean = new Gson().fromJson(result, VideoTypeBean.class);
                 if (videoTypeBean.getCode() == HTTP_SUCCESS) {//获取数据成功
+
                     mTitle = videoTypeBean.getResult();
                     initMagicIndicator();
                     mViewPager.setAdapter(new HomeAdapter(getActivity().getSupportFragmentManager(), mTitle));
