@@ -53,18 +53,12 @@ public class MyPayAdapter extends RecyclerView.Adapter<MyPayAdapter.MyPayViewHol
     public class MyPayViewHolder extends RecyclerView.ViewHolder {
 
         private final RelativeLayout layout;
-        private final XCRoundRectImageView mIvImg;
-        private final TextView mTvtitle;
-        private final TextView mTvpersent;
-        private final TextView mTvshijian;
+
 
         public MyPayViewHolder(View itemView) {
             super(itemView);
             layout = (RelativeLayout) itemView.findViewById(R.id.rl_my_pay_list);
-            mIvImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_my_pay_img);
-            mTvtitle = (TextView) itemView.findViewById(R.id.tv_my_pay_title);
-            mTvpersent = (TextView) itemView.findViewById(R.id.tv_my_pay_persent);
-            mTvshijian = (TextView) itemView.findViewById(R.id.tv_my_pay_shijian);
+
         }
     }
 }

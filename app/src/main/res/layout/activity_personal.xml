@@ -9,27 +9,15 @@
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
-            <LinearLayout
-                android:id="@+id/ll_root_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+            <ImageButton
+                android:id="@+id/ib_personal_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/tv_personal_return"
-                    android:layout_width="10dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/all_return"
-                    android:padding="10dp" />
-
-            </LinearLayout>
+                android:padding="10dp"
+                android:layout_marginLeft="9dp"
+                android:src="@mipmap/history_return"
+                android:background="@null"/>
 
 
             <TextView
@@ -39,7 +27,9 @@
                 android:layout_centerInParent="true"
                 android:text="个人信息"
                 android:textColor="#000000"
-                android:textSize="15sp" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
 
             <TextView
                 android:id="@+id/re_personal_save"
@@ -74,7 +64,8 @@
                 <RelativeLayout
                     android:id="@+id/rl_personal_head"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp">
+                    android:layout_height="56dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_personal_head_portrait"
@@ -122,7 +113,8 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
-                    android:background="#d9d9d9" />
+                    android:background="#d9d9d9"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

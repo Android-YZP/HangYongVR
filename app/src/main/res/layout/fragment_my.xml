@@ -127,7 +127,8 @@
         <LinearLayout
             android:id="@+id/ll_my_pay"
             android:layout_width="match_parent"
-            android:layout_height="25dp">
+            android:layout_height="25dp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="25dp"
@@ -162,9 +163,7 @@
         <LinearLayout
             android:id="@+id/ll_my_certification"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginTop="15dp"
-            >
+            android:layout_height="25dp">
 
             <ImageView
                 android:layout_width="25dp"

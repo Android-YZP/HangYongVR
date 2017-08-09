@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,7 +64,7 @@ public class PersonalActivity extends SwipeBackActivity {
     private TextView mTvPersonalZy;
     private TextView mTvPersonalEmail;
     private TextView mTvReturn;
-    private LinearLayout mRootReturn;
+    private ImageButton mRootReturn;
     private RelativeLayout mPersonalHead;
 
     @Override
@@ -231,8 +232,8 @@ public class PersonalActivity extends SwipeBackActivity {
         mTvPersonalDay = (TextView)findViewById(R.id.tv_personal_day);
         mTvPersonalZy = (TextView)findViewById(R.id.tv_personal_zy);
         mTvPersonalEmail = (TextView)findViewById(R.id.tv_personal_email_num);
-        mTvReturn = (TextView)findViewById(R.id.tv_personal_return);
-        mRootReturn = (LinearLayout)findViewById(R.id.ll_root_back);
+//        mTvReturn = (TextView)findViewById(R.id.tv_personal_return);
+        mRootReturn = (ImageButton)findViewById(R.id.ib_personal_back);
         mPersonalHead = (RelativeLayout)findViewById(R.id.rl_personal_head);
     }
 
