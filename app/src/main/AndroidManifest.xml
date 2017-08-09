@@ -206,6 +206,7 @@
         </receiver>
 
         <activity android:name=".main.activitys.MainActivity" />
+        <activity android:name=".main.living.push.PushActivity"></activity>
     </application>
 
 </manifest>
