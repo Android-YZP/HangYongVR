@@ -1,20 +1,14 @@
 package com.hy.vrfrog.http;
 
 import android.view.View;
-import android.widget.TextView;
 
-import com.hy.vrfrog.R;
 import com.hy.vrfrog.db.Child;
-import com.hy.vrfrog.db.Parent;
 
 import org.xutils.DbManager;
 import org.xutils.common.util.KeyValue;
 import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.db.table.DbModel;
 import org.xutils.ex.DbException;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
