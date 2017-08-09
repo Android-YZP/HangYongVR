@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -28,8 +29,9 @@ import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.RoomNumberBean;
-import com.hy.vrfrog.vrplayer.im.TCChatEntity;
-import com.hy.vrfrog.vrplayer.im.TimConfig;
+import com.hy.vrfrog.main.living.im.TCChatEntity;
+import com.hy.vrfrog.main.living.im.TCConstants;
+import com.hy.vrfrog.main.living.im.TimConfig;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -196,7 +198,8 @@ public class PlayActivity extends AppCompatActivity {
 
     private RecyclerView mRvChatRomm;
     private ArrayList<TCChatEntity> mArrayListChatEntity = new ArrayList<>();
-
+    private ListView mListViewMsg;
+    protected Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,8 +215,8 @@ public class PlayActivity extends AppCompatActivity {
         playGesture();
         initPlayMode();
         initInfo();
-//        initChatRomm();
-//        TicInit();
+        initChatRomm();
+        TicInit();
     }
 
     /**
@@ -223,16 +226,7 @@ public class PlayActivity extends AppCompatActivity {
      * @description 初始化聊天室
      */
     private void initChatRomm() {
-        mRvChatRomm = (RecyclerView) findViewById(R.id.rv_room_chat);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollHorizontally() {
-                return false;
-            }
-        };
-        mRvChatRomm.setLayoutManager(mLayoutManager);
-
-
+        mListViewMsg = (ListView) findViewById(R.id.im_msg_listview);
     }
 
     /**
@@ -244,11 +238,12 @@ public class PlayActivity extends AppCompatActivity {
     private void TicInit() {
         userConfig();
         // identifier为用户名，userSig 为用户登录凭证
-        TIMManager.getInstance().login(TimConfig.Identifier, TimConfig.UserSign, new TIMCallBack() {
+        TIMManager.getInstance().login(TimConfig.Identifier2, TimConfig.UserSign2, new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
                 //错误码code和错误描述desc，可用于定位请求失败原因
                 //错误码code列表请参见错误码表
+
                 Log.i(tag, "login failed. code: " + code + " errmsg: " + desc);
             }
 
@@ -280,6 +275,7 @@ public class PlayActivity extends AppCompatActivity {
                             TIMUserProfile senderProfile = msg.getSenderProfile();
                             String nickName = senderProfile.getNickName();
                             UIUtils.showTip(text + msg.getSender() + nickName);
+
                         } else if (elemType == TIMElemType.GroupSystem) {
                             String groupName = ((TIMGroupSystemElem) elem).getOpReason();
                             UIUtils.showTip(groupName);
@@ -289,10 +285,9 @@ public class PlayActivity extends AppCompatActivity {
                             UIUtils.showTip(groupName);
 
                         }
-//                        else if (elemType == TIMGroupTipsType.Join) {
+//                      else if (elemType == TIMGroupTipsType.Join) {
 //                            String groupName = ((TIMGroupTipsElem) elem).getGroupName();
 //                            UIUtils.showTip(groupName);
-//
 //                        }
                     }
                 }
@@ -362,6 +357,13 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onSuccess(TIMMessage msg) {//发送消息成功
                 Log.e(tag, "SendMsg ok");
+                //消息回显
+
+                TCChatEntity entity = new TCChatEntity();
+                entity.setSenderName("我:");
+                entity.setContext(((TIMTextElem)msg.getElement(0)).getText());
+                entity.setType(TCConstants.TEXT_TYPE);
+//                notifyMsg(entity);
             }
         });
 
