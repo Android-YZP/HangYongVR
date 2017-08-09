@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="290dp"
     android:layout_height="match_parent"
-   >
+    android:layout_gravity="center"
+    android:gravity="center">
 
 
     <LinearLayout
@@ -13,7 +14,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:background="@mipmap/pay_dialog">
+        android:background="@mipmap/pay_dialog"
+        >
 
 
 
@@ -91,4 +93,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

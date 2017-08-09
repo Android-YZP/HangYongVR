@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp">
+
+        <com.hy.vrfrog.ui.XCRoundRectImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/video_list_item_img_height"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/xx"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:layout_marginLeft="30dp"
+            android:text="春天的故事"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:text="123456"
+            android:layout_marginLeft="30dp"/>
+        <Button
+            android:id="@+id/btn_splash"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@drawable/start_table"
+            android:textColor="@color/white"
+            android:text="3跳过"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"/>
+
+
+
+        <ImageView
+            android:id="@+id/iv_room_head"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:background="@mipmap/detail_head"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="王妤涵"
+                android:textColor="#000"
+                android:textSize="12sp"
+                android:layout_marginLeft="65dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="28dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

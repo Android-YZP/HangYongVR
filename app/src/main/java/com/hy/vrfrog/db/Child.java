@@ -56,9 +56,6 @@ public class Child {
     @Column(name = "text")
     private String text;
 
-    public Parent getParent(DbManager db) throws DbException {
-        return db.findById(Parent.class, parentId);
-    }
 
     public long getParentId() {
         return parentId;

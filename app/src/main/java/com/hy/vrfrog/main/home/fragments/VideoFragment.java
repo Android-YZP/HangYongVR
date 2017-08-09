@@ -124,7 +124,7 @@ public class VideoFragment extends Fragment {
     private void initRecycleView() {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
-        setHeaderView(mRecycler);
+//        setHeaderView(mRecycler);
         mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -209,10 +209,10 @@ public class VideoFragment extends Fragment {
     }
 
 
-    /**
-     * 设置头布局
-     */
-    private void setHeaderView(RecyclerView view) {
+//    /**
+//     * 设置头布局
+//     */
+//    private void setHeaderView(RecyclerView view) {
 //        View header = LayoutInflater.from(getActivity()).inflate(R.layout.my_head_view, view, false);
 //        mHeadPicRecycler = (LoopRecyclerViewPager) header.findViewById(R.id.lrvp_viewpager);
 //        LinearLayoutManager layout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -294,11 +294,11 @@ public class VideoFragment extends Fragment {
 //
 //            }
 //        });
-
+//
 //        TextView EmptyView = new TextView(getActivity());//修复下拉刷新不能出来的BUG
 //        EmptyView.setVisibility(View.GONE);
 //        mMainAdapter.setHeaderView(EmptyView);//影藏轮播图
 //        mMainAdapter.setFooterView(EmptyView);
-
-    }
+//
+//    }
 }

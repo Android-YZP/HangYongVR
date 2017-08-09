@@ -11,7 +11,7 @@
         android:layout_height="131dp">
 
         <com.hy.vrfrog.ui.XCRoundRectImageView
-            android:id="@+id/iv_my_pay_img"
+            android:id="@+id/iv_history_img"
             android:layout_width="155dp"
             android:layout_height="81dp"
             android:layout_centerVertical="true"
@@ -21,7 +21,7 @@
 
 
         <TextView
-            android:id="@+id/tv_my_pay_title"
+            android:id="@+id/tv_history_pay_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="186dp"
@@ -35,7 +35,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tv_my_pay_persent"
+            android:id="@+id/tv_history_pay_object"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="186dp"
@@ -44,7 +44,7 @@
             android:textColor="#666666"
             android:textSize="15sp" />
         <TextView
-            android:id="@+id/tv_my_pay_shijian"
+            android:id="@+id/tv_history_pay_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/mypay_shijian"

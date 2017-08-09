@@ -26,6 +26,7 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,7 +36,9 @@ import android.widget.Toast;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.ui.ReportDialog;
 import com.hy.vrfrog.ui.SwipeBackActivity;
+import com.hy.vrfrog.ui.VerifiedDialog;
 import com.hy.vrfrog.ui.photoChoiceDialog;
 import com.hy.vrfrog.utils.UIUtils;
 
@@ -66,8 +69,8 @@ public class UploadingDocumentsActivity extends SwipeBackActivity implements Vie
     private  File cameraFile;
 
     private ImageButton mBack;
-    private LinearLayout mUploadIdentityCardFront;
-    private LinearLayout mUploadIdentityCardBack;
+    private FrameLayout mUploadIdentityCardFront;
+    private FrameLayout mUploadIdentityCardBack;
     private Button uploadSummitBtn;
     //动态获取权限监听
     private static PermissionListener mListener;
@@ -87,11 +90,11 @@ public class UploadingDocumentsActivity extends SwipeBackActivity implements Vie
         cacheFile = getCacheFile(new File(getDiskCacheDir(this)),"certificate.jpg");
 
         mBack = (ImageButton)findViewById(R.id.ib_upload_back);
-        mUploadIdentityCardFront = (LinearLayout)findViewById(R.id.ll_upload_identity_card_front);
-        mUploadIdentityCardBack = (LinearLayout)findViewById(R.id.rl_upload_identity_card_front1);
+        mUploadIdentityCardFront = (FrameLayout)findViewById(R.id.ll_upload_identity_card_front);
+        mUploadIdentityCardBack = (FrameLayout)findViewById(R.id.rl_upload_identity_card_front1);
         uploadSummitBtn = (Button)findViewById(R.id.btn_upload_identity_summit);
         mImageFront = (ImageView)findViewById(R.id.img_upload_identity_card_front);
-//        mImageBack  = (ImageView) findViewById(R.id.img_upload_identity_card_back);
+        mImageBack  = (ImageView) findViewById(R.id.img_upload_identity_card_back);
 
         initListener();
 
@@ -120,66 +123,66 @@ public class UploadingDocumentsActivity extends SwipeBackActivity implements Vie
                 showPhotoDialog();
                 break;
             case R.id.btn_upload_identity_summit:
-//                uploadCertificaton(mFrontPhoto,mBackPhoto);
+                uploadCertificaton(mFrontPhoto,mBackPhoto);
 
-//                new VerifiedDialog(UploadingDocumentsActivity.this).builder()
-//                        .setCanceledOnTouchOutside(true)
-//                        .setNegativeButton("", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        })
-//                        .setPositiveButton("", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        }).show();
-//                new ReportDialog(UploadingDocumentsActivity.this).builder()
-//                        .setCanceledOnTouchOutside(true)
-//                        .setRumorListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        })
-//                        .setLewdListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        })
-//                        .setMinorListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        })
-//                        .setSmokeListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        })
-//                        .setAdvertisementListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        })
-//                        .setOtherListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        })
-//                        .setCancelListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        }).show();
+                new VerifiedDialog(UploadingDocumentsActivity.this).builder()
+                        .setCanceledOnTouchOutside(true)
+                        .setNegativeButton("", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
+                        .setPositiveButton("", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        }).show();
+                new ReportDialog(UploadingDocumentsActivity.this).builder()
+                        .setCanceledOnTouchOutside(true)
+                        .setRumorListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
+                        .setLewdListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
+                        .setMinorListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
+                        .setSmokeListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
+                        .setAdvertisementListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
+                        .setOtherListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
+                        .setCancelListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        }).show();
                 break;
         }
     }
