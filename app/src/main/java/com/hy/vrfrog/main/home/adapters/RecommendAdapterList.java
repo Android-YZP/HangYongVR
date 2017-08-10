@@ -1,12 +1,12 @@
 package com.hy.vrfrog.main.home.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hy.vrfrog.R;
@@ -78,14 +78,16 @@ public class RecommendAdapterList extends BaseAdapter {
             switch (type){
                 case TYPE_STYLE_ONE:
                     convertView = View.inflate(mContext, R.layout.item_recommend_one, null);
-                    holder.mNum = (TextView) convertView.findViewById(R.id.tv_recommend_one_title);
+                    holder.mTitle = (TextView) convertView.findViewById(R.id.tv_recommend_one_title);
                     holder.mMessage = (TextView)convertView.findViewById(R.id.tv_recommend_one_message);
+//                    holder.mNum = (TextView)convertView.findViewById(R.id.tv_recommend_one_num);
+//                    holder.mBackgroundImg = (ImageView)convertView.findViewById(R.id.img_recommend_one_background);
                     convertView.setTag(holder);
                     break;
                 case TYPE_STYLE_TWO:
                     convertView = View.inflate(mContext, R.layout.item_recommend_scollview, null);
                     mTwoHolder.mTwoTitle= (TextView) convertView.findViewById(R.id.tv_recommend_two_title);
-                    mTwoHolder.mTwoNum = (TextView)convertView.findViewById(R.id.tv_recommend_two_number);
+                    mTwoHolder.mScrollViewNum = (TextView)convertView.findViewById(R.id.tv_recommend_scrollview_num);
                     mTwoHolder.mRecyclerTwoTitle = (RecyclerView)convertView.findViewById(R.id.rv_recommend_two_video_list);
                     convertView.setTag(mTwoHolder);
 
@@ -93,7 +95,7 @@ public class RecommendAdapterList extends BaseAdapter {
                 case TYPE_STYLE_THREE:
                     convertView = View.inflate(mContext, R.layout.item_recommend_more, null);
                     mOneHolder.mOneTitle = (TextView) convertView.findViewById(R.id.tv_recommend_three_title);
-                    mOneHolder.mOneNum = (TextView)convertView.findViewById(R.id.tv_recommend_more_total_videos);
+                    mOneHolder.mRecommendMoreTv = (TextView)convertView.findViewById(R.id.tv_recommend_more_num);
                     mOneHolder.mRecyclerOneTitle = (RecyclerView)convertView.findViewById(R.id.rv_recommend_three_more_video_list);
                     convertView.setTag(mOneHolder);
                     break;
@@ -117,7 +119,7 @@ public class RecommendAdapterList extends BaseAdapter {
 
         switch (type){
             case TYPE_STYLE_ONE:
-                holder.mNum.setText(mList.get(position).getTitle());
+                holder.mTitle.setText(mList.get(position).getTitle());
                 break;
             case TYPE_STYLE_TWO:
                 mTwoHolder.mTwoTitle.setText(mList.get(position).getTitle());
@@ -144,8 +146,10 @@ public class RecommendAdapterList extends BaseAdapter {
 
     class ViewHolder{
 
-        private TextView mNum;
+        private TextView mTitle;
         private TextView mMessage;
+        private TextView mNum;
+        private ImageView mBackgroundImg;
 
     }
 
@@ -153,7 +157,7 @@ public class RecommendAdapterList extends BaseAdapter {
 
         private TextView mOneTitle;
         private RecyclerView mRecyclerOneTitle;
-        private TextView mOneNum;
+        private TextView mRecommendMoreTv;
 
     }
 
@@ -162,6 +166,7 @@ public class RecommendAdapterList extends BaseAdapter {
         private TextView mTwoTitle;
         private RecyclerView mRecyclerTwoTitle;
         private TextView mTwoNum;
+        private TextView mScrollViewNum;
 
     }
 }

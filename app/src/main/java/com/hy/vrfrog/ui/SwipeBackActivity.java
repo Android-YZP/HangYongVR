@@ -1,9 +1,13 @@
 package com.hy.vrfrog.ui;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.hy.vrfrog.R;
 
@@ -23,6 +27,17 @@ public class SwipeBackActivity extends AppCompatActivity {
 		layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(
 				R.layout.base, null);
 		layout.attachToActivity(this);
+		initToolBar();
+	}
+
+	private void initToolBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			setTranslucentStatus(true);
+		}
+		//为状态栏着色
+		SystemBarTintManager tintManager = new SystemBarTintManager(this);
+		tintManager.setStatusBarTintEnabled(true);
+		tintManager.setStatusBarTintResource(R.color.zhuangtai);
 	}
 
 	@Override
@@ -36,6 +51,19 @@ public class SwipeBackActivity extends AppCompatActivity {
 	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(0, R.anim.base_slide_right_out);
+	}
+
+	@TargetApi(19)
+	private void setTranslucentStatus(boolean on) {
+		Window win = getWindow();
+		WindowManager.LayoutParams winParams = win.getAttributes();
+		final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+		if (on) {
+			winParams.flags |= bits;
+		} else {
+			winParams.flags &= ~bits;
+		}
+		win.setAttributes(winParams);
 	}
 
 

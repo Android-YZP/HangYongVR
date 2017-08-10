@@ -9,7 +9,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@mipmap/background_title_sanyan">
+        android:background="@mipmap/background_title_sanyan"
+        android:layout_marginTop="20dp"
+        >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -17,6 +19,20 @@
             android:background="@mipmap/logo_sanyanwa"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_main_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="三眼蛙"
+            android:textColor="#000"
+            android:textSize="21sp"
+            android:textStyle="bold"
+
+            />
 
         <ImageView
             android:id="@+id/iv_search_topic"
