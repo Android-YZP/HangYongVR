@@ -107,9 +107,11 @@ public class HomeFragment extends Fragment {
                 }else {
                     simplePagerTitleView.setText(mTitle.get(index - 3).getName());
                 }
+
                 simplePagerTitleView.setNormalColor(Color.parseColor("#88ffffff"));
                 simplePagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
                 simplePagerTitleView.setTextSize(UIUtils.px2dip(43));
+
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -123,8 +125,6 @@ public class HomeFragment extends Fragment {
             public IPagerIndicator getIndicator(Context context) {
                 WrapPagerIndicator indicator = new WrapPagerIndicator(context);
                 indicator.setFillColor(Color.parseColor("#7c1f1850"));
-
-
                 return indicator;
             }
         });

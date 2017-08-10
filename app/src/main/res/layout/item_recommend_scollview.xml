@@ -62,20 +62,6 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_recommend_two_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="视频"
-        android:textColor="#949494"
-        android:textSize="13sp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="12dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        />
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
@@ -96,6 +82,30 @@
                 android:layout_marginBottom="20dp" />
         </RelativeLayout>
     </HorizontalScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电影"
+            />
+
+        <TextView
+            android:id="@+id/tv_recommend_scrollview_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共十五个视频"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
 
     <com.hy.vrfrog.ui.XCRoundRectImageView
         android:layout_width="match_parent"

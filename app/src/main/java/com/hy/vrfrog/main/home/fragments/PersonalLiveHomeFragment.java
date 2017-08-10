@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.base.BaseFragment;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
 import com.hy.vrfrog.main.home.adapters.EnterpriseOnLiveAdapter;
 import com.hy.vrfrog.ui.VerticalSwipeRefreshLayout;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * Created by qwe on 2017/8/4.
  */
 @SuppressLint("ValidFragment")
-public class PersonalLiveHomeFragment extends Fragment {
+public class PersonalLiveHomeFragment extends BaseFragment {
 
     private LinearLayout mEmptyll;
     private VerticalSwipeRefreshLayout mSwipeRefresh;

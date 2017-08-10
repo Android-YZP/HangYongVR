@@ -16,10 +16,12 @@ import android.widget.ListView;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.main.home.adapters.RecommendAdapterList;
 import com.hy.vrfrog.main.home.bean.RecommendBean;
+import com.hy.vrfrog.ui.CircleIndicator;
 import com.hy.vrfrog.ui.LoopViewPager;
 
 import com.hy.vrfrog.ui.RoundImageView;
 import com.hy.vrfrog.ui.VerticalSwipeRefreshLayout;
+import com.hy.vrfrog.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -59,6 +61,8 @@ public class RecommendFragment extends Fragment {
         mRecyclerfreshLayout.setEnabled(false);
         View headView = View.inflate(getActivity(),R.layout.item_head, null);
         mLoopViewPager = (LoopViewPager)headView.findViewById(R.id.looviewpager);
+        CircleIndicator indicator = (CircleIndicator) headView.findViewById(R.id.indicator);
+
         mRecycler.addHeaderView(headView);
         mLoopViewPager.setAdapter(new MyAdapter());
         mRecycler.setAdapter(mAdapter);
@@ -77,7 +81,8 @@ public class RecommendFragment extends Fragment {
                 }
             }
         });
-        mLoopViewPager.autoLoop(true);
+        mLoopViewPager.setLooperPic(true);
+        indicator.setViewPager( mLoopViewPager);
 
     }
 
@@ -106,10 +111,17 @@ public class RecommendFragment extends Fragment {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             View view = View.inflate(getActivity(), R.layout.item_viewpager, null);
             RoundImageView itemImage = (RoundImageView) view.findViewById(R.id.item_image);
             itemImage.setImageResource(resIds[position]);
+            itemImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                }
+            });
             container.addView(view);
             return view;
         }

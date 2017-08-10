@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.base.BaseActivity;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
@@ -27,7 +28,7 @@ import com.hy.vrfrog.vrplayer.PlayActivity;
 
 import org.xutils.common.util.LogUtil;
 
-public class VedioDeatilsActivity extends AppCompatActivity implements View.OnClickListener {
+public class VedioDeatilsActivity extends BaseActivity implements View.OnClickListener {
     private VrPanoramaView panoWidgetView;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
