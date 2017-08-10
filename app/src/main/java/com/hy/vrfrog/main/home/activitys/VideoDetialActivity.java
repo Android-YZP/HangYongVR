@@ -22,6 +22,7 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
+import com.hy.vrfrog.main.activitys.Guide1Activity;
 import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -46,6 +47,8 @@ public class VideoDetialActivity extends SwipeBackActivity {
     private int mPager = 1;
     private LinearLayout mIvDetialErrorBg;
     private ImageView mIvTwoDBg;
+    private ImageView mIvupgif;
+    private ImageView mIvdowngif;
     private RelativeLayout mRlRoot;
     public boolean loadImageSuccessful;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
@@ -75,6 +78,14 @@ public class VideoDetialActivity extends SwipeBackActivity {
         mRlRoot = (RelativeLayout) findViewById(R.id.rl_root);
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view_main);
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
+        mIvupgif = (ImageView) findViewById(R.id.iv_up_gif);
+        mIvdowngif = (ImageView) findViewById(R.id.iv_down_gif);
+        Glide.with(VideoDetialActivity.this)
+                .load(R.mipmap.video_up)
+                .into(mIvupgif);
+        Glide.with(VideoDetialActivity.this)
+                .load(R.mipmap.video_down)
+                .into(mIvdowngif);
     }
 
 

@@ -105,10 +105,9 @@
             android:textColor="@color/white"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            />
+            android:layout_marginLeft="5dp" />
 
 
     </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>

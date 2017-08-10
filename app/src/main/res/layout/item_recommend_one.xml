@@ -1,84 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#1c1c34"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_main_more"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-
-        >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_centerVertical="true"
-            android:background="@drawable/rg_recommend_textview"
-            >
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#"
-                android:textColor="@color/dsb_progress_color"
                 android:layout_gravity="center"
-                android:padding="5dp"
-                />
+                android:background="@mipmap/icon_tab"
+                android:padding="5dp" />
 
             <TextView
                 android:id="@+id/tv_recommend_one_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="新的机械师来了!"
-                android:textColor="@color/black"
                 android:layout_gravity="center"
-                android:layout_centerVertical="true"
-                android:paddingRight="5dp"
-
-                />
+                android:layout_marginLeft="8dp"
+                android:text="新的机械师来了 ! !"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
         </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="33dp"
+        android:text="立秋后北京依旧酷热，井盖10分钟能烤熟虾"
+        android:textColor="#fff"
+        android:textSize="17sp"
+        android:lines="2"
+        android:maxLines="2"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="223dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="22dp">
+
+        <com.hy.vrfrog.ui.XCRoundRectImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/img1" />
 
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
 
-        <com.hy.vrfrog.ui.XCRoundRectImageView
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:src="@mipmap/img1"
-         />
+        <TextView
+            android:id="@+id/tv_recommend_one_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="科幻"
+            android:textColor="#5d6bc9"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_recommend_one_message1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:text="共15个视频"
+            android:textColor="#5d6bc9"
+            android:textSize="13sp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/player"
-            android:layout_centerInParent="true"
-            />
-
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@mipmap/button_more" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_recommend_one_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="简明摘要"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="21dp"
+        android:background="#d9d9d9"
 
+        />
 </LinearLayout>
