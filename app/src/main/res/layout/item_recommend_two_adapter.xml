@@ -3,41 +3,57 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    >
+    android:layout_marginTop="15dp">
+    <RelativeLayout
+        android:layout_width="147dp"
+        android:layout_height="wrap_content">
 
     <com.hy.vrfrog.ui.XCRoundRectImageView
         android:id="@+id/img_recommend_adapter_two"
-        android:layout_width="196dp"
-        android:layout_height="101dp"
-        android:src="@mipmap/img3"
+        android:layout_width="147dp"
+        android:layout_height="90dp"
+        android:src="@mipmap/img3" />
 
-        />
+        <TextView
+            android:id="@+id/tv_video_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="6dp"
+            android:textColor="#fff"
+            android:text="03:08"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="101dp"
-        android:orientation="vertical"
-
-        >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_recommend_adapter_two_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="暗夜传说"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/black"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/white"
+            android:textSize="17sp"
             />
 
         <TextView
             android:id="@+id/tv_recommend_adapter_two_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="暗夜传说的返回数据放到"
-            android:layout_marginLeft="10dp"
+            android:text="暗夜传说是由网龙开发运营的一款神秘刺激绝美的"
+            android:textSize="16sp"
+            android:lines="2"
+            android:maxLines="2"
+            android:textColor="#bfbfbf"
+            android:layout_marginLeft="17dp"
             android:layout_marginTop="20dp"
-            />
+            android:layout_marginRight="14dp"/>
 
     </LinearLayout>
 

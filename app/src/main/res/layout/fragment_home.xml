@@ -20,19 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"/>
 
-        <TextView
-            android:id="@+id/tv_main_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="三眼蛙"
-            android:textColor="#000"
-            android:textSize="21sp"
-            android:textStyle="bold"
 
-            />
 
         <ImageView
             android:id="@+id/iv_search_topic"
