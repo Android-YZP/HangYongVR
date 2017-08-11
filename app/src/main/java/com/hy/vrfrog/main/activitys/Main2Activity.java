@@ -1,5 +1,6 @@
 package com.hy.vrfrog.main.activitys;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.widget.ImageButton;
 
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.main.adapter.MainAdapter;
+import com.hy.vrfrog.main.living.im.TCConstants;
+import com.hy.vrfrog.main.living.push.PushActivity;
 import com.hy.vrfrog.ui.BottomBar;
 
 
@@ -37,7 +40,10 @@ public class Main2Activity extends AppCompatActivity {
         mIvLivingPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(Main2Activity.this, PushActivity.class);
+                String PushUrl = "rtmp://9250.livepush.myqcloud.com/live/9250_erte?bizid=9250&txSecret=1f728c3719bc7a51cd38de46bcbff49c&txTime=598B317F";
+                intent.putExtra(TCConstants.PUBLISH_URL,PushUrl);
+                startActivity(intent);
             }
         });
     }
