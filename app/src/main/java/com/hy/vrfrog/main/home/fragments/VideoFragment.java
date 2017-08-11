@@ -56,6 +56,7 @@ public class VideoFragment extends Fragment {
     private List<TopicBean.ResultBeanX> results = new ArrayList<>();
     private LinearLayout mLlNoNetBg;
     private boolean islodingMore = false;
+    private View mView;
 
     public VideoFragment() {
     }
@@ -72,9 +73,19 @@ public class VideoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_video, container, false);
-        initView(view);
-        return view;
+
+        if (mView != null) {
+            ViewGroup parent = (ViewGroup) mView.getParent();
+            if (parent != null) {
+                parent.removeView(mView);
+            }
+            return mView;
+        }
+
+
+        mView = inflater.inflate(R.layout.fragment_video, container, false);
+        initView(mView);
+        return mView;
     }
 
     @Override
@@ -209,7 +220,7 @@ public class VideoFragment extends Fragment {
     }
 
 
-//    /**
+    //    /**
 //     * 设置头布局
 //     */
 //    private void setHeaderView(RecyclerView view) {

@@ -1,7 +1,6 @@
 package com.hy.vrfrog.main.home.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,16 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.main.home.adapters.RecommendAdapterList;
 import com.hy.vrfrog.main.home.bean.RecommendBean;
 import com.hy.vrfrog.ui.CircleIndicator;
 import com.hy.vrfrog.ui.LoopViewPager;
-
 import com.hy.vrfrog.ui.RoundImageView;
 import com.hy.vrfrog.ui.VerticalSwipeRefreshLayout;
-import com.hy.vrfrog.utils.UIUtils;
 
 import java.util.ArrayList;
 

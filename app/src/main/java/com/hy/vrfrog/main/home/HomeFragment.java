@@ -71,6 +71,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initData() {
+        mViewPager.setOffscreenPageLimit(3);
         HttpVideoType();
     }
 

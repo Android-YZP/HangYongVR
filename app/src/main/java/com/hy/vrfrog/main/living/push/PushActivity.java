@@ -319,7 +319,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 .setGroupEventListener(new TIMGroupEventListener() {
                     @Override
                     public void onGroupTipsEvent(TIMGroupTipsElem elem) {
-                        Log.i(tag, "onGroupTipsEvent, type: " + elem.getOpUser());
+                        Log.i(tag, "onGroupTipsEvent, type: " + elem.getTipsType());
 
                         TCChatEntity entity = new TCChatEntity();
                         entity.setSenderName("通知");
@@ -447,9 +447,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
             }
         });
     }
-
-
-
 
 
     @Override

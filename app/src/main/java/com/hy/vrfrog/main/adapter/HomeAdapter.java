@@ -3,12 +3,14 @@ package com.hy.vrfrog.main.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.hy.vrfrog.http.responsebean.VideoTypeBean;
 import com.hy.vrfrog.main.home.fragments.EnterpriseLiveHomeFragment;
 import com.hy.vrfrog.main.home.fragments.PersonalLiveHomeFragment;
 import com.hy.vrfrog.main.home.fragments.RecommendFragment;
 import com.hy.vrfrog.main.home.fragments.VideoFragment;
+import com.hy.vrfrog.utils.UIUtils;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ import java.util.List;
  * Created by m1762 on 2017/6/2.
  */
 
-public class HomeAdapter extends FragmentPagerAdapter {
+public class HomeAdapter extends FragmentStatePagerAdapter {
     private List<VideoTypeBean.ResultBean> mTitle;
 
     public HomeAdapter(FragmentManager fm, List<VideoTypeBean.ResultBean> mTitle) {
@@ -27,15 +29,8 @@ public class HomeAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0){
-            return new RecommendFragment();
-        }else if (position == 1){
-            return new PersonalLiveHomeFragment();
-        }else if (position == 2){
-            return new EnterpriseLiveHomeFragment();
-        }else {
-            return new VideoFragment(mTitle.get(position - 3 ).getId());
-        }
+
+        return FragmentFactory.createFragment(position, mTitle);
 
     }
 
