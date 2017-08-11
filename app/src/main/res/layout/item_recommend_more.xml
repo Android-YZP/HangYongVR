@@ -2,97 +2,117 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#1c1c34">
 
     <RelativeLayout
         android:id="@+id/rl_main_more"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-
-        >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_centerVertical="true"
-            android:background="@drawable/rg_recommend_textview"
-            >
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#"
-                android:textColor="@color/dsb_progress_color"
                 android:layout_gravity="center"
-                android:padding="5dp"
-                />
+                android:background="@mipmap/icon_tab"
+                android:padding="5dp" />
 
             <TextView
                 android:id="@+id/tv_recommend_three_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="新的机械师来了!"
-                android:textColor="@color/black"
                 android:layout_gravity="center"
-                android:layout_centerVertical="true"
-                android:padding="5dp"
-                />
+                android:layout_marginLeft="8dp"
+                android:text="新的机械师来了 ! !"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
-        <TextView
+        <ImageButton
+            android:id="@+id/ib_recommend_more_duo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="更多"
-            android:textColor="#949494"
-            android:textSize="13sp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="12dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp"
-            android:layout_centerVertical="true"
-            />
-
-
+            android:background="@mipmap/button_attention"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_recommend_more_total_videos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="视频"
-        android:textColor="#949494"
-        android:textSize="13sp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="12dp"
-        android:visibility="gone"
-        />
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
-            android:layout_marginLeft="12dp"
-            >
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="6dp">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_recommend_three_more_video_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="10dp" />
         </RelativeLayout>
 
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_recommend_more_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="科幻"
+            android:textColor="#5d6bc9"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_recommend_more_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:text="共15个视频"
+            android:textColor="#5d6bc9"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/tv_recommend_more_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@mipmap/button_more" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="14dp"
+        android:background="#343448"
+
+        />
 
 
 

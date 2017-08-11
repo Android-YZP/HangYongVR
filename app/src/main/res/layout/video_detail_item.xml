@@ -4,7 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/on_demand_button_close"
+        android:layout_marginTop="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="22dp"/>
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -12,18 +18,67 @@
         android:layout_centerInParent="true"
         android:background="@mipmap/player"
         android:textSize="30sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@mipmap/on_demand_background_button"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp">
+
+        <ImageButton
+            android:id="@+id/ib_video_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/on_demand_button_down"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <ImageButton
+            android:id="@+id/ib_video_shang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/on_demand_button_shang"
+            android:layout_gravity="center"
+            android:layout_marginTop="23dp"/>
+
+        <ImageButton
+            android:id="@+id/ib_video_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/on_demand_button_share"
+            android:layout_gravity="center"
+            android:layout_marginTop="23dp"/>
+
+    </LinearLayout>
 
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:background="@mipmap/dian_up_yin">
+       android:background="@mipmap/dian_up_yin"
+       >
 
-
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="上一个视频"-->
+        <!--android:textColor="#66ffffff"-->
+        <!--android:textSize="12sp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="23dp"/>-->
+       <!--<ImageView-->
+           <!--android:id="@+id/iv_up_gif"-->
+           <!--android:layout_width="wrap_content"-->
+           <!--android:layout_height="wrap_content"-->
+           <!--android:scaleType="fitXY"-->
+           <!--android:layout_centerHorizontal="true"-->
+           <!--android:layout_marginTop="42dp" />-->
     <LinearLayout
         android:id="@+id/ll_video_name"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/pay_layer_list_bg"
         android:orientation="horizontal"
         >
@@ -56,7 +111,7 @@
         android:id="@+id/ll_root_room_name"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/pay_layer_list_bg"
         android:orientation="horizontal"
         >
@@ -308,12 +363,30 @@
             android:layout_marginLeft="14dp"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:lines="1"
+            android:lines="2"
             android:textColor="#bdbdc3"
             android:textSize="15sp"
             android:text="月球之旅"
-            android:maxLines="2" />
+            android:maxLines="2"
+            android:layout_marginBottom="50dp"/>
 
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_down_gif"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_gravity="center"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="下一个视频"-->
+            <!--android:textColor="#66ffffff"-->
+            <!--android:textSize="12sp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginBottom="11dp"/>-->
     </LinearLayout>
 
 </RelativeLayout>

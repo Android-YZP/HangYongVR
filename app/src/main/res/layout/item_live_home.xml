@@ -13,6 +13,18 @@
         android:layout_height="300dp"
         android:src="@drawable/replay_bg"
         android:scaleType="fitXY"
+
+        />
+
+    <com.hy.vrfrog.ui.CircleImageView
+        android:id="@+id/img_live_home_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/detail_head"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="15dp"
+
         />
 
     <LinearLayout
@@ -20,9 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/img_live_home_head"
         >
 
         <TextView
@@ -31,6 +43,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:text="春天的故事"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxEms="3"
             />
 
         <TextView
@@ -40,6 +55,10 @@
             android:textColor="@color/white"
             android:text="123445人"
             android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxEms="3"
+
             />
 
 
@@ -90,12 +109,7 @@
         android:layout_marginTop="200dp"
         >
 
-        <com.hy.vrfrog.ui.CircleImageView
-            android:id="@+id/img_live_home_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/detail_head"
-            />
+
 
         <TextView
             android:id="@+id/tv_live_home_name"
@@ -105,10 +119,29 @@
             android:textColor="@color/white"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            />
-
+            android:layout_marginLeft="5dp" />
 
     </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/tv_personal_live_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="李宣亚"
+        android:textColor="@color/colorGreen"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="200dp"
+        android:layout_below="@id/ll_live_title"
+        android:background="@drawable/bg_personal_live_pay"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        />
+
 </RelativeLayout>
+

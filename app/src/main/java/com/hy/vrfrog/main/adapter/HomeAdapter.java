@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.hy.vrfrog.http.responsebean.VideoTypeBean;
+import com.hy.vrfrog.main.home.fragments.EnterpriseLiveHomeFragment;
 import com.hy.vrfrog.main.home.fragments.PersonalLiveHomeFragment;
 import com.hy.vrfrog.main.home.fragments.RecommendFragment;
 import com.hy.vrfrog.main.home.fragments.VideoFragment;
@@ -31,7 +32,7 @@ public class HomeAdapter extends FragmentPagerAdapter {
         }else if (position == 1){
             return new PersonalLiveHomeFragment();
         }else if (position == 2){
-            return new PersonalLiveHomeFragment();
+            return new EnterpriseLiveHomeFragment();
         }else {
             return new VideoFragment(mTitle.get(position - 3 ).getId());
         }

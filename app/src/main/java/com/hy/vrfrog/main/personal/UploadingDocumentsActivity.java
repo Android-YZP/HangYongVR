@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.base.BaseActivity;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.ui.ReportDialog;
@@ -55,7 +56,7 @@ import java.util.List;
  * Created by qwe on 2017/7/31.
  */
 
-public class UploadingDocumentsActivity extends SwipeBackActivity implements View.OnClickListener{
+public class UploadingDocumentsActivity extends  SwipeBackActivity implements View.OnClickListener{
 
     public static final int TAKE_PHOTO = 1;
 
@@ -123,66 +124,66 @@ public class UploadingDocumentsActivity extends SwipeBackActivity implements Vie
                 showPhotoDialog();
                 break;
             case R.id.btn_upload_identity_summit:
-                uploadCertificaton(mFrontPhoto,mBackPhoto);
+//                uploadCertificaton(mFrontPhoto,mBackPhoto);
 
-                new VerifiedDialog(UploadingDocumentsActivity.this).builder()
-                        .setCanceledOnTouchOutside(true)
-                        .setNegativeButton("", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        })
-                        .setPositiveButton("", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        }).show();
-                new ReportDialog(UploadingDocumentsActivity.this).builder()
-                        .setCanceledOnTouchOutside(true)
-                        .setRumorListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        })
-                        .setLewdListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        })
-                        .setMinorListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        })
-                        .setSmokeListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        })
-                        .setAdvertisementListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        })
-                        .setOtherListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        })
-                        .setCancelListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        }).show();
+//                new VerifiedDialog(UploadingDocumentsActivity.this).builder()
+//                        .setCanceledOnTouchOutside(true)
+//                        .setNegativeButton("", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setPositiveButton("", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        }).show();
+//                new ReportDialog(UploadingDocumentsActivity.this).builder()
+//                        .setCanceledOnTouchOutside(true)
+//                        .setRumorListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setLewdListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setMinorListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setSmokeListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setAdvertisementListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setOtherListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+//                        .setCancelListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        }).show();
                 break;
         }
     }

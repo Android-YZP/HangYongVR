@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initMagicIndicator() {
-        mMagicIndicator.setBackgroundColor(Color.WHITE);
+        mMagicIndicator.setBackground(UIUtils.getDrawable(R.mipmap.background_title_sanyan));
         CommonNavigator commonNavigator = new CommonNavigator(getActivity());
         commonNavigator.setScrollPivotX(0.35f);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
@@ -107,8 +107,11 @@ public class HomeFragment extends Fragment {
                 }else {
                     simplePagerTitleView.setText(mTitle.get(index - 3).getName());
                 }
-                simplePagerTitleView.setNormalColor(Color.parseColor("#333333"));
-                simplePagerTitleView.setSelectedColor(Color.parseColor("#e94220"));
+
+                simplePagerTitleView.setNormalColor(Color.parseColor("#88ffffff"));
+                simplePagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
+                simplePagerTitleView.setTextSize(UIUtils.px2dip(43));
+
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -121,7 +124,7 @@ public class HomeFragment extends Fragment {
             @Override
             public IPagerIndicator getIndicator(Context context) {
                 WrapPagerIndicator indicator = new WrapPagerIndicator(context);
-                indicator.setFillColor(Color.parseColor("#ebe4e3"));
+                indicator.setFillColor(Color.parseColor("#7c1f1850"));
                 return indicator;
             }
         });
