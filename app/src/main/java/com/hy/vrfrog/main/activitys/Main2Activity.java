@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.base.BaseActivity;
@@ -27,7 +28,7 @@ public class Main2Activity extends BaseActivity {
     private ViewPager mVpMain;
     private BottomBar mBottomBar;
     private ImageButton mIvLivingPush;
-    private LinearLayout linearLayout ;
+    private RelativeLayout linearLayout ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class Main2Activity extends BaseActivity {
         mIvLivingPush = (ImageButton) findViewById(R.id.ib_living_push);
         mVpMain.setAdapter(new MainAdapter(getSupportFragmentManager()));
         mVpMain.setCurrentItem(1);
-        linearLayout = (LinearLayout)findViewById(R.id.ll_height);
+        linearLayout = (RelativeLayout)findViewById(R.id.ll_height);
         int height = getStatusBarHeight();
         LogUtil.i("height = " + height);
 

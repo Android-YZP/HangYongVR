@@ -23,9 +23,9 @@ public class MainAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = null;
         if (position == 0) {
-            return new HomeFragment();
+            return new BaseFragment();
         } else if (position == 1) {
-           return new BaseFragment();
+           return new HomeFragment();
         } else if (position == 2) {
             return new MyFragment();
         }

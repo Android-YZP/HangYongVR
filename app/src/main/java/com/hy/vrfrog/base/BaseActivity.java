@@ -3,7 +3,6 @@ package com.hy.vrfrog.base;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hy.vrfrog.R;
-import com.hy.vrfrog.ui.SystemBarTintManager;
 
 /**
  * Created by qwe on 2017/8/7.
@@ -26,7 +24,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected TextView mTitleTv;
     protected TextView mTitleRightTv;
     protected ImageView mBackImg;
-    SystemBarTintManager tintManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,30 +33,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.base_activity);
         mBackImg = (ImageView)findViewById(R.id.nav_back);
         mTitleTv = (TextView)findViewById(R.id.nav_title);
-        initToolBar();
 
     }
 
-    private void initToolBar() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = getWindow();
-            window.setFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            setTranslucentStatus(true);
-            tintManager = new SystemBarTintManager(this);
-            WindowManager.LayoutParams attrs = getWindow().getAttributes();
-
-            if ((attrs.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
-                tintManager.setStatusBarTintEnabled(false);
-            } else {
-                tintManager.setStatusBarTintEnabled(true);
-            }
-            tintManager.setStatusBarTintResource(R.color.zhuangtai);//通知栏所需颜色
-
-        }
-    }
 
 
     @Override

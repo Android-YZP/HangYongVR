@@ -27,18 +27,9 @@ public class SwipeBackActivity extends AppCompatActivity {
 		layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(
 				R.layout.base, null);
 		layout.attachToActivity(this);
-		initToolBar();
 	}
 
-	private void initToolBar() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			setTranslucentStatus(true);
-		}
-		//为状态栏着色
-		SystemBarTintManager tintManager = new SystemBarTintManager(this);
-		tintManager.setStatusBarTintEnabled(true);
-		tintManager.setStatusBarTintResource(R.color.zhuangtai);
-	}
+
 
 	@Override
 	public void startActivity(Intent intent) {
