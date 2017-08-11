@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.hy.vrfrog.R;
-import com.hy.vrfrog.base.BaseFragment;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
 import com.hy.vrfrog.main.home.adapters.EnterpriseOnLiveAdapter;
+import com.hy.vrfrog.ui.ItemDivider;
 import com.hy.vrfrog.ui.VerticalSwipeRefreshLayout;
 import com.hy.vrfrog.main.home.adapters.PersonalLiveHomeAdapter;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Created by qwe on 2017/8/4.
  */
 @SuppressLint("ValidFragment")
-public class PersonalLiveHomeFragment extends BaseFragment {
+public class PersonalLiveHomeFragment extends Fragment {
 
     private LinearLayout mEmptyll;
     private VerticalSwipeRefreshLayout mSwipeRefresh;
@@ -54,6 +54,7 @@ public class PersonalLiveHomeFragment extends BaseFragment {
             bean.setTitle("春天的故事");
             mList.add(bean);
         }
+
     }
 
     private void initView(View view) {
@@ -63,13 +64,15 @@ public class PersonalLiveHomeFragment extends BaseFragment {
         mSwipeRefresh.setColorScheme(android.R.color.black, android.R.color.holo_green_light, android.R.color.holo_blue_light, android.R.color.holo_red_light);
         mSwipeRefresh.setEnabled(false);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_live_home_recycler);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        mRecyclerView.addItemDecoration(new ItemDivider(10));
+
 
         mAdapter = new PersonalLiveHomeAdapter(getActivity(),mList);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter1 = new EnterpriseOnLiveAdapter(getActivity(),mList);
-        mRecyclerView.setAdapter(mAdapter1);
 
     }
 }

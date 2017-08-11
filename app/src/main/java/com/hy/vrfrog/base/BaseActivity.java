@@ -26,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected TextView mTitleTv;
     protected TextView mTitleRightTv;
     protected ImageView mBackImg;
+    SystemBarTintManager tintManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,13 +41,24 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initToolBar() {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             setTranslucentStatus(true);
+            tintManager = new SystemBarTintManager(this);
+            WindowManager.LayoutParams attrs = getWindow().getAttributes();
+
+            if ((attrs.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
+                tintManager.setStatusBarTintEnabled(false);
+            } else {
+                tintManager.setStatusBarTintEnabled(true);
+            }
+            tintManager.setStatusBarTintResource(R.color.zhuangtai);//通知栏所需颜色
+
         }
-        //为状态栏着色
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.zhuangtai);
     }
 
 

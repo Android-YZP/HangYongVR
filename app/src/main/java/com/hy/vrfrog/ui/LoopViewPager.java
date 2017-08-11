@@ -21,12 +21,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.WindowManager;
+import android.view.animation.Interpolator;
+import android.widget.Scroller;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,11 +179,28 @@ public class LoopViewPager extends ViewPager {
         init(context);
     }
 
-    private void init(Context context) {
+    private void init(final Context context) {
         if (onPageChangeListener != null) {
             super.removeOnPageChangeListener(onPageChangeListener);
         }
         super.addOnPageChangeListener(onPageChangeListener);
+        try {
+            Field scrollerField = ViewPager.class.getDeclaredField("mScroller");
+            scrollerField.setAccessible(true);
+            Field interpolator = ViewPager.class.getDeclaredField("sInterpolator");
+            interpolator.setAccessible(true);
+
+            Scroller scroller = new Scroller(getContext(), (Interpolator) interpolator.get(null)) {
+                @Override
+                public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+                    //控制滑动速度
+                    super.startScroll(startX, startY, dx, dy, (int) (1300 * (double) Math.abs(dx) / getWidth(getContext())));
+                }
+            };
+            scrollerField.set(this, scroller);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
@@ -313,5 +335,12 @@ public class LoopViewPager extends ViewPager {
         } else {
             return super.onInterceptTouchEvent(event);
         }
+    }
+
+    public int getWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
     }
 }

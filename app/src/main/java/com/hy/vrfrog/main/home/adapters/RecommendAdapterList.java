@@ -1,6 +1,7 @@
 package com.hy.vrfrog.main.home.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hy.vrfrog.R;
-import com.hy.vrfrog.main.home.bean.RecommendBean;
+import com.hy.vrfrog.http.responsebean.RecommendBean;
+import com.hy.vrfrog.main.home.activitys.VideoListActivity;
+import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.videoDetails.VedioContants;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qwe on 2017/8/8.
@@ -21,11 +25,11 @@ import java.util.ArrayList;
 public class RecommendAdapterList extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<RecommendBean>mList;
+    private List<RecommendBean.ResultBeanX> mList;
     private final int TYPE_STYLE_ONE = 0 ;
     private final int TYPE_STYLE_TWO = 1;
     private final int TYPE_STYLE_THREE = 2;
-    public RecommendAdapterList(Context context ,ArrayList<RecommendBean>list){
+    public RecommendAdapterList(Context context ,List<RecommendBean.ResultBeanX>list){
         this.mList = list;
         this.mContext = context;
     }
@@ -64,83 +68,259 @@ public class RecommendAdapterList extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder holder  = null;
-        ViewHolderOne mOneHolder = null;
-        ViewHolderTwo mTwoHolder = null;
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
+        try {
+            ViewHolder holder  = null;
+            ViewHolderOne mOneHolder = null;
+            ViewHolderTwo mTwoHolder = null;
 
-        int type = getItemViewType(position);
+            int type = getItemViewType(position);
 
-        if (convertView == null) {
-            holder = new ViewHolder();
-            mOneHolder = new ViewHolderOne();
-            mTwoHolder = new ViewHolderTwo();
+            if (convertView == null) {
+                holder = new ViewHolder();
+                mOneHolder = new ViewHolderOne();
+                mTwoHolder = new ViewHolderTwo();
+                switch (type){
+                    case TYPE_STYLE_ONE:
+                        convertView = View.inflate(mContext, R.layout.item_recommend_one, null);
+                        holder.mTitle = (TextView) convertView.findViewById(R.id.tv_recommend_one_title);
+                        holder.mMessage = (TextView)convertView.findViewById(R.id.tv_recommend_name);
+                        holder.mType = (TextView)convertView.findViewById(R.id.tv_recommend_one_message);
+                        holder.image = (XCRoundRectImageView)convertView.findViewById(R.id.xri_recommend_img);
+                        convertView.setTag(holder);
+                        break;
+                    case TYPE_STYLE_TWO:
+                        convertView = View.inflate(mContext, R.layout.item_recommend_scollview, null);
+                        mTwoHolder.mTwoTitle= (TextView) convertView.findViewById(R.id.tv_recommend_two_title);
+                        mTwoHolder.mScrollViewNum = (TextView)convertView.findViewById(R.id.tv_recommend_scrollview_num);
+                        mTwoHolder.mRecyclerTwoTitle = (RecyclerView)convertView.findViewById(R.id.rv_recommend_two_video_list);
+                        mTwoHolder.mType = (TextView)convertView.findViewById(R.id.tv_recommend_scrollview_message);
+                        convertView.setTag(mTwoHolder);
+
+                        break;
+                    case TYPE_STYLE_THREE:
+                        convertView = View.inflate(mContext, R.layout.item_recommend_more, null);
+                        mOneHolder.mOneTitle = (TextView) convertView.findViewById(R.id.tv_recommend_three_title);
+                        mOneHolder.mRecommendMoreTv = (TextView)convertView.findViewById(R.id.tv_recommend_more_num);
+                        mOneHolder.mRecyclerOneTitle = (RecyclerView)convertView.findViewById(R.id.rv_recommend_three_more_video_list);
+                        mOneHolder.mOneType = (TextView)convertView.findViewById(R.id.tv_recommend_more_message);
+                        convertView.setTag(mOneHolder);
+                        break;
+                }
+
+            } else {
+                switch (type){
+                    case TYPE_STYLE_ONE:
+                        holder = (ViewHolder) convertView.getTag();
+                        break;
+                    case TYPE_STYLE_TWO:
+                        mTwoHolder = (ViewHolderTwo) convertView.getTag();
+                        break;
+                    case TYPE_STYLE_THREE:
+                        mOneHolder = (ViewHolderOne) convertView.getTag();
+                        break;
+
+                }
+
+            }
+
             switch (type){
                 case TYPE_STYLE_ONE:
-                    convertView = View.inflate(mContext, R.layout.item_recommend_one, null);
-                    holder.mTitle = (TextView) convertView.findViewById(R.id.tv_recommend_one_title);
-                    holder.mMessage = (TextView)convertView.findViewById(R.id.tv_recommend_one_message);
-//                    holder.mNum = (TextView)convertView.findViewById(R.id.tv_recommend_one_num);
-//                    holder.mBackgroundImg = (ImageView)convertView.findViewById(R.id.img_recommend_one_background);
-                    convertView.setTag(holder);
+                    if (mList != null){
+                        holder.image.setImageResource(R.mipmap.img1);
+//                        holder.mTitle.setText((String)mList.get(position + 1 ).getResult().get(position).getTopicName());
+//                        holder.mMessage.setText(mList.get(position + 1).getResult().get(position).getTopicName());
+//                        holder.mType.setText(mList.get(position + 1).getResult().get(position).getTopicName());
+//                        Glide.with(mContext).load(mList.get(position + 1).getResult().get(position).getImg()).into(holder.image);
+//                        holder.mMessage.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Intent intent = new Intent(mContext, VideoListActivity.class);
+//                                intent.putExtra(VedioContants.TopicId,mList.get(position ).getCode());
+//                                intent.putExtra(VedioContants.TopicTitle,mList.get(position ).getMsg());
+//                                mContext.startActivity( intent);
+//                            }
+//                        });
+                    }
+
+//
+//                holder.mNum.setText((String)mList.get(position + 1).getResult().get(position).getNum());
                     break;
                 case TYPE_STYLE_TWO:
-                    convertView = View.inflate(mContext, R.layout.item_recommend_scollview, null);
-                    mTwoHolder.mTwoTitle= (TextView) convertView.findViewById(R.id.tv_recommend_two_title);
-                    mTwoHolder.mScrollViewNum = (TextView)convertView.findViewById(R.id.tv_recommend_scrollview_num);
-                    mTwoHolder.mRecyclerTwoTitle = (RecyclerView)convertView.findViewById(R.id.rv_recommend_two_video_list);
-                    convertView.setTag(mTwoHolder);
+                    if (mList.get(position) != null){
+                        mTwoHolder.mTwoTitle.setText(mList.get(position).getResult().get(position).getTopicName());
+                        mTwoHolder.mScrollViewNum.setText((Integer) mList.get(position).getResult().get(position).getNum());
+                        mTwoHolder.mType.setText((String)mList.get(position).getResult().get(position).getTopicName());
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                        mTwoHolder.mRecyclerTwoTitle.setNestedScrollingEnabled(false);
+                        mTwoHolder.mRecyclerTwoTitle.setLayoutManager(linearLayoutManager);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        RecommendOneAdapter adapter = new RecommendOneAdapter(mContext,mList.get(position).getResult(),position,mList.get(position ).getCode());
+                        mTwoHolder.mRecyclerTwoTitle.setAdapter(adapter);
+                        mTwoHolder.mTwoTitle.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(mContext, VideoListActivity.class);
+                                intent.putExtra(VedioContants.TopicId,mList.get(position ).getCode());
+                                intent.putExtra(VedioContants.TopicTitle,mList.get(position ).getMsg());
+                                mContext.startActivity( intent);
+                            }
+                        });
+                    }
 
                     break;
                 case TYPE_STYLE_THREE:
-                    convertView = View.inflate(mContext, R.layout.item_recommend_more, null);
-                    mOneHolder.mOneTitle = (TextView) convertView.findViewById(R.id.tv_recommend_three_title);
-                    mOneHolder.mRecommendMoreTv = (TextView)convertView.findViewById(R.id.tv_recommend_more_num);
-                    mOneHolder.mRecyclerOneTitle = (RecyclerView)convertView.findViewById(R.id.rv_recommend_three_more_video_list);
-                    convertView.setTag(mOneHolder);
+                    if (mList.get(position) != null){
+                        mOneHolder.mOneTitle.setText(mList.get(position).getResult().get(position).getTopicName());
+                        mOneHolder.mRecommendMoreTv.setText("共" + mList.get(position).getResult().get(position).getTopicName() + "视频");
+                        mOneHolder.mOneType.setText((String)mList.get(position).getResult().get(position).getTypeName());
+
+                        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
+                        mOneHolder.mRecyclerOneTitle.setNestedScrollingEnabled(false);
+                        mOneHolder.mRecyclerOneTitle.setLayoutManager(mLinearLayoutManager);
+                        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        RecommendTwoAdapter mAdapter = new RecommendTwoAdapter(mContext,mList.get(position).getResult(),mList.get(position ).getCode());
+                        mOneHolder.mRecyclerOneTitle.setAdapter(mAdapter);
+                        mOneHolder.mOneTitle.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(mContext, VideoListActivity.class);
+                                intent.putExtra(VedioContants.TopicId,mList.get(position ).getCode());
+                                intent.putExtra(VedioContants.TopicTitle,mList.get(position ).getMsg());
+                                mContext.startActivity( intent);
+                            }
+                        });
+                    }
+
                     break;
             }
 
-        } else {
-            switch (type){
-                case TYPE_STYLE_ONE:
-                    holder = (ViewHolder) convertView.getTag();
-                    break;
-                case TYPE_STYLE_TWO:
-                    mTwoHolder = (ViewHolderTwo) convertView.getTag();
-                    break;
-                case TYPE_STYLE_THREE:
-                    mOneHolder = (ViewHolderOne) convertView.getTag();
-                    break;
 
+        }catch (Exception e){
+            ViewHolder holder  = null;
+            ViewHolderOne mOneHolder = null;
+            ViewHolderTwo mTwoHolder = null;
+
+            int type = getItemViewType(position);
+
+            if (convertView == null) {
+                holder = new ViewHolder();
+                mOneHolder = new ViewHolderOne();
+                mTwoHolder = new ViewHolderTwo();
+                switch (type){
+                    case TYPE_STYLE_ONE:
+                        convertView = View.inflate(mContext, R.layout.item_recommend_one, null);
+                        convertView.setTag(holder);
+                        break;
+                    case TYPE_STYLE_TWO:
+                        convertView = View.inflate(mContext, R.layout.item_recommend_scollview, null);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                        mTwoHolder.mRecyclerTwoTitle.setNestedScrollingEnabled(false);
+                        mTwoHolder.mRecyclerTwoTitle.setLayoutManager(linearLayoutManager);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        RecommendOneAdapter adapter = new RecommendOneAdapter(mContext,mList.get(position).getResult(), position, position);
+                        mTwoHolder.mRecyclerTwoTitle.setAdapter(adapter);
+                        convertView.setTag(mTwoHolder);
+
+
+                        break;
+                    case TYPE_STYLE_THREE:
+                        convertView = View.inflate(mContext, R.layout.item_recommend_more, null);
+                        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
+                        mOneHolder.mRecyclerOneTitle.setNestedScrollingEnabled(false);
+                        mOneHolder.mRecyclerOneTitle.setLayoutManager(mLinearLayoutManager);
+                        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        RecommendTwoAdapter mAdapter = new RecommendTwoAdapter(mContext,mList.get(position).getResult(), mList.get(position).getCode());
+                        mOneHolder.mRecyclerOneTitle.setAdapter(mAdapter);
+                        convertView.setTag(mOneHolder);
+                        break;
+                }
+
+            } else {
+                switch (type){
+                    case TYPE_STYLE_ONE:
+                        holder = (ViewHolder) convertView.getTag();
+                        break;
+                    case TYPE_STYLE_TWO:
+                        mTwoHolder = (ViewHolderTwo) convertView.getTag();
+                        break;
+                    case TYPE_STYLE_THREE:
+                        mOneHolder = (ViewHolderOne) convertView.getTag();
+                        break;
+                }
+
+                switch (type){
+                    case TYPE_STYLE_ONE:
+                         holder.image.setImageResource(R.mipmap.img1);
+//                        if (mList != null){
+//                            holder.mTitle.setText((String)mList.get(position + 1 ).getResult().get(position).getTopicName());
+//                            holder.mMessage.setText(mList.get(position + 1).getResult().get(position).getTopicName());
+//                            holder.mType.setText(mList.get(position + 1).getResult().get(position).getTopicName());
+//                            holder.mMessage.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                    Intent intent = new Intent(mContext, VideoListActivity.class);
+//                                    intent.putExtra(VedioContants.TopicId,mList.get(position ).getCode());
+//                                    intent.putExtra(VedioContants.TopicTitle,mList.get(position ).getMsg());
+//                                    mContext.startActivity( intent);
+//                                }
+//                            });
+//                        }
+
+//                Glide.with(mContext).load(mList.get(position + 1).getResult().get(position).getImg()).into(holder.mBackgroundImg);
+//                holder.mNum.setText((String)mList.get(position + 1).getResult().get(position).getNum());
+                        break;
+                    case TYPE_STYLE_TWO:
+//                        if (mList.get(position) != null){
+//                            mTwoHolder.mTwoTitle.setText(mList.get(position).getResult().get(position).getTopicName());
+//                            mTwoHolder.mScrollViewNum.setText((Integer) mList.get(position).getResult().get(position).getNum());
+//                            mTwoHolder.mType.setText((String)mList.get(position).getResult().get(position).getTopicName());
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+                            mTwoHolder.mRecyclerTwoTitle.setNestedScrollingEnabled(false);
+                            mTwoHolder.mRecyclerTwoTitle.setLayoutManager(linearLayoutManager);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                            RecommendOneAdapter adapter = new RecommendOneAdapter(mContext,mList.get(position).getResult(), position, position);
+                            mTwoHolder.mRecyclerTwoTitle.setAdapter(adapter);
+                            mTwoHolder.mTwoTitle.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(mContext, VideoListActivity.class);
+                                    intent.putExtra(VedioContants.TopicId,mList.get(position ).getCode());
+                                    intent.putExtra(VedioContants.TopicTitle,mList.get(position ).getMsg());
+                                    mContext.startActivity( intent);
+                                }
+                            });
+//
+
+                        break;
+                    case TYPE_STYLE_THREE:
+//                        if (mList.get(position) != null){
+//                            mOneHolder.mOneTitle.setText(mList.get(position).getResult().get(position).getTopicName());
+//                            mOneHolder.mRecommendMoreTv.setText("共" + mList.get(position).getResult().get(position).getTopicName() + "视频");
+//                            mOneHolder.mOneType.setText((String)mList.get(position).getResult().get(position).getTypeName());
+//
+                            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
+                            mOneHolder.mRecyclerOneTitle.setNestedScrollingEnabled(false);
+                            mOneHolder.mRecyclerOneTitle.setLayoutManager(mLinearLayoutManager);
+                            mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            RecommendTwoAdapter mAdapter = new RecommendTwoAdapter(mContext,mList.get(position).getResult(), mList.get(position).getCode());
+                            mOneHolder.mRecyclerOneTitle.setAdapter(mAdapter);
+                            mOneHolder.mOneTitle.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(mContext, VideoListActivity.class);
+                                    intent.putExtra(VedioContants.TopicId,mList.get(position ).getCode());
+                                    intent.putExtra(VedioContants.TopicTitle,mList.get(position ).getMsg());
+                                    mContext.startActivity( intent);
+                                }
+                            });
+//
+//
+
+                        break;
+                }
             }
-
         }
-
-        switch (type){
-            case TYPE_STYLE_ONE:
-                holder.mTitle.setText(mList.get(position).getTitle());
-                break;
-            case TYPE_STYLE_TWO:
-                mTwoHolder.mTwoTitle.setText(mList.get(position).getTitle());
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-                mTwoHolder.mRecyclerTwoTitle.setNestedScrollingEnabled(false);
-                mTwoHolder.mRecyclerTwoTitle.setLayoutManager(linearLayoutManager);
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                RecommendOneAdapter adapter = new RecommendOneAdapter(mContext,mList);
-                mTwoHolder.mRecyclerTwoTitle.setAdapter(adapter);
-                break;
-            case TYPE_STYLE_THREE:
-                mOneHolder.mOneTitle.setText(mList.get(position).getTitle());
-                LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
-                mOneHolder.mRecyclerOneTitle.setNestedScrollingEnabled(false);
-                mOneHolder.mRecyclerOneTitle.setLayoutManager(mLinearLayoutManager);
-                mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                RecommendTwoAdapter mAdapter = new RecommendTwoAdapter(mContext,mList);
-                mOneHolder.mRecyclerOneTitle.setAdapter(mAdapter);
-                break;
-        }
-
         return convertView;
     }
 
@@ -149,7 +329,9 @@ public class RecommendAdapterList extends BaseAdapter {
         private TextView mTitle;
         private TextView mMessage;
         private TextView mNum;
+        private TextView mType;
         private ImageView mBackgroundImg;
+        private XCRoundRectImageView image;
 
     }
 
@@ -158,6 +340,8 @@ public class RecommendAdapterList extends BaseAdapter {
         private TextView mOneTitle;
         private RecyclerView mRecyclerOneTitle;
         private TextView mRecommendMoreTv;
+        private TextView mOneType;
+
 
     }
 
@@ -165,8 +349,8 @@ public class RecommendAdapterList extends BaseAdapter {
 
         private TextView mTwoTitle;
         private RecyclerView mRecyclerTwoTitle;
-        private TextView mTwoNum;
         private TextView mScrollViewNum;
+        private TextView mType;
 
     }
 }

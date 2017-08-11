@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@mipmap/background_title_sanyan"
-        android:layout_marginTop="20dp"
+
         >
 
         <ImageView
