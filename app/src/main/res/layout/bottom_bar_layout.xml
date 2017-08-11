@@ -4,33 +4,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:background="#999999"
-        android:layout_height="1px" />
+
 
     <RadioGroup
         android:id="@+id/radio_group_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="#202020"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_search"
             style="@style/radiobutton_style"
-            android:drawableTop="@drawable/bottom_home_slector" />
+            android:drawableTop="@drawable/bottom_home_slector"
+            android:text="主页"
+            android:textSize="13sp"
+            android:textColor="#bfbfbf"
+            android:layout_gravity="center"/>
 
         <RadioButton
             android:id="@+id/rb_home"
             style="@style/radiobutton_style"
             android:checked="true"
-            android:drawableTop="@drawable/bottom_home_slector" />
+            android:drawableTop="@drawable/bottom_search_slector" />
 
         <RadioButton
             android:id="@+id/rb_me"
             style="@style/radiobutton_style"
-            android:drawableTop="@drawable/bottom_me_slector" />
+            android:drawableTop="@drawable/bottom_me_slector"
+            android:text="我的"
+            android:textSize="13sp"
+            android:textColor="#bfbfbf"
+            android:layout_gravity="center"/>
     </RadioGroup>
 
 
