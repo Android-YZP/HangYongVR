@@ -29,8 +29,22 @@ public class HomeAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment = null;
+        if (position == 0) {
+            fragment = new RecommendFragment();
+            return fragment;
+        } else if (position == 1) {
+            fragment = new PersonalLiveHomeFragment();
+            return fragment;
+        } else if (position == 2) {
+            fragment = new EnterpriseLiveHomeFragment();
+            return fragment;
+        } else {
+            fragment = new VideoFragment(mTitle.get(position - 3).getId());
+            return fragment;
+        }
 
-        return FragmentFactory.createFragment(position, mTitle);
+//        return FragmentFactory.createFragment(position, mTitle);
 
     }
 
