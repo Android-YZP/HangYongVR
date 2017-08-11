@@ -8,6 +8,8 @@
     android:background="#000"
     tools:context=".main.home.activitys.VideoDetialActivity">
 
+
+
     <com.google.vr.sdk.widgets.pano.VrPanoramaView
         android:id="@+id/pano_view_main"
         android:layout_width="match_parent"
@@ -68,6 +70,15 @@
 
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
+    <ImageButton
+        android:id="@+id/ibt_video_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/on_demand_button_close"
+        android:layout_marginTop="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="22dp"/>
+
     <LinearLayout
         android:id="@+id/ll_video_up"
         android:layout_width="match_parent"
@@ -109,6 +120,7 @@
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
             android:layout_marginBottom="8dp"/>
+
 
         <TextView
             android:layout_width="wrap_content"

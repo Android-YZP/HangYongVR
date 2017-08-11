@@ -1,4 +1,4 @@
-package com.hy.vrfrog.main.home.bean;
+package com.hy.vrfrog.http.responsebean;
 
 /**
  * Created by Smith on 2017/7/15.

@@ -1,23 +1,16 @@
 package com.hy.vrfrog.main.home.adapters;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hy.vrfrog.R;
-import com.hy.vrfrog.http.HttpURL;
-import com.hy.vrfrog.http.responsebean.TopicBean;
-import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
-import com.hy.vrfrog.main.home.bean.RecommendBean;
+import com.hy.vrfrog.http.responsebean.RecommendBean;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
 import com.hy.vrfrog.utils.TimeUtils;
-import com.hy.vrfrog.videoDetails.VedioContants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,9 +102,9 @@ public class RecommandAdapter extends RecyclerView.Adapter<RecommandAdapter.List
 
 
             //设置视频的描述信息
-            holder.mTvVideoDesc.setText(mList.get(position).getTitle());
-            if (mList.get(position).getTitle() != null)
-                holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(mList.get(position).getTitle())));//设置时间
+//            holder.mTvVideoDesc.setText(mList.get(position).getTitle());
+//            if (mList.get(position).getTitle() != null)
+//                holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(mList.get(position).getTitle())));//设置时间
 
 
     }

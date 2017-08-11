@@ -11,12 +11,13 @@ public class HttpURL {
 //    private static String Host = "http://192.168.1.135:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.108:8080/hyplatform/api/";
-    private static String Host = "http://118.89.246.194:8080/api/";
-//    private static String Host = "http://123.206.67.115:8080/api/";
+//    private static String Host = "http://118.89.246.194:8080/api/";
+    private static String Host = "http://123.206.67.115:8080/api/";
+
     public static String Token = "C47B1071";
     public static String SourceNum = "222";
-        public static String IV_HOST = "http://118.89.246.194:8080/head/";
-//    public static String IV_HOST = "http://123.206.67.115:8080/head/";
+//        public static String IV_HOST = "http://118.89.246.194:8080/head/";
+    public static String IV_HOST = "http://123.206.67.115:8080/head/";
 //    public static String IV_HOST = "http://192.168.1.108:8080/head/";
     //    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
     public static String APK_HOST = "";
@@ -63,7 +64,8 @@ public class HttpURL {
     /**
      * 获取话题类型
      */
-    public static String VideoType = Host + "login/get/types";
+//    public static String VideoType = Host + "login/get/types";
+    public static String VideoType = Host + "free/videoType/get";
     /**
      * 获取话题
      */
@@ -73,6 +75,8 @@ public class HttpURL {
      * 获取话题
      */
     public static String VidByType = Host + "login/get/vodByType";
+
+    public static String vodByCommendTopic = Host + "login/get/vodByCommendTopic";
     /**
      * 获取视频
      */
@@ -113,6 +117,10 @@ public class HttpURL {
      *首页数据
      */
     public static String Resource = Host + "login/get/resource";
+    /**
+     *首页推荐数据 http://192.168.1.141:8080/hyplatform/api/
+     */
+    public static String VodByCommendTopic = Host+"login/get/vodByCommendTopic";
 
 
 }

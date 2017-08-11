@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     >
     <ImageButton
+        android:id="@+id/ibt_video_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@mipmap/on_demand_button_close"
