@@ -17,7 +17,7 @@
 
 
         <RadioGroup
-            android:id="@+id/radio_group_bottom"
+            android:id="@+id/radio_group_bottom1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
