@@ -124,6 +124,7 @@ public class UploadingDocumentsActivity extends  SwipeBackActivity implements Vi
                 showPhotoDialog();
                 break;
             case R.id.btn_upload_identity_summit:
+                finish();
 //                uploadCertificaton(mFrontPhoto,mBackPhoto);
 
 //                new VerifiedDialog(UploadingDocumentsActivity.this).builder()

@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.main.personal.AuthenticationActivity;
 import com.hy.vrfrog.main.personal.HistoryActivity;
 import com.hy.vrfrog.main.personal.HistoryPayActivity;
 import com.hy.vrfrog.main.personal.LoginActivity;
@@ -118,7 +119,7 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(getActivity(), UploadingDocumentsActivity.class));
+                startActivity(new Intent(getActivity(), AuthenticationActivity.class));
                 getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
             }
         });

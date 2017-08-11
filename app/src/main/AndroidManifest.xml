@@ -119,6 +119,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
 
+        <activity
+            android:name=".main.personal.AuthenticationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleTranslucentTheme" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.hy.vrfrog.fileprovider"
