@@ -24,8 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@mipmap/icon_tab"
-                android:padding="5dp" />
+                android:background="@mipmap/icon_tab" />
 
             <TextView
                 android:id="@+id/tv_recommend_two_title"

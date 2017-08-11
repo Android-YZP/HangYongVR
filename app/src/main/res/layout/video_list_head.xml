@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:background="@color/white"
+    android:background="#1c1c34"
     android:orientation="vertical">
 
 
@@ -40,27 +40,35 @@
     <RelativeLayout
         android:id="@+id/rl_main_more"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@mipmap/main_topic_desc" />
-
-        <TextView
-            android:id="@+id/tv_main_topic_title"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:text="视频"
-            android:textColor="#000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@mipmap/icon_tab" />
+
+            <TextView
+                android:id="@+id/tv_main_topic_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:text="视频"
+                android:textColor="@color/white"
+                android:textSize="21sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/video_list_total"
@@ -72,6 +80,7 @@
             android:text="15个視頻"
             android:textColor="#949494"
             android:textSize="13sp" />
+
     </RelativeLayout>
 
 

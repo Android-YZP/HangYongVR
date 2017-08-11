@@ -25,6 +25,7 @@ import com.hy.vrfrog.utils.UIUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
@@ -126,6 +127,12 @@ public class HomeFragment extends Fragment {
             public IPagerIndicator getIndicator(Context context) {
                 WrapPagerIndicator indicator = new WrapPagerIndicator(context);
                 indicator.setFillColor(Color.parseColor("#7c1f1850"));
+
+//                this.mVerticalPadding = UIUtil.dip2px(context, 6.0D);
+//                this.mHorizontalPadding = UIUtil.dip2px(context, 10.0D);
+
+                indicator.setVerticalPadding(UIUtil.dip2px(context, 3.0D));
+                indicator.setHorizontalPadding(UIUtil.dip2px(context, 10.0D));
                 return indicator;
             }
         });

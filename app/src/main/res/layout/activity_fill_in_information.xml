@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="#1c1c34"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -12,7 +12,7 @@
         >
 
         <ImageView
-            android:id="@+id/tv_history_return"
+            android:id="@+id/tv_information_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -25,22 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="填写信息"
-            android:textColor="#000000"
+            android:textColor="#fff"
             android:textSize="16sp"
-            android:textStyle="bold" />
+             />
 
-        <TextView
-            android:id="@+id/tv_history_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="18dp"
-            android:gravity="center"
-            android:text="全部清空"
-            android:textColor="#48e9c7"
-            android:textSize="14sp" />
     </RelativeLayout>
 
     <View
@@ -57,12 +45,18 @@
 
 
         <EditText
+            android:id="@+id/et_information_name"
             android:layout_width= "match_parent"
             android:layout_height="43dp"
             android:layout_marginLeft="10dp"
             android:hint="请输入真实姓名"
-            android:textColorHint="#bdbdc3"
+            android:textColor="#fff"
+            android:background="@null"
+            android:textCursorDrawable="@drawable/cursor_color1"
+            android:textColorHint="#4dffffff"
             android:textSize="15sp"
+            android:lines="1"
+            android:maxLines="1"
             android:gravity="center_vertical"/>
 
     </RelativeLayout>
@@ -76,25 +70,32 @@
 
 
         <EditText
+            android:id="@+id/et_information_num"
             android:layout_width= "match_parent"
             android:layout_height="43dp"
             android:layout_marginLeft="10dp"
             android:hint="请输入身份证号"
-            android:textColorHint="#bdbdc3"
+            android:background="@null"
+            android:textCursorDrawable="@drawable/cursor_color1"
+            android:textColor="#bdbdc3"
+            android:textColorHint="#4dffffff"
+            android:lines="1"
+            android:maxLines="1"
             android:textSize="15sp"
             android:gravity="center_vertical"/>
 
     </RelativeLayout>
 
     <Button
+        android:id="@+id/btn_information_next"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:layout_marginTop="39dp"
         android:text="下一步"
-        android:textColor="#fff"
+        android:textColor="#bdbdc3"
         android:gravity="center"
         android:textSize="18sp"
-        android:background="@drawable/btn_vr_update"
+        android:background="@mipmap/information_button_next_step"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"/>
 
@@ -112,14 +113,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我已阅读并同意"
-            android:textColor="#000"
+            android:textColor="#919292"
             android:layout_marginLeft="8dp"
             android:textSize="15sp"/>
         <TextView
+            android:id="@+id/tv_information_protocol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="《主播协议》"
-            android:textColor="#39f0d4"
+            android:textColor="#02d3f3"
             android:textSize="15sp"/>
     </LinearLayout>
 </LinearLayout>
