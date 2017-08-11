@@ -238,7 +238,7 @@ public class PlayActivity extends AppCompatActivity {
     private void TicInit() {
         userConfig();
         // identifier为用户名，userSig 为用户登录凭证
-        TIMManager.getInstance().login(TimConfig.Identifier2, TimConfig.UserSign2, new TIMCallBack() {
+        TIMManager.getInstance().login(TimConfig.Identifier, TimConfig.UserSign, new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
                 //错误码code和错误描述desc，可用于定位请求失败原因
@@ -318,9 +318,32 @@ public class PlayActivity extends AppCompatActivity {
                 Log.i(tag, "join group");
             }
         });
-
-
     }
+    /**
+    * @version 2.0
+    * @author 姚中平
+    * @date 创建于 2017/8/11
+    * @description 退出房间
+    */
+    private void quitGroupGroupParam(){
+        //创建回调
+        TIMCallBack cb = new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code含义请参见错误码表
+            }
+            @Override
+            public void onSuccess() {
+                Log.e(tag, "quit group succ");
+            }
+        };
+        //退出群组
+        TIMGroupManager.getInstance().quitGroup(
+                TimConfig.GroupID,  //群组Id
+                cb);
+    }
+
 
     /**
      * @version 2.0
@@ -886,6 +909,8 @@ public class PlayActivity extends AppCompatActivity {
         if (user != null && user.getResult() != null && user.getResult().getUser() != null) {
             HttpHistory(user.getResult().getUser().getUid() + "", "");
         }
+
+        quitGroupGroupParam();
     }
 
 

@@ -6,23 +6,60 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
+import com.hy.vrfrog.main.living.im.TimConfig;
 import com.hy.vrfrog.main.living.push.ui.BeautyDialogFragment;
 import com.hy.vrfrog.main.living.push.ui.TCAudioControl;
+import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
 import com.hy.vrfrog.main.living.push.utils.TCUtils;
 import com.hy.vrfrog.utils.UIUtils;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMConnListener;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMElem;
+import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMGroupEventListener;
+import com.tencent.imsdk.TIMGroupManager;
+import com.tencent.imsdk.TIMGroupMemberInfo;
+import com.tencent.imsdk.TIMGroupMemberRoleType;
+import com.tencent.imsdk.TIMGroupSystemElem;
+import com.tencent.imsdk.TIMGroupTipsElem;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMRefreshListener;
+import com.tencent.imsdk.TIMSNSChangeInfo;
+import com.tencent.imsdk.TIMTextElem;
+import com.tencent.imsdk.TIMUserConfig;
+import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMUserStatusListener;
+import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.group.TIMGroupAssistantListener;
+import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
+import com.tencent.imsdk.ext.group.TIMUserConfigGroupExt;
+import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
+import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
+import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PushActivity extends AppCompatActivity implements ITXLivePushListener, View.OnClickListener, BeautyDialogFragment.OnBeautyParamsChangeListener {
     protected String mPushUrl;
@@ -45,6 +82,12 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private Button mBtnAudioEffect;
     private Button mBtnAudioClose;
     private LinearLayout mAudioPluginLayout;
+    String tag = "犯得上發射點發";
+    private ListView mListViewMsg;
+    private TCChatMsgListAdapter mChatMsgListAdapter;
+    private ArrayList<TCChatEntity> mArrayListChatEntity = new ArrayList<>();
+    protected Handler mHandler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +101,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mHeadPicUrl = intent.getStringExtra(TCConstants.USER_HEADPIC);
         mNickName = intent.getStringExtra(TCConstants.USER_NICK);
         mLocation = intent.getStringExtra(TCConstants.USER_LOC);
+        mListViewMsg = (ListView) findViewById(R.id.im_msg_listview);
         initView();
         initData();
 
@@ -75,18 +119,22 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mBtnAudioEffect = (Button) findViewById(R.id.btn_audio_effect);
         mBtnAudioClose = (Button) findViewById(R.id.btn_audio_close);
         mBtnAudioCtrl = (Button) findViewById(R.id.btn_audio_ctrl);
-         mAudioCtrl = (TCAudioControl) findViewById(R.id.layoutAudioControlContainer);
+        mAudioCtrl = (TCAudioControl) findViewById(R.id.layoutAudioControlContainer);
         mAudioPluginLayout = (LinearLayout) findViewById(R.id.audio_plugin);
     }
 
     private void initData() {
+        mChatMsgListAdapter = new TCChatMsgListAdapter(this, mListViewMsg, mArrayListChatEntity);
+        mListViewMsg.setAdapter(mChatMsgListAdapter);
         mBeautyDialogFragment = new BeautyDialogFragment();
         mBeautyDialogFragment.setBeautyParamsListner(mBeautyParams, this);
         //AudioControl
         mAudioCtrl.setPluginLayout(mAudioPluginLayout);
         startPublish();
-    }
+        initTCIM();
 
+
+    }
 
     protected void startPublish() {
         if (mTXLivePusher == null) {
@@ -123,6 +171,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mTXLivePusher.startPusher(mPushUrl);
     }
 
+
     protected void stopPublish() {
         if (mTXLivePusher != null) {
             mTXLivePusher.stopCameraPreview(false);
@@ -134,6 +183,272 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
             mAudioCtrl = null;
         }
     }
+
+    private void notifyMsg(final TCChatEntity entity) {
+
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+//                if(entity.getType() == TCConstants.PRAISE) {
+//                    if(mArrayListChatEntity.contains(entity))
+//                        return;
+//                }
+
+                if (mArrayListChatEntity.size() > 1000) {
+                    while (mArrayListChatEntity.size() > 900) {
+                        mArrayListChatEntity.remove(0);
+                    }
+                }
+
+                mArrayListChatEntity.add(entity);
+                mChatMsgListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
+    private void initTCIM() {
+        userConfig();
+        // identifier为用户名，userSig 为用户登录凭证
+        TIMManager.getInstance().login(TimConfig.Identifier2, TimConfig.UserSign2, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.i(tag, "login failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.i(tag, "login succ");
+                createGroupParam();
+                Message();
+            }
+        });
+    }
+
+    private void Message() {
+        //接受消息
+        TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
+            //消息监听器
+            @Override
+            public boolean onNewMessages(List<TIMMessage> list) {
+                for (int j = 0; j < list.size(); j++) {
+                    TIMMessage msg = list.get(j);
+                    for (int i = 0; i < msg.getElementCount(); ++i) {
+                        TIMElem elem = msg.getElement(i);
+
+                        //获取当前元素的类型
+                        TIMElemType elemType = elem.getType();
+                        if (elemType == TIMElemType.Text) {
+                            //获取文本信息
+                            String text = ((TIMTextElem) elem).getText();
+                            TIMUserProfile senderProfile = msg.getSenderProfile();
+                            String nickName = senderProfile.getNickName();
+
+
+
+                            TCChatEntity entity = new TCChatEntity();
+                            entity.setSenderName( msg.getSender());
+                            entity.setContext(text);
+                            entity.setType(TCConstants.TEXT_TYPE);
+                            notifyMsg(entity);
+
+
+                        } else if (elemType == TIMElemType.GroupSystem) {
+                            String groupName = ((TIMGroupSystemElem) elem).getOpReason();
+
+                        } else if (elemType == TIMElemType.GroupTips) {
+                            String groupName = ((TIMGroupTipsElem) elem).getGroupName();
+
+                        }
+//                      else if (elemType == TIMGroupTipsType.Join) {
+//                            String groupName = ((TIMGroupTipsElem) elem).getGroupName();
+//                            UIUtils.showTip(groupName);
+//                        }
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/8/2
+     * @description 用户配置
+     */
+    private void userConfig() {
+
+        //基本用户配置
+        TIMUserConfig userConfig = new TIMUserConfig()
+                //设置用户状态变更事件监听器
+                .setUserStatusListener(new TIMUserStatusListener() {
+                    @Override
+                    public void onForceOffline() {
+                        //被其他终端踢下线
+                        Log.i(tag, "onForceOffline");
+                    }
+
+                    @Override
+                    public void onUserSigExpired() {
+                        //用户签名过期了，需要刷新userSig重新登录SDK
+                        Log.i(tag, "onUserSigExpired");
+                    }
+                })
+                //设置连接状态事件监听器
+                .setConnectionListener(new TIMConnListener() {
+                    @Override
+                    public void onConnected() {
+                        Log.i(tag, "onConnected");
+                    }
+
+                    @Override
+                    public void onDisconnected(int code, String desc) {
+                        Log.i(tag, "onDisconnected");
+                    }
+
+                    @Override
+                    public void onWifiNeedAuth(String name) {
+                        Log.i(tag, "onWifiNeedAuth");
+                    }
+                })
+                //设置群组事件监听器
+                .setGroupEventListener(new TIMGroupEventListener() {
+                    @Override
+                    public void onGroupTipsEvent(TIMGroupTipsElem elem) {
+                        Log.i(tag, "onGroupTipsEvent, type: " + elem.getOpUser());
+
+                        TCChatEntity entity = new TCChatEntity();
+                        entity.setSenderName("通知");
+                        entity.setContext(elem.getOpUser() + "加入直播");
+                        entity.setType(TCConstants.MEMBER_ENTER);
+                        notifyMsg(entity);
+                    }
+                })
+                //设置会话刷新监听器
+                .setRefreshListener(new TIMRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.i(tag, "onRefresh");
+                    }
+
+                    @Override
+                    public void onRefreshConversation(List<TIMConversation> conversations) {
+                        Log.i(tag, "onRefreshConversation, conversation size: " + conversations.size());
+                    }
+                });
+
+        //消息扩展用户配置
+        userConfig = new TIMUserConfigMsgExt(userConfig)
+                //禁用消息存储
+                .enableStorage(false)
+                //开启消息已读回执
+                .enableReadReceipt(true);
+
+        //资料关系链扩展用户配置
+        userConfig = new TIMUserConfigSnsExt(userConfig)
+                //开启资料关系链本地存储
+                .enableFriendshipStorage(true)
+                //设置关系链变更事件监听器
+                .setFriendshipProxyListener(new TIMFriendshipProxyListener() {
+                    @Override
+                    public void OnAddFriends(List<TIMUserProfile> users) {
+                        Log.i(tag, "OnAddFriends");
+                    }
+
+                    @Override
+                    public void OnDelFriends(List<String> identifiers) {
+                        Log.i(tag, "OnDelFriends");
+                    }
+
+                    @Override
+                    public void OnFriendProfileUpdate(List<TIMUserProfile> profiles) {
+                        Log.i(tag, "OnFriendProfileUpdate");
+                    }
+
+                    @Override
+                    public void OnAddFriendReqs(List<TIMSNSChangeInfo> reqs) {
+                        Log.i(tag, "OnAddFriendReqs");
+                    }
+
+
+                });
+
+        //群组管理扩展用户配置
+        userConfig = new TIMUserConfigGroupExt(userConfig)
+                //开启群组资料本地存储
+                .enableGroupStorage(true)
+                //设置群组资料变更事件监听器
+                .setGroupAssistantListener(new TIMGroupAssistantListener() {
+                    @Override
+                    public void onMemberJoin(String groupId, List<TIMGroupMemberInfo> memberInfos) {
+                        Log.i(tag, "onMemberJoin");
+
+                    }
+
+                    @Override
+                    public void onMemberQuit(String groupId, List<String> members) {
+                        Log.i(tag, "onMemberQuit");
+                    }
+
+                    @Override
+                    public void onMemberUpdate(String groupId, List<TIMGroupMemberInfo> memberInfos) {
+                        Log.i(tag, "onMemberUpdate");
+                    }
+
+                    @Override
+                    public void onGroupAdd(TIMGroupCacheInfo groupCacheInfo) {
+                        Log.i(tag, "onGroupAdd");
+                    }
+
+                    @Override
+                    public void onGroupDelete(String groupId) {
+                        Log.i(tag, "onGroupDelete");
+                    }
+
+                    @Override
+                    public void onGroupUpdate(TIMGroupCacheInfo groupCacheInfo) {
+                        Log.i(tag, "onGroupUpdate");
+                    }
+                });
+
+//将用户配置与通讯管理器进行绑定
+        TIMManager.getInstance().setUserConfig(userConfig);
+
+    }
+
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/8/11
+     * @description 创建群组
+     */
+    private void createGroupParam() {
+        //创建公开群，且不自定义群ID
+        TIMGroupManager.CreateGroupParam param = new TIMGroupManager.CreateGroupParam("AVChatRoom", "group");
+        //指定群简介
+        param.setIntroduction("hello world");
+        //指定群公告
+        param.setNotification("welcome to our group");
+
+        //创建群组
+        TIMGroupManager.getInstance().createGroup(param, new TIMValueCallBack<String>() {
+            @Override
+            public void onError(int code, String desc) {
+                Log.i(tag, "create group failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Log.i(tag, "create group succ, groupId:" + s);
+            }
+        });
+    }
+
+
 
 
 

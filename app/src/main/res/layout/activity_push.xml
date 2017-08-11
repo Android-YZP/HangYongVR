@@ -140,7 +140,19 @@
 
 
 
-
+    <ListView
+        android:id="@+id/im_msg_listview"
+        android:layout_width="250dp"
+        android:layout_height="10dp"
+        android:scrollbars="none"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@id/tool_bar"
+        android:cacheColorHint="#00000000"
+        android:divider="#3c421b1b"
+        android:scrollbarStyle="outsideOverlay"
+        android:stackFromBottom="true"
+        android:transcriptMode="normal" />
 
 
 
