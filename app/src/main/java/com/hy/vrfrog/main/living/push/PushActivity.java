@@ -66,7 +66,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        startPublish();
+        stopPublish();
     }
 
     private void initView() {

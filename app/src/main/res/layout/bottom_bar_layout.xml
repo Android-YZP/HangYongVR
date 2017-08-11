@@ -26,6 +26,7 @@
             android:id="@+id/rb_home"
             style="@style/radiobutton_style"
             android:checked="true"
+
             android:drawableTop="@drawable/bottom_search_slector" />
 
         <RadioButton
