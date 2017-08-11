@@ -33,6 +33,9 @@ android {
 
         debug {
             signingConfig signingConfigs.release
+            ndk {
+                abiFilters "armeabi", "armeabi-v7a"
+            }
         }
     }
 
