@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
+import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.ui.CircleImageView;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -171,6 +173,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             });
         }
 
+
     }
 
     @Override
@@ -262,6 +265,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         private CircleImageView mVideoNameHead;
         private TextView mVideoNameTv;
 
+
         MyViewHolder(View view) {
             super(view);
             mTvPlayer = (TextView) view.findViewById(R.id.title);
@@ -286,6 +290,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             mVideoName = (LinearLayout)view.findViewById(R.id.ll_video_name);
             mVideoNameHead = (CircleImageView)view.findViewById(R.id.img_video_head);
             mVideoNameTv = (TextView)view.findViewById(R.id.tv_video_name);
+
 
         }
     }

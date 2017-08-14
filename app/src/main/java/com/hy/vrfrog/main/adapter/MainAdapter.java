@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.hy.vrfrog.base.BaseFragment;
 import com.hy.vrfrog.main.home.HomeFragment;
 import com.hy.vrfrog.main.home.fragments.PersonalLiveHomeFragment;
 import com.hy.vrfrog.main.home.fragments.MyFragment;
@@ -22,9 +23,9 @@ public class MainAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = null;
         if (position == 0) {
-            return new PersonalLiveHomeFragment();
+            return new BaseFragment();
         } else if (position == 1) {
-            return new HomeFragment();
+           return new HomeFragment();
         } else if (position == 2) {
             return new MyFragment();
         }

@@ -38,9 +38,9 @@ public class VpMainAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return new PersonalLiveHomeFragment() ;
         } else if (position == 1) {
-            return new MainFragment(mLvDrawerItem,  mDlLayout,mViewpager);
-        } else if (position == 2) {
             return new HomeFragment();
+        } else if (position == 2) {
+            return new PersonalLiveHomeFragment();
         }
         return null;
     }

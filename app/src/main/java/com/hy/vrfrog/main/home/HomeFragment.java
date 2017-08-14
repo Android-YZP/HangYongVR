@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment {
     private List<VideoTypeBean.ResultBean> mTitle;
     private MagicIndicator mMagicIndicator;
     private ImageView mIvSearch;
+    private View mView;
 
 
     @Override
@@ -57,11 +58,19 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        mIvSearch = (ImageView) view.findViewById(R.id.iv_search_topic);
-        mMagicIndicator = (MagicIndicator) view.findViewById(R.id.magic_indicator);
-        return view;
+        if (mView != null) {
+            ViewGroup parent = (ViewGroup) mView.getParent();
+            if (parent != null) {
+                parent.removeView(mView);
+            }
+            return mView;
+        }
+
+        mView = inflater.inflate(R.layout.fragment_home, container, false);
+        mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+        mIvSearch = (ImageView) mView.findViewById(R.id.iv_search_topic);
+        mMagicIndicator = (MagicIndicator) mView.findViewById(R.id.magic_indicator);
+        return mView;
     }
 
     @Override
@@ -72,6 +81,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initData() {
+        mViewPager.setOffscreenPageLimit(3);
         HttpVideoType();
     }
 

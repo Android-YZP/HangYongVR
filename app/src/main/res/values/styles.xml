@@ -276,6 +276,7 @@
 
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/black</item>    <!-- 状态栏 -->
         <item name="colorPrimaryDark">@color/black</item> <!-- toolbar -->
