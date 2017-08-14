@@ -112,35 +112,46 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
-//                int type = UIUtils.typeRandom();
+
+                if (position == 1){
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                    ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                    ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    MainOneAdapter mainVideosAdapter = new MainOneAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                    ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                }else {
+                    int type = UIUtils.typeRandom();
 //
-//                       if ( type== 0){
-//                           LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-//                           ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
-//                           ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-//                           linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//                           MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
-//                           ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
-//
-//                        }else if (type == 1){
-//
-//                           LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-//                           ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
-//                           ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-//                           linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//                           MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
-//                           ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
-//
-//
-//                        }else  if (type == 2){
-//                           LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-//                           ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
-//                           ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-//                           linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//                           MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
-//                           ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
-//
-//                        }
+                    if ( type== 0){
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                        ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                        ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        MainOneAdapter mainVideosAdapter = new MainOneAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                        ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+
+                    }else if (type == 1){
+
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                        ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                        ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                        ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+
+
+                    }else  if (type == 2){
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                        ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                        ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                        ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+
+                    }
+                }
+
 
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.get(position).getMsg());
                 ((ListHolder) holder).mTvTotalVideos.setText(topicBean.get(position).getPage().getTotal() + "个视频");
