@@ -38,14 +38,20 @@ public class PushSettingActivity extends AppCompatActivity {
         btngoliving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(PushSettingActivity.this, PushActivity.class);
+                String PushUrl = "rtmp://9250.livepush.myqcloud.com/live/9250_erte?bizid=9250&txSecret=1f728c3719bc7a51cd38de46bcbff49c&txTime=598B317F";
+                intent.putExtra(TCConstants.PUBLISH_URL, PushUrl);
+                startActivity(intent);
+
+
 
 //                if (user != null) {
-                    int uid = user.getResult().getUser().getUid();
-                    HttpCreatRoom(uid + "");
-
-//                } else {
-//                    UIUtils.showTip("请先登录");
-//                }
+//                    int uid = user.getResult().getUser().getUid();
+//                    HttpCreatRoom(uid + "");
+//
+////                } else {
+////                    UIUtils.showTip("请先登录");
+////                }
             }
         });
 
