@@ -48,8 +48,6 @@ public class Main2Activity extends BaseActivity {
         int height = getStatusBarHeight();
         LogUtil.i("height = " + height);
 
-
-
     }
 
     private void initData() {
