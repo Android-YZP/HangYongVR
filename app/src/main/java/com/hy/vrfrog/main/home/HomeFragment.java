@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment {
     private MagicIndicator mMagicIndicator;
     private ImageView mIvSearch;
     private View mView;
+    private LinearLayout mHomeLl;
 
 
     @Override
@@ -70,6 +71,7 @@ public class HomeFragment extends Fragment {
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
         mIvSearch = (ImageView) mView.findViewById(R.id.iv_search_topic);
         mMagicIndicator = (MagicIndicator) mView.findViewById(R.id.magic_indicator);
+        mHomeLl = (LinearLayout)mView.findViewById(R.id.ll_home_fragment_bg);
         return mView;
     }
 
@@ -91,6 +93,12 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+            }
+        });
+        mHomeLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HttpVideoType();
             }
         });
     }
@@ -157,6 +165,7 @@ public class HomeFragment extends Fragment {
         LogUtil.e("请求侧边栏列表");
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
+            mHomeLl.setVisibility(View.VISIBLE);
             return;
         }
         //使用xutils3访问网络并获取返回值
@@ -169,7 +178,7 @@ public class HomeFragment extends Fragment {
                 LogUtil.i(result);
                 VideoTypeBean videoTypeBean = new Gson().fromJson(result, VideoTypeBean.class);
                 if (videoTypeBean.getCode() == HTTP_SUCCESS) {//获取数据成功
-
+                    mHomeLl.setVisibility(View.GONE);
                     mTitle = videoTypeBean.getResult();
                     initMagicIndicator();
                     mViewPager.setAdapter(new HomeAdapter(getActivity().getSupportFragmentManager(), mTitle));

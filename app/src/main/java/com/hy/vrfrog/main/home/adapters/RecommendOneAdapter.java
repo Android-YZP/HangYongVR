@@ -15,6 +15,7 @@ import com.hy.vrfrog.http.responsebean.RecommendBean;
 import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.main.home.activitys.VideoListActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.utils.TimeUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 
 import java.util.ArrayList;
@@ -27,13 +28,11 @@ import java.util.List;
 public class RecommendOneAdapter  extends RecyclerView.Adapter<RecommendOneAdapter.RecommendOneAdapterViewHolder>{
     private Context mContext;
     private List<RecommendBean.ResultBeanX.ResultBean> mList;
-    private int mPosition;
     private  int id;
 
-    public RecommendOneAdapter(Context context, List<RecommendBean.ResultBeanX.ResultBean> mLiveData, int id, int position) {
+    public RecommendOneAdapter(Context context, List<RecommendBean.ResultBeanX.ResultBean> mLiveData, int id) {
         this.mContext = context;
         this.mList = mLiveData;
-        this.mPosition = position ;
         this.id = id ;
     }
     @Override
@@ -55,9 +54,9 @@ public class RecommendOneAdapter  extends RecyclerView.Adapter<RecommendOneAdapt
                 mContext.startActivity(intent);
             }
         });
-        holder.mTvVideoDesc.setText((String)mList.get(position ).getTypeName());
+        holder.mTvVideoDesc.setText((String)mList.get(position ).getChannelName());
         Glide.with(mContext).load(HttpURL.IV_HOST+mList.get(position).getImg()).asBitmap().into(holder.mivVideoImg);
-
+        holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(mList.get(position ).getTime())));
 
     }
 
@@ -83,7 +82,7 @@ public class RecommendOneAdapter  extends RecyclerView.Adapter<RecommendOneAdapt
 
             mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
             mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
-            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_time);
+            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_one_time);
 
         }
     }

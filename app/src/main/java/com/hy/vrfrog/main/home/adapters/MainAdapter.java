@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.responsebean.TopicBean;
+import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 import com.hy.vrfrog.main.home.activitys.VideoListActivity;
 
@@ -111,6 +112,35 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
+//                int type = UIUtils.typeRandom();
+//
+//                       if ( type== 0){
+//                           LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+//                           ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+//                           ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+//                           linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//                           MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+//                           ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+//
+//                        }else if (type == 1){
+//
+//                           LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+//                           ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+//                           ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+//                           linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//                           MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+//                           ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+//
+//
+//                        }else  if (type == 2){
+//                           LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+//                           ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+//                           ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+//                           linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//                           MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+//                           ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+//
+//                        }
 
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.get(position).getMsg());
                 ((ListHolder) holder).mTvTotalVideos.setText(topicBean.get(position).getPage().getTotal() + "个视频");
@@ -126,14 +156,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
 
-                //这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
+//                这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                 ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                 ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
                 ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
-                ///////////////////////////////////////////////////设置脚布局/////////////////////////////////////////////////
+                /////////////////////////////////////////////////设置脚布局/////////////////////////////////////////////////
 
                 if (topicBean.get(position).getResult().size() <= 7) {
                     View noview = View.inflate(context, R.layout.main_list_item_foot_no_view, null);

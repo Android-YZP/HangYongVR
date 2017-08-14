@@ -14,6 +14,9 @@ import com.hy.vrfrog.application.VrApplication;
 
 import org.xutils.common.util.LogUtil;
 
+import java.util.HashSet;
+import java.util.Random;
+
 /**
  * Created by aaa on 2016/7/13.
  */
@@ -126,6 +129,11 @@ public class UIUtils {
         InputMethodManager imm = (InputMethodManager) UIUtils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 //2.调用hideSoftInputFromWindow方法隐藏软键盘
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+    }
+
+    public static int typeRandom() {
+        Random random=new Random();
+        return  random.nextInt(2);
     }
 
 }

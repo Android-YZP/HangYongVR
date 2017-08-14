@@ -6,7 +6,7 @@
     android:background="#1c1c34">
 
     <RelativeLayout
-        android:id="@+id/rl_main_more"
+        android:id="@+id/rl_main_one_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"

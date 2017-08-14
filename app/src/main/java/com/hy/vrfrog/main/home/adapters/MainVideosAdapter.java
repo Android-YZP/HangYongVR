@@ -150,7 +150,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
             }
             mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
             mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
-            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_time);
+            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_one_time);
         }
     }
 

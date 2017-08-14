@@ -1,5 +1,10 @@
 package com.hy.vrfrog.main.home.fragments;
 
+import com.hy.vrfrog.R;
+import com.hy.vrfrog.application.VrApplication;
+import com.hy.vrfrog.utils.LoadMoreListView;
+import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.UIUtils;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
@@ -29,7 +33,6 @@ import com.hy.vrfrog.ui.CircleIndicator;
 import com.hy.vrfrog.ui.LoopViewPager;
 import com.hy.vrfrog.ui.RoundImageView;
 import com.hy.vrfrog.ui.VerticalSwipeRefreshLayout;
-
 import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -38,8 +41,6 @@ import com.hy.vrfrog.videoDetails.VedioContants;
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -50,11 +51,12 @@ import java.util.List;
 public class RecommendFragment extends Fragment {
 
     private LinearLayout mEmptyViewLl;
-    private ListView mRecycler;
+    private LoadMoreListView mRecycler;
     private VerticalSwipeRefreshLayout mRecyclerfreshLayout;
     private LoopViewPager mLoopViewPager;
     private RecommendAdapterList mAdapter;
     private List<RecommendBean.ResultBeanX> mList;
+    private int page = 1;
 
     int[] resIds = new int[]{R.mipmap.img1, R.mipmap.img2, R.mipmap.img3, R.mipmap.img4, R.mipmap.img5, R.mipmap.img6};
 
@@ -63,7 +65,7 @@ public class RecommendFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recommend,container,false);
         initView(view);
-        HttpTopic(1);
+        HttpTopic(page);
         initListener();
         return view;
     }
@@ -72,8 +74,19 @@ public class RecommendFragment extends Fragment {
         mRecyclerfreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mList.clear();
+                if (mList != null){
+                    mList.clear();
+                }
                 HttpTopic(1);
+            }
+        });
+
+        mRecycler.setLoadMoreListener(new LoadMoreListView.OnLoadMore() {
+            @Override
+            public void loadMore() {
+
+                page ++;
+                HttpTopic(page);
             }
         });
 
@@ -82,14 +95,17 @@ public class RecommendFragment extends Fragment {
     private void initView(View view) {
 
         mEmptyViewLl = (LinearLayout) view.findViewById(R.id.iv_recommend_fragment_bg);
-        mRecycler = (ListView)view.findViewById(R.id.re_recommend_recycler);
+        mRecycler = (LoadMoreListView)view.findViewById(R.id.re_recommend_recycler);
 
         mRecyclerfreshLayout = (VerticalSwipeRefreshLayout)view.findViewById(R.id.srl_recommend_swipe_refresh);
         View headView = View.inflate(getActivity(),R.layout.item_head, null);
+//        View footView = View.inflate(getActivity(),R.layout.main_list_no_datas, null);
+
         mLoopViewPager = (LoopViewPager)headView.findViewById(R.id.looviewpager);
         CircleIndicator indicator = (CircleIndicator) headView.findViewById(R.id.indicator);
 
         mRecycler.addHeaderView(headView);
+//        mRecycler.addFooterView(footView);
         mLoopViewPager.setAdapter(new MyAdapter());
         mLoopViewPager.setOffscreenPageLimit(3);
         mLoopViewPager.setPageTransformer(true, new ViewPager.PageTransformer() {
@@ -105,18 +121,6 @@ public class RecommendFragment extends Fragment {
 
     }
 
-//    private void initData() {
-//
-//        mList = new ArrayList<>();
-//        for(int i = 0 ; i < 30 ; i ++){
-//            RecommendBean bean = new RecommendBean();
-//            bean.setTitle(String.valueOf(i) );
-//            mList.add(bean);
-//        }
-//
-//    }
-
-
     class MyAdapter extends PagerAdapter {
 
         @Override
@@ -131,7 +135,8 @@ public class RecommendFragment extends Fragment {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            View view = View.inflate(getActivity(), R.layout.item_viewpager, null);
+
+            View view = View.inflate(VrApplication.getContext(), R.layout.item_viewpager, null);
             RoundImageView itemImage = (RoundImageView) view.findViewById(R.id.item_image);
             itemImage.setImageResource(resIds[position]);
             itemImage.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +162,7 @@ public class RecommendFragment extends Fragment {
     private void HttpTopic( int pager) {
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
-//            mIvDetialErrorBg.setVisibility(View.VISIBLE);
+            mEmptyViewLl.setVisibility(View.VISIBLE);
             return;
         }
         //使用xutils3访问网络并获取返回值
@@ -165,7 +170,7 @@ public class RecommendFragment extends Fragment {
         requestParams.addHeader("token", HttpURL.Token);
         //包装请求参数
         requestParams.addBodyParameter("sourceNum", "222");//
-        requestParams.addBodyParameter("page", 1 + "");//
+        requestParams.addBodyParameter("page", pager + "");//
         requestParams.addBodyParameter("count", 10+"");//
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
