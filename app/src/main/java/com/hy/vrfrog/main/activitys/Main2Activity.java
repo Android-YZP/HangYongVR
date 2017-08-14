@@ -13,7 +13,9 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.base.BaseActivity;
 import com.hy.vrfrog.main.adapter.MainAdapter;
 import com.hy.vrfrog.main.living.im.TCConstants;
+import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.main.living.push.PushActivity;
+import com.hy.vrfrog.main.living.push.PushSettingActivity;
 import com.hy.vrfrog.ui.BottomBar;
 
 import org.xutils.common.util.LogUtil;
@@ -27,7 +29,7 @@ public class Main2Activity extends BaseActivity {
     private ViewPager mVpMain;
     private BottomBar mBottomBar;
     private ImageButton mIvLivingPush;
-    private RelativeLayout linearLayout ;
+    private RelativeLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,9 @@ public class Main2Activity extends BaseActivity {
         setContentView(R.layout.activity_main2);
         initView();
         initData();
-
+        startActivity(new Intent(this, LivingPlayActivity.class));
     }
+
 
     private void initView() {
         mVpMain = (ViewPager) findViewById(R.id.vp_main);
@@ -44,53 +47,42 @@ public class Main2Activity extends BaseActivity {
         mIvLivingPush = (ImageButton) findViewById(R.id.ib_living_push);
         mVpMain.setAdapter(new MainAdapter(getSupportFragmentManager()));
         mVpMain.setCurrentItem(1);
-        linearLayout = (RelativeLayout)findViewById(R.id.ll_height);
+        linearLayout = (RelativeLayout) findViewById(R.id.ll_height);
         int height = getStatusBarHeight();
         LogUtil.i("height = " + height);
-
     }
+
 
     private void initData() {
         mBottomBar.init(mVpMain);
         mIvLivingPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main2Activity.this, PushActivity.class);
+                Intent intent = new Intent(Main2Activity.this, PushSettingActivity.class);
                 String PushUrl = "rtmp://9250.livepush.myqcloud.com/live/9250_erte?bizid=9250&txSecret=1f728c3719bc7a51cd38de46bcbff49c&txTime=598B317F";
-                intent.putExtra(TCConstants.PUBLISH_URL,PushUrl);
+                intent.putExtra(TCConstants.PUBLISH_URL, PushUrl);
                 startActivity(intent);
             }
         });
     }
 
+
     private int getStatusBarHeight() {
         Class<?> c = null;
-
         Object obj = null;
-
         Field field = null;
-
         int x = 0, sbar = 0;
-
         try {
-
             c = Class.forName("com.android.internal.R$dimen");
-
             obj = c.newInstance();
-
             field = c.getField("status_bar_height");
-
             x = Integer.parseInt(field.get(obj).toString());
-
             sbar = getContext().getResources().getDimensionPixelSize(x);
-
         } catch (Exception e1) {
-
             e1.printStackTrace();
-
         }
-
         return sbar;
     }
+
 
 }

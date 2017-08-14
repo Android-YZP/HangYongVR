@@ -910,7 +910,6 @@ public class VideoPlayActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
             }
 
             @Override

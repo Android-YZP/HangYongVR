@@ -598,38 +598,38 @@ public class TCUtils {
         return TCConstants.NETTYPE_NONE;
     }
 
-//    /**
-//     * 显示被踢下线通知
-//     * @param context activity
-//     */
-//    public static void showKickOutDialog(final Context context) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.NormalDialog);
-//        builder.setTitle(context.getResources().getString(R.string.tip_force_offline));
-//        builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
+    /**
+     * 显示被踢下线通知
+     * @param context activity
+     */
+    public static void showKickOutDialog(final Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.NormalDialog);
+        builder.setTitle(context.getResources().getString(R.string.tip_force_offline));
+        builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
 //                TCLoginMgr.getInstance().logout();
 //                Intent intent = new Intent(context, TCLoginActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                context.startActivity(intent);
-//            }
-//        });
-//        builder.setNegativeButton("重新登录", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("重新登录", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
 //                TCLoginMgr.getInstance().reLogin();
 //                Intent intent = new Intent(context, TCMainActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                context.startActivity(intent);
-//            }
-//        });
-//
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.setCancelable(false);
-//        alertDialog.show();
-//    }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
 
     /**
      * 根据比例转化实际数值为相对值

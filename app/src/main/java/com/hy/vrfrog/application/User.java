@@ -6,10 +6,11 @@ package com.hy.vrfrog.application;
 
 public class User {
 
+
     /**
      * code : 0
      * msg : success
-     * result : {"user":{"uid":4,"grade":0,"phone":"17625017026","head":null,"username":"17625017026","sex":null,"password":"888888","email":null,"profession":null,"birthday":null,"status":1,"created":"2017-06-12 16:07:23","updatetime":null,"token":"FAD22443CA765A9BC81585BF67E41829"},"token":"FAD22443CA765A9BC81585BF67E41829"}
+     * result : {"user":{"uid":66,"phone":"18626361403","account":"18626361403","head":null,"username":"18626361403","sex":null,"password":"123456","email":null,"profession":null,"birthday":null,"status":1,"created":null,"updatetime":null,"token":"739F8D20A4A6083BBEBFE32F32A5561F","rid":0,"roleName":null,"money":0,"role":null},"usersig":"eJxlkFFPgzAUhd-3KwivM1paSsFkD0XocM5Np9O4F0JGgRsi60qnbsb-7sQlkvj8ffecnPs5sCzLfpw*nGfr9WbXmNTslbStS8tG9tkfVAryNDMp0fk-KD8UaJlmhZG6gw6lFCPUdyCXjYECTgYjgfAjjLjLPeSTMIxDERMsCOaUeo7oXbZ5nXb1v9HuMZcwTJy*AmUHb*P7q2txpycV2c5nq0V40R5URKJYvSQTb5-o4fgJhm1GV3U*X5AbDiGT46UX8KLaJfVzVNZ*cKho0gi2DaYEU70EKAyfee*sHI16lQZe5Wkrwgw5GLk9*iZ1C5umEzBy6BEH6Ochg6-BN-HRYUQ_","token":"739F8D20A4A6083BBEBFE32F32A5561F"}
      * page : null
      */
 
@@ -52,11 +53,13 @@ public class User {
 
     public static class ResultBean {
         /**
-         * user : {"uid":4,"grade":0,"phone":"17625017026","head":null,"username":"17625017026","sex":null,"password":"888888","email":null,"profession":null,"birthday":null,"status":1,"created":"2017-06-12 16:07:23","updatetime":null,"token":"FAD22443CA765A9BC81585BF67E41829"}
-         * token : FAD22443CA765A9BC81585BF67E41829
+         * user : {"uid":66,"phone":"18626361403","account":"18626361403","head":null,"username":"18626361403","sex":null,"password":"123456","email":null,"profession":null,"birthday":null,"status":1,"created":null,"updatetime":null,"token":"739F8D20A4A6083BBEBFE32F32A5561F","rid":0,"roleName":null,"money":0,"role":null}
+         * usersig : eJxlkFFPgzAUhd-3KwivM1paSsFkD0XocM5Np9O4F0JGgRsi60qnbsb-7sQlkvj8ffecnPs5sCzLfpw*nGfr9WbXmNTslbStS8tG9tkfVAryNDMp0fk-KD8UaJlmhZG6gw6lFCPUdyCXjYECTgYjgfAjjLjLPeSTMIxDERMsCOaUeo7oXbZ5nXb1v9HuMZcwTJy*AmUHb*P7q2txpycV2c5nq0V40R5URKJYvSQTb5-o4fgJhm1GV3U*X5AbDiGT46UX8KLaJfVzVNZ*cKho0gi2DaYEU70EKAyfee*sHI16lQZe5Wkrwgw5GLk9*iZ1C5umEzBy6BEH6Ochg6-BN-HRYUQ_
+         * token : 739F8D20A4A6083BBEBFE32F32A5561F
          */
 
         private UserBean user;
+        private String usersig;
         private String token;
 
         public UserBean getUser() {
@@ -65,6 +68,14 @@ public class User {
 
         public void setUser(UserBean user) {
             this.user = user;
+        }
+
+        public String getUsersig() {
+            return usersig;
+        }
+
+        public void setUsersig(String usersig) {
+            this.usersig = usersig;
         }
 
         public String getToken() {
@@ -77,36 +88,44 @@ public class User {
 
         public static class UserBean {
             /**
-             * uid : 4
-             * grade : 0
-             * phone : 17625017026
+             * uid : 66
+             * phone : 18626361403
+             * account : 18626361403
              * head : null
-             * username : 17625017026
+             * username : 18626361403
              * sex : null
-             * password : 888888
+             * password : 123456
              * email : null
              * profession : null
              * birthday : null
              * status : 1
-             * created : 2017-06-12 16:07:23
+             * created : null
              * updatetime : null
-             * token : FAD22443CA765A9BC81585BF67E41829
+             * token : 739F8D20A4A6083BBEBFE32F32A5561F
+             * rid : 0
+             * roleName : null
+             * money : 0
+             * role : null
              */
 
             private int uid;
-            private int grade;
             private String phone;
-            private String head;
+            private String account;
+            private Object head;
             private String username;
-            private String sex;
+            private Object sex;
             private String password;
-            private String email;
-            private String profession;
-            private String birthday;
+            private Object email;
+            private Object profession;
+            private Object birthday;
             private int status;
-            private String created;
-            private String updatetime;
+            private Object created;
+            private Object updatetime;
             private String token;
+            private int rid;
+            private Object roleName;
+            private int money;
+            private Object role;
 
             public int getUid() {
                 return uid;
@@ -114,14 +133,6 @@ public class User {
 
             public void setUid(int uid) {
                 this.uid = uid;
-            }
-
-            public int getGrade() {
-                return grade;
-            }
-
-            public void setGrade(int grade) {
-                this.grade = grade;
             }
 
             public String getPhone() {
@@ -132,11 +143,19 @@ public class User {
                 this.phone = phone;
             }
 
-            public String getHead() {
+            public String getAccount() {
+                return account;
+            }
+
+            public void setAccount(String account) {
+                this.account = account;
+            }
+
+            public Object getHead() {
                 return head;
             }
 
-            public void setHead(String head) {
+            public void setHead(Object head) {
                 this.head = head;
             }
 
@@ -148,11 +167,11 @@ public class User {
                 this.username = username;
             }
 
-            public String getSex() {
+            public Object getSex() {
                 return sex;
             }
 
-            public void setSex(String sex) {
+            public void setSex(Object sex) {
                 this.sex = sex;
             }
 
@@ -164,27 +183,27 @@ public class User {
                 this.password = password;
             }
 
-            public String getEmail() {
+            public Object getEmail() {
                 return email;
             }
 
-            public void setEmail(String email) {
+            public void setEmail(Object email) {
                 this.email = email;
             }
 
-            public String getProfession() {
+            public Object getProfession() {
                 return profession;
             }
 
-            public void setProfession(String profession) {
+            public void setProfession(Object profession) {
                 this.profession = profession;
             }
 
-            public String getBirthday() {
+            public Object getBirthday() {
                 return birthday;
             }
 
-            public void setBirthday(String birthday) {
+            public void setBirthday(Object birthday) {
                 this.birthday = birthday;
             }
 
@@ -196,19 +215,19 @@ public class User {
                 this.status = status;
             }
 
-            public String getCreated() {
+            public Object getCreated() {
                 return created;
             }
 
-            public void setCreated(String created) {
+            public void setCreated(Object created) {
                 this.created = created;
             }
 
-            public String getUpdatetime() {
+            public Object getUpdatetime() {
                 return updatetime;
             }
 
-            public void setUpdatetime(String updatetime) {
+            public void setUpdatetime(Object updatetime) {
                 this.updatetime = updatetime;
             }
 
@@ -218,6 +237,38 @@ public class User {
 
             public void setToken(String token) {
                 this.token = token;
+            }
+
+            public int getRid() {
+                return rid;
+            }
+
+            public void setRid(int rid) {
+                this.rid = rid;
+            }
+
+            public Object getRoleName() {
+                return roleName;
+            }
+
+            public void setRoleName(Object roleName) {
+                this.roleName = roleName;
+            }
+
+            public int getMoney() {
+                return money;
+            }
+
+            public void setMoney(int money) {
+                this.money = money;
+            }
+
+            public Object getRole() {
+                return role;
+            }
+
+            public void setRole(Object role) {
+                this.role = role;
             }
         }
     }
