@@ -593,7 +593,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(String result) {
                 User userBean = new Gson().fromJson(result, User.class);
-                LogUtil.i(userBean.getMsg() + "");
+                LogUtil.i(userBean.getMsg() + "++++++");
+
                 LogUtil.i(result);
                 if (userBean.getCode() == HTTP_SUCCESS) {
                     SPUtil.putUser(userBean);

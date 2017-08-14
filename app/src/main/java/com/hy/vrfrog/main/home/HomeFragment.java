@@ -169,7 +169,6 @@ public class HomeFragment extends Fragment {
                 LogUtil.i(result);
                 VideoTypeBean videoTypeBean = new Gson().fromJson(result, VideoTypeBean.class);
                 if (videoTypeBean.getCode() == HTTP_SUCCESS) {//获取数据成功
-
                     mTitle = videoTypeBean.getResult();
                     initMagicIndicator();
                     mViewPager.setAdapter(new HomeAdapter(getActivity().getSupportFragmentManager(), mTitle));
@@ -182,7 +181,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFinished() {
-                super.onFinished();
             }
         });
     }
