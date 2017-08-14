@@ -9,12 +9,15 @@
         android:id="@+id/my_un_login"
         layout="@layout/fragment_my_item"
         android:visibility="gone" />
+
+
 <ScrollView
+    android:id="@+id/my_logined"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/my_logined"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

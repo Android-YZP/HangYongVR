@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hy.vrfrog.R;
@@ -33,7 +34,7 @@ public class MyFragment extends Fragment {
     private LinearLayout mRootPersonInfo;
     private LinearLayout mRootUnLogin;
     private LinearLayout mRootHistory;
-    private LinearLayout mRootLogined;
+    private ScrollView mRootLogined;
     private LinearLayout mCertification;
     private RelativeLayout mRootGoLogin;
     private RelativeLayout mRootGoLogin1;
@@ -155,7 +156,7 @@ public class MyFragment extends Fragment {
         mBtnLogin = (Button) view.findViewById(R.id.btn_my_login);
         mRootPersonInfo = (LinearLayout) view.findViewById(R.id.ll_root_my_personal_info);
         mRootHistory = (LinearLayout) view.findViewById(R.id.ll_root_history);
-        mRootLogined = (LinearLayout) view.findViewById(R.id.my_logined);
+        mRootLogined = (ScrollView) view.findViewById(R.id.my_logined);
         mRootUnLogin = (LinearLayout) view.findViewById(R.id.my_un_login);
         mCertification = (LinearLayout) view.findViewById(R.id.ll_my_certification);
         mLlMyPay = (LinearLayout) view.findViewById(R.id.ll_my_pay);
