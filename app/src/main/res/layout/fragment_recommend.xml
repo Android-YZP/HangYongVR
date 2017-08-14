@@ -3,14 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#1c1c34"
 
     >
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#d9d9d9" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,6 +19,7 @@
             android:background="#fff"
             android:orientation="vertical"
             android:layout_centerInParent="true"
+            android:visibility="gone"
             >
 
             <ImageView
@@ -49,19 +45,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--<com.hy.vrfrog.ui.MainRecycleView-->
-                <!--android:id="@+id/re_recommend_recycler"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent" />-->
-
-            <com.hy.vrfrog.utils.LoadMoreListView
+            <com.hy.vrfrog.ui.MainRecycleView
                 android:id="@+id/re_recommend_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                >
+                android:layout_height="match_parent" />
 
-            </com.hy.vrfrog.utils.LoadMoreListView>
+            <!--<com.hy.vrfrog.utils.LoadMoreListView-->
+                <!--android:id="@+id/re_recommend_recycler"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:divider="@null"-->
+                <!--&gt;-->
+
+            <!--</com.hy.vrfrog.utils.LoadMoreListView>-->
+
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/re_recommend_recycler"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+            <!--</android.support.v7.widget.RecyclerView>-->
 
 
         </com.hy.vrfrog.ui.VerticalSwipeRefreshLayout>

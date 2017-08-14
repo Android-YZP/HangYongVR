@@ -45,7 +45,12 @@ public class VerticalSwipeRefreshLayout extends SwipeRefreshLayout {
                 }
                 break;
         }
-        return super.dispatchTouchEvent(ev);
+        try {
+            return super.dispatchTouchEvent(ev);
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
 
