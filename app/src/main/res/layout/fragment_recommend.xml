@@ -19,17 +19,17 @@
 
         <LinearLayout
             android:id="@+id/iv_recommend_fragment_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="#fff"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="150dp"
                 android:background="@mipmap/vedio_detial_no_net" />
 
             <TextView
@@ -54,14 +54,14 @@
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="match_parent" />-->
 
-            <ListView
+            <com.hy.vrfrog.utils.LoadMoreListView
                 android:id="@+id/re_recommend_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@null"
                 >
 
-            </ListView>
+            </com.hy.vrfrog.utils.LoadMoreListView>
 
 
         </com.hy.vrfrog.ui.VerticalSwipeRefreshLayout>

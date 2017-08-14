@@ -114,6 +114,7 @@ public class VideoFragment extends Fragment {
 
 
     private void initListener() {
+
         mRecyclerfreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -123,7 +124,6 @@ public class VideoFragment extends Fragment {
                     mPager = 1;
                     islodingMore = false;
                     HttpGetVideoTopic(mTopicId + "", HttpURL.SourceNum, islodingMore);
-                    mRecyclerfreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -203,6 +203,8 @@ public class VideoFragment extends Fragment {
                             mMainAdapter.setFooterView(v);
                         }
                         mRecycler.setAdapter(mMainAdapter);
+                        //
+
                     }
                 }
             }

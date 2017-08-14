@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +15,7 @@ import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.RecommendBean;
 import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.utils.TimeUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 
 import java.util.ArrayList;
@@ -41,12 +43,13 @@ public class RecommendTwoAdapter extends RecyclerView.Adapter<RecommendTwoAdapte
 
     @Override
     public void onBindViewHolder(RecommendTwoAdapter.RecommendOneAdapterViewHolder holder, final int position) {
-            holder.mTvVideoTitle.setText((String)mList.get(position ).getTypeName());
-            holder.mivVideoImg.setImageResource(R.mipmap.img5);
-            holder.mTvVideoDesc.setText((String)mList.get(position ).getTypeName());
+            holder.mTvVideoTitle.setText((String)mList.get(position ).getChannelName());
+            holder.mTvVideoDesc.setText((String)mList.get(position ).getIntroduce());
             Glide.with(mContext).load(HttpURL.IV_HOST+mList.get(position).getImg()).asBitmap().into(holder.mivVideoImg);
+            holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt((String) mList.get(position ).getTime())));
 
-            holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
+
+        holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, VideoDetialActivity.class);
@@ -73,6 +76,8 @@ public class RecommendTwoAdapter extends RecyclerView.Adapter<RecommendTwoAdapte
         private XCRoundRectImageView mivVideoImg;
         private TextView mTvVideoDesc;
         private TextView mTvVideoTitle;
+        private TextView mTvVideoTime;
+        private LinearLayout mLinearLayout;
 
 
         public RecommendOneAdapterViewHolder(View itemView) {
@@ -81,6 +86,8 @@ public class RecommendTwoAdapter extends RecyclerView.Adapter<RecommendTwoAdapte
             mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.img_recommend_adapter_two);
             mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_recommend_adapter_two_message);
             mTvVideoTitle = (TextView) itemView.findViewById(R.id.tv_recommend_adapter_two_title);
+            mTvVideoTime = (TextView)itemView.findViewById(R.id.tv_video_two_time);
+            mLinearLayout = (LinearLayout)itemView.findViewById(R.id.ll_recommend_introduce);
 
         }
     }

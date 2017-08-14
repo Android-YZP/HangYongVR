@@ -79,7 +79,7 @@
             android:id="@+id/btn_log"
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
-            android:background="@drawable/icon_log_off"
+
             android:onClick="onClick" />
 
         <TextView
