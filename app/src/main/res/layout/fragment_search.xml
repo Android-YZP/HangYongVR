@@ -2,9 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    >
+
+    android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#1c1c34">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +22,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="25dp"
             android:layout_weight="1"
-            android:background="@drawable/search_kuang">
+            android:background="@mipmap/search_kuang">
 
             <ImageView
                 android:id="@+id/im_search"
@@ -34,10 +38,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:hint=" 搜索视频和话题"
+                android:layout_centerVertical="true"
                 android:imeOptions="actionSearch"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="#7e7e88"
                 android:textColorHint="#bdbdc3"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="15sp"
@@ -52,26 +57,26 @@
             android:layout_gravity="center"
             android:layout_marginRight="20dp"
             android:text="取消"
-            android:textColor="#39f0d4"
+            android:textColor="#fff"
             android:textSize="15sp" />
 
     </LinearLayout>
+</RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:background="#d9d9d9"/>
+        android:layout_height="1dp" />
     <LinearLayout
         android:id="@+id/ll_search_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="#10101d"
         >
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="31dp"
-            android:background="#f3f3f3"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:background="#10101d">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +88,7 @@
                 android:text="搜索历史"
                 android:layout_marginLeft="35dp"
                 android:textSize="12sp"
-                android:textColor="#949494"/>
+                android:textColor="#807e7e88"/>
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
