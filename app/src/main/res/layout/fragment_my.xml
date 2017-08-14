@@ -2,13 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#1c1c34"
     tools:context=".main.home.fragments.MyFragment">
 
     <include
         android:id="@+id/my_un_login"
         layout="@layout/fragment_my_item"
         android:visibility="gone" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/my_logined"
@@ -23,7 +26,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:background="@drawable/my_bg" />
+                android:background="@drawable/personal_center_background" />
 
 
             <LinearLayout
@@ -45,25 +48,70 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="12dp"
-                    android:text="华仔"
-                    android:textColor="#000"
+                    android:text="JessicaDD"
+                    android:textColor="#fff"
                     android:textSize="20sp" />
             </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/ll_root_my_personal_info"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="20dp">
+            android:layout_height="50dp"
+            >
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
-                android:src="@drawable/my_information" />
+                android:src="@mipmap/personal_center_icon_balance" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:text="余额"
+                android:textColor="#fff"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_fragment_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:text="1500蛙豆"
+                android:textColor="#fff"
+                android:textSize="17sp"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="#343449"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_root_my_personal_info"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:src="@mipmap/personal_center_icon_person" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,8 +119,8 @@
                 android:layout_marginLeft="20dp"
                 android:gravity="center_vertical"
                 android:text="个人资料"
-                android:textColor="#000"
-                android:textSize="15sp" />
+                android:textColor="#fff"
+                android:textSize="17sp" />
 
             <View
                 android:layout_width="wrap_content"
@@ -87,19 +135,28 @@
                 android:background="@drawable/persional_arrow_jump" />
 
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="#343449"
+            />
+
 
         <LinearLayout
             android:id="@+id/ll_root_history"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginBottom="15dp">
+            android:layout_height="50dp"
+            >
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
-                android:background="@drawable/my_history" />
+                android:background="@mipmap/personal_center_icon_history" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,79 +164,8 @@
                 android:layout_marginLeft="20dp"
                 android:gravity="center_vertical"
                 android:text="历史观看"
-                android:textColor="#000"
-                android:textSize="15sp" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/persional_arrow_jump" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_my_pay"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="25dp"
-                android:background="@drawable/my_pay" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
-                android:text="我的支付"
-                android:textColor="#000"
-                android:textSize="15sp" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/persional_arrow_jump" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_my_certification"
-            android:layout_width="match_parent"
-            android:layout_height="25dp">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="25dp"
-                android:background="@drawable/my_pay" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
-                android:text="实名认证"
-                android:textColor="#000"
-                android:textSize="15sp" />
+                android:textColor="#fff"
+                android:textSize="17sp" />
 
             <View
                 android:layout_width="wrap_content"
@@ -196,23 +182,165 @@
         </LinearLayout>
 
         <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="#343449"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_my_pay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:background="@mipmap/personal_center_icon_pay" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:text="我的支付"
+                android:textColor="#fff"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/persional_arrow_jump" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="#343449"
+            />
+        <LinearLayout
+            android:id="@+id/ll_my_yindao"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:background="@mipmap/personal_center_icon_novices" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:text="新手引导"
+                android:textColor="#fff"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/persional_arrow_jump" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="#343449"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_my_certification"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:background="@mipmap/personal_center_icon_real_name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:text="实名认证"
+                android:textColor="#fff"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/persional_arrow_jump" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="#343449"
+            />
+
+
 
         <Button
             android:id="@+id/btn_my_login"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="70dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/my_button_nor"
+            android:background="@drawable/bottom_fragment"
             android:text="退出登录"
-            android:textColor="#afafaf" />
+            android:textColor="#828282"
+            />
 
     </LinearLayout>
 
+</ScrollView>
 
 </FrameLayout>
