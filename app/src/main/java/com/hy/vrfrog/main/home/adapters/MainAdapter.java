@@ -20,6 +20,8 @@ import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 import com.hy.vrfrog.main.home.activitys.VideoListActivity;
 
+import org.xutils.common.util.LogUtil;
+
 import java.util.List;
 
 /**
@@ -113,22 +115,24 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == TYPE_NORMAL) {
             if (holder instanceof ListHolder) {
 
-                if (position == 1){
+                if (position == 0){
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                     ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                     ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                     linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    MainOneAdapter mainVideosAdapter = new MainOneAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                    MainOneAdapter mainVideosAdapter = new MainOneAdapter(context, topicBean.get(position).getResult(), topicBean.get(position).getCode());
                     ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 }else {
                     int type = UIUtils.typeRandom();
+
+                    LogUtil.i("type = " +  type);
 //
                     if ( type== 0){
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                         ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                         ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                        MainOneAdapter mainVideosAdapter = new MainOneAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                        MainOneAdapter mainVideosAdapter = new MainOneAdapter(context,topicBean.get(position).getResult(), topicBean.get(position).getCode());
                         ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
 
                     }else if (type == 1){
@@ -137,7 +141,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                         ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                        MainVideosOneAdapter mainVideosAdapter = new MainVideosOneAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode(),type);
                         ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
 
 
@@ -146,7 +150,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                         ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                        MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                        MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode(),type);
                         ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
 
                     }
@@ -155,6 +159,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.get(position).getMsg());
                 ((ListHolder) holder).mTvTotalVideos.setText(topicBean.get(position).getPage().getTotal() + "个视频");
+
+                if (topicBean.get(position ).getResult() .size() != 0){
+                    ((ListHolder) holder).mSortMessageTv.setText((String)topicBean.get(position).getResult().get(0).getTypeName());
+                }
 
                 ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -167,32 +175,23 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
 
-//                这里加载数据的时候要注意，是从position-1开始，因为position==0已经被header占用了
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
-                ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode());
-                ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
-                /////////////////////////////////////////////////设置脚布局/////////////////////////////////////////////////
-
-                if (topicBean.get(position).getResult().size() <= 7) {
-                    View noview = View.inflate(context, R.layout.main_list_item_foot_no_view, null);
-                    mainVideosAdapter.setFooterView(noview);
-                }else {
-                    View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
-                    mTvMore1 = (TextView) v.findViewById(R.id.tv_main_more);
-                    mTvMore1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, VideoListActivity.class);
-                            intent.putExtra(VedioContants.TopicId, topicBean.get(position).getCode());
-                            context.startActivity(intent);
-                            context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-                        }
-                    });
-                    mainVideosAdapter.setFooterView(v);
-                }
+//                if (topicBean.get(position).getResult().size() <= 7) {
+//                    View noview = View.inflate(context, R.layout.main_list_item_foot_no_view, null);
+//                    mainVideosAdapter.setFooterView(noview);
+//                }else {
+//                    View v = View.inflate(context, R.layout.main_list_item_foot_view, null);
+//                    mTvMore1 = (TextView) v.findViewById(R.id.tv_main_more);
+//                    mTvMore1.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Intent intent = new Intent(context, VideoListActivity.class);
+//                            intent.putExtra(VedioContants.TopicId, topicBean.get(position).getCode());
+//                            context.startActivity(intent);
+//                            context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+//                        }
+//                    });
+//                    mainVideosAdapter.setFooterView(v);
+//                }
 
 
                 //修复滑动事件的冲突
@@ -237,6 +236,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView mTvTopicTitle;
         private RelativeLayout mRlMainMore;
         private TextView mTvTotalVideos;
+        private TextView mSortMessageTv;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -247,10 +247,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (itemView == mFooterView) {
                 return;
             }
-            mRvVideoList = (RecyclerView) itemView.findViewById(R.id.rv_video_list);
-            mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_main_topic_title);
-            mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_more);
-            mTvTotalVideos = (TextView) itemView.findViewById(R.id.tv_total_videos);
+            mRvVideoList = (RecyclerView) itemView.findViewById(R.id.rv_video_sort_list);
+            mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_video_sort_title);
+            mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_sort_more);
+            mTvTotalVideos = (TextView) itemView.findViewById(R.id.tv_video_sort_num);
+            mSortMessageTv = (TextView)itemView.findViewById(R.id.tv_video_message);
 
         }
     }

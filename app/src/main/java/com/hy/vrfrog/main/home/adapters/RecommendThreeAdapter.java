@@ -7,17 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.RecommendBean;
-import com.hy.vrfrog.http.responsebean.TopicBean;
+import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
 import com.hy.vrfrog.utils.TimeUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
-import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 
 import org.xutils.common.util.LogUtil;
 
@@ -27,7 +27,7 @@ import java.util.List;
  * Created by Smith on 2017/7/4.
  */
 
-public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.ListHolder> {
+public class RecommendThreeAdapter extends RecyclerView.Adapter<RecommendThreeAdapter.ListHolder> {
     public static final int TYPE_HEADER = 0;  //说明是带有Header的
     public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
     public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
@@ -40,15 +40,14 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     private Activity context;
     private ViewPager mViewpager;
     private int position;
-    private List<TopicBean.ResultBeanX.ResultBean> resultBean;
+    private List<RecommendBean.ResultBeanX.ResultBean> resultBean;
     private int TopicId;
     //构造函数
     private int type ;
 
 
-    public MainVideosAdapter(Activity context, ViewPager mViewpager, List<TopicBean.ResultBeanX.ResultBean> resultBean, int TopicId,int type) {
+    public RecommendThreeAdapter(Activity context, List<RecommendBean.ResultBeanX.ResultBean> resultBean, int TopicId, int type) {
         this.context = context;
-        this.mViewpager = mViewpager;
         this.resultBean = resultBean;
         this.TopicId = TopicId;
         this.type = type ;
@@ -98,17 +97,18 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     @Override
     public ListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mHeaderView != null && viewType == TYPE_HEADER) {
-            return new MainVideosAdapter.ListHolder(mHeaderView);
+            return new RecommendThreeAdapter.ListHolder(mHeaderView);
         }
         if (mFooterView != null && viewType == TYPE_FOOTER) {
-            return new MainVideosAdapter.ListHolder(mFooterView);
+            return new RecommendThreeAdapter.ListHolder(mFooterView);
         }
-        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.re_video_item_main, parent, false);
-        return new MainVideosAdapter.ListHolder(layout);
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend_two_adapter, parent, false);
+        return new RecommendThreeAdapter.ListHolder(layout);
     }
 
     @Override
     public void onBindViewHolder(ListHolder holder, final int position) {
+
 
             Glide.with(context)
                     .load(HttpURL.IV_HOST + resultBean.get(position).getImg1())
@@ -116,21 +116,24 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                     .error(R.mipmap.camera_off)
                     .into(holder.mivVideoImg);
 
-            //设置视频的描述信息
-            holder.mTvVideoDesc.setText(resultBean.get(position).getChannelName());
-            if (resultBean.get(position).getTime() != null)
-                holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(resultBean.get(position).getTime())));//设置时间
 
-            holder.mivVideoImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, VideoDetialActivity.class);
-                    intent.putExtra(VedioContants.Position, position);//首次显示在哪一个封面
-                    intent.putExtra(VedioContants.TopicId, TopicId);//哪个话题
-                    context.startActivity(intent);
-                    context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-                }
-            });
+                holder.mTvTwoTitle.setText(resultBean.get(position).getChannelName());
+                holder.mTvVideoDesc.setText((String)resultBean.get(position).getIntroduce());
+                if (resultBean.get(position).getTime() != null)
+                    holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(resultBean.get(position).getTime())));//设置时间
+
+             holder.mlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, VideoDetialActivity.class);
+                intent.putExtra(VedioContants.Position, position);//首次显示在哪一个封面
+                intent.putExtra(VedioContants.TopicId, TopicId);//哪个话题
+                context.startActivity(intent);
+                context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+            }
+        });
+
+
 
     }
 
@@ -139,6 +142,8 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
         private XCRoundRectImageView mivVideoImg;
         private TextView mTvVideoDesc;
         private TextView mTvVideoTime;
+        private TextView mTvTwoTitle;
+        private LinearLayout mlayout;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -149,9 +154,12 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
             if (itemView == mFooterView) {
                 return;
             }
-            mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
-            mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
-            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_one_time);
+            mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.img_recommend_adapter_two);
+            mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_recommend_adapter_two_message);
+            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_two_time);
+            mTvTwoTitle = (TextView)itemView.findViewById(R.id.tv_recommend_adapter_two_title);
+            mlayout = (LinearLayout)itemView.findViewById(R.id.ll_recommend_introduce);
+
         }
     }
 
@@ -171,10 +179,12 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                     return 7;
                 }
             }
+
             return resultBean.size();
         } else if (mHeaderView == null && mFooterView != null) {
             return resultBean.size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
+
             return resultBean.size() + 1;
         } else {
 

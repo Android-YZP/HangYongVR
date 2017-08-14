@@ -133,7 +133,7 @@ public class UIUtils {
 
     public static int typeRandom() {
         Random random=new Random();
-        return  random.nextInt(2);
+        return  random.nextInt(3);
     }
 
 }

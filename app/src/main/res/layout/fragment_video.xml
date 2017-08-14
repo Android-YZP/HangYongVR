@@ -3,15 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#1c1c34"
     android:orientation="vertical"
     tools:context="com.hy.vrfrog.main.home.fragments.VideoFragment">
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#d9d9d9" />
 
     <RelativeLayout
         android:layout_width="match_parent"
