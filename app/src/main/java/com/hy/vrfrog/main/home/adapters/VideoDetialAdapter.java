@@ -60,7 +60,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-
+        LogUtil.i("videoadapter is = " + position);
         //判断1直播，0点播
         int type = mData.get(position).getType();
         if (type == VedioContants.Video) {//点播
@@ -68,6 +68,37 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             holder.mRlPersonName.setVisibility(View.GONE);
             holder.mVideoLiveLl.setVisibility(View.VISIBLE);
             holder.mVideoName.setVisibility(View.VISIBLE);
+
+            if (mData.size() != 1){
+                if (position == 0 ){
+                    holder.mUpVideoLl.setVisibility(View.GONE);
+                    holder.mDownVideoLl.setVisibility(View.VISIBLE);
+                    Glide.with(context)
+                            .load(R.mipmap.video_down)
+                            .into(holder.mIvdowngif);
+
+                }else if (position == mData.size() - 1 ){
+                    holder.mDownVideoLl.setVisibility(View.GONE);
+                    holder.mUpVideoLl.setVisibility(View.VISIBLE);
+                    Glide.with(context)
+                            .load(R.mipmap.video_up)
+                            .into(holder.mIvupgif);
+
+                }else {
+                    holder.mDownVideoLl.setVisibility(View.VISIBLE);
+                    holder.mUpVideoLl.setVisibility(View.VISIBLE);
+                    Glide.with(context)
+                            .load(R.mipmap.video_down)
+                            .into(holder.mIvdowngif);
+                    Glide.with(context)
+                            .load(R.mipmap.video_up)
+                            .into(holder.mIvupgif);
+                }
+
+            }else {
+                holder.mUpVideoLl.setVisibility(View.GONE);
+                holder.mDownVideoLl.setVisibility(View.GONE);
+            }
 
             int isall = mData.get(position).getIsall();
             if (isall == VedioContants.TWO_D_VEDIO) {//2D
@@ -265,6 +296,11 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         private CircleImageView mVideoNameHead;
         private TextView mVideoNameTv;
 
+        private LinearLayout mUpVideoLl;
+        private LinearLayout mDownVideoLl;
+        private ImageView mIvupgif;
+        private ImageView mIvdowngif;
+
 
         MyViewHolder(View view) {
             super(view);
@@ -290,6 +326,11 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             mVideoName = (LinearLayout)view.findViewById(R.id.ll_video_name);
             mVideoNameHead = (CircleImageView)view.findViewById(R.id.img_video_head);
             mVideoNameTv = (TextView)view.findViewById(R.id.tv_video_name);
+
+            mDownVideoLl = (LinearLayout)view.findViewById(R.id.ll_video_down);
+            mUpVideoLl = (LinearLayout)view.findViewById(R.id.ll_video_up);
+            mIvupgif = (ImageView)view.findViewById(R.id.iv_up_gif);
+            mIvdowngif = (ImageView)view.findViewById(R.id.iv_down_gif);
 
 
         }

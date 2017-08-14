@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/load_more_footer"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#1c1c34"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <ImageView
+            android:id="@+id/img_loading_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/progress_img"
+            android:visibility="gone"
+            >
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/no_more_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="正在加载"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="visible" />
+    </LinearLayout>
+
+</RelativeLayout>
