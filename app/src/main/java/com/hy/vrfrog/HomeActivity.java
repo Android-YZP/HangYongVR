@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
@@ -34,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
         TXCloudVideoView mCaptureView = (TXCloudVideoView) findViewById(R.id.video_view);
         mLivePusher.startCameraPreview(mCaptureView);
 
-        mLivePusher.setVideoQuality(VIDEO_QUALITY_HIGH_DEFINITION);//设定清晰度
+        mLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_SUPER_DEFINITION);
         mLivePusher.setBeautyFilter(7, 3);//配置美颜
 
         //用图片来设置滤镜

@@ -12,5 +12,10 @@
         android:layout_height="wrap_content"
         android:text="进入直播" />
 
-
+    <Button
+        android:id="@+id/btn_go_living2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="直播" />
 </RelativeLayout>

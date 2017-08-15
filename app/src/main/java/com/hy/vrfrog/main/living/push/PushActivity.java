@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -91,6 +93,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push);
         Intent intent = getIntent();
@@ -105,6 +111,12 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         initView();
         initData();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startPublish();
     }
 
     @Override
@@ -130,8 +142,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mBeautyDialogFragment.setBeautyParamsListner(mBeautyParams, this);
         //AudioControl
         mAudioCtrl.setPluginLayout(mAudioPluginLayout);
-        startPublish();
-        initTCIM();
+//        initTCIM();
 
 
     }
@@ -152,6 +163,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
             mTXPushConfig.setBeautyFilter(mBeautyParams.mBeautyProgress, mBeautyParams.mWhiteProgress);
             mTXPushConfig.setFaceSlimLevel(mBeautyParams.mFaceLiftProgress);
             mTXPushConfig.setEyeScaleLevel(mBeautyParams.mBigEyeProgress);
+            mTXPushConfig.setHardwareAcceleration(TXLiveConstants.ENCODE_VIDEO_HARDWARE);
             mTXLivePusher.setConfig(mTXPushConfig);
         }
 
@@ -164,7 +176,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 //        mBeautySeekBar.setProgress(100);
 
         //设置视频质量：高清
-        mTXLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_HIGH_DEFINITION);
+        mTXLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_SUPER_DEFINITION);
         mTXCloudVideoView.enableHardwareDecode(true);
         mTXLivePusher.startCameraPreview(mTXCloudVideoView);
         mTXLivePusher.setMirror(true);
@@ -246,10 +258,8 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                             TIMUserProfile senderProfile = msg.getSenderProfile();
                             String nickName = senderProfile.getNickName();
 
-
-
                             TCChatEntity entity = new TCChatEntity();
-                            entity.setSenderName( msg.getSender());
+                            entity.setSenderName(msg.getSender());
                             entity.setContext(text);
                             entity.setType(TCConstants.TEXT_TYPE);
                             notifyMsg(entity);
@@ -515,7 +525,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 //            Log.d(TAG, "当前机型不支持视频硬编码");
             mTXPushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_360_640);
             mTXPushConfig.setVideoBitrate(700);
-            mTXPushConfig.setHardwareAcceleration(TXLiveConstants.ENCODE_VIDEO_SOFTWARE);
+            mTXPushConfig.setHardwareAcceleration(TXLiveConstants.ENCODE_VIDEO_AUTO);
             mTXLivePusher.setConfig(mTXPushConfig);
         }
 
