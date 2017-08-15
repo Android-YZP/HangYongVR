@@ -3,6 +3,8 @@ package com.hy.vrfrog.main.living.livingplay;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -17,9 +19,11 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
+import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.im.TimConfig;
 import com.hy.vrfrog.main.living.livingplay.ui.TCBaseActivity;
 import com.hy.vrfrog.main.living.livingplay.ui.TCInputTextMsgDialog;
+import com.hy.vrfrog.main.living.livingplay.ui.TCUserAvatarListAdapter;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -34,6 +38,7 @@ import com.tencent.imsdk.TIMGroupManager;
 import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMGroupSystemElem;
 import com.tencent.imsdk.TIMGroupTipsElem;
+import com.tencent.imsdk.TIMGroupTipsType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -46,6 +51,7 @@ import com.tencent.imsdk.TIMUserStatusListener;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupAssistantListener;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
+import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.group.TIMUserConfigGroupExt;
 import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
@@ -92,6 +98,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private TCChatMsgListAdapter mChatMsgListAdapter;
     private ArrayList<TCChatEntity> mArrayListChatEntity = new ArrayList<>();
     protected Handler mHandler = new Handler();
+    private RecyclerView mUserAvatarList;
+    private TCUserAvatarListAdapter mAvatarListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,15 +111,45 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         setContentView(R.layout.activity_living_play);
         intent = getIntent();
         initPlay();
-
         TicInit(SPUtil.getUser());
-        initMessage();
+        initData();
+
         //在这里停留，让列表界面卡住几百毫秒，给sdk一点预加载的时间，形成秒开的视觉效果
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TIMGroupManager.getInstance().quitGroup(TimConfig.GroupID, new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+        });
+    }
+
+    private void initData() {
+        initMessage();
+        //初始化观众列表
+        mUserAvatarList = (RecyclerView) findViewById(R.id.rv_user_avatar);
+        mUserAvatarList.setVisibility(View.VISIBLE);
+        mAvatarListAdapter = new TCUserAvatarListAdapter(this, mPusherId);
+        mUserAvatarList.setAdapter(mAvatarListAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mUserAvatarList.setLayoutManager(linearLayoutManager);
+
+
     }
 
     /**
@@ -151,6 +189,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mPlayConfig.setMaxAutoAdjustCacheTime(5);
         mLivePlayer.setConfig(mPlayConfig);
         mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
+
 
     }
 
@@ -192,7 +231,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     }
 
 
-
     private void initTXLogin(User user) {
         if (user != null) {
             userConfig();
@@ -202,7 +240,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 public void onError(int code, String desc) {
                     //错误码code和错误描述desc，可用于定位请求失败原因
                     //错误码code列表请参见错误码表
-
                     Log.i(tag, "login failed. code: " + code + " errmsg: " + desc);
                 }
 
@@ -249,7 +286,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                         mArrayListChatEntity.remove(0);
                     }
                 }
-
                 mArrayListChatEntity.add(entity);
                 mChatMsgListAdapter.notifyDataSetChanged();
             }
@@ -290,10 +326,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             String groupName = ((TIMGroupTipsElem) elem).getGroupName();
 
                         }
-//                      else if (elemType == TIMGroupTipsType.Join) {
-//                            String groupName = ((TIMGroupTipsElem) elem).getGroupName();
-//                            UIUtils.showTip(groupName);
-//                        }
                     }
                 }
                 return false;
@@ -347,11 +379,28 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 .setGroupEventListener(new TIMGroupEventListener() {
                     @Override
                     public void onGroupTipsEvent(TIMGroupTipsElem elem) {
-                        TCChatEntity entity = new TCChatEntity();
-                        entity.setSenderName("通知");
-                        entity.setContext(elem.getOpUserInfo().getNickName() + "加入直播");
-                        entity.setType(TCConstants.MEMBER_ENTER);
-                        notifyMsg(entity);
+                        if (elem.getTipsType() == TIMGroupTipsType.Join) {
+
+                            TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(elem.getOpUserInfo().getIdentifier()
+                                    , elem.getOpUserInfo().getNickName(), elem.getOpUserInfo().getFaceUrl());
+
+                            mAvatarListAdapter.addItem(tcSimpleUserInfo);
+
+                            TCChatEntity entity = new TCChatEntity();
+                            entity.setSenderName("通知");
+                            entity.setContext(elem.getOpUserInfo().getNickName() + "加入直播");
+                            entity.setType(TCConstants.MEMBER_ENTER);
+                            notifyMsg(entity);
+                        } else if (elem.getTipsType() == TIMGroupTipsType.Quit) {
+
+                            mAvatarListAdapter.removeItem(elem.getOpUserInfo().getIdentifier());
+
+                            TCChatEntity entity = new TCChatEntity();
+                            entity.setSenderName("通知");
+                            entity.setContext(elem.getOpUserInfo().getNickName() + "退出直播");
+                            entity.setType(TCConstants.MEMBER_ENTER);
+                            notifyMsg(entity);
+                        }
                     }
                 })
                 //设置会话刷新监听器
@@ -367,14 +416,14 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                     }
                 });
 
-//消息扩展用户配置
+        //消息扩展用户配置
         userConfig = new TIMUserConfigMsgExt(userConfig)
                 //禁用消息存储
                 .enableStorage(false)
                 //开启消息已读回执
                 .enableReadReceipt(true);
 
-//资料关系链扩展用户配置
+        //资料关系链扩展用户配置
         userConfig = new TIMUserConfigSnsExt(userConfig)
                 //开启资料关系链本地存储
                 .enableFriendshipStorage(true)
@@ -403,7 +452,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
                 });
 
-//群组管理扩展用户配置
+        //群组管理扩展用户配置
         userConfig = new TIMUserConfigGroupExt(userConfig)
                 //开启群组资料本地存储
                 .enableGroupStorage(true)
@@ -412,11 +461,13 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                     @Override
                     public void onMemberJoin(String groupId, List<TIMGroupMemberInfo> memberInfos) {
                         Log.i(tag, "onMemberJoin");
+
                     }
 
                     @Override
                     public void onMemberQuit(String groupId, List<String> members) {
                         Log.i(tag, "onMemberQuit");
+
                     }
 
                     @Override
@@ -463,34 +514,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             @java.lang.Override
             public void onSuccess() {
                 Log.i(tag, "join group");
+                getMember();
             }
         });
-    }
-
-    /**
-     * @version 2.0
-     * @author 姚中平
-     * @date 创建于 2017/8/11
-     * @description 退出房间
-     */
-    private void quitGroupGroupParam() {
-        //创建回调
-        TIMCallBack cb = new TIMCallBack() {
-            @Override
-            public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code含义请参见错误码表
-            }
-
-            @Override
-            public void onSuccess() {
-                Log.e(tag, "quit group succ");
-            }
-        };
-        //退出群组
-        TIMGroupManager.getInstance().quitGroup(
-                TimConfig.GroupID,  //群组Id
-                cb);
     }
 
 
@@ -542,6 +568,27 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
     }
 
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/8/15
+     * @description 获取群里有多少人
+     */
+    public void getMember() {
+        TIMGroupManagerExt.getInstance().getGroupMembers(TimConfig.GroupID, new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(List<TIMGroupMemberInfo> timGroupMemberInfos) {
+
+
+            }
+        });
+
+    }
 
     protected void startPlay() {
 
@@ -600,4 +647,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     public void onNetStatus(Bundle bundle) {
 
     }
+
+
 }
