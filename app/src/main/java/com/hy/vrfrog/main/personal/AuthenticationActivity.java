@@ -31,9 +31,10 @@ public class AuthenticationActivity extends AppCompatActivity{
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), UploadingDocumentsActivity.class));
-                overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-                finish();
+//                startActivity(new Intent(getApplicationContext(), UploadingDocumentsActivity.class));
+//                overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+//                finish();
+                startActivity(new Intent(getApplicationContext(),ReleaseLiveActivity.class));
             }
         });
         mIvReturn.setOnClickListener(new View.OnClickListener() {

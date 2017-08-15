@@ -59,7 +59,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
     private VideoDetialAdapter mVideoDetialAdapter;
     private int mTotalpage;
     private boolean isFling;
-    private ImageButton mBack;
+    private ImageView mBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +82,8 @@ public class VideoDetialActivity extends SwipeBackActivity {
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
         mIvupgif = (ImageView) findViewById(R.id.iv_up_gif);
         mIvdowngif = (ImageView) findViewById(R.id.iv_down_gif);
-        mBack = (ImageButton)findViewById(R.id.ibt_video_detail);
-        Glide.with(VideoDetialActivity.this)
-                .load(R.mipmap.video_up)
-                .into(mIvupgif);
-        Glide.with(VideoDetialActivity.this)
-                .load(R.mipmap.video_down)
-                .into(mIvdowngif);
+        mBack = (ImageView)findViewById(R.id.ibt_video_detail);
+
     }
 
 
@@ -126,7 +121,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                VideoDetialActivity.this.finish();
                 overridePendingTransition(0, R.anim.base_slide_right_out);
             }
         });

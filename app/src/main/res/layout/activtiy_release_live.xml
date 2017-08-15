@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/btn_blue"
+        >
+
+        <ImageView
+            android:id="@+id/img_release_live_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:layout_marginLeft="9dp"
+            android:src="@mipmap/history_return" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="发布直播"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="4"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_release_live_video"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="视频:"
+                        android:textColor="@color/white"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            >
+
+                            <TextView
+                                android:id="@+id/tv_release_live_video_save"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp"
+                                android:text="保存"
+                                android:textColor="@color/white"
+                                android:layout_below="@id/tv_release_live_video"
+                                android:background="@drawable/bg_release_live"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            >
+
+                            <TextView
+                                android:id="@+id/tv_release_live_video_not_save"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp"
+                                android:text="不保存"
+                                android:textColor="@color/white"
+                                android:layout_toRightOf="@id/tv_release_live_video_save"
+                                android:layout_below="@+id/tv_release_live_video"
+                                android:background="@drawable/bg_release_live"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_release_live_house_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="房间名称："
+                        android:textColor="@color/white"
+                        />
+
+                    <EditText
+                        android:id="@+id/edt_release_live_house_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/tv_release_live_house_name"
+                        android:background="@drawable/bg_release_live_one"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_release_live_charge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="是否收费:"
+                        android:textColor="@color/white"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+
+                        >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            >
+
+                            <TextView
+                                android:id="@+id/tv_release_live_charge_save"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp"
+                                android:text="是"
+                                android:textColor="@color/white"
+                                android:layout_below="@id/tv_release_live_video"
+                                android:background="@drawable/bg_release_live"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            >
+
+                            <TextView
+                                android:id="@+id/tv_release_live_charge_not_save"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp"
+                                android:text="否"
+                                android:textColor="@color/white"
+                                android:layout_toRightOf="@id/tv_release_live_video_save"
+                                android:layout_below="@+id/tv_release_live_video"
+                                android:background="@drawable/bg_release_live"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_release_live_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收费金额："
+                        android:textColor="@color/white"
+                        />
+
+                    <EditText
+                        android:id="@+id/edt_release_live_money"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/tv_release_live_money"
+                        android:background="@drawable/bg_release_live_one"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_release_live_money_dou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="蛙豆"
+                        android:textColor="@color/white"
+                        android:layout_toRightOf="@id/edt_release_live_money"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+
+        <CheckBox
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:button="@null"
+            android:checked="false"
+            android:text="@null"
+            android:background="@drawable/img_checkbox"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我已阅读并同意"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《直播协议》"
+            android:textColor="@color/btn_blue"
+            android:layout_marginLeft="5dp"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_click"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_release_live_btn"
+        android:layout_marginTop="30dp"
+        />
+
+</LinearLayout>
