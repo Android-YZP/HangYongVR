@@ -20,6 +20,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -67,6 +68,8 @@ public class RecommendFragment extends Fragment {
     private int mPager = 1;
     private boolean islodingMore = false;
     private RecommendBean recommendBean;
+    private View mView;
+
 
 
     int[] resIds = new int[]{R.mipmap.img1, R.mipmap.img2, R.mipmap.img3, R.mipmap.img4, R.mipmap.img5, R.mipmap.img6};
@@ -74,29 +77,47 @@ public class RecommendFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (mView != null) {
+            ViewGroup parent = (ViewGroup) mView.getParent();
+            if (parent != null) {
+                parent.removeView(mView);
+            }
+            return mView;
+        }
         View view = inflater.inflate(R.layout.fragment_recommend,container,false);
         initView(view);
-        HttpTopic(pager);
+
         initListener();
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initListener();
+        initData();
+
+    }
+
+    private void initData() {
+        mAdapter = new RecommandAdapter(getActivity(),mRecyclerfreshLayout,mList);
+        HttpTopic(1,islodingMore);
+    }
+
 
     private void initListener() {
         mRecyclerfreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-
                 if (mEmptyViewLl.getVisibility() == View.VISIBLE) {//没有数据
-                    if (mList != null){
-                        mList.clear();
-                    }
-                    HttpTopic(1);
+                   initData();
 
                 } else if (mEmptyViewLl.getVisibility() == View.GONE) {//有数据的情况下刷新
+
                     mPager = 1;
                     islodingMore = false;
-                    HttpTopic(pager);
+                    HttpTopic(pager,islodingMore);
                 }
             }
         });
@@ -108,9 +129,9 @@ public class RecommendFragment extends Fragment {
                 boolean visBottom = UIUtils.isVisBottom(mRecycler);
                 if (visBottom) {
                     if (mAdapter.getFooterView() == null) {
-                        ++mPager;
+                        ++ mPager;
                         islodingMore = true;
-                        HttpTopic(pager);
+                        HttpTopic(pager,islodingMore);
                     } else {
                         return;
                     }
@@ -132,10 +153,7 @@ public class RecommendFragment extends Fragment {
         mRecycler = (MainRecycleView) view.findViewById(R.id.re_recommend_recycler);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
-
         mRecyclerfreshLayout = (VerticalSwipeRefreshLayout)view.findViewById(R.id.srl_recommend_swipe_refresh);
-
-//        View footView = View.inflate(getActivity(),R.layout.main_list_no_datas, null);
 
 
     }
@@ -178,7 +196,8 @@ public class RecommendFragment extends Fragment {
     /**
      * 获取话题
      */
-    private void HttpTopic( int pager) {
+    private void HttpTopic(int pager, final boolean islodingMore) {
+        mRecyclerfreshLayout.setRefreshing(true);
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             mEmptyViewLl.setVisibility(View.VISIBLE);
@@ -197,18 +216,9 @@ public class RecommendFragment extends Fragment {
             public void onSuccess(String result) {
 
                 recommendBean = new Gson().fromJson(result, RecommendBean.class);
-                LongLogUtil.e("---------------", result);
+                LongLogUtil.e("推荐---------------", result);
                 if (recommendBean.getCode() == 0) {
                     mEmptyViewLl.setVisibility(View.GONE);
-                    if (mList != null && mList.size() > 0) {//下拉加载
-                        mList.addAll(recommendBean.getResult());
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        LogUtil.e("推荐 =" + recommendBean.getResult());
-                        mList = recommendBean.getResult();
-                        mAdapter = new RecommandAdapter(getActivity(),mRecyclerfreshLayout,mList);
-
-                        mRecycler.setAdapter(mAdapter);
 
                         if (islodingMore) {
                             mList.addAll(recommendBean.getResult());
@@ -216,18 +226,18 @@ public class RecommendFragment extends Fragment {
                         } else {
                             LogUtil.e("推荐 =" + recommendBean.getResult());
                             mList = recommendBean.getResult();
+
                             mAdapter = new RecommandAdapter(getActivity(),mRecyclerfreshLayout,mList);
                             setHead();
-                            mRecycler.setAdapter(mAdapter);
 
                             if (recommendBean.getResult().get(0).getPage().getTotal() <= 10) {
                                 View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
                                 mAdapter.setFooterView(v);
                             }
+                            mRecycler.setAdapter(mAdapter);
 
                         }
 
-                    }
                 }
             }
 

@@ -33,10 +33,10 @@ public class EnterpriseLiveAdapter extends RecyclerView.Adapter<EnterpriseLiveAd
 
     @Override
     public void onBindViewHolder(EnterpriseLiveAdapter.EnterPriseLiveHomeAdapterHolder holder, int position) {
-        holder.mLiveHomeTitleTv.setText(mLiveData.get(position).getTitle());
-        holder.mLiveHomeHeadNameTv.setText(mLiveData.get(position).getName());
-        holder.mLiveHomePlayStateTv.setText(mLiveData.get(position).getPlayState());
-        holder.mLiveHomePeopleNumberTv.setText(mLiveData.get(position).getNumber());
+//        holder.mLiveHomeTitleTv.setText(mLiveData.get(position).getTitle());
+//        holder.mLiveHomeHeadNameTv.setText(mLiveData.get(position).getName());
+//        holder.mLiveHomePlayStateTv.setText(mLiveData.get(position).getPlayState());
+//        holder.mLiveHomePeopleNumberTv.setText(mLiveData.get(position).getNumber());
     }
 
     @Override
