@@ -127,6 +127,11 @@ public class HttpURL {
      */
     public static String VodByCommendTopic = Host+"login/get/vodByCommendTopic";
 
+    /**
+     *首页推荐数据 http://192.168.1.141:8080/hyplatform/api/
+     */
+    public static String AllLive = Host+"login/get/allLive";
+
    /**
      * 创建直播间
      */
