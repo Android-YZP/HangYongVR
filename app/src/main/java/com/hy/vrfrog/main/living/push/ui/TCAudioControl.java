@@ -171,6 +171,8 @@ public class TCAudioControl extends LinearLayout implements SeekBar.OnSeekBarCha
 //        if (mAudioPluginLayout != null){
 //            mAudioPluginLayout.setVisibility(View.VISIBLE);
 //        }
+        setVisibility(GONE);
+
     }
     public synchronized boolean isPlayingBGM(){
         return mBGMSwitch;
@@ -354,7 +356,7 @@ public class TCAudioControl extends LinearLayout implements SeekBar.OnSeekBarCha
             }
         });
     }
-    
+
     public void unInit(){
         if (mBGMSwitch){
             stopBGM();

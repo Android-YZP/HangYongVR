@@ -37,7 +37,6 @@ public class Main2Activity extends BaseActivity {
         setContentView(R.layout.activity_main2);
         initView();
         initData();
-        startActivity(new Intent(this, LivingPlayActivity.class));
     }
 
 

@@ -1,6 +1,7 @@
 package com.hy.vrfrog.main.home.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
+import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
 
 import org.xutils.common.util.LogUtil;
@@ -104,6 +106,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
             holder.mXcImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    context.startActivity(new Intent(context, LivingPlayActivity.class));
 
                 }
             });

@@ -138,6 +138,11 @@ public class HttpURL {
     public static String createRoom = Host+"personLvb/create";
 
 
+    /**
+     * 编辑直播间
+     */
+    public static String editRoom = Host+"personLvb/updatePersonRoom";
+
 
 
 }
