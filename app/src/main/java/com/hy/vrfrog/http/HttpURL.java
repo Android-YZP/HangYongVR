@@ -10,10 +10,10 @@ public class HttpURL {
     //    private static String Host = "http://192.168.1.133:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.135:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
-//    private static String Host = "http://192.168.1.132:8080/hyplatform/api/";
+    private static String Host = "http://192.168.1.132:8080/hyplatform/api/";
 //    private static String Host = "http://118.89.246.194:808
 // 0/api/";
-    private static String Host = "http://123.206.67.115:8080/api/";
+//    private static String Host = "http://123.206.67.115:8080/api/";
 
     public static String Token = "C47B1071";
     public static String SourceNum = "222";
@@ -132,6 +132,11 @@ public class HttpURL {
      */
     public static String createRoom = Host+"personLvb/create";
 
+
+    /**
+     * 编辑直播间
+     */
+    public static String editRoom = Host+"personLvb/updatePersonRoom";
 
 
 

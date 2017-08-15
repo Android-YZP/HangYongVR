@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TimConfig;
@@ -25,6 +26,7 @@ import com.hy.vrfrog.main.living.push.ui.BeautyDialogFragment;
 import com.hy.vrfrog.main.living.push.ui.TCAudioControl;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
 import com.hy.vrfrog.main.living.push.utils.TCUtils;
+import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConnListener;
@@ -63,6 +65,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tencent.tls.platform.TLSErrInfo;
+import tencent.tls.platform.TLSGuestLoginListener;
+import tencent.tls.platform.TLSLoginHelper;
+import tencent.tls.platform.TLSUserInfo;
+
 public class PushActivity extends AppCompatActivity implements ITXLivePushListener, View.OnClickListener, BeautyDialogFragment.OnBeautyParamsChangeListener {
     protected String mPushUrl;
     private String mRoomId;
@@ -89,6 +96,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private TCChatMsgListAdapter mChatMsgListAdapter;
     private ArrayList<TCChatEntity> mArrayListChatEntity = new ArrayList<>();
     protected Handler mHandler = new Handler();
+    private User user;
 
 
     @Override
@@ -136,15 +144,14 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     }
 
     private void initData() {
+        user = SPUtil.getUser();
         mChatMsgListAdapter = new TCChatMsgListAdapter(this, mListViewMsg, mArrayListChatEntity);
         mListViewMsg.setAdapter(mChatMsgListAdapter);
         mBeautyDialogFragment = new BeautyDialogFragment();
         mBeautyDialogFragment.setBeautyParamsListner(mBeautyParams, this);
         //AudioControl
         mAudioCtrl.setPluginLayout(mAudioPluginLayout);
-//        initTCIM();
-
-
+        initTCIM(user);
     }
 
     protected void startPublish() {
@@ -176,7 +183,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 //        mBeautySeekBar.setProgress(100);
 
         //设置视频质量：高清
-        mTXLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_SUPER_DEFINITION);
+        mTXLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_STANDARD_DEFINITION);
         mTXCloudVideoView.enableHardwareDecode(true);
         mTXLivePusher.startCameraPreview(mTXCloudVideoView);
         mTXLivePusher.setMirror(true);
@@ -219,24 +226,28 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     }
 
 
-    private void initTCIM() {
+    private void initTCIM(User user) {
         userConfig();
         // identifier为用户名，userSig 为用户登录凭证
-        TIMManager.getInstance().login(TimConfig.Identifier2, TimConfig.UserSign2, new TIMCallBack() {
-            @Override
-            public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
-                Log.i(tag, "login failed. code: " + code + " errmsg: " + desc);
-            }
+        if (user != null) {
+            TIMManager.getInstance().login(user.getResult().getToken(), user.getResult().getUsersig(), new TIMCallBack() {
+                @Override
+                public void onError(int code, String desc) {
+                    //错误码code和错误描述desc，可用于定位请求失败原因
+                    //错误码code列表请参见错误码表
+                    Log.i(tag, "login failed. code: " + code + " errmsg: " + desc);
+                }
 
-            @Override
-            public void onSuccess() {
-                Log.i(tag, "login succ");
-                createGroupParam();
-                Message();
-            }
-        });
+                @Override
+                public void onSuccess() {
+                    Log.i(tag, "login succ");
+                    createGroupParam();
+                    Message();
+                }
+            });
+        }
+
+
     }
 
     private void Message() {

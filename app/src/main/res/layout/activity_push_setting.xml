@@ -10,7 +10,7 @@
         android:id="@+id/btn_go_living"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="进入直播" />
+        android:text="实名认证" />
 
     <Button
         android:id="@+id/btn_go_living2"

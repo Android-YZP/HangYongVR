@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.EditRoomBean;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
@@ -34,7 +36,12 @@ public class PushSettingActivity extends AppCompatActivity {
         btngoliving2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (user != null) {
+                    int uid = user.getResult().getUser().getUid();
+                    HttpEditRoom(uid+"",1+"","李杰的直播间","0","500","我是直播间的说明");
+                } else {
+                    UIUtils.showTip("请先登录");
+                }
             }
         });
 
@@ -42,17 +49,13 @@ public class PushSettingActivity extends AppCompatActivity {
         btngoliving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PushSettingActivity.this, PushActivity.class);
-                String PushUrl = "rtmp://9250.livepush.myqcloud.com/live/9250_e75874b6?bizid=9250&txSecret=24c3c5841d23c03031f03a10c8149f18&txTime=59931A7F";
-                intent.putExtra(TCConstants.PUBLISH_URL, PushUrl);
-                startActivity(intent);
 
-//                if (user != null) {
-//                    int uid = user.getResult().getUser().getUid();
-//                    HttpCreatRoom(uid + "");
-//                } else {
-//                    UIUtils.showTip("请先登录");
-//                }
+                if (user != null) {
+                    int uid = user.getResult().getUser().getUid();
+                    HttpCreatRoom(uid + "");
+                } else {
+                    UIUtils.showTip("请先登录");
+                }
             }
         });
 
@@ -61,7 +64,7 @@ public class PushSettingActivity extends AppCompatActivity {
 
 
     /**
-     * 根据关键词搜索话题
+     * 实名认证，创建房间
      */
     private void HttpCreatRoom(final String UID) {
         if (!NetUtil.isOpenNetwork()) {
@@ -79,10 +82,14 @@ public class PushSettingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 LongLogUtil.e("-----------", result);
+                EditRoomBean editRoomBean = new Gson().fromJson(result, EditRoomBean.class);
+
 
                 Intent intent = new Intent(PushSettingActivity.this, PushActivity.class);
-                String PushUrl = "rtmp://10263.livepush.myqcloud.com/live/10263_56784498183c4d9d8211c243e60e1f71?bizid=10263&txSecret=951b9be9b06649882126345138166b7b&txTime=5991C8FF";
+                String PushUrl = "rtmp://9250.livepush.myqcloud.com/live/9250_e75874b6?bizid=9250&txSecret=24c3c5841d23c03031f03a10c8149f18&txTime=59931A7F";
+//                intent.putExtra(TCConstants.PUBLISH_URL, editRoomBean.getResult().getUpstreamAddress());
                 intent.putExtra(TCConstants.PUBLISH_URL, PushUrl);
+
                 startActivity(intent);
             }
 
@@ -92,5 +99,42 @@ public class PushSettingActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * 编辑房间
+     */
+    private void HttpEditRoom(String uid, String isTranscribe, String channelName, String isCharge, String price, String introduce) {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.editRoom);
+        requestParams.addHeader("token", HttpURL.Token);
+        requestParams.addBodyParameter("uid", uid);
+        requestParams.addBodyParameter("isTranscribe", isTranscribe);
+        requestParams.addBodyParameter("channelName", channelName);
+        requestParams.addBodyParameter("isCharge", isCharge);
+        requestParams.addBodyParameter("price", price);
+        requestParams.addBodyParameter("introduce", introduce);
+
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LongLogUtil.e("-----------", result);
+
+//                Intent intent = new Intent(PushSettingActivity.this, PushActivity.class);
+//                String PushUrl = "rtmp://9250.livepush.myqcloud.com/live/9250_e75874b6?bizid=9250&txSecret=24c3c5841d23c03031f03a10c8149f18&txTime=59931A7F";
+//                intent.putExtra(TCConstants.PUBLISH_URL, PushUrl);
+//                startActivity(intent);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+            }
+        });
+    }
 
 }

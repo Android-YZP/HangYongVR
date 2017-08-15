@@ -1,25 +1,27 @@
 package com.hy.vrfrog.main.living.livingplay;
 
-import android.app.Service;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TimConfig;
 import com.hy.vrfrog.main.living.livingplay.ui.TCBaseActivity;
 import com.hy.vrfrog.main.living.livingplay.ui.TCInputTextMsgDialog;
+import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
+import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConnListener;
@@ -54,7 +56,13 @@ import com.tencent.rtmp.TXLivePlayConfig;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import tencent.tls.platform.TLSErrInfo;
+import tencent.tls.platform.TLSGuestLoginListener;
+import tencent.tls.platform.TLSLoginHelper;
+import tencent.tls.platform.TLSUserInfo;
 
 public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayListener {
     private static final String TAG = "--------------------";
@@ -75,9 +83,15 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private TCInputTextMsgDialog mInputTextMsgDialog;
     private Intent intent;
     private String tag = "每天都发包";
-    private int mCurrentRenderMode     = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
-    private int  mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_PORTRAIT;
+    private int mCurrentRenderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
+    private int mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_PORTRAIT;
     private TXLivePlayConfig mPlayConfig;
+    private EditText mEtRoomMessage;
+    private Button mBtnSendMassage;
+    private ListView mListViewMsg;
+    private TCChatMsgListAdapter mChatMsgListAdapter;
+    private ArrayList<TCChatEntity> mArrayListChatEntity = new ArrayList<>();
+    protected Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +103,32 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         setContentView(R.layout.activity_living_play);
         intent = getIntent();
         initPlay();
+
+        TicInit(SPUtil.getUser());
+        initMessage();
         //在这里停留，让列表界面卡住几百毫秒，给sdk一点预加载的时间，形成秒开的视觉效果
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 发送消息
+     */
+    private void initMessage() {
+        mEtRoomMessage = (EditText) findViewById(R.id.et_room_message);
+        mBtnSendMassage = (Button) findViewById(R.id.btn_send_massage);
+        mBtnSendMassage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = mEtRoomMessage.getText().toString();
+                if (!TextUtils.isEmpty(message)) {
+                    sendMessage(message);
+                }
+            }
+        });
     }
 
 
@@ -116,11 +150,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mPlayConfig.setMinAutoAdjustCacheTime(1);
         mPlayConfig.setMaxAutoAdjustCacheTime(5);
         mLivePlayer.setConfig(mPlayConfig);
-
         mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
+
     }
-
-
 
 
 //    PhoneStateListener listener = new PhoneStateListener() {
@@ -145,43 +177,94 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 //    };
 
 
-
-
     /**
      * @version 2.0
      * @author 姚中平
      * @date 创建于 2017/8/2
      * @description 腾讯Im聊天
      */
-    private void TicInit() {
-        userConfig();
-        // identifier为用户名，userSig 为用户登录凭证
-        TIMManager.getInstance().login(TimConfig.Identifier, TimConfig.UserSign, new TIMCallBack() {
-            @Override
-            public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
+    private void TicInit(User user) {
+        mListViewMsg = (ListView) findViewById(R.id.im_msg_listview);
+        mChatMsgListAdapter = new TCChatMsgListAdapter(this, mListViewMsg, mArrayListChatEntity);
+        mListViewMsg.setAdapter(mChatMsgListAdapter);
+        initTXLogin(user);
+        Message();
+    }
 
-                Log.i(tag, "login failed. code: " + code + " errmsg: " + desc);
-            }
 
+
+    private void initTXLogin(User user) {
+        if (user != null) {
+            userConfig();
+            // identifier为用户名，userSig 为用户登录凭证
+            TIMManager.getInstance().login(user.getResult().getToken(), user.getResult().getUsersig(), new TIMCallBack() {
+                @Override
+                public void onError(int code, String desc) {
+                    //错误码code和错误描述desc，可用于定位请求失败原因
+                    //错误码code列表请参见错误码表
+
+                    Log.i(tag, "login failed. code: " + code + " errmsg: " + desc);
+                }
+
+                @Override
+                public void onSuccess() {
+                    Log.i(tag, "login succ");
+                    addGroup();
+                }
+            });
+        } else {
+            TLSLoginHelper.getInstance().TLSGuestLogin(new TLSGuestLoginListener() {
+                @Override
+                public void OnGuestLoginSuccess(TLSUserInfo tlsUserInfo) {
+                    UIUtils.showTip("游客登陸");
+                    addGroup();
+                }
+
+                @Override
+                public void OnGuestLoginFail(TLSErrInfo tlsErrInfo) {
+
+                }
+
+                @Override
+                public void OnGuestLoginTimeout(TLSErrInfo tlsErrInfo) {
+
+                }
+            });
+        }
+    }
+
+
+    private void notifyMsg(final TCChatEntity entity) {
+
+        mHandler.post(new Runnable() {
             @Override
-            public void onSuccess() {
-                Log.i(tag, "login succ");
-                addGroup();
+            public void run() {
+//                if(entity.getType() == TCConstants.PRAISE) {
+//                    if(mArrayListChatEntity.contains(entity))
+//                        return;
+//                }
+
+                if (mArrayListChatEntity.size() > 1000) {
+                    while (mArrayListChatEntity.size() > 900) {
+                        mArrayListChatEntity.remove(0);
+                    }
+                }
+
+                mArrayListChatEntity.add(entity);
+                mChatMsgListAdapter.notifyDataSetChanged();
             }
         });
+    }
 
 
+    private void Message() {
         //接受消息
         TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
             //消息监听器
             @Override
             public boolean onNewMessages(List<TIMMessage> list) {
-
                 for (int j = 0; j < list.size(); j++) {
                     TIMMessage msg = list.get(j);
-
                     for (int i = 0; i < msg.getElementCount(); ++i) {
                         TIMElem elem = msg.getElement(i);
 
@@ -192,15 +275,19 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             String text = ((TIMTextElem) elem).getText();
                             TIMUserProfile senderProfile = msg.getSenderProfile();
                             String nickName = senderProfile.getNickName();
-                            UIUtils.showTip(text + msg.getSender() + nickName);
+
+                            TCChatEntity entity = new TCChatEntity();
+                            entity.setSenderName(msg.getSenderProfile().getNickName());
+                            entity.setContext(text);
+                            entity.setType(TCConstants.TEXT_TYPE);
+                            notifyMsg(entity);
+
 
                         } else if (elemType == TIMElemType.GroupSystem) {
                             String groupName = ((TIMGroupSystemElem) elem).getOpReason();
-                            UIUtils.showTip(groupName);
 
                         } else if (elemType == TIMElemType.GroupTips) {
                             String groupName = ((TIMGroupTipsElem) elem).getGroupName();
-                            UIUtils.showTip(groupName);
 
                         }
 //                      else if (elemType == TIMGroupTipsType.Join) {
@@ -213,6 +300,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             }
         });
     }
+
 
     /**
      * @version 2.0
@@ -259,7 +347,11 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 .setGroupEventListener(new TIMGroupEventListener() {
                     @Override
                     public void onGroupTipsEvent(TIMGroupTipsElem elem) {
-                        Log.i(tag, "onGroupTipsEvent, type: " + elem.getTipsType());
+                        TCChatEntity entity = new TCChatEntity();
+                        entity.setSenderName("通知");
+                        entity.setContext(elem.getOpUserInfo().getNickName() + "加入直播");
+                        entity.setType(TCConstants.MEMBER_ENTER);
+                        notifyMsg(entity);
                     }
                 })
                 //设置会话刷新监听器
@@ -374,13 +466,14 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             }
         });
     }
+
     /**
      * @version 2.0
      * @author 姚中平
      * @date 创建于 2017/8/11
      * @description 退出房间
      */
-    private void quitGroupGroupParam(){
+    private void quitGroupGroupParam() {
         //创建回调
         TIMCallBack cb = new TIMCallBack() {
             @Override
@@ -388,6 +481,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 //错误码code和错误描述desc，可用于定位请求失败原因
                 //错误码code含义请参见错误码表
             }
+
             @Override
             public void onSuccess() {
                 Log.e(tag, "quit group succ");
@@ -401,12 +495,13 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
 
     /**
+     * @param message
      * @version 2.0
      * @author 姚中平
      * @date 创建于 2017/8/2
      * @description 发送消息
      */
-    private void sendMessage() {
+    private void sendMessage(String message) {
         TIMConversation conversation = TIMManager.getInstance().getConversation(
                 TIMConversationType.Group,      //会话类型：群组
                 TimConfig.GroupID);//群组Id
@@ -415,7 +510,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         TIMMessage msg = new TIMMessage();
         //添加文本内容
         TIMTextElem elem = new TIMTextElem();
-        elem.setText("这是一条测试消息。。。。。。。");
+        elem.setText(message);
 
         //将elem添加到消息
         if (msg.addElement(elem) != 0) {
@@ -439,14 +534,13 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
                 TCChatEntity entity = new TCChatEntity();
                 entity.setSenderName("我:");
-                entity.setContext(((TIMTextElem)msg.getElement(0)).getText());
+                entity.setContext(((TIMTextElem) msg.getElement(0)).getText());
                 entity.setType(TCConstants.TEXT_TYPE);
 //                notifyMsg(entity);
             }
         });
 
     }
-
 
 
     protected void startPlay() {
@@ -500,7 +594,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
     @Override
     public void onPlayEvent(int i, Bundle bundle) {
-        UIUtils.showTip(i+"");
     }
 
     @Override
