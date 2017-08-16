@@ -105,7 +105,8 @@ public class HistoryActivity extends SwipeBackActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        resultData.clear();
+        if (resultData != null)
+            resultData.clear();
     }
 
     private void initListener() {

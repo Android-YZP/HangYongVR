@@ -224,6 +224,7 @@
 #-keep class com.google.gson.stream.** { *; }
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.hy.vrfrog.http.responsebean.** { *; }  ##这里需要改成解析到哪个  javabean
+-keep class com.hy.vrfrog.application.** { *; }  ##这里需要改成解析到哪个  javabean
 ##---------------End: proguard configuration for Gson  ----------
 
 

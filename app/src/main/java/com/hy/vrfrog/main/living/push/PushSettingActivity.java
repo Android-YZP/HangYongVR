@@ -57,7 +57,7 @@ public class PushSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (user != null) {
+                if (user != null && user.getResult() != null ) {
                     int uid = user.getResult().getUser().getUid();
                     HttpCreatRoom(uid + "");
                 } else {
@@ -65,8 +65,6 @@ public class PushSettingActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
 
