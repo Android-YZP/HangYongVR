@@ -15,60 +15,7 @@
         android:visibility="gone"
         />
 
-    <LinearLayout
-        android:id="@+id/ll_video_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="23dp"
-            android:text="上一个视频"
-            android:textColor="#66ffffff"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/iv_up_gif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY"
-            android:layout_marginTop="8dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_video_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_down_gif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY"
-            android:layout_marginBottom="8dp"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="11dp"
-            android:text="下一个视频"
-            android:textColor="#66ffffff"
-            android:textSize="12sp" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/title"
@@ -422,11 +369,10 @@
             android:layout_marginLeft="14dp"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:lines="2"
             android:textColor="#bdbdc3"
             android:textSize="15sp"
             android:text="月球之旅"
-            android:maxLines="2"
+            android:maxLines="3"
             android:layout_marginBottom="50dp"/>
 
         <!--<ImageView-->
@@ -447,5 +393,58 @@
             <!--android:layout_marginTop="8dp"-->
             <!--android:layout_marginBottom="11dp"/>-->
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_video_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="23dp"
+            android:text="上一个视频"
+            android:textColor="#66ffffff"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_up_gif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitXY"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_video_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_down_gif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitXY"
+            android:layout_marginBottom="8dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="11dp"
+            android:text="下一个视频"
+            android:textColor="#66ffffff"
+            android:textSize="12sp" />
+    </LinearLayout>
 </RelativeLayout>

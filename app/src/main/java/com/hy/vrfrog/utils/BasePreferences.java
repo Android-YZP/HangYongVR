@@ -42,7 +42,6 @@ public class BasePreferences {
         } else {
             return false;
         }
-
     }
 
     /**

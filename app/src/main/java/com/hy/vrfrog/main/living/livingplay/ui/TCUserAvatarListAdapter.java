@@ -7,12 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.push.utils.TCUtils;
-
 import java.util.LinkedList;
 
 /**
@@ -113,7 +110,6 @@ public class TCUserAvatarListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public AvatarViewHolder(View itemView) {
             super(itemView);
-
             ivAvatar = (ImageView) itemView.findViewById(R.id.iv_avatar);
         }
     }

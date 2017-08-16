@@ -16,6 +16,7 @@ import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.videoDetails.VedioContants;
 
 import org.xutils.common.util.LogUtil;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by qwe on 2017/8/3.
  */
 
-public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHomeAdapter.LiveHomeAdapterHolder>{
+public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHomeAdapter.LiveHomeAdapterHolder> {
 
     public static final int TYPE_HEADER = 0;  //说明是带有Header的
     public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
@@ -99,15 +100,18 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
     }
 
     @Override
-    public void onBindViewHolder(PersonalLiveHomeAdapter.LiveHomeAdapterHolder holder, int position) {
-        if (getItemViewType(position) == TYPE_NORMAL){
-            holder.mLiveHomeTitleTv.setText(resultBean.get(position ).getChannelName());
+    public void onBindViewHolder(PersonalLiveHomeAdapter.LiveHomeAdapterHolder holder, final int position) {
+        if (getItemViewType(position) == TYPE_NORMAL) {
+            holder.mLiveHomeTitleTv.setText(resultBean.get(position).getChannelName());
             holder.mLiveHomeHeadNameTv.setText(String.valueOf(resultBean.get(position).getUsername()));
             holder.mXcImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, LivingPlayActivity.class));
-
+                    Intent intent = new Intent(context, LivingPlayActivity.class);
+                    intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getUpstreamAddress());
+                    intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
+                    intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
+                    context.startActivity(intent);
                 }
             });
         }
@@ -129,15 +133,15 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
         public LiveHomeAdapterHolder(View itemView) {
             super(itemView);
 
-            mLiveHomeTitleTv  = (TextView)itemView.findViewById(R.id.tv_live_home_title);
-            mLiveHomePeopleNumberTv = (TextView)itemView.findViewById(R.id.tv_live_home_people_number);
-            mLiveHomePlayStateTv = (TextView)itemView.findViewById(R.id.tv_live_home_live_state);
-            mLiveHomeHeadNameTv = (TextView)itemView.findViewById(R.id.tv_live_home_name);
+            mLiveHomeTitleTv = (TextView) itemView.findViewById(R.id.tv_live_home_title);
+            mLiveHomePeopleNumberTv = (TextView) itemView.findViewById(R.id.tv_live_home_people_number);
+            mLiveHomePlayStateTv = (TextView) itemView.findViewById(R.id.tv_live_home_live_state);
+            mLiveHomeHeadNameTv = (TextView) itemView.findViewById(R.id.tv_live_home_name);
 
-            mLiveHomePlayStateImg = (ImageView)itemView.findViewById(R.id.img_live_home_play_state);
-            mLiveHomeHeadImg = (ImageView)itemView.findViewById(R.id.img_live_home_head);
+            mLiveHomePlayStateImg = (ImageView) itemView.findViewById(R.id.img_live_home_play_state);
+            mLiveHomeHeadImg = (ImageView) itemView.findViewById(R.id.img_live_home_head);
 
-            mXcImg = (XCRoundRectImageView)itemView.findViewById(R.id.img_xc_personal);
+            mXcImg = (XCRoundRectImageView) itemView.findViewById(R.id.img_xc_personal);
 
         }
     }

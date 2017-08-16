@@ -17,13 +17,16 @@ import android.widget.ListView;
 
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
+import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.im.TimConfig;
 import com.hy.vrfrog.main.living.livingplay.ui.TCBaseActivity;
+import com.hy.vrfrog.main.living.livingplay.ui.TCHeartLayout;
 import com.hy.vrfrog.main.living.livingplay.ui.TCInputTextMsgDialog;
 import com.hy.vrfrog.main.living.livingplay.ui.TCUserAvatarListAdapter;
+import com.hy.vrfrog.main.living.livingplay.utils.TCFrequeControl;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -87,7 +90,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private int mUrlPlayType = TXLivePlayer.PLAY_TYPE_LIVE_RTMP;      //根据mIsLivePlay和url判断出的播放类型，更加具体
     private boolean mPlaying = false;
     private TCInputTextMsgDialog mInputTextMsgDialog;
-    private Intent intent;
+
     private String tag = "每天都发包";
     private int mCurrentRenderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
     private int mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_PORTRAIT;
@@ -100,6 +103,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     protected Handler mHandler = new Handler();
     private RecyclerView mUserAvatarList;
     private TCUserAvatarListAdapter mAvatarListAdapter;
+    private TCHeartLayout mHeartLayout;
+    private TCFrequeControl mLikeFrequeControl;
+    private Button mBtnHeartLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +115,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_living_play);
-        intent = getIntent();
+
+        initRoomData();
         initPlay();
         TicInit(SPUtil.getUser());
         initData();
@@ -138,6 +145,13 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         });
     }
 
+    private void initRoomData() {
+        Intent intent = getIntent();//头像，谁直播的，直播房间
+
+
+    }
+
+
     private void initData() {
         initMessage();
         //初始化观众列表
@@ -148,9 +162,29 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mUserAvatarList.setLayoutManager(linearLayoutManager);
+        //点赞爱心动画
+        mHeartLayout = (TCHeartLayout) findViewById(R.id.heart_layout);
+        mBtnHeartLike = (Button) findViewById(R.id.btn_living_like);
+        mBtnHeartLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mHeartLayout != null) {
+                    mHeartLayout.addFavor();
+                }
 
+                //点赞发送请求限制
+                if (mLikeFrequeControl == null) {
+                    mLikeFrequeControl = new TCFrequeControl();
+                    mLikeFrequeControl.init(2, 1);//一秒内允许2次触发
+                }
 
+                if (mLikeFrequeControl.canTrigger()) {//发送IM点赞的消息
+
+                }
+            }
+        });
     }
+
 
     /**
      * 发送消息
@@ -181,7 +215,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mLivePlayer.setPlayerView(mTXCloudVideoView);
         mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);//铺满全屏
         mLivePlayer.enableHardwareDecode(false);
-
         TXLivePlayConfig mPlayConfig = new TXLivePlayConfig();
         //自动模式
         mPlayConfig.setAutoAdjustCacheTime(true);
@@ -189,8 +222,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mPlayConfig.setMaxAutoAdjustCacheTime(5);
         mLivePlayer.setConfig(mPlayConfig);
         mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
-
-
     }
 
 
@@ -491,9 +522,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                     }
                 });
 
-//将用户配置与通讯管理器进行绑定
+        //将用户配置与通讯管理器进行绑定
         TIMManager.getInstance().setUserConfig(userConfig);
-
     }
 
     /**
@@ -572,7 +602,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      * @version 2.0
      * @author 姚中平
      * @date 创建于 2017/8/15
-     * @description 获取群里有多少人
+     * @description 获取群里有多少人, 初始化头像
      */
     public void getMember() {
         TIMGroupManagerExt.getInstance().getGroupMembers(TimConfig.GroupID, new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
@@ -583,6 +613,17 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
             @Override
             public void onSuccess(List<TIMGroupMemberInfo> timGroupMemberInfos) {
+                for (int i = 0; i < timGroupMemberInfos.size(); i++) {
+                    Log.e(tag, "user: " + timGroupMemberInfos.get(i).getUser() +
+                            "join time: " + timGroupMemberInfos.get(i).getJoinTime() +
+                            "role: " + timGroupMemberInfos.get(i).getRole());
+
+
+                    TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(timGroupMemberInfos.get(i).getJoinTime() + ""
+                            , timGroupMemberInfos.get(i).getUser(), HttpURL.NOR_IV_HOST);
+
+                    mAvatarListAdapter.addItem(tcSimpleUserInfo);
+                }
 
 
             }

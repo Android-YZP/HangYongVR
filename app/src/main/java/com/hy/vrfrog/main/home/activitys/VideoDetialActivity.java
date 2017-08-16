@@ -82,7 +82,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
         mIvTwoDBg = (ImageView) findViewById(R.id.iv_two_bg);
         mIvupgif = (ImageView) findViewById(R.id.iv_up_gif);
         mIvdowngif = (ImageView) findViewById(R.id.iv_down_gif);
-        mBack = (ImageView)findViewById(R.id.ibt_video_detail);
+        mBack = (ImageView) findViewById(R.id.ibt_video_detail);
 
     }
 
@@ -149,16 +149,12 @@ public class VideoDetialActivity extends SwipeBackActivity {
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     if (layoutManager instanceof LinearLayoutManager) {
                         LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-                        int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-
-                        if (firstItemPosition == 0) {
-                            showBg(firstItemPosition);
-                        }
-
+                        int mFirstItemPosition = linearManager.findFirstVisibleItemPosition();
+                        if (mFirstItemPosition == 0)
+                            showBg(mFirstItemPosition);
 
                         if (!isFling)
-                            showBg(firstItemPosition);
-
+                            showBg(mFirstItemPosition);
                     }
                 } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
                     LogUtil.e("SCROLL_STATE_FLING");
@@ -221,6 +217,18 @@ public class VideoDetialActivity extends SwipeBackActivity {
                         mVideoDetialAdapter = new VideoDetialAdapter(VideoDetialActivity.this, mData);
                         mRvVideoDetaillist.setAdapter(mVideoDetialAdapter);
                         showBg(mPosition);
+                        mVideoDetialAdapter.setOnItemClickListener(new VideoDetialAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position, boolean isup) {
+                                if (isup) {//点击了上面
+                                    mRvVideoDetaillist.scrollToPosition(--position);
+                                    showBg(position);
+                                } else {//点击了下面
+                                    mRvVideoDetaillist.scrollToPosition(++position);
+                                    showBg(position);
+                                }
+                            }
+                        });
                     }
                 }
             }

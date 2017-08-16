@@ -28,6 +28,7 @@ import com.hy.vrfrog.videoDetails.VedioContants;
 import com.hy.vrfrog.vrplayer.Definition;
 import com.hy.vrfrog.vrplayer.PlayActivity;
 import com.hy.vrfrog.vrplayer.VideoPlayActivity;
+import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
@@ -40,11 +41,32 @@ import java.util.List;
  * Created by Smith on 2017/6/19.
  */
 
-public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.MyViewHolder> {
+public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.MyViewHolder> implements View.OnClickListener {
     private Context context;
     private AlertDialog show;
     private List<VodbyTopicBean.ResultBean> mData;
-    private Intent intent;
+
+
+    /************************************设置点击事件********************************************************/
+    private OnItemClickListener mOnItemClickListener = null;
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position,true表示向上
+            mOnItemClickListener.onItemClick(v, (int) v.getTag(), v.getId() == R.id.ll_video_up);
+        }
+    }
+
+    //define interface
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int position, boolean isup);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
 
     public VideoDetialAdapter(Context context, List<VodbyTopicBean.ResultBean> mData) {
         this.context = context;
@@ -62,6 +84,13 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         LogUtil.i("videoadapter is = " + position);
         //判断1直播，0点播
+
+        holder.mUpVideoLl.setTag(position);
+        holder.mDownVideoLl.setTag(position);
+        holder.mUpVideoLl.setOnClickListener(this);
+        holder.mDownVideoLl.setOnClickListener(this);
+
+
         int type = mData.get(position).getType();
         if (type == VedioContants.Video) {//点播
             holder.mllRoomName.setVisibility(View.GONE);
@@ -69,22 +98,22 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             holder.mVideoLiveLl.setVisibility(View.VISIBLE);
             holder.mVideoName.setVisibility(View.VISIBLE);
 
-            if (mData.size() != 1){
-                if (position == 0 ){
+            if (mData.size() != 1) {
+                if (position == 0) {
                     holder.mUpVideoLl.setVisibility(View.GONE);
                     holder.mDownVideoLl.setVisibility(View.VISIBLE);
                     Glide.with(context)
                             .load(R.mipmap.video_down)
                             .into(holder.mIvdowngif);
 
-                }else if (position == mData.size() - 1 ){
+                } else if (position == mData.size() - 1) {
                     holder.mDownVideoLl.setVisibility(View.GONE);
                     holder.mUpVideoLl.setVisibility(View.VISIBLE);
                     Glide.with(context)
                             .load(R.mipmap.video_up)
                             .into(holder.mIvupgif);
 
-                }else {
+                } else {
                     holder.mDownVideoLl.setVisibility(View.VISIBLE);
                     holder.mUpVideoLl.setVisibility(View.VISIBLE);
                     Glide.with(context)
@@ -95,7 +124,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
                             .into(holder.mIvupgif);
                 }
 
-            }else {
+            } else {
                 holder.mUpVideoLl.setVisibility(View.GONE);
                 holder.mDownVideoLl.setVisibility(View.GONE);
             }
@@ -115,12 +144,12 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             holder.mVideoNameTv.setText(mData.get(position).getUsername());
             holder.mVideoPlayTitleTv.setText(mData.get(position).getChannelName());
             holder.mVideoPLayTimeTv.setText(String.valueOf(mData.get(position).getTime()));
-            if (mData.get(position).getFormat() != null){
-                holder.mVideoPlayDateTv.setText((String)mData.get(position).getFormat());
+            if (mData.get(position).getFormat() != null) {
+                holder.mVideoPlayDateTv.setText((String) mData.get(position).getFormat());
             }
             holder.mVideoPlayBig.setText(String.valueOf(mData.get(position).getSize()));
-            if (mData.get(position).getIntroduce() != null){
-                holder.mVideoPlayMessageTv.setText((String)mData.get(position).getIntroduce());
+            if (mData.get(position).getIntroduce() != null) {
+                holder.mVideoPlayMessageTv.setText((String) mData.get(position).getIntroduce());
             }
 
             holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
@@ -312,25 +341,25 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             mRlPersonName = (RelativeLayout) view.findViewById(R.id.ll_root_person_name);
             mllRoomName = (LinearLayout) view.findViewById(R.id.ll_root_room_name);
 
-            mVideoLiveLl = (LinearLayout)view.findViewById(R.id.ll_video_live);
-            mVideoPlayTitleTv = (TextView)view.findViewById(R.id.tv_video_play_title);
-            mVideoPlayTitleSecond = (TextView)view.findViewById(R.id.tv_video_play_title_second);
-            mVideoPLayTimeTv = (TextView)view.findViewById(R.id.tv_video_play_time);
-            mVideoPlayDateTv = (TextView)view.findViewById(R.id.tv_video_play_date);
-            mVideoPlayBig = (TextView)view.findViewById(R.id.tv_video_play_big);
-            mVideoPlayMessageTv = (TextView)view.findViewById(R.id.tv_video_play_message);
+            mVideoLiveLl = (LinearLayout) view.findViewById(R.id.ll_video_live);
+            mVideoPlayTitleTv = (TextView) view.findViewById(R.id.tv_video_play_title);
+            mVideoPlayTitleSecond = (TextView) view.findViewById(R.id.tv_video_play_title_second);
+            mVideoPLayTimeTv = (TextView) view.findViewById(R.id.tv_video_play_time);
+            mVideoPlayDateTv = (TextView) view.findViewById(R.id.tv_video_play_date);
+            mVideoPlayBig = (TextView) view.findViewById(R.id.tv_video_play_big);
+            mVideoPlayMessageTv = (TextView) view.findViewById(R.id.tv_video_play_message);
 
-            mVideo3DImg = (ImageView)view.findViewById(R.id.img_video_play_3d);
-            mVideoPlayAttentionImg  = (ImageView)view.findViewById(R.id.img_video_play_attention);
+            mVideo3DImg = (ImageView) view.findViewById(R.id.img_video_play_3d);
+            mVideoPlayAttentionImg = (ImageView) view.findViewById(R.id.img_video_play_attention);
 
-            mVideoName = (LinearLayout)view.findViewById(R.id.ll_video_name);
-            mVideoNameHead = (CircleImageView)view.findViewById(R.id.img_video_head);
-            mVideoNameTv = (TextView)view.findViewById(R.id.tv_video_name);
+            mVideoName = (LinearLayout) view.findViewById(R.id.ll_video_name);
+            mVideoNameHead = (CircleImageView) view.findViewById(R.id.img_video_head);
+            mVideoNameTv = (TextView) view.findViewById(R.id.tv_video_name);
 
-            mDownVideoLl = (LinearLayout)view.findViewById(R.id.ll_video_down);
-            mUpVideoLl = (LinearLayout)view.findViewById(R.id.ll_video_up);
-            mIvupgif = (ImageView)view.findViewById(R.id.iv_up_gif);
-            mIvdowngif = (ImageView)view.findViewById(R.id.iv_down_gif);
+            mDownVideoLl = (LinearLayout) view.findViewById(R.id.ll_video_down);
+            mUpVideoLl = (LinearLayout) view.findViewById(R.id.ll_video_up);
+            mIvupgif = (ImageView) view.findViewById(R.id.iv_up_gif);
+            mIvdowngif = (ImageView) view.findViewById(R.id.iv_down_gif);
 
 
         }

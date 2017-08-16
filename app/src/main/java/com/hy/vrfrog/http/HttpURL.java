@@ -19,6 +19,7 @@ public class HttpURL {
     public static String SourceNum = "222";
 //        public static String IV_HOST = "http://118.89.246.194:8080/head/";
     public static String IV_HOST = "http://123.206.67.115:8080/head/";
+    public static String NOR_IV_HOST = "http://118.89.246.194:8080/head/bf2156e0-ab0a-4199-a0ed-12a4ce4e7c5c.png";
 //    public static String IV_HOST = "http://192.168.1.132:8080/head/";
     //    public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
     public static String APK_HOST = "";

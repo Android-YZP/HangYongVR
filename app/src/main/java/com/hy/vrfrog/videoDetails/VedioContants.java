@@ -21,6 +21,9 @@ public class VedioContants {
     public static final String See = "See";
     public static final String Desc = "desc";
     public static final String Vid = "vid";
+    public static final String LivingPlayUrl= "LivingPlayUrl";
+    public static final String ChannelName= "ChannelName";
+    public static final String HeadFace= "Head";
 
 
     /**
