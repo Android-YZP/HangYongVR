@@ -46,6 +46,14 @@
             android:layout_weight="1"
             >
 
+            <ImageView
+                android:id="@+id/img_release_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/drawable_face_green"
+                android:scaleType="fitXY"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -79,55 +87,46 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:weightSum="2"
                         android:orientation="horizontal"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         >
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            >
-
-                            <TextView
-                                android:id="@+id/tv_release_live_video_save"
-                                android:layout_width="80dp"
-                                android:layout_height="40dp"
-                                android:text="保存"
-                                android:textColor="@color/white"
-                                android:layout_below="@id/tv_release_live_video"
-                                android:background="@drawable/bg_release_live"
-                                android:layout_centerInParent="true"
+                            <RadioGroup
+                                android:id="@+id/rg_release_live_video"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:gravity="center"
-                                />
+                                android:orientation="horizontal">
+                                <RadioButton
+                                    android:id="@+id/rb_release_live_video_save"
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="保存"
+                                    android:textColor="@color/white"
+                                    android:layout_below="@id/tv_release_live_video"
+                                    android:background="@drawable/bg_release_live"
+                                    android:layout_centerInParent="true"
+                                    android:gravity="center"
+                                    android:button="@null"
+                                    />
 
-                        </LinearLayout>
+                                <RadioButton
+                                    android:id="@+id/rb_release_live_video_not_save"
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="不保存"
+                                    android:textColor="@color/white"
+                                    android:layout_toRightOf="@id/rb_release_live_video_save"
+                                    android:layout_below="@+id/tv_release_live_video"
+                                    android:background="@drawable/bg_release_live"
+                                    android:layout_centerInParent="true"
+                                    android:gravity="center"
+                                    android:button="@null"
+                                    android:layout_marginLeft="5dp"
+                                    />
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            >
+                            </RadioGroup>
 
-                            <TextView
-                                android:id="@+id/tv_release_live_video_not_save"
-                                android:layout_width="80dp"
-                                android:layout_height="40dp"
-                                android:text="不保存"
-                                android:textColor="@color/white"
-                                android:layout_toRightOf="@id/tv_release_live_video_save"
-                                android:layout_below="@+id/tv_release_live_video"
-                                android:background="@drawable/bg_release_live"
-                                android:layout_centerInParent="true"
-                                android:gravity="center"
-                                />
-
-                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -162,6 +161,7 @@
                         android:background="@drawable/bg_release_live_one"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:cursorVisible="false"
                         />
 
                 </RelativeLayout>
@@ -192,56 +192,48 @@
                         android:layout_height="match_parent"
                         android:weightSum="2"
                         android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+
+                        />
+
+                    <RadioGroup
+                        android:id="@+id/rg_release_live_charge"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
                         android:layout_marginTop="5dp"
-
                         >
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
+                        <RadioButton
+                            android:id="@+id/rb_release_live_charge_save"
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:text="保存"
+                            android:textColor="@color/white"
+                            android:layout_below="@id/tv_release_live_video"
+                            android:background="@drawable/bg_release_live"
+                            android:layout_centerInParent="true"
                             android:gravity="center"
-                            >
+                            android:button="@null"
+                            />
 
-                            <TextView
-                                android:id="@+id/tv_release_live_charge_save"
-                                android:layout_width="80dp"
-                                android:layout_height="40dp"
-                                android:text="是"
-                                android:textColor="@color/white"
-                                android:layout_below="@id/tv_release_live_video"
-                                android:background="@drawable/bg_release_live"
-                                android:layout_centerInParent="true"
-                                android:gravity="center"
-                                />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
+                        <RadioButton
+                            android:id="@+id/rb_release_live_charge_not_save"
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:text="不保存"
+                            android:textColor="@color/white"
+                            android:layout_toRightOf="@id/rb_release_live_video_save"
+                            android:layout_below="@+id/tv_release_live_video"
+                            android:background="@drawable/bg_release_live"
+                            android:layout_centerInParent="true"
                             android:gravity="center"
-                            >
+                            android:button="@null"
+                            android:layout_marginLeft="5dp"
+                            />
 
-                            <TextView
-                                android:id="@+id/tv_release_live_charge_not_save"
-                                android:layout_width="80dp"
-                                android:layout_height="40dp"
-                                android:text="否"
-                                android:textColor="@color/white"
-                                android:layout_toRightOf="@id/tv_release_live_video_save"
-                                android:layout_below="@+id/tv_release_live_video"
-                                android:background="@drawable/bg_release_live"
-                                android:layout_centerInParent="true"
-                                android:gravity="center"
-                                />
+                    </RadioGroup>
 
-                        </LinearLayout>
-
-                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -275,6 +267,8 @@
                         android:background="@drawable/bg_release_live_one"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:numeric="integer"
+                        android:cursorVisible="false"
                         />
 
                     <TextView
@@ -317,6 +311,7 @@
             android:checked="false"
             android:text="@null"
             android:background="@drawable/img_checkbox"
+
             />
 
         <TextView
@@ -338,7 +333,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_click"
+        android:id="@+id/btn_release_click"
         android:layout_width="180dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
