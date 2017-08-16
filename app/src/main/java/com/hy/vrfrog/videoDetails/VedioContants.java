@@ -24,6 +24,8 @@ public class VedioContants {
     public static final String LivingPlayUrl= "LivingPlayUrl";
     public static final String ChannelName= "ChannelName";
     public static final String HeadFace= "Head";
+    public static final String LivingPushUrl= "LivingPushUrl";
+    public static final String ChannelId= "ChannelId";
 
 
     /**

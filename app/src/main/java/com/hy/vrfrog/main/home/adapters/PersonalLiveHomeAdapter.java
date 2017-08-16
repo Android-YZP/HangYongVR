@@ -108,13 +108,17 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, LivingPlayActivity.class);
-                    intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getUpstreamAddress());
+                    intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
                     intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
+                    intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
                     intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
                     context.startActivity(intent);
                 }
             });
+            Glide.with(context).load(HttpURL.IV_HOST+resultBean.get(position).getImg()).asBitmap().into(holder.mXcImg);
         }
+
+
 
     }
 

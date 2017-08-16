@@ -69,7 +69,8 @@ public class PersonalPresenter implements PersonalContract.Presenter {
                 LongLogUtil.e("-----------", result);
                 CreateLiveRoom createLiveRoom = new Gson().fromJson(result, CreateLiveRoom.class);
                 int id = createLiveRoom.getResult().getId();
-                mView.showId(id);
+                mView.showId(id,createLiveRoom);
+
 
             }
 

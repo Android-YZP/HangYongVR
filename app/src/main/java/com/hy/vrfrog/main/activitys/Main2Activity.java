@@ -16,6 +16,7 @@ import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.main.living.push.PushActivity;
 import com.hy.vrfrog.main.living.push.PushSettingActivity;
+import com.hy.vrfrog.main.personal.AuthenticationActivity;
 import com.hy.vrfrog.ui.BottomBar;
 
 import org.xutils.common.util.LogUtil;
@@ -57,9 +58,7 @@ public class Main2Activity extends BaseActivity {
         mIvLivingPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main2Activity.this, PushSettingActivity.class);
-                String PushUrl = "rtmp://9250.livepush.myqcloud.com/live/9250_erte?bizid=9250&txSecret=1f728c3719bc7a51cd38de46bcbff49c&txTime=598B317F";
-                intent.putExtra(TCConstants.PUBLISH_URL, PushUrl);
+                Intent intent = new Intent(Main2Activity.this, AuthenticationActivity.class);
                 startActivity(intent);
             }
         });

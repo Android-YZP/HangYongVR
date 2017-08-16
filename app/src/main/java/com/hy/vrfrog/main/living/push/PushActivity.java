@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
+import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
+import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.im.TimConfig;
 import com.hy.vrfrog.main.living.push.ui.BeautyDialogFragment;
 import com.hy.vrfrog.main.living.push.ui.TCAudioControl;
@@ -28,6 +30,7 @@ import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
 import com.hy.vrfrog.main.living.push.utils.TCUtils;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
+import com.hy.vrfrog.videoDetails.VedioContants;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMConversation;
@@ -39,6 +42,7 @@ import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMGroupMemberRoleType;
 import com.tencent.imsdk.TIMGroupSystemElem;
 import com.tencent.imsdk.TIMGroupTipsElem;
+import com.tencent.imsdk.TIMGroupTipsType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -51,6 +55,7 @@ import com.tencent.imsdk.TIMUserStatusListener;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupAssistantListener;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
+import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.group.TIMUserConfigGroupExt;
 import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
@@ -60,6 +65,8 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
+
+import org.xutils.common.util.LogUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -97,6 +104,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private ArrayList<TCChatEntity> mArrayListChatEntity = new ArrayList<>();
     protected Handler mHandler = new Handler();
     private User user;
+    private String imRoomId;
 
 
     @Override
@@ -109,15 +117,20 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         setContentView(R.layout.activity_push);
         Intent intent = getIntent();
         mUserId = intent.getStringExtra(TCConstants.USER_ID);
-        mPushUrl = intent.getStringExtra(TCConstants.PUBLISH_URL);
         mTitle = intent.getStringExtra(TCConstants.ROOM_TITLE);
         mCoverPicUrl = intent.getStringExtra(TCConstants.COVER_PIC);
         mHeadPicUrl = intent.getStringExtra(TCConstants.USER_HEADPIC);
         mNickName = intent.getStringExtra(TCConstants.USER_NICK);
         mLocation = intent.getStringExtra(TCConstants.USER_LOC);
         mListViewMsg = (ListView) findViewById(R.id.im_msg_listview);
+
+        mPushUrl = intent.getStringExtra(VedioContants.LivingPushUrl);
+        imRoomId = intent.getStringExtra(VedioContants.ChannelId);
+        LogUtil.e(imRoomId + "=================");
+
         initView();
         initData();
+
 
     }
 
@@ -144,14 +157,13 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     }
 
     private void initData() {
-        user = SPUtil.getUser();
         mChatMsgListAdapter = new TCChatMsgListAdapter(this, mListViewMsg, mArrayListChatEntity);
         mListViewMsg.setAdapter(mChatMsgListAdapter);
         mBeautyDialogFragment = new BeautyDialogFragment();
         mBeautyDialogFragment.setBeautyParamsListner(mBeautyParams, this);
         //AudioControl
         mAudioCtrl.setPluginLayout(mAudioPluginLayout);
-        initTCIM(user);
+        initTCIM(SPUtil.getUser());
     }
 
     protected void startPublish() {
@@ -183,7 +195,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 //        mBeautySeekBar.setProgress(100);
 
         //设置视频质量：高清
-        mTXLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_STANDARD_DEFINITION);
+        mTXLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_SUPER_DEFINITION);
         mTXCloudVideoView.enableHardwareDecode(true);
         mTXLivePusher.startCameraPreview(mTXCloudVideoView);
         mTXLivePusher.setMirror(true);
@@ -227,9 +239,16 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
 
     private void initTCIM(User user) {
-        userConfig();
         // identifier为用户名，userSig 为用户登录凭证
+        initTXLogin(user);
+        Message();
+    }
+
+
+    private void initTXLogin(User user) {
+
         if (user != null) {
+            userConfig();
             TIMManager.getInstance().login(user.getResult().getToken(), user.getResult().getUsersig(), new TIMCallBack() {
                 @Override
                 public void onError(int code, String desc) {
@@ -241,13 +260,13 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 @Override
                 public void onSuccess() {
                     Log.i(tag, "login succ");
-                    createGroupParam();
-                    Message();
+//                    createGroupParam();
+                    addGroup();
+
+
                 }
             });
         }
-
-
     }
 
     private void Message() {
@@ -270,7 +289,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                             String nickName = senderProfile.getNickName();
 
                             TCChatEntity entity = new TCChatEntity();
-                            entity.setSenderName(msg.getSender());
+                            entity.setSenderName(msg.getSenderProfile().getNickName());
                             entity.setContext(text);
                             entity.setType(TCConstants.TEXT_TYPE);
                             notifyMsg(entity);
@@ -283,10 +302,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                             String groupName = ((TIMGroupTipsElem) elem).getGroupName();
 
                         }
-//                      else if (elemType == TIMGroupTipsType.Join) {
-//                            String groupName = ((TIMGroupTipsElem) elem).getGroupName();
-//                            UIUtils.showTip(groupName);
-//                        }
                     }
                 }
                 return false;
@@ -302,7 +317,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
      * @description 用户配置
      */
     private void userConfig() {
-
         //基本用户配置
         TIMUserConfig userConfig = new TIMUserConfig()
                 //设置用户状态变更事件监听器
@@ -340,12 +354,22 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 .setGroupEventListener(new TIMGroupEventListener() {
                     @Override
                     public void onGroupTipsEvent(TIMGroupTipsElem elem) {
-                        Log.i(tag, "onGroupTipsEvent, type: " + elem.getTipsType());
-                        TCChatEntity entity = new TCChatEntity();
-                        entity.setSenderName("通知");
-                        entity.setContext(elem.getOpUser() + "加入直播");
-                        entity.setType(TCConstants.MEMBER_ENTER);
-                        notifyMsg(entity);
+                        if (elem.getTipsType() == TIMGroupTipsType.Join) {
+
+                            TCChatEntity entity = new TCChatEntity();
+                            entity.setSenderName("通知");
+                            entity.setContext(elem.getOpUserInfo().getNickName() + "加入直播");
+                            entity.setType(TCConstants.MEMBER_ENTER);
+                            notifyMsg(entity);
+                        } else if (elem.getTipsType() == TIMGroupTipsType.Quit) {
+
+
+                            TCChatEntity entity = new TCChatEntity();
+                            entity.setSenderName("通知");
+                            entity.setContext(elem.getOpUserInfo().getNickName() + "退出直播");
+                            entity.setType(TCConstants.MEMBER_ENTER);
+                            notifyMsg(entity);
+                        }
                     }
                 })
                 //设置会话刷新监听器
@@ -412,6 +436,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     @Override
                     public void onMemberQuit(String groupId, List<String> members) {
                         Log.i(tag, "onMemberQuit");
+
                     }
 
                     @Override
@@ -435,7 +460,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     }
                 });
 
-//将用户配置与通讯管理器进行绑定
+        //将用户配置与通讯管理器进行绑定
         TIMManager.getInstance().setUserConfig(userConfig);
 
     }
@@ -466,6 +491,65 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 Log.i(tag, "create group succ, groupId:" + s);
             }
         });
+
+
+    }
+
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/8/2
+     * @description 加入群组
+     */
+    private void addGroup() {
+        TIMGroupManager.getInstance().applyJoinGroup(TimConfig.GroupID, "some reason", new TIMCallBack() {
+            @java.lang.Override
+            public void onError(int code, String desc) {
+                //接口返回了错误码code和错误描述desc，可用于原因
+                //错误码code列表请参见错误码表
+                Log.e(tag, "disconnected" + code);
+            }
+
+            @java.lang.Override
+            public void onSuccess() {
+                Log.i(tag, "join group");
+                getMember();
+            }
+        });
+    }
+
+
+    /**
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/8/15
+     * @description 获取群里有多少人, 初始化头像
+     */
+    public void getMember() {
+        TIMGroupManagerExt.getInstance().getGroupMembers(TimConfig.GroupID, new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(List<TIMGroupMemberInfo> timGroupMemberInfos) {
+                for (int i = 0; i < timGroupMemberInfos.size(); i++) {
+                    Log.e(tag, "user: " + timGroupMemberInfos.get(i).getUser() +
+                            "join time: " + timGroupMemberInfos.get(i).getJoinTime() +
+                            "role: " + timGroupMemberInfos.get(i).getRole());
+
+//
+//                    TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(timGroupMemberInfos.get(i).getJoinTime() + ""
+//                            , timGroupMemberInfos.get(i).getUser(), HttpURL.NOR_IV_HOST);
+//
+//                    mAvatarListAdapter.addItem(tcSimpleUserInfo);
+                }
+
+
+            }
+        });
+
     }
 
 

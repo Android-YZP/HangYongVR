@@ -42,10 +42,13 @@ import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.CreateLiveRoom;
 import com.hy.vrfrog.http.responsebean.PictureBean;
+import com.hy.vrfrog.main.living.push.PushActivity;
 import com.hy.vrfrog.utils.ImageUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
+import com.hy.vrfrog.videoDetails.VedioContants;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
@@ -277,10 +280,10 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void showId(int id) {
+    public void showId(int id,CreateLiveRoom createLiveRoom) {
         LogUtil.i("id = " + id);
         this.mid = id ;
-        uploadCertificaton(mFrontPhoto,mid);
+        uploadCertificaton(mFrontPhoto,mid,createLiveRoom);
 
     }
 
@@ -331,7 +334,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void uploadCertificaton(File frontPhoto,int id){
+    private void uploadCertificaton(File frontPhoto, int id, final CreateLiveRoom createLiveRoom){
 
         RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonLvbImg);
         requestParams.addHeader("token", HttpURL.Token);
@@ -351,6 +354,10 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                 PictureBean pictureBean = new Gson().fromJson(result, PictureBean.class);
                 if (pictureBean.getCode() == 0){
                     UIUtils.showTip("上传成功");
+                    Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);
+                    intent.putExtra(VedioContants.LivingPushUrl,createLiveRoom.getResult().getUpstreamAddress());
+                    intent.putExtra(VedioContants.ChannelId,createLiveRoom.getResult().getChannelId());
+                    startActivity(intent);
                 }
 
             }

@@ -30,6 +30,7 @@ import com.hy.vrfrog.main.living.livingplay.utils.TCFrequeControl;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
+import com.hy.vrfrog.videoDetails.VedioContants;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMConversation;
@@ -64,6 +65,8 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
+
+import org.xutils.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +109,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private TCHeartLayout mHeartLayout;
     private TCFrequeControl mLikeFrequeControl;
     private Button mBtnHeartLike;
+    private String mChannelId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +119,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_living_play);
+
 
         initRoomData();
         initPlay();
@@ -147,8 +152,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
     private void initRoomData() {
         Intent intent = getIntent();//头像，谁直播的，直播房间
-
-
+        mPlayUrl = intent.getStringExtra(VedioContants.LivingPlayUrl);
+        mChannelId = intent.getStringExtra(VedioContants.ChannelId);
+        LogUtil.e(mPlayUrl+"=================");
     }
 
 
@@ -372,7 +378,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      * @description 用户配置
      */
     private void userConfig() {
-
         //基本用户配置
         TIMUserConfig userConfig = new TIMUserConfig()
                 //设置用户状态变更事件监听器
@@ -682,6 +687,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
     @Override
     public void onPlayEvent(int i, Bundle bundle) {
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.hy.vrfrog.base.BasePresenter;
 import com.hy.vrfrog.base.BaseView;
+import com.hy.vrfrog.http.responsebean.CreateLiveRoom;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class PersonalContract {
 
         void openAlbum();
 
-        void showId(int id);
+        void showId(int id,CreateLiveRoom createLiveRoom);
 
 
     }
