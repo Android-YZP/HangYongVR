@@ -10,9 +10,9 @@ public class HttpURL {
     //    private static String Host = "http://192.168.1.133:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.135:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
-    private static String Host = "http://192.168.1.132:8080/hyplatform/api/";
+//    private static String Host = "http://192.168.1.132:8080/hyplatform/api/";
 //    private static String Host = "http://118.89.246.194:8080/api/";
-//    private static String Host = "http://123.206.67.115:8080/api/";
+    private static String Host = "http://123.206.67.115:8080/api/";
 
     public static String Token = "C47B1071";
     public static String SourceNum = "222";
@@ -21,6 +21,7 @@ public class HttpURL {
     public static String IV_HOST = "http://123.206.67.115:8080/img/live/";
     public static String IV_CHARGE_HOST = "http://123.206.67.115:8080/img/chargr/";
     public static String IV_GIFT_HOST = "http://123.206.67.115:8080/img/gift/";
+    public static String IV_PERSON_HOST = "http://123.206.67.115:8080/img/person/";
     public static String IV_APK_HOST = "http://123.206.67.115:8080/img/gift/";
     public static String NOR_IV_HOST = "http://118.89.246.194:8080/head/bf2156e0-ab0a-4199-a0ed-12a4ce4e7c5c.png";
 //    public static String IV_HOST = "http://192.168.1.132:8080/head/";

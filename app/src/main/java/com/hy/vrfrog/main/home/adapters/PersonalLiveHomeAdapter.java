@@ -115,10 +115,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                     context.startActivity(intent);
                 }
             });
-            Glide.with(context).load(HttpURL.IV_HOST+resultBean.get(position).getImg()).asBitmap().into(holder.mXcImg);
+            Glide.with(context).load(HttpURL.IV_PERSON_HOST+resultBean.get(position).getImg()).asBitmap().into(holder.mXcImg);
         }
-
-
 
     }
 

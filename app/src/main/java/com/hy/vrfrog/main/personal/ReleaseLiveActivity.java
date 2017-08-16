@@ -341,7 +341,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
         //包装请求参数
         requestParams.addBodyParameter("file", frontPhoto);//用户名
-        requestParams.addBodyParameter("uid", id+"");//用户名
+        requestParams.addBodyParameter("id", id+"");//用户名
         LogUtil.i(frontPhoto.getPath()+"----------");
         //获取数据
         // 有上传文件时使用multipart表单, 否则上传原始文件流.
