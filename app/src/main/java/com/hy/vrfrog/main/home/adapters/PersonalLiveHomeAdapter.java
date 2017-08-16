@@ -103,6 +103,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
         if (getItemViewType(position) == TYPE_NORMAL){
             holder.mLiveHomeTitleTv.setText(resultBean.get(position ).getChannelName());
             holder.mLiveHomeHeadNameTv.setText(String.valueOf(resultBean.get(position).getUsername()));
+//            Glide.with(context).load(HttpURL.IV_HOST+resultBean.get(position).getImg()).asBitmap().into( holder.mXcImg);
+
             holder.mXcImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

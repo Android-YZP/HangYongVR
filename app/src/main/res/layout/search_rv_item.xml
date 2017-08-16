@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#10101d"
+    >
 
 
     <com.hy.vrfrog.ui.XCRoundRectImageView
@@ -15,7 +17,7 @@
         android:id="@+id/search_video_desc"
         android:layout_width="match_parent"
         android:textSize="15sp"
-        android:textColor="#000"
+        android:textColor="@color/white"
         android:layout_height="wrap_content"
         android:text="科幻的电影有多少？"
         android:layout_marginTop="10dp"

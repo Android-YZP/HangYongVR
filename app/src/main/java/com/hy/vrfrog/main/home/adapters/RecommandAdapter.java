@@ -24,6 +24,7 @@ import com.hy.vrfrog.videoDetails.VedioContants;
 import org.xutils.common.util.LogUtil;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Smith on 2017/6/29.
@@ -123,11 +124,12 @@ public class RecommandAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     RecommendOneAdapter mainVideosAdapter = new RecommendOneAdapter(context, topicBean.get(position + 2).getResult(), topicBean.get(position + 2).getCode());
                     ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 }else {
-                    int type = UIUtils.typeRandom();
+                    int type = UIUtils.typeRandom(3);
 
                     LogUtil.i("type = " +  type);
 //
-                    if ( type== 0){
+                    if ( type== 0 ){
+
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                         ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                         ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
@@ -135,8 +137,7 @@ public class RecommandAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         RecommendOneAdapter mainVideosAdapter = new RecommendOneAdapter(context,topicBean.get(position -1).getResult(), topicBean.get(position-1).getCode());
                         ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
 
-
-                    }else if (type == 1){
+                    } else if (type == 1){
 
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                         ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
@@ -147,12 +148,33 @@ public class RecommandAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     }else  if (type == 2){
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                        ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
-                        ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                        RecommendTwoAdapter mainVideosAdapter = new RecommendTwoAdapter(context,topicBean.get(position-1).getResult(), topicBean.get(position-1).getCode(),type);
-                        ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                        int typeOne = new Random().nextInt(2) ;
+                        if (topicBean.get(position -1).getResult().size() >= 3){
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                            ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                            ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                            RecommendTwoAdapter mainVideosAdapter = new RecommendTwoAdapter(context,topicBean.get(position-1).getResult(), topicBean.get(position-1).getCode(),type);
+                            ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                        }else {
+
+                            if (typeOne == 0){
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                                ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                                RecommendOneAdapter mainVideosAdapter = new RecommendOneAdapter(context,topicBean.get(position -1).getResult(), topicBean.get(position-1).getCode());
+                                ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                            }else {
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                                ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                                RecommendThreeAdapter mainVideosAdapter = new RecommendThreeAdapter(context, topicBean.get(position-1).getResult(), topicBean.get(position-1).getCode(),type);
+                                ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                            }
+
+                        }
 
                     }
                 }

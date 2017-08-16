@@ -13,7 +13,6 @@
         android:textColor="#fff"
         android:textSize="17sp"
         android:layout_marginBottom="5dp"
-        android:lines="2"
         android:ellipsize="end"
         android:maxLines="2"/>
 

@@ -23,6 +23,7 @@ import com.hy.vrfrog.main.home.activitys.VideoListActivity;
 import org.xutils.common.util.LogUtil;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Smith on 2017/6/29.
@@ -123,7 +124,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     MainOneAdapter mainVideosAdapter = new MainOneAdapter(context, topicBean.get(position).getResult(), topicBean.get(position).getCode());
                     ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 }else {
-                    int type = UIUtils.typeRandom();
+                    int type = UIUtils.typeRandom(3);
 
                     LogUtil.i("type = " +  type);
 //
@@ -146,12 +147,35 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
                     }else  if (type == 2){
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                        ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
-                        ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
-                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                        MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode(),type);
-                        ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+
+                        int typeOne = new Random().nextInt(2) ;
+
+                        if (topicBean.get(position).getResult().size() >= 3){
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                            ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                            ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                            MainVideosAdapter mainVideosAdapter = new MainVideosAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode(),type);
+                            ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                        }else {
+
+                            if (type == 0){
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                                ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                                MainOneAdapter mainVideosAdapter = new MainOneAdapter(context,topicBean.get(position).getResult(), topicBean.get(position).getCode());
+                                ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                            }else {
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                                ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                                MainVideosOneAdapter mainVideosAdapter = new MainVideosOneAdapter(context, mViewpager, topicBean.get(position).getResult(), topicBean.get(position).getCode(),type);
+                                ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                            }
+
+                        }
 
                     }
                 }
@@ -160,7 +184,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((ListHolder) holder).mTvTopicTitle.setText(topicBean.get(position).getMsg());
                 ((ListHolder) holder).mTvTotalVideos.setText(topicBean.get(position).getPage().getTotal() + "个视频");
 
-                if (topicBean.get(position ).getResult() .size() != 0){
+                if (topicBean.get(position).getResult().get(0).getTypeName() != null){
                     ((ListHolder) holder).mSortMessageTv.setText((String)topicBean.get(position).getResult().get(0).getTypeName());
                 }
 
