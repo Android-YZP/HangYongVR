@@ -141,6 +141,11 @@ public class PushSettingActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
             }
+
+            @Override
+            public void onFinished() {
+                super.onFinished();
+            }
         });
     }
 
