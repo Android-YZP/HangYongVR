@@ -227,7 +227,7 @@ public class SearchActivity extends SwipeBackActivity {
             @Override
             public void onSuccess(String result) {
                 List<SearchVideoBean.ResultBean> results = new ArrayList<>();
-                LongLogUtil.e("-----------", result);
+                LongLogUtil.e("视频-----------", result);
                 SearchVideoBean searchVideoBean = new Gson().fromJson(result, SearchVideoBean.class);
                 if (searchVideoBean.getCode() == HTTP_SUCCESS) {
                     results = searchVideoBean.getResult();

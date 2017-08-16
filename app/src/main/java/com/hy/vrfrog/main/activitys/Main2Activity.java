@@ -48,8 +48,7 @@ public class Main2Activity extends BaseActivity {
         mVpMain.setAdapter(new MainAdapter(getSupportFragmentManager()));
         mVpMain.setCurrentItem(1);
         linearLayout = (RelativeLayout) findViewById(R.id.ll_height);
-        int height = getStatusBarHeight();
-        LogUtil.i("height = " + height);
+
     }
 
 
@@ -64,23 +63,6 @@ public class Main2Activity extends BaseActivity {
         });
     }
 
-
-    private int getStatusBarHeight() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getContext().getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        return sbar;
-    }
 
 
 }

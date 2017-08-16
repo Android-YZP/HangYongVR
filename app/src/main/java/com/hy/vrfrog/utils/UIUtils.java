@@ -131,9 +131,9 @@ public class UIUtils {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
     }
 
-    public static int typeRandom() {
+    public static int typeRandom(int number) {
         Random random=new Random();
-        return  random.nextInt(3);
+        return  random.nextInt(number);
     }
 
 }

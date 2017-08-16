@@ -172,12 +172,12 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
 
-//                if (mCover.getBackground().getCurrent().getConstantState() == getResources().getDrawable(R.drawable.drawable_face_green).getConstantState()){
-//
-//                    UIUtils.showTip("请上传封面");
-//                    return;
-//
-//                }
+                if (mCover.getBackground().getCurrent().getConstantState().equals(getResources().getDrawable(R.drawable.drawable_face_green).getConstantState()) ){
+
+                    UIUtils.showTip("请上传封面");
+                    return;
+
+                }
 
 
                 if (SPUtil.getUser() != null){
