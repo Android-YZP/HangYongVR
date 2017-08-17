@@ -105,6 +105,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private RadioButton mChargeRbNo;
 
     private int mid;
+    private boolean isChoosed = false;
 
     private RelativeLayout mLayout;
 
@@ -119,6 +120,12 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activtiy_release_live);
         initView();
         initListener();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isChoosed = false;
     }
 
     private void initView() {
@@ -339,6 +346,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                         mCover.setImageBitmap(bitmap);
                         mBackGroundImg.setVisibility(View.GONE);
                         mBackGroundTv.setVisibility(View.GONE);
+                        isChoosed = true;//已经选择图片
 
                     }
                 }catch (Exception e){

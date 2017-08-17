@@ -1,6 +1,8 @@
 package com.hy.vrfrog.main.living.push;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,11 +10,20 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,6 +35,8 @@ import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.im.TimConfig;
+import com.hy.vrfrog.main.living.livingplay.ui.TCInputTextMsgDialog;
+import com.hy.vrfrog.main.living.livingplay.ui.TCUserAvatarListAdapter;
 import com.hy.vrfrog.main.living.push.ui.BeautyDialogFragment;
 import com.hy.vrfrog.main.living.push.ui.TCAudioControl;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
@@ -34,6 +47,7 @@ import com.hy.vrfrog.videoDetails.VedioContants;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMGroupEventListener;
@@ -71,6 +85,8 @@ import org.xutils.common.util.LogUtil;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import tencent.tls.platform.TLSErrInfo;
 import tencent.tls.platform.TLSGuestLoginListener;
@@ -105,7 +121,13 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     protected Handler mHandler = new Handler();
     private User user;
     private String imRoomId;
-
+    private RecyclerView mUserAvatarList;
+    private TCUserAvatarListAdapter mAvatarListAdapter;
+    protected String mPusherId;
+    private Button mSendMessage;
+    private Dialog mShareDialog;
+    private EditText mMessage;
+    private ListView mListViewGift;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,15 +145,13 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mNickName = intent.getStringExtra(TCConstants.USER_NICK);
         mLocation = intent.getStringExtra(TCConstants.USER_LOC);
         mListViewMsg = (ListView) findViewById(R.id.im_msg_listview);
+        mListViewGift = (ListView) findViewById(R.id.im_gift_listview);
 
         mPushUrl = intent.getStringExtra(VedioContants.LivingPushUrl);
         imRoomId = intent.getStringExtra(VedioContants.ChannelId);
         LogUtil.e(imRoomId + "=================");
-
         initView();
         initData();
-
-
     }
 
     @Override
@@ -159,11 +179,26 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private void initData() {
         mChatMsgListAdapter = new TCChatMsgListAdapter(this, mListViewMsg, mArrayListChatEntity);
         mListViewMsg.setAdapter(mChatMsgListAdapter);
+
+
+
         mBeautyDialogFragment = new BeautyDialogFragment();
         mBeautyDialogFragment.setBeautyParamsListner(mBeautyParams, this);
         //AudioControl
         mAudioCtrl.setPluginLayout(mAudioPluginLayout);
         initTCIM(SPUtil.getUser());
+
+        //初始化观众列表
+        mUserAvatarList = (RecyclerView) findViewById(R.id.rv_user_avatar);
+        mUserAvatarList.setVisibility(View.VISIBLE);
+        mAvatarListAdapter = new TCUserAvatarListAdapter(this, mPusherId);
+        mUserAvatarList.setAdapter(mAvatarListAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mUserAvatarList.setLayoutManager(linearLayoutManager);
+
+        //发消息
+        mSendMessage = (Button) findViewById(R.id.message_btn);
     }
 
     protected void startPublish() {
@@ -246,7 +281,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
 
     private void initTXLogin(User user) {
-
         if (user != null) {
             userConfig();
             TIMManager.getInstance().login(user.getResult().getToken(), user.getResult().getUsersig(), new TIMCallBack() {
@@ -262,8 +296,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     Log.i(tag, "login succ");
 //                    createGroupParam();
                     addGroup();
-
-
                 }
             });
         }
@@ -356,13 +388,19 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     public void onGroupTipsEvent(TIMGroupTipsElem elem) {
                         if (elem.getTipsType() == TIMGroupTipsType.Join) {
 
+                            TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(elem.getOpUserInfo().getIdentifier()
+                                    , elem.getOpUserInfo().getNickName(), elem.getOpUserInfo().getFaceUrl());
+
+                            mAvatarListAdapter.addItem(tcSimpleUserInfo);
+
+
                             TCChatEntity entity = new TCChatEntity();
                             entity.setSenderName("通知");
                             entity.setContext(elem.getOpUserInfo().getNickName() + "加入直播");
                             entity.setType(TCConstants.MEMBER_ENTER);
                             notifyMsg(entity);
                         } else if (elem.getTipsType() == TIMGroupTipsType.Quit) {
-
+                            mAvatarListAdapter.removeItem(elem.getOpUserInfo().getIdentifier());
 
                             TCChatEntity entity = new TCChatEntity();
                             entity.setSenderName("通知");
@@ -538,12 +576,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     Log.e(tag, "user: " + timGroupMemberInfos.get(i).getUser() +
                             "join time: " + timGroupMemberInfos.get(i).getJoinTime() +
                             "role: " + timGroupMemberInfos.get(i).getRole());
+                    TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(timGroupMemberInfos.get(i).getJoinTime() + ""
+                            , timGroupMemberInfos.get(i).getUser(), HttpURL.NOR_IV_HOST);
 
-//
-//                    TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(timGroupMemberInfos.get(i).getJoinTime() + ""
-//                            , timGroupMemberInfos.get(i).getUser(), HttpURL.NOR_IV_HOST);
-//
-//                    mAvatarListAdapter.addItem(tcSimpleUserInfo);
+                    mAvatarListAdapter.addItem(tcSimpleUserInfo);
                 }
 
 
@@ -588,9 +624,118 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     mAudioCtrl.setVisibility(mAudioCtrl.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 }
                 break;
+            case R.id.message_btn:
+                showMessageDialog();
+
+                break;
             default:
                 break;
         }
+    }
+
+
+    /****************************发送消息***************************************/
+    /**
+     * 显示消息弹出框
+     */
+    private void showMessageDialog() {
+        if (mShareDialog == null) {
+            initMessageDialog();
+        }
+        if (mMessage != null)
+            showKeyBoard(mMessage);
+        mShareDialog.show();
+    }
+
+
+    /**
+     * 初始化消息弹出框
+     */
+    private void initMessageDialog() {
+        mShareDialog = new Dialog(this, R.style.dialog_bottom_full);
+        mShareDialog.setCanceledOnTouchOutside(true);
+        mShareDialog.setCancelable(true);
+        Window window = mShareDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        View view = View.inflate(this, R.layout.dialog_customize, null);
+        mMessage = (EditText) view.findViewById(R.id.edit_text);
+        Button sendMessage = (Button) view.findViewById(R.id.btn_send_massage);
+
+        sendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = mMessage.getText().toString();
+                sendMessage(message);
+
+            }
+        });
+
+        window.setContentView(view);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);//设置横向全屏
+    }
+
+    /**
+     * @param message
+     * @version 2.0
+     * @author 姚中平
+     * @date 创建于 2017/8/2
+     * @description 发送消息
+     */
+    private void sendMessage(String message) {
+        if (TextUtils.isEmpty(message)) {
+            UIUtils.showTip("发送内容不能为空");
+            return;
+        }
+
+        TIMConversation conversation = TIMManager.getInstance().getConversation(
+                TIMConversationType.Group,      //会话类型：群组
+                TimConfig.GroupID);//群组Id
+
+        //构造一条消息
+        TIMMessage msg = new TIMMessage();
+        //添加文本内容
+        TIMTextElem elem = new TIMTextElem();
+        elem.setText(message);
+
+        //将elem添加到消息
+        if (msg.addElement(elem) != 0) {
+            Log.d(tag, "addElement failed");
+            return;
+        }
+
+        //发送消息
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+            @Override
+            public void onError(int code, String desc) {//发送消息失败
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code含义请参见错误码表
+                Log.d(tag, "send message failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess(TIMMessage msg) {//发送消息成功
+                Log.e(tag, "SendMsg ok");
+                //消息回显
+                if (mMessage != null) mMessage.setText("");
+                TCChatEntity entity = new TCChatEntity();
+                entity.setSenderName("我:");
+                entity.setContext(((TIMTextElem) msg.getElement(0)).getText());
+                entity.setType(TCConstants.TEXT_TYPE);
+                notifyMsg(entity);
+            }
+        });
+    }
+
+
+    private void showKeyBoard(final EditText editText) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager m = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }, 300);
     }
 
     /****************************PushListener接口***************************************/
@@ -625,6 +770,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         }
 
         if (event == TXLiveConstants.PUSH_EVT_PUSH_BEGIN) {
+
         }
     }
 

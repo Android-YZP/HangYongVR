@@ -62,11 +62,7 @@ public class TCInputTextMsgDialog extends Dialog {
             public void onClick(View view) {
                 String msg = messageTextView.getText().toString().trim();
                 if (!TextUtils.isEmpty(msg)) {
-
-                    mOnTextSendListener.onTextSend(msg, mDanmuOpen);
-                    imm.showSoftInput(messageTextView, InputMethodManager.SHOW_FORCED);
-                    imm.hideSoftInputFromWindow(messageTextView.getWindowToken(), 0);
-                    messageTextView.setText("");
+                //发送消息
                     dismiss();
                 } else {
                     Toast.makeText(mContext, "input can not be empty!", Toast.LENGTH_LONG).show();
@@ -79,12 +75,8 @@ public class TCInputTextMsgDialog extends Dialog {
         barrageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDanmuOpen = !mDanmuOpen;
-                if (mDanmuOpen) {
-                    barrageBtn.setBackgroundResource(R.drawable.barrage_slider_on);
-                } else {
-                    barrageBtn.setBackgroundResource(R.drawable.barrage_slider_off);
-                }
+
+
             }
         });
 
@@ -92,12 +84,7 @@ public class TCInputTextMsgDialog extends Dialog {
         mBarrageArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDanmuOpen = !mDanmuOpen;
-                if (mDanmuOpen) {
-                    barrageBtn.setBackgroundResource(R.drawable.barrage_slider_on);
-                } else {
-                    barrageBtn.setBackgroundResource(R.drawable.barrage_slider_off);
-                }
+
             }
         });
 
