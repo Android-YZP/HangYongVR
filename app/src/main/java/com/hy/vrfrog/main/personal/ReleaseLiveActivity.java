@@ -102,6 +102,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private RadioButton mChargeRbNo;
 
     private int mid;
+    private boolean isChoosed = false;
 
 
 
@@ -111,6 +112,12 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activtiy_release_live);
         initView();
         initListener();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isChoosed = false;
     }
 
     private void initView() {
@@ -172,8 +179,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
 
-                if (mCover.getBackground().getCurrent().getConstantState().equals(getResources().getDrawable(R.drawable.drawable_face_green).getConstantState()) ){
-
+                if (!isChoosed){
                     UIUtils.showTip("请上传封面");
                     return;
 
@@ -324,6 +330,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                         mFrontPhoto = new File(cachPath);
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(cachPath))));
                         mCover.setImageBitmap(bitmap);
+                        isChoosed = true;//已经选择图片
 
                     }
                 }catch (Exception e){

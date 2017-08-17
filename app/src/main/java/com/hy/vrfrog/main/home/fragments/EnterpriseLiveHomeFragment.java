@@ -43,7 +43,7 @@ public class EnterpriseLiveHomeFragment extends Fragment {
     private VerticalSwipeRefreshLayout mSwipeRefresh;
     private RecyclerView mRecyclerView;
     private EnterpriseOnLiveAdapter mAdapter;
-    private List<GetLiveHomeBean.ResultBean> mList  ;
+    private List<GetLiveHomeBean.ResultBean> mList ;
     private int pager = 1;
     private GetLiveHomeBean getLiveHomeBean;
     private boolean isLoadingMore;
@@ -102,7 +102,6 @@ public class EnterpriseLiveHomeFragment extends Fragment {
         mSwipeRefresh.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_live_home_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),1));
-
 
     }
 

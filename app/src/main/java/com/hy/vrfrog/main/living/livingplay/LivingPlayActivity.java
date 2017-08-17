@@ -70,6 +70,7 @@ import org.xutils.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import tencent.tls.platform.TLSErrInfo;
 import tencent.tls.platform.TLSGuestLoginListener;
@@ -119,10 +120,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_living_play);
-
-
         initRoomData();
-        initPlay();
+//        initPlay();
+        startPlay();
         TicInit(SPUtil.getUser());
         initData();
 
@@ -148,6 +148,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
             }
         });
+
+        stopPlay(false);
     }
 
     private void initRoomData() {
@@ -210,25 +212,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     }
 
 
-    private void initPlay() {
-        //mPlayerView即step1中添加的界面view
-        mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
-        //创建player对象
-        TXLivePlayer mLivePlayer = new TXLivePlayer(this);
-        //关键player对象与界面view
-        mLivePlayer.setPlayListener(this);
-        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
-        mLivePlayer.setPlayerView(mTXCloudVideoView);
-        mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);//铺满全屏
-        mLivePlayer.enableHardwareDecode(false);
-        TXLivePlayConfig mPlayConfig = new TXLivePlayConfig();
-        //自动模式
-        mPlayConfig.setAutoAdjustCacheTime(true);
-        mPlayConfig.setMinAutoAdjustCacheTime(1);
-        mPlayConfig.setMaxAutoAdjustCacheTime(5);
-        mLivePlayer.setConfig(mPlayConfig);
-        mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
-    }
 
 
 //    PhoneStateListener listener = new PhoneStateListener() {
@@ -635,6 +618,25 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         });
 
     }
+    private void initPlay() {
+        //mPlayerView即step1中添加的界面view
+        mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
+        //创建player对象
+        TXLivePlayer mLivePlayer = new TXLivePlayer(this);
+        //关键player对象与界面view
+        mLivePlayer.setPlayListener(this);
+        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
+        mLivePlayer.setPlayerView(mTXCloudVideoView);
+        mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);//铺满全屏
+        mLivePlayer.enableHardwareDecode(false);
+        TXLivePlayConfig mPlayConfig = new TXLivePlayConfig();
+        //自动模式
+        mPlayConfig.setAutoAdjustCacheTime(true);
+        mPlayConfig.setMinAutoAdjustCacheTime(1);
+        mPlayConfig.setMaxAutoAdjustCacheTime(5);
+        mLivePlayer.setConfig(mPlayConfig);
+        mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
+    }
 
     protected void startPlay() {
 
@@ -644,6 +646,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         if (mTXCloudVideoView != null) {
             mTXCloudVideoView.clearLog();
         }
+        //mPlayerView即step1中添加的界面view
+        mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
         mTXLivePlayer.setPlayerView(mTXCloudVideoView);
         mTXLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
         mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
@@ -686,13 +690,27 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
 
     @Override
-    public void onPlayEvent(int i, Bundle bundle) {
+    public void onPlayEvent(int event, Bundle param) {
+            LogUtil.e(event+"+++++++++++++++++++++++");
 
+        if (event == TXLiveConstants.PLAY_EVT_PLAY_PROGRESS) {
+        } else if (event == TXLiveConstants.PLAY_ERR_NET_DISCONNECT) {
+            showErrorAndQuit(TCConstants.ERROR_MSG_NET_DISCONNECTED);
+        }
     }
 
     @Override
-    public void onNetStatus(Bundle bundle) {
+    public void onNetStatus(Bundle status) {
+        Log.d(TAG, "Current status: " + status.toString());
+        if (mTXCloudVideoView != null) {
+            mTXCloudVideoView.setLogText(status, null, 0);
+        }
 
+        if (status.getInt(TXLiveConstants.NET_STATUS_VIDEO_WIDTH) > status.getInt(TXLiveConstants.NET_STATUS_VIDEO_HEIGHT)) {
+            if (mTXLivePlayer != null)
+                mTXLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
+        } else if (mTXLivePlayer != null)
+            mTXLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
     }
 
 
