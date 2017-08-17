@@ -77,13 +77,8 @@ public class TCChatGiftListAdapter extends BaseAdapter implements AbsListView.On
         mListView = listview;
         inflater = LayoutInflater.from(context);
         this.listMessage = objects;
-
         mAnimatorSetList = new LinkedList<>();
         mAnimatorInfoList = new LinkedList<>();
-
-
-
-
         mListView.setOnScrollListener(this);
     }
 
