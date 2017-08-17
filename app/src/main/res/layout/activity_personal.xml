@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/main_background"
     android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@mipmap/background_title_sanyan"
             >
 
             <ImageButton
@@ -27,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="个人信息"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 />
@@ -48,10 +49,6 @@
                 android:visibility="gone" />
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="9dp"
-            android:background="#f7f7f7" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -111,10 +108,10 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
-                    android:background="#d9d9d9"
+                    android:background="#3d304f"
                     android:visibility="gone" />
 
                 <RelativeLayout
@@ -129,21 +126,8 @@
                         android:layout_marginLeft="21dp"
                         android:gravity="center"
                         android:text="手机号"
-                        android:textColor="#000000"
+                        android:textColor="@color/white"
                         android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_personal_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="43dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="25dp"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:text="18726863593"
-                        android:textColor="#999999"
-                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue1"
@@ -156,7 +140,25 @@
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
                         android:textColor="#48e9c7"
-                        android:visibility="gone" />
+
+                         />
+
+                    <TextView
+                        android:id="@+id/tv_personal_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="43dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:text="1566726721"
+                        android:layout_marginEnd="40dp"
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:layout_toLeftOf="@id/tv_personal_continue1"
+                        />
+
+
                 </RelativeLayout>
 
                 <View
@@ -164,7 +166,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
-                    android:background="#d9d9d9" />
+                    android:background="@color/divider" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -178,20 +180,8 @@
                         android:layout_marginLeft="21dp"
                         android:gravity="center"
                         android:text="昵称"
-                        android:textColor="#000000"
+                        android:textColor="@color/white"
                         android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_personal_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="43dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="25dp"
-                        android:gravity="center"
-                        android:text="夏夏"
-                        android:textColor="#999999"
-                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_personal_continue2"
@@ -204,7 +194,24 @@
                         android:background="@drawable/persional_arrow_jump"
                         android:gravity="center"
                         android:textColor="#48e9c7"
-                        android:visibility="gone" />
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_personal_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="43dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="40dp"
+                        android:gravity="center"
+                        android:text="夏夏"
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:layout_toLeftOf="@+id/tv_personal_continue2"
+                        />
+
+
                 </RelativeLayout>
 
                 <View
@@ -212,7 +219,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
-                    android:background="#d9d9d9" />
+                    android:background="@color/divider" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

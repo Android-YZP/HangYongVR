@@ -122,8 +122,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 });
 
                 if (topicBean.get(position - 1).getType() == VedioContants.Video){
-                    if (topicBean.get(position - 1).getTime() != null)
-                        ((ListHolder) holder).mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt((String) topicBean.get(position - 1).getTime())));//设置时间
+                    if (topicBean.get(position - 1).getTime() != 0)
+                        ((ListHolder) holder).mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(String.valueOf(topicBean.get(position - 1).getTime()))));//设置时间
                 }else {
                     ((ListHolder) holder).mTvVideoTime.setVisibility(View.GONE);
                 }

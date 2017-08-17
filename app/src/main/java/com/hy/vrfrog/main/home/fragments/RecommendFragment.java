@@ -72,7 +72,7 @@ public class RecommendFragment extends Fragment {
 
 
 
-    int[] resIds = new int[]{R.mipmap.img1, R.mipmap.img2, R.mipmap.img3, R.mipmap.img4, R.mipmap.img5, R.mipmap.img6};
+    int[] resIds = new int[]{R.mipmap.banner_one, R.mipmap.banner_two, R.mipmap.banner_three};
 
     @Nullable
     @Override

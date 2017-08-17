@@ -190,6 +190,7 @@ public class VideoListActivity extends SwipeBackActivity {
         ImageView IvHead = (ImageView) header.findViewById(R.id.tv_video_list_header);
         TextView TvTopicDesc = (TextView) header.findViewById(R.id.video_list_topic_desc);
         TextView TvTopicTotal = (TextView) header.findViewById(R.id.video_list_total);
+        TextView mAttentionTv = (TextView)header.findViewById(R.id.tv_video_list_attention);
         Glide.with(VideoListActivity.this)
                 .load(HttpURL.IV_HOST + page.getTopicImg())
                 .asBitmap()

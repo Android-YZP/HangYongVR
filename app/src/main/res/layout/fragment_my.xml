@@ -63,8 +63,8 @@
             >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:src="@mipmap/personal_center_icon_balance" />
@@ -110,8 +110,8 @@
             android:layout_height="50dp">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:src="@mipmap/personal_center_icon_person" />
@@ -155,8 +155,8 @@
             >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:background="@mipmap/personal_center_icon_history" />
@@ -200,8 +200,8 @@
             >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:background="@mipmap/personal_center_icon_pay" />
@@ -244,8 +244,8 @@
             >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:background="@mipmap/personal_center_icon_novices" />
@@ -288,8 +288,8 @@
             android:layout_height="50dp">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:background="@mipmap/personal_center_icon_real_name" />

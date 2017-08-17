@@ -351,7 +351,7 @@ public class VodbyTopicBean {
         private int typeId;
         private int topicId;
         private String img1;
-        private Object time;
+        private int time;
         private Object format;
         private Object size;
         private Object rate;
@@ -576,11 +576,11 @@ public class VodbyTopicBean {
             this.img1 = img1;
         }
 
-        public Object getTime() {
+        public int getTime() {
             return time;
         }
 
-        public void setTime(Object time) {
+        public void setTime(int time) {
             this.time = time;
         }
 

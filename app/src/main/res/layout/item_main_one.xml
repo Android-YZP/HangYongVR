@@ -14,7 +14,9 @@
         android:textSize="17sp"
         android:layout_marginBottom="5dp"
         android:ellipsize="end"
-        android:maxLines="2"/>
+        android:maxLines="2"
+        android:lineSpacingExtra="2dp"
+        />
 
 
         <com.hy.vrfrog.ui.XCRoundRectImageView
@@ -22,6 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="223dp"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/img1" />
+            android:src="@mipmap/recommend_seat_background" />
 
 </LinearLayout>
