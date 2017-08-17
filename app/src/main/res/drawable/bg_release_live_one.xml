@@ -3,6 +3,6 @@
 
     <solid android:color="@color/bg_video_list"></solid>
     <corners android:radius="10dp"></corners>
-    <stroke android:color="@color/white" android:width="0.5dp"></stroke>
+    <stroke android:color="#3b3b4e" android:width="0.5dp"></stroke>
 
 </shape>

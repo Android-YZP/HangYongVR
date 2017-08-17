@@ -29,7 +29,11 @@
             android:checked="true"
             android:text="主页"
             android:textColor="#bfbfbf"
-            android:drawableTop="@drawable/bottom_home_slector"/>
+            android:drawableTop="@drawable/bottom_home_slector"
+            android:layout_marginRight="25dp"
+            android:drawablePadding="-5dp"
+
+            />
 
         <RadioButton
             android:id="@+id/rb_me"
@@ -38,7 +42,10 @@
             android:text="我的"
             android:textSize="13sp"
             android:textColor="#bfbfbf"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginLeft="25dp"
+            android:drawablePadding="-5dp"
+            />
     </RadioGroup>
 
 

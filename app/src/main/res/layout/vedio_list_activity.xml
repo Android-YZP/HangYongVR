@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@mipmap/background_title_sanyan"
-        android:layout_marginTop="20dp">
+        >
         <LinearLayout
             android:id="@+id/ll_video_list_return"
             android:layout_width="60dp"
@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:background="@mipmap/all_return" />
+                android:background="@mipmap/history_return" />
         </LinearLayout>
 
         <TextView
@@ -32,19 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="科幻"
-            android:textColor="#000000"
+            android:textColor="@color/white"
             android:textSize="20sp" />
-        <TextView
-            android:layout_width="49dp"
-            android:layout_height="21dp"
-            android:layout_alignParentRight="true"
-            android:text="+关注"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:background="@drawable/topic_concern"
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"/>
+
     </RelativeLayout>
 
     <RelativeLayout

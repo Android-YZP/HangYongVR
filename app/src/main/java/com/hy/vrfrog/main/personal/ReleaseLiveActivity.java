@@ -32,10 +32,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -103,6 +106,11 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     private int mid;
 
+    private RelativeLayout mLayout;
+
+    private CheckBox mAgreeCb;
+    private ImageView mBackGroundImg;
+    private TextView mBackGroundTv;
 
 
     @Override
@@ -125,13 +133,18 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         mVideoRg = (RadioGroup)findViewById(R.id.rg_release_live_video);
         mVideoRbYes = (RadioButton)findViewById(R.id.rb_release_live_video_save);
         mVideoRbNo = (RadioButton)findViewById(R.id.rb_release_live_video_not_save);
-        mVideoRbNo.setChecked(true);
 
         mChargeRg = (RadioGroup)findViewById(R.id.rg_release_live_charge);
         mChargeRbYes = (RadioButton)findViewById(R.id.rb_release_live_charge_save);
         mChargeRbNo = (RadioButton)findViewById(R.id.rb_release_live_charge_not_save);
-        mChargeRbNo.setChecked(true);
+
         mCover = (ImageView)findViewById(R.id.img_release_cover);
+
+        mLayout = (RelativeLayout)findViewById(R.id.rl_release_live_money);
+        mAgreeCb = (CheckBox)findViewById(R.id.cb_agree);
+
+        mBackGroundImg = (ImageView)findViewById(R.id.img_background);
+        mBackGroundTv = (TextView)findViewById(R.id.tv_background);
 
         new PersonalPresenter(this);
 
@@ -172,11 +185,9 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
 
-                if (mCover.getBackground().getCurrent().getConstantState().equals(getResources().getDrawable(R.drawable.drawable_face_green).getConstantState()) ){
-
-                    UIUtils.showTip("请上传封面");
+                if (mAgreeCb.isChecked()){
+                    UIUtils.showTip("请选择我已阅读并同意直播协议");
                     return;
-
                 }
 
 
@@ -203,9 +214,11 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         }else if (i == R.id.rb_release_live_charge_save){
 
             isCharge  = String.valueOf(1) ;
+            mLayout.setVisibility(View.VISIBLE);
 
         }else if (i ==  R.id.rb_release_live_charge_not_save){
             isCharge = String.valueOf(0) ;
+            mLayout.setVisibility(View.GONE);
         }
 
     }
@@ -324,6 +337,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                         mFrontPhoto = new File(cachPath);
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(cachPath))));
                         mCover.setImageBitmap(bitmap);
+                        mBackGroundImg.setVisibility(View.GONE);
+                        mBackGroundTv.setVisibility(View.GONE);
 
                     }
                 }catch (Exception e){

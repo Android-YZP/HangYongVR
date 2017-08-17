@@ -64,7 +64,7 @@
             android:id="@+id/xri_recommend_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/img1" />
+            android:src="@mipmap/banner_one" />
 
 
     </RelativeLayout>

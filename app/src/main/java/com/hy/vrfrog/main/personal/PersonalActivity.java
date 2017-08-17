@@ -290,7 +290,7 @@ public class PersonalActivity extends SwipeBackActivity {
         User user = SPUtil.getUser();
 //        bindCircularImage(mIvPersonalhead,user.getResult().getUser().getHead());
         mTvPersonalNum.setText(user.getResult().getUser().getPhone());
-        mTvPersonalName.setText(user.getResult().getUser().getPhone());
+        mTvPersonalName.setText(user.getResult().getUser().getUsername());
     }
 
     /**

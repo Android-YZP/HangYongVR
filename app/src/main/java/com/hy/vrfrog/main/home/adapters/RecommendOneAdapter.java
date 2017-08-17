@@ -77,7 +77,7 @@ public class RecommendOneAdapter extends RecyclerView.Adapter<RecommendOneAdapte
             });
         }else {
             LogUtil.i( "tag is  = " +  "enter" );
-            holder.image.setImageResource(R.mipmap.img1);
+
         }
 
     }

@@ -2,6 +2,7 @@ package com.hy.vrfrog.main.home.fragments;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,12 +22,15 @@ import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
 import com.hy.vrfrog.http.responsebean.RecommendBean;
 import com.hy.vrfrog.main.home.adapters.EnterpriseOnLiveAdapter;
 import com.hy.vrfrog.main.home.adapters.RecommandAdapter;
+import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.ui.ItemDivider;
 import com.hy.vrfrog.ui.VerticalSwipeRefreshLayout;
 import com.hy.vrfrog.main.home.adapters.PersonalLiveHomeAdapter;
+import com.hy.vrfrog.ui.VirtualPayDialog;
 import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.UIUtils;
+import com.hy.vrfrog.videoDetails.VedioContants;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
@@ -45,7 +49,6 @@ public class PersonalLiveHomeFragment extends Fragment {
     private VerticalSwipeRefreshLayout mSwipeRefresh;
     private RecyclerView mRecyclerView;
     private PersonalLiveHomeAdapter mAdapter;
-    private EnterpriseOnLiveAdapter mAdapter1;
     private List<GetLiveHomeBean.ResultBean> mList  ;
     private int pager = 1;
     private GetLiveHomeBean getLiveHomeBean;
@@ -162,11 +165,8 @@ public class PersonalLiveHomeFragment extends Fragment {
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_live_home_recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-
         mRecyclerView.addItemDecoration(new ItemDivider(10));
 
-
-
-
     }
+
 }

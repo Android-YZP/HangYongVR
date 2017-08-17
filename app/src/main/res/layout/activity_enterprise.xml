@@ -12,7 +12,7 @@
         android:id="@+id/xri_enter_img"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/replay_bg"
+        android:src="@mipmap/recommend_seat_background"
         android:scaleType="fitXY"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>

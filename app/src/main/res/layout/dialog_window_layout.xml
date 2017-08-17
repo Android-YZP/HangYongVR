@@ -4,11 +4,36 @@
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content"
 	android:layout_gravity="center">
-	<ProgressBar 
-	    style="@android:style/Widget.ProgressBar"
-		android:layout_width="wrap_content" 
+
+	<LinearLayout
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:max="10000" 
-		android:indeterminateDrawable="@drawable/custom_progress_draw" />
+		android:orientation="vertical"
+		>
+		<ProgressBar
+			android:id="@+id/pb"
+			style="@android:style/Widget.ProgressBar"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:max="10000"
+			android:indeterminateDrawable="@drawable/custom_progress_draw" />
+
+		<TextView
+			android:id="@+id/loading_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:gravity="center"
+			android:textSize="14sp"
+			android:text="加载中"
+			android:textColor="@color/black"
+			android:layout_marginTop="10dp"
+			/>
+
+	</LinearLayout>
+
 
 </FrameLayout>

@@ -23,6 +23,7 @@ import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
 import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.ui.CircleImageView;
 import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.TimeUtils;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 import com.hy.vrfrog.vrplayer.Definition;
@@ -143,7 +144,8 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             Glide.with(context).load(mData.get(position).getHead()).into(holder.mVideoNameHead);
             holder.mVideoNameTv.setText(mData.get(position).getUsername());
             holder.mVideoPlayTitleTv.setText(mData.get(position).getChannelName());
-            holder.mVideoPLayTimeTv.setText(String.valueOf(mData.get(position).getTime()));
+            holder.mVideoPLayTimeTv.setText(TimeUtils.generateTime(Integer.parseInt(String.valueOf(mData.get(position).getTime()))));
+
             if (mData.get(position).getFormat() != null) {
                 holder.mVideoPlayDateTv.setText((String) mData.get(position).getFormat());
             }

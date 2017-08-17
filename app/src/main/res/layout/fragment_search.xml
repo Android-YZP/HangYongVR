@@ -48,7 +48,9 @@
                 android:textColorHint="#bdbdc3"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="15sp"
-                android:theme="@style/MyEditText" />
+                android:theme="@style/MyEditText"
+
+                />
         </RelativeLayout>
 
 

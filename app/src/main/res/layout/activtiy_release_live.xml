@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/btn_blue"
+        android:background="@mipmap/background_title_sanyan"
         >
 
         <ImageView
@@ -37,10 +37,12 @@
         android:layout_height="300dp"
         android:weightSum="2"
         android:orientation="horizontal"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -50,11 +52,31 @@
                 android:id="@+id/img_release_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/drawable_face_green"
+                android:src="@mipmap/release_live_cover_background"
                 android:scaleType="fitXY"
                 />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/img_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/release_live_cover_shizi"
+                android:layout_centerInParent="true"
+                />
+
+            <TextView
+                android:id="@+id/tv_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加封面"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/img_background"
+                android:layout_marginTop="30dp"
+                android:textSize="16sp"
+                />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -62,7 +84,7 @@
             android:layout_weight="1"
             android:weightSum="4"
             android:orientation="vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             >
 
             <LinearLayout
@@ -81,14 +103,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="视频:"
-                        android:textColor="@color/white"
+                        android:textColor="#bfbfbf"
+                        android:textSize="16sp"
+
                         />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         >
 
                             <RadioGroup
@@ -96,7 +120,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:layout_marginTop="2dp"
+                                >
                                 <RadioButton
                                     android:id="@+id/rb_release_live_video_save"
                                     android:layout_width="80dp"
@@ -108,6 +134,8 @@
                                     android:layout_centerInParent="true"
                                     android:gravity="center"
                                     android:button="@null"
+                                    android:checked="true"
+                                    android:textSize="16sp"
                                     />
 
                                 <RadioButton
@@ -123,6 +151,7 @@
                                     android:gravity="center"
                                     android:button="@null"
                                     android:layout_marginLeft="5dp"
+                                    android:textSize="16sp"
                                     />
 
                             </RadioGroup>
@@ -150,7 +179,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="房间名称："
-                        android:textColor="@color/white"
+                        android:textColor="#bfbfbf"
+                        android:textSize="16sp"
+
                         />
 
                     <EditText
@@ -160,8 +191,10 @@
                         android:layout_below="@+id/tv_release_live_house_name"
                         android:background="@drawable/bg_release_live_one"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="6dp"
                         android:cursorVisible="false"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/white"
                         />
 
                 </RelativeLayout>
@@ -184,7 +217,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="是否收费:"
-                        android:textColor="@color/white"
+                        android:textColor="#bfbfbf"
+                        android:textSize="16sp"
+
                         />
 
                     <LinearLayout
@@ -202,26 +237,29 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="15dp"
                         >
                         <RadioButton
                             android:id="@+id/rb_release_live_charge_save"
                             android:layout_width="80dp"
                             android:layout_height="40dp"
-                            android:text="保存"
+                            android:text="是"
                             android:textColor="@color/white"
                             android:layout_below="@id/tv_release_live_video"
                             android:background="@drawable/bg_release_live"
                             android:layout_centerInParent="true"
                             android:gravity="center"
                             android:button="@null"
+                            android:checked="true"
+                            android:textSize="16sp"
+
                             />
 
                         <RadioButton
                             android:id="@+id/rb_release_live_charge_not_save"
                             android:layout_width="80dp"
                             android:layout_height="40dp"
-                            android:text="不保存"
+                            android:text="否"
                             android:textColor="@color/white"
                             android:layout_toRightOf="@id/rb_release_live_video_save"
                             android:layout_below="@+id/tv_release_live_video"
@@ -230,6 +268,8 @@
                             android:gravity="center"
                             android:button="@null"
                             android:layout_marginLeft="5dp"
+                            android:textSize="16sp"
+
                             />
 
                     </RadioGroup>
@@ -246,6 +286,7 @@
                 >
 
                 <RelativeLayout
+                    android:id="@+id/rl_release_live_money"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -256,7 +297,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="收费金额："
-                        android:textColor="@color/white"
+                        android:textColor="#bfbfbf"
+                        android:textSize="16sp"
+
                         />
 
                     <EditText
@@ -266,9 +309,12 @@
                         android:layout_below="@+id/tv_release_live_money"
                         android:background="@drawable/bg_release_live_one"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="6dp"
                         android:numeric="integer"
                         android:cursorVisible="false"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/white"
+
                         />
 
                     <TextView
@@ -277,11 +323,13 @@
                         android:layout_height="match_parent"
                         android:text="蛙豆"
                         android:textColor="@color/white"
-                        android:layout_toRightOf="@id/edt_release_live_money"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:paddingTop="15dp"
+                        android:paddingTop="20dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/edt_release_live_money"
+                        android:layout_marginStart="11dp"
+                        android:textSize="16sp"
                         />
 
 
@@ -305,13 +353,14 @@
         >
 
         <CheckBox
+            android:id="@+id/cb_agree"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:button="@null"
             android:checked="false"
             android:text="@null"
             android:background="@drawable/img_checkbox"
-
+            android:padding="30dp"
             />
 
         <TextView
@@ -320,25 +369,34 @@
             android:text="我已阅读并同意"
             android:textColor="@color/white"
             android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="《直播协议》"
-            android:textColor="@color/btn_blue"
+            android:textColor="#46c2f4"
             android:layout_marginLeft="5dp"
+            android:textSize="16sp"
+
             />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_release_click"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:background="@drawable/bg_release_live_btn"
         android:layout_marginTop="30dp"
+        android:text="开始直播"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         />
 
 </LinearLayout>

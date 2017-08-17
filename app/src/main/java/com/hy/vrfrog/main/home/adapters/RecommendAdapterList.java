@@ -131,7 +131,7 @@ public class RecommendAdapterList extends BaseAdapter {
             switch (type){
                 case TYPE_STYLE_ONE:
                     if (mList != null && mList.size() != 0){
-                        holder.image.setImageResource(R.mipmap.img1);
+
 //                        holder.mTitle.setText((String)mList.get(position + 1 ).getResult().get(position).getTopicName());
 //                        holder.mMessage.setText(mList.get(position + 1).getResult().get(position).getTopicName());
 //                        holder.mType.setText(mList.get(position + 1).getResult().get(position).getTopicName());

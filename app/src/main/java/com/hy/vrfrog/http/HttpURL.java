@@ -142,6 +142,16 @@ public class HttpURL {
      */
     public static String AllLive = Host+"login/get/allLive";
 
+    /**
+     *充值
+     */
+    public static String Add = Host+"charge/android/add";
+
+    /**
+     *获取消费记录
+     */
+    public static String RechargeRecode = Host+"charge/history/get";
+
    /**
      * 创建直播间
      */

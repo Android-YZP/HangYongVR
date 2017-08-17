@@ -11,14 +11,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
+import com.hy.vrfrog.ui.LoadingDataUtil;
+import com.hy.vrfrog.ui.VirtualPayDialog;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.utils.LongLogUtil;
+import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.SPUtil;
+import com.hy.vrfrog.utils.UIUtils;
+import com.hy.vrfrog.utils.UserInfoUtil;
 import com.hy.vrfrog.videoDetails.VedioContants;
 
 import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +52,13 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
     private View mFooterView;
     private Context context;
     private List<GetLiveHomeBean.ResultBean> resultBean;
+    private IPersonalLiveAdapter mCallback;
+
+    public void setListener(IPersonalLiveAdapter listener){
+
+        this.mCallback = listener;
+
+    }
 
     public PersonalLiveHomeAdapter(Context context, List<GetLiveHomeBean.ResultBean> resultBean) {
         this.context = context;
@@ -104,22 +123,79 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
         if (getItemViewType(position) == TYPE_NORMAL) {
             holder.mLiveHomeTitleTv.setText(resultBean.get(position).getChannelName());
             holder.mLiveHomeHeadNameTv.setText(String.valueOf(resultBean.get(position).getUsername()));
-//            Glide.with(context).load(HttpURL.IV_HOST+resultBean.get(position).getImg()).asBitmap().into( holder.mXcImg);
 
             holder.mXcImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, LivingPlayActivity.class);
-                    intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
-                    intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
-                    intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
-                    intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
-                    context.startActivity(intent);
+
+                new VirtualPayDialog(context).builder()
+                .setCanceledOnTouchOutside(true)
+                .setTitle(resultBean.get(position).getChannelName())
+                .setAccountBalance(String.valueOf(resultBean.get(position).getAlipay()))
+                .setPrice(String.valueOf(resultBean.get(position).getPrice()))
+                .setNegativeButton("", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                })
+                .setPositiveButton("", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        initPayData();
+//                        Intent intent = new Intent(context, LivingPlayActivity.class);
+//                        intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
+//                        intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
+//                        intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
+//                        intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
+//                        context.startActivity(intent);
+                    }
+                }).show();
+
                 }
             });
             Glide.with(context).load(HttpURL.IV_PERSON_HOST+resultBean.get(position).getImg()).asBitmap().into(holder.mXcImg);
         }
 
+    }
+
+    private void initPayData() {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+
+        RequestParams requestParams = new RequestParams(HttpURL.Add);
+        requestParams.addHeader("token", HttpURL.Token);
+        requestParams.addHeader("uid", SPUtil.getUser().getResult().getUser().getUid() + "");
+        requestParams.addHeader("cid", 45 + "");
+
+
+        //包装请求参数
+//        requestParams.addBodyParameter("sourceNum", "111");//
+
+
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LongLogUtil.e("个人支付---------------", result);
+
+                LoadingDataUtil.startLoad("正在加载...");
+
+
+            }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("服务端连接失败");
+
+            }
+
+            @Override
+            public void onFinished() {
+                LoadingDataUtil.stopLoad();
+            }
+        });
     }
 
 
@@ -164,6 +240,10 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
 
             return resultBean.size() + 2;
         }
+    }
+
+    public interface IPersonalLiveAdapter{
+        void OnClick();
     }
 
 }
