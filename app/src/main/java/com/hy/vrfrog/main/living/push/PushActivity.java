@@ -14,11 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -28,15 +25,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.responsebean.MessageBean;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.im.TimConfig;
-import com.hy.vrfrog.main.living.livingplay.ui.TCGiftAvatarListAdapter;
-import com.hy.vrfrog.main.living.livingplay.ui.TCInputTextMsgDialog;
 import com.hy.vrfrog.main.living.livingplay.ui.TCUserAvatarListAdapter;
 import com.hy.vrfrog.main.living.push.ui.BeautyDialogFragment;
 import com.hy.vrfrog.main.living.push.ui.TCAudioControl;
@@ -54,7 +51,6 @@ import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMGroupEventListener;
 import com.tencent.imsdk.TIMGroupManager;
 import com.tencent.imsdk.TIMGroupMemberInfo;
-import com.tencent.imsdk.TIMGroupMemberRoleType;
 import com.tencent.imsdk.TIMGroupSystemElem;
 import com.tencent.imsdk.TIMGroupTipsElem;
 import com.tencent.imsdk.TIMGroupTipsType;
@@ -86,16 +82,10 @@ import org.dync.giftlibrary.widget.GiftControl;
 import org.dync.giftlibrary.widget.GiftModel;
 import org.xutils.common.util.LogUtil;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import tencent.tls.platform.TLSErrInfo;
-import tencent.tls.platform.TLSGuestLoginListener;
-import tencent.tls.platform.TLSLoginHelper;
-import tencent.tls.platform.TLSUserInfo;
 
 public class PushActivity extends AppCompatActivity implements ITXLivePushListener, View.OnClickListener, BeautyDialogFragment.OnBeautyParamsChangeListener {
     protected String mPushUrl;
@@ -131,13 +121,11 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private Button mSendMessage;
     private Dialog mShareDialog;
     private EditText mMessage;
-    private TCGiftAvatarListAdapter mGiftListAdapter;
-    private RecyclerView mGiftAvatarList;
-    private int test;
     private LinearLayout llgiftparent;
     private GiftControl giftControl;
     private GiftModel giftModel;
-    private boolean currentStart = true;
+    private boolean currentStart = false;
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +174,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     }
 
     private void initData() {
+        gson = new Gson();
         mChatMsgListAdapter = new TCChatMsgListAdapter(this, mListViewMsg, mArrayListChatEntity);
         mListViewMsg.setAdapter(mChatMsgListAdapter);
 
@@ -206,34 +195,29 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mUserAvatarList.setLayoutManager(linearLayoutManager);
 
         //初始化礼物列表
-        mGiftAvatarList = (RecyclerView) findViewById(R.id.rv_user_gift);
         Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
-        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
-        linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
-        mGiftAvatarList.setLayoutManager(linearLayoutManager2);
-        mGiftListAdapter = new TCGiftAvatarListAdapter(this, mPusherId);
-        mGiftAvatarList.setAdapter(mGiftListAdapter);
-
-        //初始化礼物列表
         llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
         giftControl = new GiftControl(this);
-        giftControl.setGiftLayout(false, llgiftparent, 3)
+
+        giftControl.setGiftLayout(false, llgiftparent, 4)
                 .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
 
         mBtnSendGift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MessageBean messageBean = new MessageBean();
+                messageBean.setGiftCount(1);
+                messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Gift);
+                messageBean.setGiftName("棒棒糖");
+                messageBean.setMsg(1 + "");
+                messageBean.setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/001.png");
+                messageBean.setHeadPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/002.png");
+                messageBean.setNickName("小嘉倪姬");
+                messageBean.setUserId("小嘉倪姬");
+                showGift(messageBean);
 
-                giftModel = new GiftModel();
+                sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
 
-                giftModel.setGiftId("哈哈").setGiftName("礼物名字").setGiftCount(1).setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/000.png")
-                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
-                        .setCurrentStart(currentStart);
-                if (currentStart) {
-                    giftModel.setHitCombo(1);
-                }
-                giftControl.loadGift(giftModel);
-                Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
 
             }
         });
@@ -329,7 +313,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 @Override
                 public void onError(int code, String desc) {
                     //错误码code和错误描述desc，可用于定位请求失败原因
-                    //错误码code列表请参见错误码表
                     Log.i(tag, "login failed. code: " + code + " errmsg: " + desc);
                 }
 
@@ -346,6 +329,9 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private void Message() {
         //接受消息
         TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
+
+
+
             //消息监听器
             @Override
             public boolean onNewMessages(List<TIMMessage> list) {
@@ -353,20 +339,35 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     TIMMessage msg = list.get(j);
                     for (int i = 0; i < msg.getElementCount(); ++i) {
                         TIMElem elem = msg.getElement(i);
-
+                         MessageBean messageBean;
                         //获取当前元素的类型
                         TIMElemType elemType = elem.getType();
                         if (elemType == TIMElemType.Text) {
                             //获取文本信息
                             String text = ((TIMTextElem) elem).getText();
-                            TIMUserProfile senderProfile = msg.getSenderProfile();
-                            String nickName = senderProfile.getNickName();
+                           try {
+                               messageBean = gson.fromJson(text, MessageBean.class);
+                           }catch (Exception e){
+                              return false;
+                           }
 
-                            TCChatEntity entity = new TCChatEntity();
-                            entity.setSenderName(msg.getSenderProfile().getNickName());
-                            entity.setContext(text);
-                            entity.setType(TCConstants.TEXT_TYPE);
-                            notifyMsg(entity);
+                            if (messageBean != null) {
+                                if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Text) {
+
+                                    TCChatEntity entity = new TCChatEntity();
+                                    entity.setSenderName(messageBean.getNickName());
+                                    entity.setContext(messageBean.getMsg());
+                                    entity.setType(TCConstants.TEXT_TYPE);
+                                    notifyMsg(entity);
+
+
+                                } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
+                                    showGift(messageBean);
+
+                                } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Like) {
+
+                                }
+                            }
 
 
                         } else if (elemType == TIMElemType.GroupSystem) {
@@ -630,6 +631,24 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
     }
 
+    private void showGift(MessageBean messageBean) {
+        giftModel = new GiftModel();
+        giftModel.setGiftId(messageBean.getMsg())
+                .setGiftName(messageBean.getGiftName())
+                .setGiftCount(messageBean.getGiftCount())
+                .setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/000.png")
+                .setSendUserId(messageBean.getUserId())
+                .setSendUserName(messageBean.getNickName())
+                .setSendUserPic(messageBean.getHeadPic())
+                .setSendGiftTime(System.currentTimeMillis())
+                .setCurrentStart(currentStart);
+        if (currentStart) {
+            giftModel.setHitCombo(1);
+        }
+        giftControl.loadGift(giftModel);
+        Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -707,8 +726,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
             @Override
             public void onClick(View v) {
                 String message = mMessage.getText().toString();
-                sendMessage(message);
-
+                sendMessage(message, VedioContants.AVIMCMD_Custom_Text);
             }
         });
 
@@ -723,7 +741,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
      * @date 创建于 2017/8/2
      * @description 发送消息
      */
-    private void sendMessage(String message) {
+    private void sendMessage(String message, final int MessageType) {
         if (TextUtils.isEmpty(message)) {
             UIUtils.showTip("发送内容不能为空");
             return;
@@ -758,12 +776,15 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
             public void onSuccess(TIMMessage msg) {//发送消息成功
                 Log.e(tag, "SendMsg ok");
                 //消息回显
-                if (mMessage != null) mMessage.setText("");
-                TCChatEntity entity = new TCChatEntity();
-                entity.setSenderName("我:");
-                entity.setContext(((TIMTextElem) msg.getElement(0)).getText());
-                entity.setType(TCConstants.TEXT_TYPE);
-                notifyMsg(entity);
+                if (MessageType == VedioContants.AVIMCMD_Custom_Text) {
+                    if (mMessage != null) mMessage.setText("");
+                    TCChatEntity entity = new TCChatEntity();
+                    entity.setSenderName("我:");
+                    entity.setContext(((TIMTextElem) msg.getElement(0)).getText());
+                    entity.setType(TCConstants.TEXT_TYPE);
+                    notifyMsg(entity);
+                }
+
             }
         });
     }

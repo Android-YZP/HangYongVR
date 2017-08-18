@@ -53,7 +53,7 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
     /**
      * 礼物展示时间
      */
-    public static final int GIFT_DISMISS_TIME = 3000;
+    public static final int GIFT_DISMISS_TIME = 2000;
     private static final int INTERVAL = 299;
     /**
      * 当前动画runnable
@@ -518,7 +518,7 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
     public AnimatorSet endAnmation(ICustormAnim anim) {
         if (anim == null) {
             //向上渐变消失
-            ObjectAnimator fadeAnimator = GiftAnimationUtil.createFadeAnimator(GiftFrameLayout.this, 0, -100, 500, 0);
+            ObjectAnimator fadeAnimator = GiftAnimationUtil.createFadeAnimator(GiftFrameLayout.this, 0, -100, 100, 0);
             fadeAnimator.addListener(new AnimatorListenerAdapter() {
 
                 @Override

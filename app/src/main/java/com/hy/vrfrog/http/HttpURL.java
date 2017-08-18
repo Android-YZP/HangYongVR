@@ -10,9 +10,9 @@ public class HttpURL {
     //    private static String Host = "http://192.168.1.133:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.135:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
-    private static String Host = "http://192.168.1.132:8080/hyplatform/api/";
+//    private static String Host = "http://192.168.1.132:8080/hyplatform/api/";
 //    private static String Host = "http://118.89.246.194:8080/api/";
-//    private static String Host = "http://123.206.67.115:8080/api/";
+    private static String Host = "http://123.206.67.115:8080/api/";
 
     public static String Token = "C47B1071";
     public static String SourceNum = "222";

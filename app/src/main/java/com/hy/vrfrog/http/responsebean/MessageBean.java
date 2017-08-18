@@ -13,20 +13,24 @@ public class MessageBean {
      * userId : FCF21687B8233FF26003FC2AB9EE6717
      * headPic : http://123.206.67.115:8080 /head/38093494-ee2a-4f69-b01f-25141b09ce93.png
      * msg : 对方尴尬局面！对方尴尬的事情
+     * giftName : 对方尴尬局面！对方尴尬的事情
+     * GiftPic : 对方尴尬局面！对方尴尬的事情
      */
 
-    private String giftCount;
+    private int giftCount;
     private int userAction;
     private String nickName;
     private String userId;
     private String headPic;
     private String msg;
+    private String giftName;
+    private String GiftPic;
 
-    public String getGiftCount() {
+    public int getGiftCount() {
         return giftCount;
     }
 
-    public void setGiftCount(String giftCount) {
+    public void setGiftCount(int giftCount) {
         this.giftCount = giftCount;
     }
 
@@ -68,5 +72,21 @@ public class MessageBean {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getGiftName() {
+        return giftName;
+    }
+
+    public void setGiftName(String giftName) {
+        this.giftName = giftName;
+    }
+
+    public String getGiftPic() {
+        return GiftPic;
+    }
+
+    public void setGiftPic(String GiftPic) {
+        this.GiftPic = GiftPic;
     }
 }
