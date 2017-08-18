@@ -27,7 +27,7 @@
             android:ellipsize="end"
             android:text="科幻的電影有多少"
             android:textColor="#fff"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 

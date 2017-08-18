@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.content.Context;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -14,12 +15,6 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
-import com.hy.vrfrog.http.responsebean.EditRoomBean;
-import com.hy.vrfrog.main.living.im.TCConstants;
-import com.hy.vrfrog.main.living.push.PushActivity;
-import com.hy.vrfrog.main.living.push.PushSettingActivity;
-import com.hy.vrfrog.ui.SwipeBackActivity;
-import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -38,6 +33,7 @@ public class AuthenticationActivity extends AppCompatActivity{
     private EditText mName;
     private EditText mAutherId;
     private User user;
+    private CheckBox mInformastionCb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +75,7 @@ public class AuthenticationActivity extends AppCompatActivity{
         mIvReturn = (ImageView) findViewById(R.id.tv_information_return);
         mName = (EditText)findViewById(R.id.et_information_name);
         mAutherId = (EditText)findViewById(R.id.et_information_num);
+        mInformastionCb = (CheckBox)findViewById(R.id.cb_information_agree);
     }
 
     //实名认证，创建房间
@@ -110,7 +107,7 @@ public class AuthenticationActivity extends AppCompatActivity{
             @Override
             public void onFinished() {
                 super.onFinished();
-                startActivity(new Intent(getApplicationContext(),ReleaseLiveActivity.class));
+                startActivity(new Intent(AuthenticationActivity.this,ReleaseLiveActivity.class));
             }
         });
     }

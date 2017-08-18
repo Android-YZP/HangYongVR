@@ -237,7 +237,7 @@
             android:theme="@style/PlayerTheme"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".main.living.push.PushSettingActivity"></activity>
-        <activity android:name=".main.personal.ReleaseLiveActivity"></activity>
+        <activity android:name=".main.personal.ReleaseLiveActivity" android:configChanges="orientation|keyboardHidden"></activity>
 
     </application>
 

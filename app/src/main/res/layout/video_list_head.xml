@@ -17,7 +17,13 @@
             android:scaleType="fitXY"
             android:layout_height="match_parent"
             android:background="#1c1c34"
+            />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:scaleType="fitXY"
+            android:layout_height="match_parent"
+            android:background="#A61c1c34"
             />
 
         <TextView
@@ -101,7 +107,7 @@
                 android:layout_marginLeft="8dp"
                 android:text="视频"
                 android:textColor="@color/white"
-                android:textSize="21sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <TextView

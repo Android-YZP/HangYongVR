@@ -160,9 +160,9 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder> {
 
                                                 }
                                             })
-                                            .setPayListener("", new View.OnClickListener() {
+                                            .setPayListener("", new RechargeDialog.IChargeMoney() {
                                                 @Override
-                                                public void onClick(View view) {
+                                                public void goChargeMoney(int money) {
 
                                                 }
                                             }).show();
