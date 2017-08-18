@@ -215,10 +215,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 messageBean.setNickName("小嘉倪姬");
                 messageBean.setUserId("小嘉倪姬");
                 showGift(messageBean);
-
                 sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
-
-
             }
         });
 
