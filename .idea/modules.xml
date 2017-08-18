@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidVR.iml" filepath="$PROJECT_DIR$/AndroidVR.iml" />
       <module fileurl="file://$PROJECT_DIR$/HangYongVR.iml" filepath="$PROJECT_DIR$/HangYongVR.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/giftlibrary/giftlibrary.iml" filepath="$PROJECT_DIR$/giftlibrary/giftlibrary.iml" />
     </modules>
   </component>
 </project>
