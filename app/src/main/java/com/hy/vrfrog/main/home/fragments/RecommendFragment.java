@@ -6,6 +6,7 @@ import com.hy.vrfrog.main.home.adapters.MainAdapter;
 import com.hy.vrfrog.main.home.adapters.RecommandAdapter;
 import com.hy.vrfrog.ui.MainRecycleView;
 import com.hy.vrfrog.ui.VerticalViewPager;
+import com.hy.vrfrog.ui.XCRoundRectImageView;
 import com.hy.vrfrog.utils.LoadMoreListView;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -174,7 +175,7 @@ public class RecommendFragment extends Fragment {
         public Object instantiateItem(ViewGroup container, final int position) {
 
             View view = View.inflate(VrApplication.getContext(), R.layout.item_viewpager, null);
-            RoundImageView itemImage = (RoundImageView) view.findViewById(R.id.item_image);
+            XCRoundRectImageView itemImage = (XCRoundRectImageView) view.findViewById(R.id.item_image);
             itemImage.setImageResource(resIds[position]);
             itemImage.setOnClickListener(new View.OnClickListener() {
                 @Override

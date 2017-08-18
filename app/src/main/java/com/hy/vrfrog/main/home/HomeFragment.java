@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,7 +130,9 @@ public class HomeFragment extends Fragment {
 
                 simplePagerTitleView.setNormalColor(Color.parseColor("#88ffffff"));
                 simplePagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
-                simplePagerTitleView.setTextSize(UIUtils.dip2px(5));
+                simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+
+
 
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override

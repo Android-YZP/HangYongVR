@@ -65,6 +65,11 @@ public class HttpURL {
     /**
      * 更新个人直播封面
      */
+    public static String UpdatePersonRoom = Host + "personLvb/getRoomByUid";
+
+    /**
+     * 更新个人直播封面
+     */
     public static String UpdatePersonLvbImg = Host + "personLvb/update/img";
 
     /**
@@ -146,6 +151,12 @@ public class HttpURL {
      *充值
      */
     public static String Add = Host+"charge/android/add";
+
+    /**
+     *获得用户余额
+     */
+    public static String Remain = Host+"charge/remain/get";
+
 
     /**
      *获取消费记录

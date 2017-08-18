@@ -28,7 +28,7 @@
             android:background="@drawable/history_de"
             android:gravity="center"
             android:text="删除"
-            android:textColor="#ff4e3b"
+            android:textColor="@color/white"
             android:textSize="17sp" />
 
         <Button
@@ -39,10 +39,10 @@
             android:layout_marginRight="22dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/history_de"
+            android:background="@drawable/history_cancel"
             android:gravity="center"
             android:text="取消"
-            android:textColor="#000000"
+            android:textColor="#02d3f3"
             android:textSize="17sp" />
     </LinearLayout>
 

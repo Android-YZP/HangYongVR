@@ -2,6 +2,7 @@ package com.hy.vrfrog.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -92,6 +93,14 @@ public class DemandPayDialog {
                 dialog.dismiss();
             }
         });
+        return this;
+    }
+
+    public DemandPayDialog setPaybalance(String text) {
+        if (!TextUtils.isEmpty(text)){
+            mDemandPayBalancetv.setText(text);
+        }
+
         return this;
     }
 

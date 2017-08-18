@@ -33,7 +33,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#d9d9d9" />
+        android:background="#333248" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,25 +102,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="23dp"
-        android:layout_marginLeft="25dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_fill_yes" />
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        >
+
+        <CheckBox
+            android:id="@+id/cb_information_agree"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:button="@null"
+            android:checked="false"
+            android:text="@null"
+            android:background="@drawable/img_checkbox"
+            android:padding="30dp"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我已阅读并同意"
-            android:textColor="#919292"
-            android:layout_marginLeft="8dp"
-            android:textSize="15sp"/>
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+
+            />
+
         <TextView
-            android:id="@+id/tv_information_protocol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="《主播协议》"
-            android:textColor="#02d3f3"
-            android:textSize="15sp"/>
+            android:textColor="#46c2f4"
+            android:layout_marginLeft="5dp"
+            android:textSize="16sp"
+
+            />
+
     </LinearLayout>
 </LinearLayout>

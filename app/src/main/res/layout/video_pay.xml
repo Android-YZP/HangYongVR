@@ -110,15 +110,19 @@
                 android:text="充值"
                 android:textSize="15sp"
                 android:textColor="#00f5d3"
-                android:layout_marginLeft="110dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/tv_demand_pay_balance"
+                />
+
             <ImageView
                 android:id="@+id/img_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="145dp"
-                android:background="@mipmap/pay_go"/>
+                android:background="@mipmap/pay_go"
+                android:layout_toRightOf="@id/tv_demand_pay_recharge"
+                />
         </RelativeLayout>
     </LinearLayout>
 

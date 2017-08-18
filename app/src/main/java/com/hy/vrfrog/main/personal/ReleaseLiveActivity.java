@@ -120,6 +120,31 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activtiy_release_live);
         initView();
         initListener();
+        initData();
+    }
+
+    private void initData() {
+
+        RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonRoom);
+        requestParams.addHeader("token", HttpURL.Token);
+
+        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
+        //获取数据
+        // 有上传文件时使用multipart表单, 否则上传原始文件流.
+        requestParams.setMultipart(true);
+        x.http().post(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i("创建房间 =" + result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip(ex.getMessage());
+            }
+        });
+
     }
 
     @Override
@@ -493,6 +518,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             intent.setDataAndType(getImageContentUri(this,file), "image/*");//自己使用Content Uri替换File Uri
             intent.putExtra("scale", true);
             intent.putExtra("return-data", false);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1.6);
             intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(cacheFile));//定义输出的File Uri
             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
             intent.putExtra("noFaceDetection", true);

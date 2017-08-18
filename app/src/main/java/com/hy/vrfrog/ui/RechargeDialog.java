@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,7 +46,10 @@ public class RechargeDialog {
     private TextView mTopChooseRightTv;
     private TextView mUpChooseRightTv;
     private RelativeLayout mTopUpChooseRightRl;
+    private int mRechargeCount;
 
+    private IChargeMoney mCallback;
+    private ImageButton mBack;
 
 
     public RechargeDialog(Context context) {
@@ -83,6 +87,8 @@ public class RechargeDialog {
         mUpChooseRightTv = (TextView)view.findViewById(R.id.tv_top_up_price_right);
         mTopUpChooseRightRl = (RelativeLayout)view.findViewById(R.id.rl_top_up_right);
 
+        mBack = (ImageButton)view.findViewById(R.id.ib_top_up_back);
+
 
 
         // 定义Dialog布局和参数
@@ -113,6 +119,7 @@ public class RechargeDialog {
                 mTopUpChooseRightImg.setImageResource(R.mipmap.pay_wave);
                 mTopChooseRightTv.setTextColor(Color.parseColor("#666666"));
                 mUpChooseRightTv.setTextColor(Color.parseColor("#666666"));
+                mRechargeCount = 10 ;
             }
         });
 
@@ -130,6 +137,8 @@ public class RechargeDialog {
                 mTopUpChooseRightImg.setImageResource(R.mipmap.pay_wave);
                 mTopChooseRightTv.setTextColor(Color.parseColor("#666666"));
                 mUpChooseRightTv.setTextColor(Color.parseColor("#666666"));
+
+                mRechargeCount = 100;
             }
         });
 
@@ -147,6 +156,7 @@ public class RechargeDialog {
                 mTopUpChooseRightImg.setImageResource(R.mipmap.pay_waves);
                 mTopChooseRightTv.setTextColor(Color.WHITE);
                 mUpChooseRightTv.setTextColor(Color.WHITE);
+                mRechargeCount = 200;
             }
         });
 
@@ -156,7 +166,7 @@ public class RechargeDialog {
 
     public RechargeDialog setDeleteListener(String text, final View.OnClickListener listener) {
 
-        mVideoRechargeDeleteLl.setOnClickListener(new View.OnClickListener() {
+        mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onClick(v);
@@ -166,12 +176,12 @@ public class RechargeDialog {
         return this;
     }
 
-    public RechargeDialog setPayListener(String text, final View.OnClickListener listener) {
+    public RechargeDialog setPayListener(String text, final IChargeMoney listener) {
 
         mVideoRechargeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClick(v);
+                listener.goChargeMoney(mRechargeCount);
                 dialog.dismiss();
             }
         });
@@ -191,5 +201,11 @@ public class RechargeDialog {
     public RechargeDialog dissmiss() {
         dialog.dismiss();
         return this ;
+    }
+
+    public interface IChargeMoney{
+
+        void goChargeMoney(int money);
+
     }
 }
