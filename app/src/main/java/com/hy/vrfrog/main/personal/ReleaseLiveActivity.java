@@ -180,9 +180,10 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                 finish();
                 break;
             case R.id.btn_release_click:
-
+                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
+                startActivity(intent);
 //
-                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())  ){
+                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())){
                     UIUtils.showTip("房间名称不能为空");
                     return;
                 }

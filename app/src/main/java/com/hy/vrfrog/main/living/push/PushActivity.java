@@ -35,6 +35,7 @@ import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.im.TimConfig;
+import com.hy.vrfrog.main.living.livingplay.ui.TCGiftAvatarListAdapter;
 import com.hy.vrfrog.main.living.livingplay.ui.TCInputTextMsgDialog;
 import com.hy.vrfrog.main.living.livingplay.ui.TCUserAvatarListAdapter;
 import com.hy.vrfrog.main.living.push.ui.BeautyDialogFragment;
@@ -80,6 +81,9 @@ import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+import org.dync.giftlibrary.widget.CustormAnim;
+import org.dync.giftlibrary.widget.GiftControl;
+import org.dync.giftlibrary.widget.GiftModel;
 import org.xutils.common.util.LogUtil;
 
 import java.io.UnsupportedEncodingException;
@@ -127,7 +131,13 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private Button mSendMessage;
     private Dialog mShareDialog;
     private EditText mMessage;
-    private ListView mListViewGift;
+    private TCGiftAvatarListAdapter mGiftListAdapter;
+    private RecyclerView mGiftAvatarList;
+    private int test;
+    private LinearLayout llgiftparent;
+    private GiftControl giftControl;
+    private GiftModel giftModel;
+    private boolean currentStart = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +155,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mNickName = intent.getStringExtra(TCConstants.USER_NICK);
         mLocation = intent.getStringExtra(TCConstants.USER_LOC);
         mListViewMsg = (ListView) findViewById(R.id.im_msg_listview);
-        mListViewGift = (ListView) findViewById(R.id.im_gift_listview);
 
         mPushUrl = intent.getStringExtra(VedioContants.LivingPushUrl);
         imRoomId = intent.getStringExtra(VedioContants.ChannelId);
@@ -181,7 +190,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mListViewMsg.setAdapter(mChatMsgListAdapter);
 
 
-
         mBeautyDialogFragment = new BeautyDialogFragment();
         mBeautyDialogFragment.setBeautyParamsListner(mBeautyParams, this);
         //AudioControl
@@ -196,6 +204,40 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mUserAvatarList.setLayoutManager(linearLayoutManager);
+
+        //初始化礼物列表
+        mGiftAvatarList = (RecyclerView) findViewById(R.id.rv_user_gift);
+        Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
+        linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
+        mGiftAvatarList.setLayoutManager(linearLayoutManager2);
+        mGiftListAdapter = new TCGiftAvatarListAdapter(this, mPusherId);
+        mGiftAvatarList.setAdapter(mGiftListAdapter);
+
+        //初始化礼物列表
+        llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
+        giftControl = new GiftControl(this);
+        giftControl.setGiftLayout(false, llgiftparent, 3)
+                .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
+
+        mBtnSendGift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                giftModel = new GiftModel();
+
+                giftModel.setGiftId("哈哈").setGiftName("礼物名字").setGiftCount(1).setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/000.png")
+                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                        .setCurrentStart(currentStart);
+                if (currentStart) {
+                    giftModel.setHitCombo(1);
+                }
+                giftControl.loadGift(giftModel);
+                Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
+
+            }
+        });
+
 
         //发消息
         mSendMessage = (Button) findViewById(R.id.message_btn);

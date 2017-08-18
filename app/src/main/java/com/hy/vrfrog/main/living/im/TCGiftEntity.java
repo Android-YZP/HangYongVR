@@ -10,6 +10,7 @@ public class TCGiftEntity {
 	private String giftImg;
 	private String Sender;
 
+
 	public TCGiftEntity(int times, String giftImg, String sender) {
 		this.times = times;
 		this.giftImg = giftImg;
