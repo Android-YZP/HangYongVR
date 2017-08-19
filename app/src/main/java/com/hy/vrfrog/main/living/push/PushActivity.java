@@ -1,6 +1,5 @@
 package com.hy.vrfrog.main.living.push;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -135,6 +134,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private BroadcastTimerTask mBroadcastTimerTask;
     private long mSecond = 0;
     private TCHeartLayout mHeartLayout;
+    private String mGroupID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,10 +152,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mNickName = intent.getStringExtra(TCConstants.USER_NICK);
         mLocation = intent.getStringExtra(TCConstants.USER_LOC);
         mListViewMsg = (ListView) findViewById(R.id.im_msg_listview);
-
         mPushUrl = intent.getStringExtra(VedioContants.LivingPushUrl);
         imRoomId = intent.getStringExtra(VedioContants.ChannelId);
-        LogUtil.e(imRoomId + "=================");
+        mGroupID = intent.getStringExtra(VedioContants.GroupID);
+        LogUtil.e(mGroupID + "=================");
         initView();
         initData();
     }
@@ -170,6 +170,18 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     protected void onDestroy() {
         super.onDestroy();
         stopPublish();
+        stopRecordAnimation();
+        TIMManager.getInstance().logout(new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+        });
     }
 
     private void initView() {
@@ -212,30 +224,11 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
 
         //初始化礼物列表
-        Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
         llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
         giftControl = new GiftControl(this);
 
         giftControl.setGiftLayout(false, llgiftparent, 4)
                 .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
-
-        mBtnSendGift.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MessageBean messageBean = new MessageBean();
-                messageBean.setGiftCount(1);
-                messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Gift);
-                messageBean.setGiftName("棒棒糖");
-                messageBean.setMsg(1 + "");
-                messageBean.setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/001.png");
-                messageBean.setHeadPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/002.png");
-                messageBean.setNickName("小嘉倪姬");
-                messageBean.setUserId("小嘉倪姬");
-                showGift(messageBean);
-                sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
-            }
-        });
-
         //发消息
         mSendMessage = (Button) findViewById(R.id.message_btn);
     }
@@ -259,7 +252,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
      * 关闭红点与计时动画
      */
     private void stopRecordAnimation() {
-
         //直播时间
         if (null != mBroadcastTimer) {
             mBroadcastTimerTask.cancel();
@@ -639,7 +631,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
      * @description 加入群组
      */
     private void addGroup() {
-        TIMGroupManager.getInstance().applyJoinGroup(TimConfig.GroupID, "some reason", new TIMCallBack() {
+        TIMGroupManager.getInstance().applyJoinGroup(mGroupID, "some reason", new TIMCallBack() {
             @java.lang.Override
             public void onError(int code, String desc) {
                 //接口返回了错误码code和错误描述desc，可用于原因
@@ -663,7 +655,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
      * @description 获取群里有多少人, 初始化头像
      */
     public void getMember() {
-        TIMGroupManagerExt.getInstance().getGroupMembers(TimConfig.GroupID, new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
+        TIMGroupManagerExt.getInstance().getGroupMembers(mGroupID, new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
             @Override
             public void onError(int i, String s) {
 
@@ -805,7 +797,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
         TIMConversation conversation = TIMManager.getInstance().getConversation(
                 TIMConversationType.Group,      //会话类型：群组
-                TimConfig.GroupID);//群组Id
+                mGroupID);//群组Id
 
         //构造一条消息
         TIMMessage msg = new TIMMessage();

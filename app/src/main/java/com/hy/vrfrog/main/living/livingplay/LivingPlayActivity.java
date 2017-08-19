@@ -131,6 +131,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private Dialog mMessageDialog;
     private EditText mMessage;
     private MessageBean messageBean;
+    private String mGroupID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +158,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        TIMGroupManager.getInstance().quitGroup(TimConfig.GroupID, new TIMCallBack() {
+        TIMGroupManager.getInstance().quitGroup(mGroupID, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
 
@@ -168,7 +169,17 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
             }
         });
+        TIMManager.getInstance().logout(new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
 
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+        });
         stopPlay(false);
     }
 
@@ -176,6 +187,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         Intent intent = getIntent();//头像，谁直播的，直播房间
         mPlayUrl = intent.getStringExtra(VedioContants.LivingPlayUrl);
         mChannelId = intent.getStringExtra(VedioContants.ChannelId);
+        mGroupID = intent.getStringExtra(VedioContants.GroupID);
+        LogUtil.e(mGroupID + "=================");
     }
 
 
@@ -658,7 +671,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      * @description 加入群组
      */
     private void addGroup() {
-        TIMGroupManager.getInstance().applyJoinGroup(TimConfig.GroupID, "some reason", new TIMCallBack() {
+        TIMGroupManager.getInstance().applyJoinGroup(mGroupID, "some reason", new TIMCallBack() {
             @java.lang.Override
             public void onError(int code, String desc) {
                 //接口返回了错误码code和错误描述desc，可用于原因
@@ -690,7 +703,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
         TIMConversation conversation = TIMManager.getInstance().getConversation(
                 TIMConversationType.Group,      //会话类型：群组
-                TimConfig.GroupID);//群组Id
+                mGroupID);//群组Id
 
         //构造一条消息
         TIMMessage msg = new TIMMessage();
@@ -739,7 +752,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      * @description 获取群里有多少人, 初始化头像
      */
     public void getMember() {
-        TIMGroupManagerExt.getInstance().getGroupMembers(TimConfig.GroupID, new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
+        TIMGroupManagerExt.getInstance().getGroupMembers(mGroupID, new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
             @Override
             public void onError(int i, String s) {
 

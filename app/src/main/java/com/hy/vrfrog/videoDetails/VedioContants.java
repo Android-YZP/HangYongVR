@@ -26,6 +26,7 @@ public class VedioContants {
     public static final String HeadFace = "Head";
     public static final String LivingPushUrl = "LivingPushUrl";
     public static final String ChannelId = "ChannelId";
+    public static final String GroupID = "GroupID";
 
 
     public static final int AVIMCMD_None = 0; // 无事件

@@ -232,17 +232,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_pay"
-            android:layout_width="45dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:background="@mipmap/detail_pay_bg"
-            android:gravity="center"
-            android:text="关注"
-            android:textColor="#fff"
-            android:textSize="12sp" />
     </LinearLayout>
 
     <RelativeLayout
@@ -289,11 +278,6 @@
         android:orientation="vertical" />
 
 
-    <Button
-        android:id="@+id/btn_send_gift"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="送礼物" />
+
 
 </RelativeLayout>
