@@ -150,7 +150,7 @@ public class EnterpriseLiveHomeFragment extends Fragment {
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
+//                UIUtils.showTip("企业直播----服务端连接失败");
                 mSwipeRefresh.setRefreshing(false);
             }
 

@@ -1,5 +1,7 @@
 package com.hy.vrfrog.main.living.livingplay;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,16 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.responsebean.MessageBean;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
@@ -66,11 +73,15 @@ import com.tencent.rtmp.TXLivePlayConfig;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+import org.dync.giftlibrary.widget.CustormAnim;
+import org.dync.giftlibrary.widget.GiftControl;
+import org.dync.giftlibrary.widget.GiftModel;
 import org.xutils.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import tencent.tls.platform.TLSErrInfo;
 import tencent.tls.platform.TLSGuestLoginListener;
@@ -111,6 +122,15 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private TCFrequeControl mLikeFrequeControl;
     private Button mBtnHeartLike;
     private String mChannelId;
+    private GiftControl giftControl;
+    private LinearLayout llgiftparent;
+    private GiftModel giftModel;
+    private boolean currentStart = false;
+    private Gson gson;
+    private Button mSendMessage;
+    private Dialog mMessageDialog;
+    private EditText mMessage;
+    private MessageBean messageBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +176,11 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         Intent intent = getIntent();//头像，谁直播的，直播房间
         mPlayUrl = intent.getStringExtra(VedioContants.LivingPlayUrl);
         mChannelId = intent.getStringExtra(VedioContants.ChannelId);
-        LogUtil.e(mPlayUrl+"=================");
     }
 
 
     private void initData() {
+        gson = new Gson();
         initMessage();
         //初始化观众列表
         mUserAvatarList = (RecyclerView) findViewById(R.id.rv_user_avatar);
@@ -187,10 +207,45 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 }
 
                 if (mLikeFrequeControl.canTrigger()) {//发送IM点赞的消息
-
+                    sendLikeMessage();
                 }
             }
         });
+
+        //初始化礼物列表
+        Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
+        llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
+        giftControl = new GiftControl(this);
+
+        giftControl.setGiftLayout(false, llgiftparent, 4)
+                .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
+
+        mBtnSendGift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MessageBean messageBean = new MessageBean();
+                messageBean.setGiftCount(1);
+                messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Gift);
+                messageBean.setGiftName("棒棒糖");
+                messageBean.setMsg(1 + "");
+                messageBean.setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/001.png");
+                messageBean.setHeadPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/002.png");
+                messageBean.setNickName("小嘉倪姬");
+                messageBean.setUserId("小嘉倪姬");
+                showGift(messageBean);
+                sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
+            }
+        });
+
+    }
+
+    /**
+     * 发送点赞消息
+     */
+    private void sendLikeMessage() {
+        MessageBean messageBean = new MessageBean();
+        messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Like);
+        sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Like);
     }
 
 
@@ -198,6 +253,15 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      * 发送消息
      */
     private void initMessage() {
+        //发消息
+        mSendMessage = (Button) findViewById(R.id.message_btn);
+        mSendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMessageDialog();
+            }
+        });
+
         mEtRoomMessage = (EditText) findViewById(R.id.et_room_message);
         mBtnSendMassage = (Button) findViewById(R.id.btn_send_massage);
         mBtnSendMassage.setOnClickListener(new View.OnClickListener() {
@@ -205,15 +269,50 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             public void onClick(View v) {
                 String message = mEtRoomMessage.getText().toString();
                 if (!TextUtils.isEmpty(message)) {
-                    sendMessage(message);
+                    sendMessage(message, VedioContants.AVIMCMD_Custom_Text);
                 }
             }
         });
     }
 
+    /****************************发送消息***************************************/
+    /**
+     * 显示消息弹出框
+     */
+    private void showMessageDialog() {
+        if (mMessageDialog == null) {
+            initMessageDialog();
+        }
+        if (mMessage != null)
+            showKeyBoard(mMessage);
+        mMessageDialog.show();
+    }
 
 
+    /**
+     * 初始化消息弹出框
+     */
+    private void initMessageDialog() {
+        mMessageDialog = new Dialog(this, R.style.dialog_bottom_full);
+        mMessageDialog.setCanceledOnTouchOutside(true);
+        mMessageDialog.setCancelable(true);
+        Window window = mMessageDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        View view = View.inflate(this, R.layout.dialog_customize, null);
+        mMessage = (EditText) view.findViewById(R.id.edit_text);
+        Button sendMessage = (Button) view.findViewById(R.id.btn_send_massage);
 
+        sendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = mMessage.getText().toString();
+                sendMessage(message, VedioContants.AVIMCMD_Custom_Text);
+            }
+        });
+
+        window.setContentView(view);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);//设置横向全屏
+    }
 //    PhoneStateListener listener = new PhoneStateListener() {
 //        @Override
 //        public void onCallStateChanged(int state, String incomingNumber) {
@@ -235,6 +334,35 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 //        }
 //    };
 
+
+    private void showGift(MessageBean messageBean) {
+        giftModel = new GiftModel();
+        giftModel.setGiftId(messageBean.getMsg())
+                .setGiftName(messageBean.getGiftName())
+                .setGiftCount(messageBean.getGiftCount())
+                .setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/000.png")
+                .setSendUserId(messageBean.getUserId())
+                .setSendUserName(messageBean.getNickName())
+                .setSendUserPic(messageBean.getHeadPic())
+                .setSendGiftTime(System.currentTimeMillis())
+                .setCurrentStart(currentStart);
+        if (currentStart) {
+            giftModel.setHitCombo(1);
+        }
+        giftControl.loadGift(giftModel);
+        Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
+    }
+
+    private void showKeyBoard(final EditText editText) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager m = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }, 300);
+    }
 
     /**
      * @version 2.0
@@ -329,15 +457,24 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                         if (elemType == TIMElemType.Text) {
                             //获取文本信息
                             String text = ((TIMTextElem) elem).getText();
-                            TIMUserProfile senderProfile = msg.getSenderProfile();
-                            String nickName = senderProfile.getNickName();
+                            try {
+                                messageBean = gson.fromJson(text, MessageBean.class);
+                            } catch (Exception e) {
+                                return false;
+                            }
 
-                            TCChatEntity entity = new TCChatEntity();
-                            entity.setSenderName(msg.getSenderProfile().getNickName());
-                            entity.setContext(text);
-                            entity.setType(TCConstants.TEXT_TYPE);
-                            notifyMsg(entity);
+                            if (messageBean != null) {
+                                if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Text) {
 
+                                    TCChatEntity entity = new TCChatEntity();
+                                    entity.setSenderName(messageBean.getNickName());
+                                    entity.setContext(messageBean.getMsg());
+                                    entity.setType(TCConstants.TEXT_TYPE);
+                                    notifyMsg(entity);
+                                } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
+                                    showGift(messageBean);
+                                }
+                            }
 
                         } else if (elemType == TIMElemType.GroupSystem) {
                             String groupName = ((TIMGroupSystemElem) elem).getOpReason();
@@ -545,7 +682,12 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      * @date 创建于 2017/8/2
      * @description 发送消息
      */
-    private void sendMessage(String message) {
+    private void sendMessage(String message, final int MessageType) {
+        if (TextUtils.isEmpty(message)) {
+            UIUtils.showTip("发送内容不能为空");
+            return;
+        }
+
         TIMConversation conversation = TIMManager.getInstance().getConversation(
                 TIMConversationType.Group,      //会话类型：群组
                 TimConfig.GroupID);//群组Id
@@ -575,15 +717,19 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             public void onSuccess(TIMMessage msg) {//发送消息成功
                 Log.e(tag, "SendMsg ok");
                 //消息回显
+                if (MessageType == VedioContants.AVIMCMD_Custom_Text) {
+                    if (mMessage != null) mMessage.setText("");
+                    UIUtils.hideKeyBoard(mMessage);
+                    mMessageDialog.dismiss();
+                    TCChatEntity entity = new TCChatEntity();
+                    entity.setSenderName("我:");
+                    entity.setContext(((TIMTextElem) msg.getElement(0)).getText());
+                    entity.setType(TCConstants.TEXT_TYPE);
+                    notifyMsg(entity);
+                }
 
-                TCChatEntity entity = new TCChatEntity();
-                entity.setSenderName("我:");
-                entity.setContext(((TIMTextElem) msg.getElement(0)).getText());
-                entity.setType(TCConstants.TEXT_TYPE);
-//                notifyMsg(entity);
             }
         });
-
     }
 
     /**
@@ -618,25 +764,26 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         });
 
     }
-    private void initPlay() {
-        //mPlayerView即step1中添加的界面view
-        mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
-        //创建player对象
-        TXLivePlayer mLivePlayer = new TXLivePlayer(this);
-        //关键player对象与界面view
-        mLivePlayer.setPlayListener(this);
-        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
-        mLivePlayer.setPlayerView(mTXCloudVideoView);
-        mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);//铺满全屏
-        mLivePlayer.enableHardwareDecode(false);
-        TXLivePlayConfig mPlayConfig = new TXLivePlayConfig();
-        //自动模式
-        mPlayConfig.setAutoAdjustCacheTime(true);
-        mPlayConfig.setMinAutoAdjustCacheTime(1);
-        mPlayConfig.setMaxAutoAdjustCacheTime(5);
-        mLivePlayer.setConfig(mPlayConfig);
-        mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
-    }
+
+//    private void initPlay() {
+//        //mPlayerView即step1中添加的界面view
+//        mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
+//        //创建player对象
+//        TXLivePlayer mLivePlayer = new TXLivePlayer(this);
+//        //关键player对象与界面view
+//        mLivePlayer.setPlayListener(this);
+//        mLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
+//        mLivePlayer.setPlayerView(mTXCloudVideoView);
+//        mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);//铺满全屏
+//        mLivePlayer.enableHardwareDecode(false);
+//        TXLivePlayConfig mPlayConfig = new TXLivePlayConfig();
+//        //自动模式
+//        mPlayConfig.setAutoAdjustCacheTime(true);
+//        mPlayConfig.setMinAutoAdjustCacheTime(1);
+//        mPlayConfig.setMaxAutoAdjustCacheTime(5);
+//        mLivePlayer.setConfig(mPlayConfig);
+//        mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
+//    }
 
     protected void startPlay() {
 
@@ -691,7 +838,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
     @Override
     public void onPlayEvent(int event, Bundle param) {
-            LogUtil.e(event+"+++++++++++++++++++++++");
+        LogUtil.e(event + "+++++++++++++++++++++++");
 
         if (event == TXLiveConstants.PLAY_EVT_PLAY_PROGRESS) {
         } else if (event == TXLiveConstants.PLAY_ERR_NET_DISCONNECT) {

@@ -12,12 +12,12 @@
         "source": "C:\\Users\\Smith\\.android\\build-cache\\9466789fc1349be956a9453b39eb267000f1ecde\\output\\res\\layout\\abc_select_dialog_material.xml"
     },
     {
-        "merged": "E:\\Android\\androidwage\\HangYongVR\\giftlibrary\\build\\intermediates\\res\\merged\\debug\\layout\\abc_popup_menu_header_item_layout.xml",
-        "source": "C:\\Users\\Smith\\.android\\build-cache\\9466789fc1349be956a9453b39eb267000f1ecde\\output\\res\\layout\\abc_popup_menu_header_item_layout.xml"
-    },
-    {
         "merged": "E:\\Android\\androidwage\\HangYongVR\\giftlibrary\\build\\intermediates\\res\\merged\\debug\\layout\\face_gridview.xml",
         "source": "E:\\Android\\androidwage\\HangYongVR\\giftlibrary\\src\\main\\res\\layout\\face_gridview.xml"
+    },
+    {
+        "merged": "E:\\Android\\androidwage\\HangYongVR\\giftlibrary\\build\\intermediates\\res\\merged\\debug\\layout\\abc_popup_menu_header_item_layout.xml",
+        "source": "C:\\Users\\Smith\\.android\\build-cache\\9466789fc1349be956a9453b39eb267000f1ecde\\output\\res\\layout\\abc_popup_menu_header_item_layout.xml"
     },
     {
         "merged": "E:\\Android\\androidwage\\HangYongVR\\giftlibrary\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_menu_item_layout.xml",

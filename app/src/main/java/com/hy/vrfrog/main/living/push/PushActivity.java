@@ -1,5 +1,6 @@
 package com.hy.vrfrog.main.living.push;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,6 +36,7 @@ import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.im.TimConfig;
+import com.hy.vrfrog.main.living.livingplay.ui.TCHeartLayout;
 import com.hy.vrfrog.main.living.livingplay.ui.TCUserAvatarListAdapter;
 import com.hy.vrfrog.main.living.push.ui.BeautyDialogFragment;
 import com.hy.vrfrog.main.living.push.ui.TCAudioControl;
@@ -84,6 +87,7 @@ import org.xutils.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -126,6 +130,11 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private GiftModel giftModel;
     private boolean currentStart = false;
     private Gson gson;
+    private TextView mBroadcastTime;
+    private Timer mBroadcastTimer;
+    private BroadcastTimerTask mBroadcastTimerTask;
+    private long mSecond = 0;
+    private TCHeartLayout mHeartLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +180,8 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mBtnAudioCtrl = (Button) findViewById(R.id.btn_audio_ctrl);
         mAudioCtrl = (TCAudioControl) findViewById(R.id.layoutAudioControlContainer);
         mAudioPluginLayout = (LinearLayout) findViewById(R.id.audio_plugin);
+        //点赞爱心动画
+        mHeartLayout = (TCHeartLayout) findViewById(R.id.heart_layout);
     }
 
     private void initData() {
@@ -193,6 +204,12 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mUserAvatarList.setLayoutManager(linearLayoutManager);
+
+        //计时
+        mBroadcastTime = (TextView) findViewById(R.id.tv_broadcasting_time);
+        mBroadcastTime.setText(String.format(Locale.US, "%s", "00:00:00"));
+        startRecordAnimation();
+
 
         //初始化礼物列表
         Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
@@ -219,10 +236,55 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
             }
         });
 
-
         //发消息
         mSendMessage = (Button) findViewById(R.id.message_btn);
     }
+
+
+    /**
+     * 开启红点与计时动画
+     */
+    private void startRecordAnimation() {
+
+
+        //直播时间
+        if (mBroadcastTimer == null) {
+            mBroadcastTimer = new Timer(true);
+            mBroadcastTimerTask = new BroadcastTimerTask();
+            mBroadcastTimer.schedule(mBroadcastTimerTask, 1000, 1000);
+        }
+    }
+
+    /**
+     * 关闭红点与计时动画
+     */
+    private void stopRecordAnimation() {
+
+        //直播时间
+        if (null != mBroadcastTimer) {
+            mBroadcastTimerTask.cancel();
+        }
+    }
+
+    /**
+     * 记时器
+     */
+    private class BroadcastTimerTask extends TimerTask {
+        public void run() {
+            //Log.i(TAG, "timeTask ");
+            ++mSecond;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+//                    if (!mTCSwipeAnimationController.isMoving())
+                    mBroadcastTime.setText(TCUtils.formattedTime(mSecond));
+                }
+            });
+//            if (MySelfInfo.getInstance().getIdStatus() == TCConstants.HOST)
+//                mHandler.sendEmptyMessage(UPDAT_WALL_TIME_TIMER_TASK);
+        }
+    }
+
 
     protected void startPublish() {
         if (mTXLivePusher == null) {
@@ -326,9 +388,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private void Message() {
         //接受消息
         TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
-
-
-
             //消息监听器
             @Override
             public boolean onNewMessages(List<TIMMessage> list) {
@@ -336,17 +395,17 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     TIMMessage msg = list.get(j);
                     for (int i = 0; i < msg.getElementCount(); ++i) {
                         TIMElem elem = msg.getElement(i);
-                         MessageBean messageBean;
+                        MessageBean messageBean;
                         //获取当前元素的类型
                         TIMElemType elemType = elem.getType();
                         if (elemType == TIMElemType.Text) {
                             //获取文本信息
                             String text = ((TIMTextElem) elem).getText();
-                           try {
-                               messageBean = gson.fromJson(text, MessageBean.class);
-                           }catch (Exception e){
-                              return false;
-                           }
+                            try {
+                                messageBean = gson.fromJson(text, MessageBean.class);
+                            } catch (Exception e) {
+                                return false;
+                            }
 
                             if (messageBean != null) {
                                 if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Text) {
@@ -362,7 +421,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                                     showGift(messageBean);
 
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Like) {
-
+                                    mHeartLayout.addFavor();
                                 }
                             }
 
