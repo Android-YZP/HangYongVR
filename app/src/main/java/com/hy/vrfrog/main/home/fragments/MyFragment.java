@@ -31,6 +31,7 @@ import com.hy.vrfrog.main.personal.PersonalActivity;
 import com.hy.vrfrog.main.personal.ReleaseLiveActivity;
 import com.hy.vrfrog.main.personal.UploadingDocumentsActivity;
 import com.hy.vrfrog.ui.LoadingDataUtil;
+import com.hy.vrfrog.utils.BasePreferences;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.ToolToast;
@@ -60,6 +61,7 @@ public class MyFragment extends Fragment {
     private LinearLayout mLlMyPay;
     private TextView mAccountTv;
     private TextView mCertificationTv;
+    private BasePreferences mBasePreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class MyFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my, container, false);
+        mBasePreferences = new BasePreferences(getActivity());
         initView(view);
         initData();
         initListener();
@@ -148,6 +151,7 @@ public class MyFragment extends Fragment {
                         LogUtil.i("余额 = " +  accountBean.getResult());
 
                         mAccountTv.setText(String.valueOf(accountBean.getResult()));
+                        mBasePreferences.setPrefString("account",accountBean.getResult());
                     }
 
                 }
