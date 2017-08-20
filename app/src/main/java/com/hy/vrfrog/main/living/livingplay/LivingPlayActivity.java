@@ -53,6 +53,7 @@ import com.hy.vrfrog.main.living.livingplay.utils.TCFrequeControl;
 import com.hy.vrfrog.main.living.push.ui.FragmentGiftDialog;
 import com.hy.vrfrog.main.living.push.ui.Gift;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
+import com.hy.vrfrog.main.personal.LoginActivity;
 import com.hy.vrfrog.utils.BasePreferences;
 import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
@@ -308,19 +309,25 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mBtnHeartLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mHeartLayout != null) {
-                    mHeartLayout.addFavor();
+                if (SPUtil.getUser()!=null){
+                    if (mHeartLayout != null) {
+                        mHeartLayout.addFavor();
+                    }
+
+                    //点赞发送请求限制
+                    if (mLikeFrequeControl == null) {
+                        mLikeFrequeControl = new TCFrequeControl();
+                        mLikeFrequeControl.init(2, 1);//一秒内允许2次触发
+                    }
+
+                    if (mLikeFrequeControl.canTrigger()) {//发送IM点赞的消息
+                        sendLikeMessage();
+                    }
+                }else {
+                    UIUtils.showTip("请先登录");
                 }
 
-                //点赞发送请求限制
-                if (mLikeFrequeControl == null) {
-                    mLikeFrequeControl = new TCFrequeControl();
-                    mLikeFrequeControl.init(2, 1);//一秒内允许2次触发
-                }
 
-                if (mLikeFrequeControl.canTrigger()) {//发送IM点赞的消息
-                    sendLikeMessage();
-                }
             }
         });
     }
@@ -379,11 +386,19 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mBtnSendGift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mGiftLayout.getVisibility() == View.VISIBLE) {
-                    mGiftLayout.setVisibility(View.GONE);
-                } else {
-                    mGiftLayout.setVisibility(View.VISIBLE);
+                if(SPUtil.getUser()!=null){
+
+                    if (mGiftLayout.getVisibility() == View.VISIBLE) {
+                        mGiftLayout.setVisibility(View.GONE);
+                    } else {
+                        mGiftLayout.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    UIUtils.showTip("请先登录");
                 }
+
+
+
             }
         });
         tvGiftNum.setOnClickListener(new View.OnClickListener() {
@@ -702,15 +717,21 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mBtnSendMassage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = mEtRoomMessage.getText().toString();
-                if (!TextUtils.isEmpty(message)) {
-                    MessageBean messageBean = new MessageBean();
-                    messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Text);
-                    messageBean.setMsg(message);
-                    messageBean.setGiftPic(mGifturl);
-                    sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Text);
-
+                if (SPUtil.getUser()!=null){
+                    String message = mEtRoomMessage.getText().toString();
+                    if (!TextUtils.isEmpty(message)) {
+                        MessageBean messageBean = new MessageBean();
+                        messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Text);
+                        messageBean.setMsg(message);
+                        messageBean.setGiftPic(mGifturl);
+                        sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Text);
+                    }
+                }else {
+                   UIUtils.showTip("请先登录");
                 }
+
+
+
             }
         });
     }
