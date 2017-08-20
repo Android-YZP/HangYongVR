@@ -99,7 +99,7 @@ public class EnterpriseLiveHomeFragment extends Fragment {
 
         mEmptyll = (LinearLayout)view.findViewById(R.id.ll_live_home_no_data);
         mSwipeRefresh = (VerticalSwipeRefreshLayout)view.findViewById(R.id.vsr_live_home__refresh);
-        mSwipeRefresh.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
+//        mSwipeRefresh.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_live_home_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),1));
 
@@ -124,7 +124,7 @@ public class EnterpriseLiveHomeFragment extends Fragment {
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LongLogUtil.e("个人直播---------------", result);
+                LongLogUtil.e("企业直播---------------", result);
                 getLiveHomeBean = new Gson().fromJson(result, GetLiveHomeBean.class);
                 if (getLiveHomeBean.getCode() == 0) {
                     mEmptyll.setVisibility(View.GONE);
@@ -133,7 +133,6 @@ public class EnterpriseLiveHomeFragment extends Fragment {
                         mList.addAll(getLiveHomeBean.getResult());
                         mAdapter.notifyDataSetChanged();
                     } else {
-                        LogUtil.e("企业直播 =" + getLiveHomeBean.getResult());
                         mList = getLiveHomeBean.getResult();
                         mAdapter = new EnterpriseOnLiveAdapter(getActivity(),mList);
 
@@ -146,7 +145,7 @@ public class EnterpriseLiveHomeFragment extends Fragment {
                     }
 
                 }
-                LogUtil.i("个人直播 = " + getLiveHomeBean.getResult());
+
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {

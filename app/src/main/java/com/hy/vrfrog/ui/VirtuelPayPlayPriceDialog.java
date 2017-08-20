@@ -100,7 +100,7 @@ public class VirtuelPayPlayPriceDialog {
                     AccountBean accountBean = new Gson().fromJson(result, AccountBean.class);
                     if (accountBean.getCode() == 0) {
                         LogUtil.i("余额 = " + accountBean.getResult());
-                        mVirtualPayAccountBalanceTv.setText(String.valueOf(accountBean.getResult()));
+                        mVirtualPayAccountBalanceTv.setText(String.valueOf(accountBean.getResult()) + "蛙豆");
                     }
 
                 }

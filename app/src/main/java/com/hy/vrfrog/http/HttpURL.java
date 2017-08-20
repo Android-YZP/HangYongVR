@@ -167,6 +167,11 @@ public class HttpURL {
      */
     public static String Remain = Host+"charge/remain/get";
 
+    /**
+     *获得用户审核状态
+     */
+    public static String ChannelStatus = Host+"login/user/channelStatus/get";
+
 
     /**
      *获取消费记录

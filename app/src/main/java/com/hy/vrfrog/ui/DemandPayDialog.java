@@ -177,8 +177,9 @@ public class DemandPayDialog {
         mDemandPayRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClick(v);
-                dialog.dismiss();
+                UIUtils.showTip("暂未开放");
+//                listener.onClick(v);
+//                dialog.dismiss();
             }
         });
         return this;

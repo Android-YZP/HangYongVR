@@ -32,25 +32,16 @@
                 android:layout_marginLeft="25dp">
 
                 <TextView
-                    android:id="@+id/ltv_give_reward_num"
+                    android:id="@+id/tv_give_reward_num_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="88"
+                    android:text="88蛙豆"
                     android:textColor="@drawable/exceptional_font"
-                    android:textSize="18sp" />
-                <TextView
-                    android:id="@+id/tv_give_reward_zi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="蛙豆"
-                    android:textColor="@drawable/exceptional_font"
-                    android:textSize="15sp" />
+                    android:textSize="18sp"
+                    android:padding="10dp"
+                    />
+
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_give_reward_two"
@@ -64,21 +55,16 @@
                 android:layout_marginRight="13dp">
 
                 <TextView
-                    android:id="@+id/ltv_exceptional_num1"
+                    android:id="@+id/tv_give_reward_num_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="188"
+                    android:text="188蛙豆"
                     android:textColor="@drawable/exceptional_font"
-                    android:textSize="18sp" />
-                <TextView
-                    android:id="@+id/ltv_exceptional_zi1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="蛙豆"
-                    android:textColor="@drawable/exceptional_font"
-                    android:textSize="15sp" />
+                    android:textSize="18sp"
+                    android:padding="10dp"
+                    />
+
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_give_reward_three"
@@ -91,23 +77,16 @@
                 android:layout_marginRight="25dp">
 
                 <TextView
-                    android:id="@+id/ltv_exceptional_num2"
+                    android:id="@+id/tv_give_reward_num_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="288"
+                    android:text="288蛙豆"
                     android:textColor="@drawable/exceptional_font"
                     android:textSize="18sp"
+                    android:padding="10dp"
                    />
-                <TextView
-                    android:id="@+id/ltv_exceptional_zi2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="蛙豆"
-                    android:textColor="@drawable/exceptional_font"
-                    android:textSize="15sp"
-                    />
+
             </LinearLayout>
 
         </LinearLayout>

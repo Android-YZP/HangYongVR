@@ -2,6 +2,7 @@ package com.hy.vrfrog.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Display;
@@ -32,6 +33,10 @@ public class GiveRewardDialog {
     private int mCount;
     private EditText mCountEt;
     private IGiveReward mCallback;
+    private TextView mGiveRewardOneTv;
+    private TextView mGiveRewardTwoTv;
+    private TextView mGiveRewardThreeTv;
+
 
     public void setGiveReward(IGiveReward listener){
         this.mCallback = listener;
@@ -60,6 +65,10 @@ public class GiveRewardDialog {
         mGiveRewardTwoLl = (LinearLayout)view.findViewById(R.id.ll_give_reward_two);
         mGiveRewardThreeLl = (LinearLayout)view.findViewById(R.id.ll_give_reward_three);
 
+        mGiveRewardOneTv = (TextView)view.findViewById(R.id.tv_give_reward_num_one);
+        mGiveRewardTwoTv = (TextView)view.findViewById(R.id.tv_give_reward_num_two);
+        mGiveRewardThreeTv = (TextView)view.findViewById(R.id.tv_give_reward_num_three);
+
 
         mVirtualPayCancelTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +96,16 @@ public class GiveRewardDialog {
             @Override
             public void onClick(View view) {
                 mCount = 88 ;
+                mGiveRewardOneTv.setTextColor(Color.parseColor("#ffffff"));
+                mGiveRewardOneLl.setBackgroundResource(R.mipmap.red_kuang);
+
+                mGiveRewardTwoTv.setTextColor(Color.parseColor("#e4572e"));
+                mGiveRewardTwoLl.setBackgroundResource(R.mipmap.white_kuang);
+
+                mGiveRewardThreeTv.setTextColor(Color.parseColor("#e4572e"));
+                mGiveRewardThreeLl.setBackgroundResource(R.mipmap.white_kuang);
+
+
             }
         });
 
@@ -94,6 +113,14 @@ public class GiveRewardDialog {
             @Override
             public void onClick(View view) {
                 mCount = 188;
+                mGiveRewardOneTv.setTextColor(Color.parseColor("#e4572e"));
+                mGiveRewardOneLl.setBackgroundResource(R.mipmap.white_kuang);
+
+                mGiveRewardTwoTv.setTextColor(Color.parseColor("#ffffff"));
+                mGiveRewardTwoLl.setBackgroundResource(R.mipmap.red_kuang);
+
+                mGiveRewardThreeTv.setTextColor(Color.parseColor("#e4572e"));
+                mGiveRewardThreeLl.setBackgroundResource(R.mipmap.white_kuang);
             }
         });
 
@@ -101,6 +128,14 @@ public class GiveRewardDialog {
             @Override
             public void onClick(View view) {
                 mCount = 288;
+                mGiveRewardOneTv.setTextColor(Color.parseColor("#e4572e"));
+                mGiveRewardOneLl.setBackgroundResource(R.mipmap.white_kuang);
+
+                mGiveRewardTwoTv.setTextColor(Color.parseColor("#e4572e"));
+                mGiveRewardTwoLl.setBackgroundResource(R.mipmap.white_kuang);
+
+                mGiveRewardThreeTv.setTextColor(Color.parseColor("#ffffff"));
+                mGiveRewardThreeLl.setBackgroundResource(R.mipmap.red_kuang);
             }
         });
 

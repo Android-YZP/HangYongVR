@@ -118,7 +118,10 @@
             android:textColor="@color/white"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:ellipsize="end"
+            android:maxLength="5"
+            />
 
     </LinearLayout>
 
@@ -127,7 +130,7 @@
         android:id="@+id/tv_personal_live_pay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="李宣亚"
+        android:text="收费"
         android:textColor="@color/colorGreen"
         android:gravity="center"
         android:layout_gravity="center"
