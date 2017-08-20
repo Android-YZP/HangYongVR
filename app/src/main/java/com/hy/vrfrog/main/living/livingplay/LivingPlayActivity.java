@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,7 +25,11 @@ import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.GiftBean;
 import com.hy.vrfrog.http.responsebean.MessageBean;
+import com.hy.vrfrog.http.responsebean.VideoTypeBean;
+import com.hy.vrfrog.main.adapter.HomeAdapter;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
@@ -34,7 +39,10 @@ import com.hy.vrfrog.main.living.livingplay.ui.TCHeartLayout;
 import com.hy.vrfrog.main.living.livingplay.ui.TCInputTextMsgDialog;
 import com.hy.vrfrog.main.living.livingplay.ui.TCUserAvatarListAdapter;
 import com.hy.vrfrog.main.living.livingplay.utils.TCFrequeControl;
+import com.hy.vrfrog.main.living.push.ui.FragmentGiftDialog;
+import com.hy.vrfrog.main.living.push.ui.Gift;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
+import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
@@ -77,6 +85,8 @@ import org.dync.giftlibrary.widget.CustormAnim;
 import org.dync.giftlibrary.widget.GiftControl;
 import org.dync.giftlibrary.widget.GiftModel;
 import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +97,7 @@ import tencent.tls.platform.TLSErrInfo;
 import tencent.tls.platform.TLSGuestLoginListener;
 import tencent.tls.platform.TLSLoginHelper;
 import tencent.tls.platform.TLSUserInfo;
+import android.support.v4.app.FragmentManager;
 
 public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayListener {
     private static final String TAG = "--------------------";
@@ -132,6 +143,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private EditText mMessage;
     private MessageBean messageBean;
     private String mGroupID;
+    public static int mGiftGroup;
+    public static GiftBean.ResultBean SendGift;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,12 +201,14 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mPlayUrl = intent.getStringExtra(VedioContants.LivingPlayUrl);
         mChannelId = intent.getStringExtra(VedioContants.ChannelId);
         mGroupID = intent.getStringExtra(VedioContants.GroupID);
-        LogUtil.e(mGroupID + "=================");
+        mGiftGroup = intent.getIntExtra(VedioContants.GiftGroup,0);
+        LogUtil.e(mGiftGroup + "=================");
     }
 
 
     private void initData() {
         gson = new Gson();
+        initGift();
         initMessage();
         //初始化观众列表
         mUserAvatarList = (RecyclerView) findViewById(R.id.rv_user_avatar);
@@ -236,19 +251,33 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mBtnSendGift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageBean messageBean = new MessageBean();
-                messageBean.setGiftCount(1);
-                messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Gift);
-                messageBean.setGiftName("棒棒糖");
-                messageBean.setMsg(1 + "");
-                messageBean.setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/001.png");
-                messageBean.setHeadPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/002.png");
-                messageBean.setNickName("小嘉倪姬");
-                messageBean.setUserId("小嘉倪姬");
-                showGift(messageBean);
-                sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
+//                MessageBean messageBean = new MessageBean();
+//                messageBean.setGiftCount(1);
+//                messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Gift);
+//                messageBean.setGiftName("棒棒糖");
+//                messageBean.setMsg(1 + "");
+//                messageBean.setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/001.png");
+//                messageBean.setHeadPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/002.png");
+//                messageBean.setNickName("小嘉倪姬");
+//                messageBean.setUserId("小嘉倪姬");
+//                showGift(messageBean);
+//                sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
+
+                FragmentGiftDialog.newInstance().setOnGridViewClickListener(new FragmentGiftDialog.OnGridViewClickListener() {
+                    @Override
+                    public void click(GiftBean.ResultBean gift) {
+                        UIUtils.showTip(gift.getName());
+                    }
+                }).show(getSupportFragmentManager(),"dialog");
+
             }
         });
+
+    }
+
+
+
+    private void initGift() {
 
     }
 
@@ -872,6 +901,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         } else if (mTXLivePlayer != null)
             mTXLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
     }
+
+
+
 
 
 }

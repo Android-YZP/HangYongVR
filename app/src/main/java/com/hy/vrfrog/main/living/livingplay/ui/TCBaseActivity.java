@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.push.utils.TCUtils;
@@ -17,7 +18,7 @@ import com.hy.vrfrog.main.living.push.utils.TCUtils;
  * base activity to handle relogin info
  * Created by Administrator on 2016/9/20
  */
-public class TCBaseActivity extends Activity {
+public class TCBaseActivity extends AppCompatActivity {
 
     private static final String TAG = TCBaseActivity.class.getSimpleName();
 

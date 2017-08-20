@@ -202,6 +202,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                         intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
                         intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
                         intent.putExtra(VedioContants.GroupID, (String)resultBean.get(position).getAlipay());
+                        intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
                         intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
                         context.startActivity(intent);
                     }
@@ -256,6 +257,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                 intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
                 intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
                 intent.putExtra(VedioContants.GroupID, (String)resultBean.get(position).getAlipay());
+                intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
                 intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
                 context.startActivity(intent);
 

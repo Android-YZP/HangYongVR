@@ -174,6 +174,11 @@ public class HttpURL {
      */
     public static String editRoom = Host+"personLvb/updatePersonRoom";
 
+    /**
+     * 编辑直播间
+     */
+    public static String getGift= Host+"free/gift/get";
+
 
 
 }
