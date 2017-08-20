@@ -1,6 +1,7 @@
 package com.hy.vrfrog.main.home.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,14 @@ import com.bumptech.glide.Glide;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
+import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.videoDetails.VedioContants;
+import com.hy.vrfrog.vrplayer.VideoPlayActivity;
+
 import java.util.List;
+
+import static com.snail.media.player.SnailWhiteList.mList;
 
 /**
  * Created by wzq930102 on 2017/8/9.
@@ -92,14 +99,21 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
     }
 
     @Override
-    public void onBindViewHolder(Enterprise1LiveHolder holder, int position) {
+    public void onBindViewHolder(Enterprise1LiveHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_NORMAL){
             holder.mEnterTitleTv.setText(resultBean.get(position).getChannelName());
             holder.mRnterpriseLiveTvName.setText(String.valueOf(resultBean.get(position).getUsername()));
-//            Glide.with(context).load(HttpURL.IV_HOST+resultBean.get(position).getImg()).asBitmap().into(holder.mIvImg);
-            holder.linear.setOnClickListener(new View.OnClickListener() {
+            Glide.with(context).load(HttpURL.IV_HOST+resultBean.get(position).getImg()).asBitmap().into(holder.mIvImg);
+            holder.mIvImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    Intent intent = new Intent(context, LivingPlayActivity.class);
+                    intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
+                    intent.putExtra(VedioContants.ChannelName,resultBean.get(position).getChannelName());
+                    intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
+                    intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
+                    context.startActivity(intent);
 
                 }
             });

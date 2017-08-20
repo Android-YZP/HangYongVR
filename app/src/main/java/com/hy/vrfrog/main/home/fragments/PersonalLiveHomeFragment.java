@@ -210,7 +210,7 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
 
     @Override
     public void rechargeMoneyFaiiure(Throwable ex) {
-        UIUtils.showTip(ex.toString());
+        UIUtils.showTip("网络异常");
 
     }
 
