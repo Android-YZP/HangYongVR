@@ -510,7 +510,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                                     notifyMsg(entity);
 
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
-                                    showGift(messageBean);
+                                    showGift(messageBean,msg.getSenderProfile().getNickName());
 
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Like) {
                                     mHeartLayout.addFavor();
@@ -793,14 +793,14 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
     }
 
-    private void showGift(MessageBean messageBean) {
+    private void showGift(MessageBean messageBean, String nickName) {
         giftModel = new GiftModel();
         giftModel.setGiftId(messageBean.getGiftName())
                 .setGiftName(messageBean.getGiftName())
                 .setGiftCount(messageBean.getGiftCount())
                 .setGiftPic(messageBean.getGiftPic())
                 .setSendUserId(messageBean.getUserId())
-                .setSendUserName(messageBean.getNickName())
+                .setSendUserName(nickName)
                 .setSendUserPic(messageBean.getHeadPic())
                 .setSendGiftTime(System.currentTimeMillis())
                 .setCurrentStart(currentStart);
@@ -920,8 +920,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         TIMMessage msg = new TIMMessage();
         //添加文本内容
         TIMTextElem elem = new TIMTextElem();
-
-
         elem.setText(message);
 
         //将elem添加到消息

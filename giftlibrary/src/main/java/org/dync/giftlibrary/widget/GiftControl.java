@@ -161,12 +161,16 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
             giftFrameLayout = mGiftLayoutList.get(i);
             Log.d(TAG, "showGift: begin->集合个数：" + mGiftQueue.size());
             if (!giftFrameLayout.isShowing() && giftFrameLayout.isEnd()) {
-                boolean hasGift = giftFrameLayout.setGift(getGift());
-                if (hasGift) {
-                    giftFrameLayout.startAnimation(custormAnim);
+                GiftModel gift = getGift();
+                if (gift!=null){
+                    boolean hasGift = giftFrameLayout.setGift(gift);
+                    if (hasGift) {
+                        giftFrameLayout.startAnimation(custormAnim);
+                    }
                 }
-            }
-            Log.d(TAG, "showGift: end->集合个数：" + mGiftQueue.size());
+                Log.d(TAG, "showGift: end->集合个数：" + mGiftQueue.size());
+                }
+
         }
     }
 

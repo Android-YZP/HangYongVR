@@ -53,11 +53,13 @@ import com.hy.vrfrog.main.living.livingplay.utils.TCFrequeControl;
 import com.hy.vrfrog.main.living.push.ui.FragmentGiftDialog;
 import com.hy.vrfrog.main.living.push.ui.Gift;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
+import com.hy.vrfrog.utils.BasePreferences;
 import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
+import com.hy.vrfrog.vrplayer.LivePlayActivity;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMConversation;
@@ -198,6 +200,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private int giftTimesLast;
     private int totleNumber;
     private TextView mTvMoneyNum;
+    private BasePreferences basePreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -389,7 +392,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 showGiftDialog();
             }
         });
-//        mTvMoneyNum.setText();
+        basePreferences = new BasePreferences(this);
+        mTvMoneyNum.setText(basePreferences.getPrefString("account"));
 
         btnGift.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -403,10 +407,25 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                         if (giftnum == 0) {
                             return;
                         } else {
+                            int account = Integer.valueOf(basePreferences.getPrefString("account"));
+                            int GiftPrice = Integer.valueOf(mGiftPrice);
+
+                            if (account - (GiftPrice * giftnum) < 0) {
+                                UIUtils.showTip("蛙豆不足");
+                                return;
+                            }
+                            basePreferences.setPrefString("account", account - (GiftPrice * giftnum));
+                            mTvMoneyNum.setText(account - GiftPrice + "");
+
+
+                            String phone = SPUtil.getUser().getResult().getUser().getPhone();
+                            String a = phone.substring(0, 3);
+                            String a1 = phone.substring(7, 11);
+
                             //这里最好不要直接new对象
                             giftModel = new GiftModel();
                             giftModel.setGiftId(mGiftName).setGiftName(mGiftName).setGiftCount(giftnum).setGiftPic(mGifturl)
-                                    .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                                    .setSendUserId("1234").setSendUserName(a + a1).setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
                                     .setCurrentStart(currentStart);
                             if (currentStart) {
                                 giftModel.setHitCombo(giftnum);
@@ -625,14 +644,14 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
     }
 
-    private void showGift(MessageBean messageBean) {
+    private void showGift(MessageBean messageBean, String nickName) {
         giftModel = new GiftModel();
         giftModel.setGiftId(mGiftName)
                 .setGiftName(mGiftName)
                 .setGiftCount(messageBean.getGiftCount())
                 .setGiftPic(mGifturl)
                 .setSendUserId(messageBean.getUserId())
-                .setSendUserName(messageBean.getNickName())
+                .setSendUserName(nickName)
                 .setSendUserPic(messageBean.getHeadPic())
                 .setSendGiftTime(System.currentTimeMillis())
                 .setCurrentStart(currentStart);
@@ -787,6 +806,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
 
     private void initTXLogin(User user) {
+
         if (user != null) {
             userConfig();
             // identifier为用户名，userSig 为用户登录凭证
@@ -881,7 +901,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                                     notifyMsg(entity);
 
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
-                                    showGift(messageBean);
+
+                                    showGift(messageBean, msg.getSenderProfile().getNickName());
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Exit) {
                                     if (isLiving(LivingPlayActivity.this)) {
                                         showComfirmDialog("主播关播了,下次再来", true);
