@@ -21,7 +21,7 @@
                 android:id="@+id/tv_demand_pay_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="50"
+                android:text="10"
                 android:textSize="38sp"
                 android:textColor="#000"
                 android:layout_marginLeft="17dp" />
@@ -31,7 +31,9 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/big_bean"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="65dp"/>
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/tv_demand_pay_number"
+                />
 
          <LinearLayout
              android:id="@+id/ll_demand_pay_delete"

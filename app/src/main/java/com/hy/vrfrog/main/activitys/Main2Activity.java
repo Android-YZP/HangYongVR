@@ -9,17 +9,26 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.base.BaseActivity;
+import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.ChannelStatusBean;
 import com.hy.vrfrog.main.adapter.MainAdapter;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.main.living.push.PushActivity;
 import com.hy.vrfrog.main.living.push.PushSettingActivity;
 import com.hy.vrfrog.main.personal.AuthenticationActivity;
+import com.hy.vrfrog.main.personal.ReleaseLiveActivity;
 import com.hy.vrfrog.ui.BottomBar;
+import com.hy.vrfrog.utils.SPUtil;
+import com.hy.vrfrog.utils.UIUtils;
 
 import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.lang.reflect.Field;
 
@@ -31,15 +40,22 @@ public class Main2Activity extends BaseActivity {
     private BottomBar mBottomBar;
     private ImageButton mIvLivingPush;
     private RelativeLayout linearLayout;
+    private ChannelStatusBean channelStatusBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        initAuditStatus();
         initView();
         initData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initAuditStatus();
+    }
 
     private void initView() {
         mVpMain = (ViewPager) findViewById(R.id.vp_main);
@@ -57,12 +73,46 @@ public class Main2Activity extends BaseActivity {
         mIvLivingPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main2Activity.this, AuthenticationActivity.class);
-                startActivity(intent);
+                if (channelStatusBean.getCode() == 0){
+                    startActivity(new Intent(Main2Activity.this,ReleaseLiveActivity.class));
+                }else {
+                    Intent intent = new Intent(Main2Activity.this, AuthenticationActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
 
+    private void initAuditStatus() {
+
+        if (SPUtil.getUser() != null) {
+            RequestParams requestParams = new RequestParams(HttpURL.ChannelStatus);
+            requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
+            requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");
+
+            LogUtil.i("审核状态token = " + SPUtil.getUser().getResult().getUser().getToken());
+            LogUtil.i("审核状态uid = " + SPUtil.getUser().getResult().getUser().getUid());
+
+            //获取数据
+            x.http().get(requestParams, new JsonCallBack() {
+                @Override
+                public void onSuccess(String result) {
+                    channelStatusBean = new Gson().fromJson(result, ChannelStatusBean.class);
+
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
 
 
+                    UIUtils.showTip("服务端连接失败");
+
+                }
+
+                @Override
+                public void onFinished() {
+                }
+            });
+        }
+    }
 }

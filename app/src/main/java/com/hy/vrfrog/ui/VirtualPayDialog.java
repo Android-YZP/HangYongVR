@@ -34,7 +34,7 @@ public class VirtualPayDialog {
     public VirtualPayDialog builder() {
         // 获取Dialog布局
         View view = LayoutInflater.from(context).inflate(
-                R.layout.dialog_pay_virtual,null);
+                R.layout.dialog_give_reward,null);
 
         // 获取自定义Dialog布局中的控件
 
@@ -64,16 +64,6 @@ public class VirtualPayDialog {
 
     public VirtualPayDialog setTitle(String title ) {
         mVirtualPayTitleTv.setText(title);
-        return this;
-    }
-
-    public VirtualPayDialog setPrice(String price ) {
-        mVirtualPayPriceTv.setText(price);
-        return this;
-    }
-
-    public VirtualPayDialog setAccountBalance(String account ) {
-        mVirtualPayAccountBalanceTv.setText(account);
         return this;
     }
 

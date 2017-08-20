@@ -117,12 +117,13 @@ public class ToolToast {
 		if(null == mToast){
 			//构建Toast
 			mToast = Toast.makeText(context, null, duration);
+			mToast.setGravity(Gravity.CENTER,0,0);
 		}
 
-		   mToast.setGravity(Gravity.CENTER,0,0);
-		   View view = LayoutInflater.from(context).inflate(
-				R.layout.pay_success,null);
-			mToast.setView(view);
+		View view = LayoutInflater.from(context).inflate(R.layout.pay_success,null);
+		TextView textView = (TextView) view.findViewById(R.id.tv_success);
+		textView.setText(msg);
+		mToast.setView(view);
 		mToast.show();
 
 		return mToast;

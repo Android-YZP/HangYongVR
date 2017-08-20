@@ -22,6 +22,7 @@ import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
 import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.ui.CircleImageView;
+import com.hy.vrfrog.ui.VirtuelPayPlayPriceDialog;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.TimeUtils;
 import com.hy.vrfrog.utils.UIUtils;
@@ -51,6 +52,8 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
     /************************************设置点击事件********************************************************/
     private OnItemClickListener mOnItemClickListener = null;
 
+    private IVideoDetailAdapter mCallback;
+
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
@@ -62,6 +65,10 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
     //define interface
     public static interface OnItemClickListener {
         void onItemClick(View view, int position, boolean isup);
+    }
+
+    public void setInnerListener(IVideoDetailAdapter listener){
+        this.mCallback = listener;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -141,6 +148,12 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
                 holder.mVideo3DImg.setImageResource(R.mipmap.video_play_vr);
             }
 
+            if (mData.get(position).getPrice() == 0){
+                holder.mPayImg.setVisibility(View.GONE);
+            }else {
+                holder.mPayImg.setVisibility(View.VISIBLE);
+            }
+
             Glide.with(context).load(mData.get(position).getHead()).into(holder.mVideoNameHead);
             holder.mVideoNameTv.setText(mData.get(position).getUsername());
             holder.mVideoPlayTitleTv.setText(mData.get(position).getChannelName());
@@ -154,37 +167,23 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
                 holder.mVideoPlayMessageTv.setText((String) mData.get(position).getIntroduce());
             }
 
+            holder.mGiveReward.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mCallback.onGiveReward(position);
+                }
+            });
+
             holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //进入点播
-                    Intent intent = new Intent(context, VideoPlayActivity.class);
-                    intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(mData.get(position).getVodInfos()));
-                    intent.putExtra(VedioContants.PlayType, VedioContants.Video);
-                    intent.putExtra("vid", mData.get(position).getId());
 
-
-                    //判断视频类型
-                    int isall = mData.get(position).getIsall();
-                    if (isall == VedioContants.TWO_D_VEDIO) {//2D
-                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-                    } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
-                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-                    } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
-                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
-                    } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
-                        intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
-                    }
-                    intent.putExtra("desc", mData.get(position).getChannelName());
-
-                    if (NetUtil.isOpenNetwork()) {
-                        context.startActivity(intent);
-                    } else {
-                        UIUtils.showTip("请连接网络");
-                    }
+                    mCallback.onPlayVideo(position);
 
                 }
             });
+
+
 
         } else if (type == VedioContants.Living) {//直播
             holder.mllRoomName.setVisibility(View.VISIBLE);
@@ -226,11 +225,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mData.get(position).getPrice() == 0) {
-                        goToPlay(position);
-                    } else {
-                        payDialog(position);
-                    }
+
                 }
             });
         }
@@ -243,65 +238,6 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         return mData.size();
     }
 
-    /**
-     * 对话框
-     *
-     * @param position
-     */
-
-    private void payDialog(final int position) {
-//        final Builder mPayDialog = new Builder(context, R.style.MyDialogStyle);
-        final AlertDialog.Builder mPayDialog = new AlertDialog.Builder(context, R.style.MyDialogStyle);
-
-        final View dialogView = LayoutInflater.from(context)
-                .inflate(R.layout.dialog_pay_item, null);
-        Button ivPayChacha = (Button) dialogView.findViewById(R.id.btn_pay_cancel);
-        TextView TvPayDiaprice = (TextView) dialogView.findViewById(R.id.tv_play_dia_price);
-        TvPayDiaprice.setText("价格： " + mData.get(position).getPrice() + "元");
-        TextView TvPayId = (TextView) dialogView.findViewById(R.id.tv_play_dia_id);
-        TvPayId.setText("房间ID：" + mData.get(position).getId());
-        TextView TvPayName = (TextView) dialogView.findViewById(R.id.tv_play_dia_name);
-        TvPayName.setText("当前直播：" + mData.get(position).getUsername());
-        Button btnGoPay = (Button) dialogView.findViewById(R.id.btn_go_pay);
-        //进入播放器
-        btnGoPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                show.dismiss();
-                goToPlay(position);
-            }
-        });
-
-        mPayDialog.setView(dialogView);
-        show = mPayDialog.show();
-        //点击消失
-        ivPayChacha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                show.dismiss();
-            }
-        });
-    }
-
-    private void goToPlay(int position) {
-        Intent i = new Intent(context, PlayActivity.class);
-        int isall = mData.get(position).getIsall();
-        if (isall == VedioContants.TWO_D_VEDIO) {
-            i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-        } else if (isall == VedioContants.ALL_VIEW_VEDIO) {
-            i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-        }
-        LogUtil.i(mData.get(position).getRtmpDownstreamAddress() + "");
-        i.putExtra(VedioContants.PlayUrl, mData.get(position).getRtmpDownstreamAddress() + "");
-        i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_HOST + mData.get(position).getHead() + "");
-        i.putExtra(VedioContants.KEY_PLAY_USERNAME, mData.get(position).getUsername() + "");
-        i.putExtra(VedioContants.KEY_PLAY_ID, mData.get(position).getId() + "");
-        if (NetUtil.isOpenNetwork()) {
-            context.startActivity(i);
-        } else {
-            UIUtils.showTip("请连接网络");
-        }
-    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -332,6 +268,12 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         private ImageView mIvupgif;
         private ImageView mIvdowngif;
 
+        private ImageButton mDowning;
+        private ImageButton mGiveReward;
+        private ImageButton mShare;
+
+        private ImageView mPayImg;
+
 
         MyViewHolder(View view) {
             super(view);
@@ -353,6 +295,7 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
 
             mVideo3DImg = (ImageView) view.findViewById(R.id.img_video_play_3d);
             mVideoPlayAttentionImg = (ImageView) view.findViewById(R.id.img_video_play_attention);
+            mPayImg = (ImageView)view.findViewById(R.id.img_video_play_price);
 
             mVideoName = (LinearLayout) view.findViewById(R.id.ll_video_name);
             mVideoNameHead = (CircleImageView) view.findViewById(R.id.img_video_head);
@@ -363,8 +306,21 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             mIvupgif = (ImageView) view.findViewById(R.id.iv_up_gif);
             mIvdowngif = (ImageView) view.findViewById(R.id.iv_down_gif);
 
+            mDowning = (ImageButton)view.findViewById(R.id.ib_video_down);
+            mGiveReward = (ImageButton)view.findViewById(R.id.ib_video_shang);
+            mShare = (ImageButton)view.findViewById(R.id.ib_video_share);
+
+
 
         }
+    }
+
+    public interface IVideoDetailAdapter{
+
+        void onGiveReward(int position);
+
+        void onPlayVideo(int position);
+
     }
 
 }

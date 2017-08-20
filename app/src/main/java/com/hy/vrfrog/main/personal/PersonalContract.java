@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.hy.vrfrog.base.BasePresenter;
 import com.hy.vrfrog.base.BaseView;
+import com.hy.vrfrog.http.responsebean.CreateHouseBean;
 import com.hy.vrfrog.http.responsebean.CreateLiveRoom;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public class PersonalContract {
 
         void showId(int id,CreateLiveRoom createLiveRoom);
 
+        void showCreateHouseData(CreateHouseBean createHouseBean);
+
 
     }
 
@@ -38,6 +41,8 @@ public class PersonalContract {
         void openCamera();
 
         void openAlbum();
+
+        void createHouseData();
 
     }
 

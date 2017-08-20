@@ -155,9 +155,24 @@ public class HttpURL {
     public static String Add = Host+"charge/android/add";
 
     /**
+     *打赏
+     */
+    public static String Pay = Host+"charge/pay";
+
+    /**
+     *获取充值规则列表
+     */
+    public static String Get = Host+"charge/get";
+
+    /**
      *获得用户余额
      */
     public static String Remain = Host+"charge/remain/get";
+
+    /**
+     *获得用户审核状态
+     */
+    public static String ChannelStatus = Host+"login/user/channelStatus/get";
 
 
     /**

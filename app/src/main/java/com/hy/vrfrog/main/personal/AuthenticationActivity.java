@@ -95,9 +95,8 @@ public class AuthenticationActivity extends AppCompatActivity{
 
             @Override
             public void onSuccess(String result) {
-
-                LogUtil.i(result);
-
+                LogUtil.i("实名认证 = " + result);
+                startActivity(new Intent(AuthenticationActivity.this,ReleaseLiveActivity.class));
             }
 
             @Override
@@ -107,7 +106,7 @@ public class AuthenticationActivity extends AppCompatActivity{
             @Override
             public void onFinished() {
                 super.onFinished();
-                startActivity(new Intent(AuthenticationActivity.this,ReleaseLiveActivity.class));
+
             }
         });
     }

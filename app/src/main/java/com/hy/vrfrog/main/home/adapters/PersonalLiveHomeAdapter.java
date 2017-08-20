@@ -2,7 +2,6 @@ package com.hy.vrfrog.main.home.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +56,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
     private List<GetLiveHomeBean.ResultBean> resultBean;
     private IPersonalLiveAdapter mCallback;
     private Runnable toDo;
+    private int mPosition ;
 
 
     public void setListener(IPersonalLiveAdapter listener) {
@@ -125,157 +125,43 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
 
     @Override
     public void onBindViewHolder(PersonalLiveHomeAdapter.LiveHomeAdapterHolder holder, final int position) {
+
+        mPosition = position;
+
+        if (resultBean.get(position).getPrice() != 0){
+            holder.mPayTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.mPayTv.setVisibility(View.GONE);
+        }
         if (getItemViewType(position) == TYPE_NORMAL) {
             holder.mLiveHomeTitleTv.setText(resultBean.get(position).getChannelName());
             holder.mLiveHomeHeadNameTv.setText(String.valueOf(resultBean.get(position).getUsername()));
             Glide.with(context).load(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg()).asBitmap().into(holder.mXcImg);
 
             holder.mXcImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (resultBean.get(position).getPrice() != 0) {
-                        new DemandPayDialog(context).builder()
-                                .setCanceledOnTouchOutside(true)
-                                .setPaybalance(String.valueOf(resultBean.get(position).getPrice()))
-                                .setDeleteListener("", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
+                      @Override
+                      public void onClick(View view) {
 
-                                    }
-                                })
-                                .setPayListener("", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
+                          if (resultBean.get(position).getPrice() != 0){
+                              mCallback.onPayMoney(position);
+                          }else {
+                              Intent intent = new Intent(context, LivingPlayActivity.class);
+                              intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
+                              intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
+                              intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
+                              intent.putExtra(VedioContants.GroupID, (String)resultBean.get(position).getAlipay());
+                              intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
+                              intent.putExtra(VedioContants.HeadFace, HttpURL.IV_USER_HOST + resultBean.get(position).getHead());
+                              intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg());
+                              LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg()+"________");
+                              context.startActivity(intent);
+                          }
 
-                                    }
-                                })
-                                .setRechargeListener("", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        new RechargeDialog(context).builder()
-                                                .setCanceledOnTouchOutside(true)
-                                                .setPayListener("", new RechargeDialog.IChargeMoney() {
-                                                    @Override
-                                                    public void goChargeMoney(int money) {
-                                                        ToolToast.buildToast(context, "", 0);
-
-                                                        LogUtil.i("money = " + money);
-                                                        if (SPUtil.getUser() != null) {
-                                                            initPayData(money, position);
-                                                        }else {
-                                                            UIUtils.showTip("请先登录");
-                                                        }
-
-                                                    }
-                                                })
-                                                .setDeleteListener("", new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-
-                                                    }
-                                                }).show();
-
-                                    }
-                                }).show();
-
-
-//                              new VirtualPayDialog(context).builder()
-//                                .setCanceledOnTouchOutside(true)
-//                                .setTitle(resultBean.get(position).getChannelName())
-//                                .setAccountBalance(String.valueOf(resultBean.get(position).getAlipay()))
-//                                .setPrice(String.valueOf(resultBean.get(position).getPrice()))
-//                                .setNegativeButton("", new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View view) {
-//
-//                                    }
-//                                })
-//                                .setPositiveButton("", new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View view) {
-//                                        initPayData();
-//                                    }
-//                                }).show();
-                    } else {
-                        Intent intent = new Intent(context, LivingPlayActivity.class);
-                        intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
-                        intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
-                        intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
-                        intent.putExtra(VedioContants.GroupID, (String)resultBean.get(position).getAlipay());
-                        intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
-                        intent.putExtra(VedioContants.HeadFace, HttpURL.IV_USER_HOST + resultBean.get(position).getHead());
-                        intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg());
-                        LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg()+"________");
-                        context.startActivity(intent);
-                    }
-                }
-            });
-        }
-    }
-
-    /**
-     * 充值
-     *
-     * @param money
-     * @param position
-     */
-    private void initPayData(int money, final int position) {
-
-        LoadingDataUtil.startLoad("正在加载...");
-        if (!NetUtil.isOpenNetwork()) {
-            UIUtils.showTip("请打开网络");
-            return;
-        }
-
-        RequestParams requestParams = new RequestParams(HttpURL.Add);
-        requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
-        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");
-        requestParams.addBodyParameter("cid", 20 + "");
-
-        LogUtil.i("支付token = " + SPUtil.getUser().getResult().getUser().getToken());
-        LogUtil.i("支付uid = " + SPUtil.getUser().getResult().getUser().getUid());
-
-
-        //包装请求参数
-//        requestParams.addBodyParameter("sourceNum", "111");//
-
-
-        //获取数据
-        x.http().post(requestParams, new JsonCallBack() {
-            @Override
-            public void onSuccess(String result) {
-
-                LogUtil.i("充值 = " + result);
-
-                RechargeBean rechargeBean = new Gson().fromJson(result, RechargeBean.class);
-//                if (rechargeBean.getCode() == 0){
-
-                ToolToast.buildToast(context, "", 1);
-
-                Intent intent = new Intent(context, LivingPlayActivity.class);
-                intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
-                intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
-                intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
-                intent.putExtra(VedioContants.GroupID, (String)resultBean.get(position).getAlipay());
-                intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
-                intent.putExtra(VedioContants.HeadFace, HttpURL.IV_USER_HOST + resultBean.get(position).getHead());
-                intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg());
-                LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg()+"________");
-                context.startActivity(intent);
-
+                      }
+                  });
             }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
 
-            }
-
-            @Override
-            public void onFinished() {
-                LoadingDataUtil.stopLoad();
-            }
-        });
     }
 
 
@@ -287,7 +173,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
         private TextView mLiveHomeHeadNameTv;
         private ImageView mLiveHomePlayStateImg;
         private ImageView mLiveHomeHeadImg;
-        private XCRoundRectImageView mXcImg;
+        private ImageView mXcImg;
+        private TextView mPayTv;
 
 
         public LiveHomeAdapterHolder(View itemView) {
@@ -301,7 +188,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
             mLiveHomePlayStateImg = (ImageView) itemView.findViewById(R.id.img_live_home_play_state);
             mLiveHomeHeadImg = (ImageView) itemView.findViewById(R.id.img_live_home_head);
 
-            mXcImg = (XCRoundRectImageView) itemView.findViewById(R.id.img_xc_personal);
+            mXcImg = (ImageView) itemView.findViewById(R.id.img_xc_personal);
+            mPayTv = (TextView)itemView.findViewById(R.id.tv_personal_live_pay);
 
         }
     }
@@ -322,8 +210,10 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
         }
     }
 
-    public interface IPersonalLiveAdapter {
-        void OnClick();
+    public interface IPersonalLiveAdapter{
+
+        void onPayMoney(int position);
+
     }
 
 }

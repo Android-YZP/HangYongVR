@@ -1,19 +1,12 @@
 package com.hy.vrfrog.main.personal;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
 
+import android.content.Context;
+import android.view.View;
 import com.google.gson.Gson;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.CreateHouseBean;
 import com.hy.vrfrog.http.responsebean.CreateLiveRoom;
 import com.hy.vrfrog.ui.photoChoiceDialog;
 import com.hy.vrfrog.utils.LongLogUtil;
@@ -24,9 +17,6 @@ import com.hy.vrfrog.utils.UIUtils;
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Created by qwe on 2017/8/16.
@@ -61,16 +51,19 @@ public class PersonalPresenter implements PersonalContract.Presenter {
         requestParams.addBodyParameter("price", price);
         requestParams.addBodyParameter("introduce", introduce);
 
+        LogUtil.i("开始直播 isTranscribe = " + isTranscribe);
+        LogUtil.i("开始直播 isCharge = " + isCharge);
+
+
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
 
             @Override
             public void onSuccess(String result) {
-                LongLogUtil.e("-----------", result);
+                LongLogUtil.e("开始直播-----------", result);
                 CreateLiveRoom createLiveRoom = new Gson().fromJson(result, CreateLiveRoom.class);
                 int id = createLiveRoom.getResult().getId();
                 mView.showId(id,createLiveRoom);
-
 
             }
 
@@ -118,6 +111,33 @@ public class PersonalPresenter implements PersonalContract.Presenter {
     public void openAlbum() {
 
         mView.openAlbum();
+
+    }
+
+    @Override
+    public void createHouseData() {
+        RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonRoom);
+        requestParams.addHeader("token", HttpURL.Token);
+
+        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
+        //获取数据
+        // 有上传文件时使用multipart表单, 否则上传原始文件流.
+        requestParams.setMultipart(true);
+        x.http().post(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i("创建房间 =" + result);
+                CreateHouseBean createHouseBean =  new Gson().fromJson(result,CreateHouseBean.class);
+                mView.showCreateHouseData(createHouseBean);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+        });
 
     }
 

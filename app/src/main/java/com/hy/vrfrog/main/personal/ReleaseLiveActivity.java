@@ -39,10 +39,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.CreateHouseBean;
 import com.hy.vrfrog.http.responsebean.CreateLiveRoom;
 import com.hy.vrfrog.http.responsebean.PictureBean;
 import com.hy.vrfrog.main.living.push.PushActivity;
@@ -80,8 +82,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private EditText mHouseNameEdt;
     private EditText mMoneyEdt;
     private Button mReleaseBtn;
-    private String isTranscribe;
-    private String isCharge;
+    private String  isTranscribe = String.valueOf(1);
+    private String isCharge = String.valueOf(1);
     private String mHouseName;
     private String mMoney;
     private ImageView mCover;
@@ -118,32 +120,9 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activtiy_release_live);
         initView();
         initListener();
-        initData();
+        mPresenter.createHouseData();
     }
 
-    private void initData() {
-
-        RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonRoom);
-        requestParams.addHeader("token", HttpURL.Token);
-
-        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");//用户名
-        //获取数据
-        // 有上传文件时使用multipart表单, 否则上传原始文件流.
-        requestParams.setMultipart(true);
-        x.http().post(requestParams, new JsonCallBack() {
-
-            @Override
-            public void onSuccess(String result) {
-                LogUtil.i("创建房间 =" + result);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip(ex.getMessage());
-            }
-        });
-
-    }
 
     @Override
     protected void onDestroy() {
@@ -153,28 +132,28 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     private void initView() {
 
-        cachPath = getDiskCacheDir(this) + "/certificate.jpg";//图片路径
-        cacheFile = getCacheFile(new File(getDiskCacheDir(this)), "certificate.jpg");
+        cachPath= getDiskCacheDir(this)+ "/certificate.jpg";//图片路径
+        cacheFile = getCacheFile(new File(getDiskCacheDir(this)),"certificate.jpg");
 
-        mBack = (ImageView) findViewById(R.id.img_release_live_return);
-        mHouseNameEdt = (EditText) findViewById(R.id.edt_release_live_house_name);
-        mMoneyEdt = (EditText) findViewById(R.id.edt_release_live_money);
-        mReleaseBtn = (Button) findViewById(R.id.btn_release_click);
-        mVideoRg = (RadioGroup) findViewById(R.id.rg_release_live_video);
-        mVideoRbYes = (RadioButton) findViewById(R.id.rb_release_live_video_save);
-        mVideoRbNo = (RadioButton) findViewById(R.id.rb_release_live_video_not_save);
+        mBack = (ImageView)findViewById(R.id.img_release_live_return);
+        mHouseNameEdt = (EditText)findViewById(R.id.edt_release_live_house_name);
+        mMoneyEdt = (EditText)findViewById(R.id.edt_release_live_money);
+        mReleaseBtn = (Button)findViewById(R.id.btn_release_click);
+        mVideoRg = (RadioGroup)findViewById(R.id.rg_release_live_video);
+        mVideoRbYes = (RadioButton)findViewById(R.id.rb_release_live_video_save);
+        mVideoRbNo = (RadioButton)findViewById(R.id.rb_release_live_video_not_save);
 
-        mChargeRg = (RadioGroup) findViewById(R.id.rg_release_live_charge);
-        mChargeRbYes = (RadioButton) findViewById(R.id.rb_release_live_charge_save);
-        mChargeRbNo = (RadioButton) findViewById(R.id.rb_release_live_charge_not_save);
+        mChargeRg = (RadioGroup)findViewById(R.id.rg_release_live_charge);
+        mChargeRbYes = (RadioButton)findViewById(R.id.rb_release_live_charge_save);
+        mChargeRbNo = (RadioButton)findViewById(R.id.rb_release_live_charge_not_save);
 
-        mCover = (ImageView) findViewById(R.id.img_release_cover);
+        mCover = (ImageView)findViewById(R.id.img_release_cover);
 
-        mLayout = (RelativeLayout) findViewById(R.id.rl_release_live_money);
-        mAgreeCb = (CheckBox) findViewById(R.id.cb_agree);
+        mLayout = (RelativeLayout)findViewById(R.id.rl_release_live_money);
+        mAgreeCb = (CheckBox)findViewById(R.id.cb_agree);
 
-        mBackGroundImg = (ImageView) findViewById(R.id.img_background);
-        mBackGroundTv = (TextView) findViewById(R.id.tv_background);
+        mBackGroundImg = (ImageView)findViewById(R.id.img_background);
+        mBackGroundTv = (TextView)findViewById(R.id.tv_background);
 
         new PersonalPresenter(this);
 
@@ -198,7 +177,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()) {
+        switch (view.getId()){
             case R.id.img_release_live_return:
                 finish();
                 break;
@@ -206,17 +185,17 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 //                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
 //                startActivity(intent);
 //
-                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
+                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())){
                     UIUtils.showTip("房间名称不能为空");
                     return;
                 }
 
-                if (TextUtils.isEmpty(mMoneyEdt.getText().toString())) {
+                if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
                     UIUtils.showTip("收费金额不能为空");
                     return;
                 }
 
-                if (mAgreeCb.isChecked()) {
+                if (mAgreeCb.isChecked()){
                     UIUtils.showTip("请选择我已阅读并同意直播协议");
                     return;
                 }
@@ -234,21 +213,21 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-        if (i == R.id.rb_release_live_video_save) {
+        if (i == R.id.rb_release_live_video_save){
 
             isTranscribe = String.valueOf(1);
 
-        } else if (i == R.id.rb_release_live_video_not_save) {
+        }else if (i == R.id.rb_release_live_video_not_save){
 
-            isTranscribe = String.valueOf(0);
+            isTranscribe = String.valueOf(0) ;
 
-        } else if (i == R.id.rb_release_live_charge_save) {
+        }else if (i == R.id.rb_release_live_charge_save){
 
-            isCharge = String.valueOf(1);
+            isCharge  = String.valueOf(1) ;
             mLayout.setVisibility(View.VISIBLE);
 
-        } else if (i == R.id.rb_release_live_charge_not_save) {
-            isCharge = String.valueOf(0);
+        }else if (i ==  R.id.rb_release_live_charge_not_save){
+            isCharge = String.valueOf(0) ;
             mLayout.setVisibility(View.GONE);
         }
 
@@ -332,6 +311,43 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    public void showCreateHouseData(CreateHouseBean createHouseBean) {
+        if (createHouseBean.getCode() == 0){
+            if (createHouseBean.getResult().getChannelName() != null){
+                mHouseNameEdt.setText(createHouseBean.getResult().getChannelName());
+            }
+
+            if (createHouseBean.getResult().getPrice() != 0){
+                mMoneyEdt.setText(String.valueOf(createHouseBean.getResult().getPrice()));
+            }
+
+            if (createHouseBean.getResult().getImg() != null){
+                Glide.with(ReleaseLiveActivity.this).load(HttpURL.IV_PERSON_HOST + createHouseBean.getResult().getImg()).asBitmap().into(mCover);
+                mBackGroundImg.setVisibility(View.GONE);
+                mBackGroundTv.setVisibility(View.GONE);
+            }
+
+            if (createHouseBean.getResult().getIsTranscribe() == 1){
+                mVideoRbYes.setChecked(true);
+                isTranscribe = String.valueOf(1);
+
+            }else {
+                mVideoRbNo.setChecked(true);
+                isTranscribe = String.valueOf(0);
+            }
+
+            if ((Integer)createHouseBean.getResult().getIsCharge() == 1){
+                mChargeRbYes.setChecked(true);
+                isCharge = String.valueOf(1);
+
+            }else {
+                mChargeRbNo.setChecked(true);
+                isCharge = String.valueOf(0);
+            }
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
@@ -408,6 +424,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     intent.putExtra(VedioContants.GroupID, (String) createLiveRoom.getResult().getAlipay());
                     intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + createLiveRoom.getResult().getImg());
                     startActivity(intent);
+                    ReleaseLiveActivity.this.finish();
                 }
 
             }
@@ -495,7 +512,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     /**
      * 将图片存到本地
      * 获得本地图片路径
-     *
      * @param context
      * @return
      */
@@ -536,7 +552,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     /**
      * 转化地址为content开头
-     *
      * @param context
      * @param imageFile
      * @return
@@ -545,7 +560,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         String filePath = imageFile.getAbsolutePath();
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Images.Media._ID},
+                new String[] { MediaStore.Images.Media._ID },
                 MediaStore.Images.Media.DATA + "=? ",
                 new String[]{filePath}, null);
 
@@ -617,7 +632,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
         /**
          * 为获取权限
-         *
          * @param deniedPermission
          */
         void onDenied(List<String> deniedPermission);

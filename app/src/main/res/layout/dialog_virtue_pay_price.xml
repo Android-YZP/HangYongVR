@@ -10,7 +10,7 @@
     >
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="420dp"
+        android:layout_height="380dp"
         android:background="@mipmap/virtue_price_title"
         android:orientation="vertical"
         >
@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2"
-            android:layout_marginTop="200dp"
+
+            android:visibility="gone"
             >
             <TextView
                 android:layout_width="0dp"
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="180dp"
             >
             <TextView
                 android:layout_width="0dp"
@@ -55,7 +56,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/dialog_pay_virtual_price"
-                android:textSize="16dp"
+                android:textSize="18dp"
+                android:textColor="@color/black"
                 />
             <TextView
                 android:id="@+id/tv_dialog_virtual_pay_price_price"
@@ -64,7 +66,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text=""
-                android:textSize="16dp"
+                android:textSize="18dp"
+                android:textColor="@color/black"
                 />
         </LinearLayout>
 
@@ -160,7 +163,7 @@
             <TextView
                 android:id="@+id/tv_dialog_virtual_pay_price_cancel"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/dialog_pay_virtual_cancel"
@@ -172,7 +175,7 @@
             <TextView
                 android:id="@+id/tv_dialog_virtual_pay_price_account_confirm_pay"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/white"

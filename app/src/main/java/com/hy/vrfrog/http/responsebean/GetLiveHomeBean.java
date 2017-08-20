@@ -311,7 +311,7 @@ public class GetLiveHomeBean {
          */
 
         private int id;
-        private Object uid;
+        private int uid;
         private String username;
         private String channelName;
         private int isall;
@@ -366,11 +366,11 @@ public class GetLiveHomeBean {
             this.id = id;
         }
 
-        public Object getUid() {
+        public int getUid() {
             return uid;
         }
 
-        public void setUid(Object uid) {
+        public void setUid(int uid) {
             this.uid = uid;
         }
 

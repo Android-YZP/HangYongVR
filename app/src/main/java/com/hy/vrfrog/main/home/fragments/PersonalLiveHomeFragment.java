@@ -19,16 +19,22 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
+import com.hy.vrfrog.http.responsebean.GiveRewardBean;
+import com.hy.vrfrog.http.responsebean.RechargeBean;
 import com.hy.vrfrog.http.responsebean.RecommendBean;
 import com.hy.vrfrog.main.home.adapters.EnterpriseOnLiveAdapter;
 import com.hy.vrfrog.main.home.adapters.RecommandAdapter;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
+import com.hy.vrfrog.ui.DemandPayDialog;
 import com.hy.vrfrog.ui.ItemDivider;
+import com.hy.vrfrog.ui.RechargeDialog;
 import com.hy.vrfrog.ui.VerticalSwipeRefreshLayout;
 import com.hy.vrfrog.main.home.adapters.PersonalLiveHomeAdapter;
 import com.hy.vrfrog.ui.VirtualPayDialog;
+import com.hy.vrfrog.ui.VirtuelPayPriceDialog;
 import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.ToolToast;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 
@@ -43,7 +49,7 @@ import java.util.List;
  * Created by qwe on 2017/8/4.
  */
 @SuppressLint("ValidFragment")
-public class PersonalLiveHomeFragment extends Fragment {
+public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveContract.PersonalLiveView,PersonalLiveHomeAdapter.IPersonalLiveAdapter{
 
     private LinearLayout mEmptyll;
     private VerticalSwipeRefreshLayout mSwipeRefresh;
@@ -53,12 +59,14 @@ public class PersonalLiveHomeFragment extends Fragment {
     private int pager = 1;
     private GetLiveHomeBean getLiveHomeBean;
     private boolean isLoadingMore;
+    private PersonalLivePresenter mPresenter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_live_home, container, false);
         initView(view);
-        initData(pager);
+        mPresenter.getPersonalLiveData(pager,10,2);
+
         initListener();
         return view;
     }
@@ -71,7 +79,7 @@ public class PersonalLiveHomeFragment extends Fragment {
                 if (mList.size() != 0){
                     mList.clear();
                 }
-                initData(pager);
+                mPresenter.getPersonalLiveData(pager,10,2);
             }
         });
 
@@ -84,89 +92,178 @@ public class PersonalLiveHomeFragment extends Fragment {
                     if (mAdapter.getFooterView() == null) {
                         ++ pager;
                         isLoadingMore = true;
-                        initData(pager);
+                        mPresenter.getPersonalLiveData(pager,10,2);
                     } else {
                         return;
                     }
 
-                    if (getLiveHomeBean.getPage().getTotal() <= pager) {
-                        View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
-                        mAdapter.setFooterView(v);
-                        mAdapter.notifyDataSetChanged();
-                    }
+//                    if (getLiveHomeBean.getPage().getTotal() <= pager) {
+//                        View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
+//                        mAdapter.setFooterView(v);
+//                        mAdapter.notifyDataSetChanged();
+//                    }
                 }
             }
         });
-    }
-
-    private void initData(int pager) {
-
-        if (!NetUtil.isOpenNetwork()) {
-            UIUtils.showTip("请打开网络");
-            mEmptyll.setVisibility(View.VISIBLE);
-            return;
-        }
-        //使用xutils3访问网络并获取返回值
-        RequestParams requestParams = new RequestParams(HttpURL.AllLive);
-        requestParams.addHeader("token", HttpURL.Token);
-        //包装请求参数
-//        requestParams.addBodyParameter("sourceNum", "111");//
-        requestParams.addBodyParameter("page", pager + "");//
-        requestParams.addBodyParameter("count", 10 +"");//
-        requestParams.addBodyParameter("type", 2 + "");//
-
-        //获取数据
-        x.http().post(requestParams, new JsonCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                LongLogUtil.e("个人直播---------------", result);
-                getLiveHomeBean = new Gson().fromJson(result, GetLiveHomeBean.class);
-                if (getLiveHomeBean.getCode() == 0) {
-                    mEmptyll.setVisibility(View.GONE);
-
-                    if (isLoadingMore) {
-                        mList.addAll(getLiveHomeBean.getResult());
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        LogUtil.e("个人直播 =" + getLiveHomeBean.getResult());
-                        mList = getLiveHomeBean.getResult();
-                        mAdapter = new PersonalLiveHomeAdapter(getActivity(),mList);
-
-                        if (getLiveHomeBean.getPage().getTotal() <= 10) {
-                            View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
-                            mAdapter.setFooterView(v);
-                        }
-                        mRecyclerView.setAdapter(mAdapter);
-
-                    }
-
-                }
-                LogUtil.i("个人直播 = " + getLiveHomeBean.getResult());
-            }
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
-                mSwipeRefresh.setRefreshing(false);
-            }
-
-            @Override
-            public void onFinished() {
-                mSwipeRefresh.setRefreshing(false);
-            }
-        });
-
     }
 
     private void initView(View view) {
 
         mEmptyll = (LinearLayout)view.findViewById(R.id.ll_live_home_no_data);
         mSwipeRefresh = (VerticalSwipeRefreshLayout)view.findViewById(R.id.vsr_live_home__refresh);
-        mSwipeRefresh.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
+//        mSwipeRefresh.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_live_home_recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.addItemDecoration(new ItemDivider(10));
+        new PersonalLivePresenter(this);
 
     }
 
+    @Override
+    public void setPresenter(PersonalLiveContract.Presenter presenter) {
+        this.mPresenter = (PersonalLivePresenter) presenter;
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public void getPersonalLiveDataSuccess(GetLiveHomeBean getLiveHomeBean) {
+        if (getLiveHomeBean.getCode() == 0) {
+
+            mEmptyll.setVisibility(View.GONE);
+
+            if (isLoadingMore) {
+                mList.addAll(getLiveHomeBean.getResult());
+                mAdapter.notifyDataSetChanged();
+            } else {
+
+                mList = getLiveHomeBean.getResult();
+                mAdapter = new PersonalLiveHomeAdapter(getActivity(),mList);
+                mAdapter.setListener(this);
+
+//                if (getLiveHomeBean.getPage().getTotal() <= 10) {
+//                    View v = View.inflate(getContext(), R.layout.main_list_no_datas, null);//main_list_item_foot_view
+//                    mAdapter.setFooterView(v);
+//                }
+                mRecyclerView.setAdapter(mAdapter);
+
+            }
+
+                }
+    }
+
+    @Override
+    public void getPersonalLiveDataFail(Throwable throwable) {
+        UIUtils.showTip("服务端连接失败");
+        mSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void getPersonalLiveDataFinish() {
+        mSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void noNetwork() {
+        UIUtils.showTip("请打开网络");
+        mEmptyll.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void payMoneySuccess(int position, GiveRewardBean giveRewardBean) {
+        if (giveRewardBean.getCode() == 0){
+            ToolToast.buildToast(getActivity(),"支付成功",1);
+            Intent intent = new Intent(getActivity(), LivingPlayActivity.class);
+            intent.putExtra(VedioContants.LivingPlayUrl, mList.get(position).getRtmpDownstreamAddress());
+            intent.putExtra(VedioContants.ChannelName, mList.get(position).getChannelName());
+            intent.putExtra(VedioContants.ChannelId, mList.get(position).getChannelId());
+            intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + mList.get(position).getHead());
+            getActivity().startActivity(intent);
+        }else {
+            ToolToast.buildToast(getActivity(),"蛙豆不足",1);
+        }
+    }
+
+
+    @Override
+    public void payMoneyFailure(Throwable throwable) {
+        UIUtils.showTip(throwable.toString());
+    }
+
+    @Override
+    public void rechargeMoneySuccess(int position, RechargeBean rechargeBean) {
+        if (rechargeBean.getCode() == 0){
+            ToolToast.buildToast(getActivity(),"充值成功",1);
+            Intent intent = new Intent(getActivity(), LivingPlayActivity.class);
+            intent.putExtra(VedioContants.LivingPlayUrl, mList.get(position).getRtmpDownstreamAddress());
+            intent.putExtra(VedioContants.ChannelName, mList.get(position).getChannelName());
+            intent.putExtra(VedioContants.ChannelId, mList.get(position).getChannelId());
+            intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + mList.get(position).getHead());
+            getActivity().startActivity(intent);
+
+        }
+    }
+
+    @Override
+    public void rechargeMoneyFaiiure(Throwable ex) {
+        UIUtils.showTip(ex.toString());
+
+    }
+
+    @Override
+    public void onPayMoney(final int position) {
+
+       new VirtuelPayPriceDialog(getActivity()).builder()
+               .setPrice(String.valueOf(mList.get(position).getPrice()) + "蛙豆")
+               .setHouseId(String.valueOf(mList.get(position).getId()))
+               .setHouseLive(mList.get(position).getUsername())
+               .setPositiveButton("", new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       new DemandPayDialog(getActivity()).builder()
+                                      .setCanceledOnTouchOutside(true)
+                                      .setDemandPayNumber(String.valueOf(mList.get(position).getPrice()))
+                                      .setPayTitle("影片名称：" + mList.get(position).getUsername() )
+                                      .setDeleteListener("", new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View view) {
+
+                                          }
+                                      })
+                                      .setPayListener("", new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View view) {
+                                              mPresenter.onPayMoney(mList.get(position).getPrice(),position,mList);
+                                          }
+                                      })
+                                      .setRechargeListener("", new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View view) {
+
+                                              new RechargeDialog(getActivity()).builder()
+                                                      .setCanceledOnTouchOutside(true)
+                                                      .setPayListener("", new RechargeDialog.IChargeMoney() {
+                                                          @Override
+                                                          public void goChargeMoney(int money) {
+                                                              LogUtil.i("money = " + money);
+                                                              mPresenter.onRechargeMoney(money);
+                                                          }
+                                                      })
+                                                      .setDeleteListener("", new View.OnClickListener() {
+                                                          @Override
+                                                          public void onClick(View view) {
+
+                                                          }
+                                                      }).show();
+
+                                          }
+                                      }).show();
+                   }
+               }).show();
+
+    }
 }

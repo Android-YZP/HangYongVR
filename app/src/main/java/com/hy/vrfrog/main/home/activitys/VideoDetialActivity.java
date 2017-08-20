@@ -20,16 +20,26 @@ import com.google.gson.Gson;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.application.VrApplication;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.GiveRewardBean;
+import com.hy.vrfrog.http.responsebean.RechargeBean;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
 import com.hy.vrfrog.main.activitys.Guide1Activity;
+import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
+import com.hy.vrfrog.ui.GiveRewardDialog;
+import com.hy.vrfrog.ui.LoadingDataUtil;
+import com.hy.vrfrog.ui.VirtuelPayPlayPriceDialog;
 import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.SPUtil;
+import com.hy.vrfrog.utils.ToolToast;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 import com.hy.vrfrog.main.home.adapters.VideoDetialAdapter;
 import com.hy.vrfrog.ui.SwipeBackActivity;
+import com.hy.vrfrog.vrplayer.VideoPlayActivity;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -40,7 +50,7 @@ import org.xutils.x;
 
 import java.util.List;
 
-public class VideoDetialActivity extends SwipeBackActivity {
+public class VideoDetialActivity extends SwipeBackActivity implements VideoDetialAdapter.IVideoDetailAdapter ,VideoContract.VideoView{
     private static final String COUNT = "10";//每次获取到的数据
     private RecyclerViewPager mRvVideoDetaillist;
     private VrPanoramaView panoWidgetView;
@@ -60,17 +70,19 @@ public class VideoDetialActivity extends SwipeBackActivity {
     private int mTotalpage;
     private boolean isFling;
     private ImageView mBack;
+    private VideoPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_video_detials);
+        initData();
         initView();
         initPanorama();
-        initData();
         initListenter();
         initRecyclerViewPager();
+        new VideoPresenter(this);
     }
 
     private void initView() {
@@ -216,6 +228,7 @@ public class VideoDetialActivity extends SwipeBackActivity {
                         mData = topicByVideoBean.getResult();
                         mVideoDetialAdapter = new VideoDetialAdapter(VideoDetialActivity.this, mData);
                         mRvVideoDetaillist.setAdapter(mVideoDetialAdapter);
+                        mVideoDetialAdapter.setInnerListener(VideoDetialActivity.this);
                         showBg(mPosition);
                         mVideoDetialAdapter.setOnItemClickListener(new VideoDetialAdapter.OnItemClickListener() {
                             @Override
@@ -310,6 +323,156 @@ public class VideoDetialActivity extends SwipeBackActivity {
         // Destroy the widget and free memory.
         panoWidgetView.shutdown();
         super.onDestroy();
+    }
+
+    @Override
+    public void onGiveReward(final int position) {
+
+        new GiveRewardDialog(VideoDetialActivity.this).builder()
+                .setCanceledOnTouchOutside(true)
+                .setNegativeButton("", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                })
+                .setPositiveButton("", new GiveRewardDialog.IGiveReward() {
+                    @Override
+                    public void GoGiveReward(int count) {
+                        LogUtil.i("打赏 = " + count);
+                        mPresenter.getRewardData(count,position,mData);
+                    }
+                })
+
+                .show();
+    }
+
+    @Override
+    public void onPlayVideo(final int position) {
+
+        LogUtil.i("支付价格 =" + mData.get(position).getPrice());
+
+      if (mData.get(position).getPrice() != 0){
+
+        new VirtuelPayPlayPriceDialog(VideoDetialActivity.this).builder()
+                .setCanceledOnTouchOutside(true)
+                .setTitle(mData.get(position).getChannelName())
+                .setPrice(mData.get(position).getPrice() + "蛙豆")
+                .setNegativeButton("", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                })
+                .setPositiveButton("", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        mPresenter.goPayMoney(mData.get(position).getPrice(),position,mData);
+
+                    }
+                }).show();
+
+      }else {
+          //进入点播
+          Intent intent = new Intent(VideoDetialActivity.this, VideoPlayActivity.class);
+          intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(mData.get(position).getVodInfos()));
+          intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+          intent.putExtra("vid", mData.get(position).getId());
+          intent.putExtra("position",position);
+          intent.putExtra("yid",mData.get(position).getUid());
+
+
+          //判断视频类型
+          int isall = mData.get(position).getIsall();
+          if (isall == VedioContants.TWO_D_VEDIO) {//2D
+              intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+          } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+              intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+          } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+              intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
+          } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+              intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+          }
+          intent.putExtra("desc", mData.get(position).getChannelName());
+
+          if (NetUtil.isOpenNetwork()) {
+              VideoDetialActivity.this.startActivity(intent);
+          } else {
+              UIUtils.showTip("请连接网络");
+          }
+      }
+
+    }
+
+
+    @Override
+    public void setPresenter(VideoContract.Presenter presenter) {
+
+        this.mPresenter = (VideoPresenter) presenter;
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public void showGetRewardResult(GiveRewardBean giveRewardBean) {
+        if (giveRewardBean.getCode() == 0){
+            ToolToast.buildToast(VideoDetialActivity.this,"打赏成功",1);
+        }else {
+            ToolToast.buildToast(VideoDetialActivity.this,"蛙豆不足",1);
+        }
+    }
+
+    @Override
+    public void showGetRewardResultError(Throwable ex) {
+        UIUtils.showTip("打赏失败");
+    }
+
+    @Override
+    public void showPayMoneyResult(int position,GiveRewardBean giveRewardBean) {
+        if (giveRewardBean.getCode() == 0){
+            ToolToast.buildToast(VideoDetialActivity.this,"支付成功",1);
+            //进入点播
+            Intent intent = new Intent(VideoDetialActivity.this, VideoPlayActivity.class);
+            intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(mData.get(position).getVodInfos()));
+            intent.putExtra(VedioContants.PlayType, VedioContants.Video);
+            intent.putExtra("vid", mData.get(position).getId());
+            intent.putExtra("position",position);
+            intent.putExtra("yid",mData.get(position).getUid());
+
+
+            //判断视频类型
+            int isall = mData.get(position).getIsall();
+            if (isall == VedioContants.TWO_D_VEDIO) {//2D
+                intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+            } else if (isall == VedioContants.ALL_VIEW_VEDIO) {//全景
+                intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+            } else if (isall == VedioContants.THREE_D_VEDIO) {//3D
+                intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.THREE_D_VEDIO);
+            } else if (isall == VedioContants.VR_VIEW_VEDIO) {//VR
+                intent.putExtra(VedioContants.PLEAR_MODE, VedioContants.VR_VIEW_VEDIO);
+            }
+            intent.putExtra("desc", mData.get(position).getChannelName());
+
+            if (NetUtil.isOpenNetwork()) {
+                VideoDetialActivity.this.startActivity(intent);
+            } else {
+                UIUtils.showTip("请连接网络");
+            }
+        }else {
+            ToolToast.buildToast(VideoDetialActivity.this,"蛙豆不足",1);
+        }
+    }
+
+    @Override
+    public void showPayMoneyResultError(Throwable ex) {
+
+        UIUtils.showTip("支付失败");
+
     }
 
 
