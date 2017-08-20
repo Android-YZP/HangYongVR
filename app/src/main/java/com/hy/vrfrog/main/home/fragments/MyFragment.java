@@ -62,6 +62,7 @@ public class MyFragment extends Fragment {
     private TextView mAccountTv;
     private TextView mCertificationTv;
     private BasePreferences mBasePreferences;
+    private ChannelStatusBean channelStatusBean;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,7 @@ public class MyFragment extends Fragment {
             x.http().get(requestParams, new JsonCallBack() {
                 @Override
                 public void onSuccess(String result) {
-                    ChannelStatusBean channelStatusBean = new Gson().fromJson(result,ChannelStatusBean.class);
+                    channelStatusBean = new Gson().fromJson(result,ChannelStatusBean.class);
                     if (channelStatusBean.getCode() == 0){
                         mCertificationTv.setText("已认证");
                     }else {
@@ -226,8 +227,15 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(getActivity(), AuthenticationActivity.class));
-                getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                if (channelStatusBean != null){
+                    if (channelStatusBean.getCode() == 0){
+
+                    }else {
+                        startActivity(new Intent(getActivity(), AuthenticationActivity.class));
+                        getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                    }
+                }
+
             }
         });
     }

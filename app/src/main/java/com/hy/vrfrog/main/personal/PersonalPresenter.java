@@ -116,28 +116,33 @@ public class PersonalPresenter implements PersonalContract.Presenter {
 
     @Override
     public void createHouseData() {
-        RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonRoom);
-        requestParams.addHeader("token", HttpURL.Token);
 
-        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
-        //获取数据
-        // 有上传文件时使用multipart表单, 否则上传原始文件流.
-        requestParams.setMultipart(true);
-        x.http().post(requestParams, new JsonCallBack() {
+        if (SPUtil.getUser() != null){
+            RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonRoom);
+            requestParams.addHeader("token", HttpURL.Token);
 
-            @Override
-            public void onSuccess(String result) {
-                LogUtil.i("创建房间 =" + result);
-                CreateHouseBean createHouseBean =  new Gson().fromJson(result,CreateHouseBean.class);
-                mView.showCreateHouseData(createHouseBean);
+            requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
+            //获取数据
+            // 有上传文件时使用multipart表单, 否则上传原始文件流.
+            requestParams.setMultipart(true);
+            x.http().post(requestParams, new JsonCallBack() {
 
-            }
+                @Override
+                public void onSuccess(String result) {
+                    LogUtil.i("创建房间 =" + result);
+                    CreateHouseBean createHouseBean =  new Gson().fromJson(result,CreateHouseBean.class);
+                    mView.showCreateHouseData(createHouseBean);
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
+                }
 
-            }
-        });
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+
+                }
+            });
+        }else {
+            mView.goLogin();
+        }
 
     }
 

@@ -324,41 +324,48 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void showCreateHouseData(CreateHouseBean createHouseBean) {
-        if (createHouseBean.getCode() == 0) {
-            if (createHouseBean.getResult().getChannelName() != null) {
-                mHouseNameEdt.setText(createHouseBean.getResult().getChannelName());
-            }
+        if (createHouseBean != null){
+            if (createHouseBean.getCode() == 0) {
+                if (createHouseBean.getResult().getChannelName() != null) {
+                    mHouseNameEdt.setText(createHouseBean.getResult().getChannelName());
+                }
 
-            if (createHouseBean.getResult().getPrice() != 0) {
-                mMoneyEdt.setText(String.valueOf(createHouseBean.getResult().getPrice()));
-            }
+                if (createHouseBean.getResult().getPrice() != 0) {
+                    mMoneyEdt.setText(String.valueOf(createHouseBean.getResult().getPrice()));
+                }
 
-            if (createHouseBean.getResult().getImg() != null) {
-                Glide.with(ReleaseLiveActivity.this).load(HttpURL.IV_PERSON_HOST + createHouseBean.getResult().getImg()).asBitmap().into(mCover);
-                mBackGroundImg.setVisibility(View.GONE);
-                mBackGroundTv.setVisibility(View.GONE);
-                isChoosed = true;
-            }
+                if (createHouseBean.getResult().getImg() != null) {
+                    Glide.with(ReleaseLiveActivity.this).load(HttpURL.IV_PERSON_HOST + createHouseBean.getResult().getImg()).asBitmap().into(mCover);
+                    mBackGroundImg.setVisibility(View.GONE);
+                    mBackGroundTv.setVisibility(View.GONE);
+                    isChoosed = true;
+                }
 
-            if (createHouseBean.getResult().getIsTranscribe() == 1) {
-                mVideoRbYes.setChecked(true);
-                isTranscribe = String.valueOf(1);
+                if (createHouseBean.getResult().getIsTranscribe() == 1) {
+                    mVideoRbYes.setChecked(true);
+                    isTranscribe = String.valueOf(1);
 
-            } else {
-                mVideoRbNo.setChecked(true);
-                isTranscribe = String.valueOf(0);
-            }
+                } else {
+                    mVideoRbNo.setChecked(true);
+                    isTranscribe = String.valueOf(0);
+                }
 
-            if ((Integer) createHouseBean.getResult().getIsCharge() == 1) {
-                mChargeRbYes.setChecked(true);
-                isCharge = String.valueOf(1);
+                if ((Integer) createHouseBean.getResult().getIsCharge() == 1) {
+                    mChargeRbYes.setChecked(true);
+                    isCharge = String.valueOf(1);
 
-            } else {
-                mChargeRbNo.setChecked(true);
-                isCharge = String.valueOf(0);
-                mMoneyEdt.setText(String.valueOf(0));
+                } else {
+                    mChargeRbNo.setChecked(true);
+                    isCharge = String.valueOf(0);
+                    mMoneyEdt.setText(String.valueOf(0));
+                }
             }
         }
+    }
+
+    @Override
+    public void goLogin() {
+//        startActivity(new Intent(ReleaseLiveActivity.this,LoginActivity.class));
     }
 
     @Override
