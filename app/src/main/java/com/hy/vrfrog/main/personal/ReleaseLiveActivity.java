@@ -82,7 +82,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private EditText mHouseNameEdt;
     private EditText mMoneyEdt;
     private Button mReleaseBtn;
-    private String  isTranscribe = String.valueOf(1);
+    private String isTranscribe = String.valueOf(1);
     private String isCharge = String.valueOf(1);
     private String mHouseName;
     private String mMoney;
@@ -132,28 +132,28 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     private void initView() {
 
-        cachPath= getDiskCacheDir(this)+ "/certificate.jpg";//图片路径
-        cacheFile = getCacheFile(new File(getDiskCacheDir(this)),"certificate.jpg");
+        cachPath = getDiskCacheDir(this) + "/certificate.jpg";//图片路径
+        cacheFile = getCacheFile(new File(getDiskCacheDir(this)), "certificate.jpg");
 
-        mBack = (ImageView)findViewById(R.id.img_release_live_return);
-        mHouseNameEdt = (EditText)findViewById(R.id.edt_release_live_house_name);
-        mMoneyEdt = (EditText)findViewById(R.id.edt_release_live_money);
-        mReleaseBtn = (Button)findViewById(R.id.btn_release_click);
-        mVideoRg = (RadioGroup)findViewById(R.id.rg_release_live_video);
-        mVideoRbYes = (RadioButton)findViewById(R.id.rb_release_live_video_save);
-        mVideoRbNo = (RadioButton)findViewById(R.id.rb_release_live_video_not_save);
+        mBack = (ImageView) findViewById(R.id.img_release_live_return);
+        mHouseNameEdt = (EditText) findViewById(R.id.edt_release_live_house_name);
+        mMoneyEdt = (EditText) findViewById(R.id.edt_release_live_money);
+        mReleaseBtn = (Button) findViewById(R.id.btn_release_click);
+        mVideoRg = (RadioGroup) findViewById(R.id.rg_release_live_video);
+        mVideoRbYes = (RadioButton) findViewById(R.id.rb_release_live_video_save);
+        mVideoRbNo = (RadioButton) findViewById(R.id.rb_release_live_video_not_save);
 
-        mChargeRg = (RadioGroup)findViewById(R.id.rg_release_live_charge);
-        mChargeRbYes = (RadioButton)findViewById(R.id.rb_release_live_charge_save);
-        mChargeRbNo = (RadioButton)findViewById(R.id.rb_release_live_charge_not_save);
+        mChargeRg = (RadioGroup) findViewById(R.id.rg_release_live_charge);
+        mChargeRbYes = (RadioButton) findViewById(R.id.rb_release_live_charge_save);
+        mChargeRbNo = (RadioButton) findViewById(R.id.rb_release_live_charge_not_save);
 
-        mCover = (ImageView)findViewById(R.id.img_release_cover);
+        mCover = (ImageView) findViewById(R.id.img_release_cover);
 
-        mLayout = (RelativeLayout)findViewById(R.id.rl_release_live_money);
-        mAgreeCb = (CheckBox)findViewById(R.id.cb_agree);
+        mLayout = (RelativeLayout) findViewById(R.id.rl_release_live_money);
+        mAgreeCb = (CheckBox) findViewById(R.id.cb_agree);
 
-        mBackGroundImg = (ImageView)findViewById(R.id.img_background);
-        mBackGroundTv = (TextView)findViewById(R.id.tv_background);
+        mBackGroundImg = (ImageView) findViewById(R.id.img_background);
+        mBackGroundTv = (TextView) findViewById(R.id.tv_background);
 
         new PersonalPresenter(this);
 
@@ -177,7 +177,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.img_release_live_return:
                 finish();
                 break;
@@ -185,17 +185,17 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 //                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
 //                startActivity(intent);
 //
-                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())){
+                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
                     UIUtils.showTip("房间名称不能为空");
                     return;
                 }
 
-                if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
+                if (TextUtils.isEmpty(mMoneyEdt.getText().toString())) {
                     UIUtils.showTip("收费金额不能为空");
                     return;
                 }
 
-                if (mAgreeCb.isChecked()){
+                if (mAgreeCb.isChecked()) {
                     UIUtils.showTip("请选择我已阅读并同意直播协议");
                     return;
                 }
@@ -213,21 +213,21 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-        if (i == R.id.rb_release_live_video_save){
+        if (i == R.id.rb_release_live_video_save) {
 
             isTranscribe = String.valueOf(1);
 
-        }else if (i == R.id.rb_release_live_video_not_save){
+        } else if (i == R.id.rb_release_live_video_not_save) {
 
-            isTranscribe = String.valueOf(0) ;
+            isTranscribe = String.valueOf(0);
 
-        }else if (i == R.id.rb_release_live_charge_save){
+        } else if (i == R.id.rb_release_live_charge_save) {
 
-            isCharge  = String.valueOf(1) ;
+            isCharge = String.valueOf(1);
             mLayout.setVisibility(View.VISIBLE);
 
-        }else if (i ==  R.id.rb_release_live_charge_not_save){
-            isCharge = String.valueOf(0) ;
+        } else if (i == R.id.rb_release_live_charge_not_save) {
+            isCharge = String.valueOf(0);
             mLayout.setVisibility(View.GONE);
         }
 
@@ -306,41 +306,53 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     public void showId(int id, CreateLiveRoom createLiveRoom) {
         LogUtil.i("id = " + id);
         this.mid = id;
-        uploadCertificaton(mFrontPhoto, mid, createLiveRoom);
+        if (mFrontPhoto == null && isChoosed) {//从网络获取了原来的图片
+            Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);
+            intent.putExtra(VedioContants.LivingPushUrl, createLiveRoom.getResult().getUpstreamAddress());
+            intent.putExtra(VedioContants.ChannelId, createLiveRoom.getResult().getChannelId());
+            intent.putExtra(VedioContants.ChannelName, createLiveRoom.getResult().getChannelName());
+            intent.putExtra(VedioContants.GroupID, (String) createLiveRoom.getResult().getAlipay());
+            intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + createLiveRoom.getResult().getImg());
+            startActivity(intent);
+            ReleaseLiveActivity.this.finish();
+        } else {
+            uploadCertificaton(mFrontPhoto, mid, createLiveRoom);
+        }
 
     }
 
     @Override
     public void showCreateHouseData(CreateHouseBean createHouseBean) {
-        if (createHouseBean.getCode() == 0){
-            if (createHouseBean.getResult().getChannelName() != null){
+        if (createHouseBean.getCode() == 0) {
+            if (createHouseBean.getResult().getChannelName() != null) {
                 mHouseNameEdt.setText(createHouseBean.getResult().getChannelName());
             }
 
-            if (createHouseBean.getResult().getPrice() != 0){
+            if (createHouseBean.getResult().getPrice() != 0) {
                 mMoneyEdt.setText(String.valueOf(createHouseBean.getResult().getPrice()));
             }
 
-            if (createHouseBean.getResult().getImg() != null){
+            if (createHouseBean.getResult().getImg() != null) {
                 Glide.with(ReleaseLiveActivity.this).load(HttpURL.IV_PERSON_HOST + createHouseBean.getResult().getImg()).asBitmap().into(mCover);
                 mBackGroundImg.setVisibility(View.GONE);
                 mBackGroundTv.setVisibility(View.GONE);
+                isChoosed = true;
             }
 
-            if (createHouseBean.getResult().getIsTranscribe() == 1){
+            if (createHouseBean.getResult().getIsTranscribe() == 1) {
                 mVideoRbYes.setChecked(true);
                 isTranscribe = String.valueOf(1);
 
-            }else {
+            } else {
                 mVideoRbNo.setChecked(true);
                 isTranscribe = String.valueOf(0);
             }
 
-            if ((Integer)createHouseBean.getResult().getIsCharge() == 1){
+            if ((Integer) createHouseBean.getResult().getIsCharge() == 1) {
                 mChargeRbYes.setChecked(true);
                 isCharge = String.valueOf(1);
 
-            }else {
+            } else {
                 mChargeRbNo.setChecked(true);
                 isCharge = String.valueOf(0);
             }
@@ -433,7 +445,14 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIUtils.showTip(ex.getMessage());
             }
+
+            @Override
+            public void onFinished() {
+                super.onFinished();
+                UIUtils.showTip("ex.getMessage()");
+            }
         });
+
 
     }
 
@@ -512,6 +531,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     /**
      * 将图片存到本地
      * 获得本地图片路径
+     *
      * @param context
      * @return
      */
@@ -552,6 +572,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     /**
      * 转化地址为content开头
+     *
      * @param context
      * @param imageFile
      * @return
@@ -560,7 +581,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         String filePath = imageFile.getAbsolutePath();
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[] { MediaStore.Images.Media._ID },
+                new String[]{MediaStore.Images.Media._ID},
                 MediaStore.Images.Media.DATA + "=? ",
                 new String[]{filePath}, null);
 
@@ -632,6 +653,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
         /**
          * 为获取权限
+         *
          * @param deniedPermission
          */
         void onDenied(List<String> deniedPermission);

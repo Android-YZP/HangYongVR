@@ -154,10 +154,11 @@ public class ExpressionUtil {
                     String giftPic = giftModel.getGiftPic();
                     String giftName = giftModel.getGiftName();
                     String giftPrice = giftModel.getGiftPrice();
+                    String giftId = giftModel.getGiftId();
 //                    mGvAdapter.setSeclection(position);
 //                    mGvAdapter.notifyDataSetChanged();
                     if (giftClickListener != null) {
-                        giftClickListener.onClick(position, giftPic, giftName, giftPrice);
+                        giftClickListener.onClick(position, giftPic, giftName, giftPrice,giftId);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -202,11 +203,12 @@ public class ExpressionUtil {
                     String giftPic = giftModel.getGiftPic();
                     String pngStr = giftModel.getGiftName();
                     String giftPrice = giftModel.getGiftPrice();
+                    String giftId= giftModel.getGiftId();
                     setView(context, showView, pngStr);
 //                    mGvAdapter.setSeclection(position);
 //                    mGvAdapter.notifyDataSetChanged();
                     if (giftClickListener != null) {
-                        giftClickListener.onClick(position, giftPic, pngStr, giftPrice);
+                        giftClickListener.onClick(position, giftPic, pngStr, giftPrice,giftId);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -218,7 +220,7 @@ public class ExpressionUtil {
     }
 
     public interface GiftClickListener {
-        void onClick(int position, String giftPic, String giftName, String giftPrice);
+        void onClick(int position, String giftPic, String giftName, String giftPrice,String gid);
     }
 
     private GiftClickListener giftClickListener;

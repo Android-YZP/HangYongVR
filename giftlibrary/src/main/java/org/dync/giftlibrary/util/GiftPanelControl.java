@@ -3,6 +3,7 @@ package org.dync.giftlibrary.util;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,7 +38,7 @@ public class GiftPanelControl {
     private ViewPager mViewpager;
 
     public interface GiftListener {
-        void getGiftInfo(String giftPic, String giftName, String giftPrice);
+        void getGiftInfo(String giftPic, String giftName, String giftPrice ,String gid);
     }
 
     private GiftListener giftListener;
@@ -62,7 +63,6 @@ public class GiftPanelControl {
     }
 
     /**
-     *
      * @param datas datas为null时加载本地礼物图片
      */
     public void init(List<GiftModel> datas) {
@@ -120,9 +120,10 @@ public class GiftPanelControl {
 
         expressionUtil.setGiftClickListener(new ExpressionUtil.GiftClickListener() {
             @Override
-            public void onClick(int position, String giftPic, String giftName, String giftPrice) {
+            public void onClick(int position, String giftPic, String giftName, String giftPrice,String gid) {
                 if (giftListener != null) {
-                    giftListener.getGiftInfo(giftPic, giftName, giftPrice);
+                    giftListener.getGiftInfo(giftPic, giftName, giftPrice,gid);
+                    Log.e("___________________", "" + gid);
                 }
             }
         });
@@ -149,9 +150,10 @@ public class GiftPanelControl {
 
     /**
      * 是否清除礼物选中的状态在切换页面时
+     *
      * @param isClearStatus
      */
-    public void isClearStatus(boolean isClearStatus){
+    public void isClearStatus(boolean isClearStatus) {
         this.isClearStatus = isClearStatus;
     }
 
@@ -190,10 +192,10 @@ public class GiftPanelControl {
             for (int i = 0; i < views.size(); i++) {//清除选中，当礼物页面切换到另一个礼物页面
                 RecyclerView view = (RecyclerView) views.get(i);
                 FaceGVAdapter adapter = (FaceGVAdapter) view.getAdapter();
-                if (isClearStatus){
+                if (isClearStatus) {
                     adapter.clearSelection();
                     if (giftListener != null) {
-                        giftListener.getGiftInfo("", "", "");
+                        giftListener.getGiftInfo("", "", "","");
                     }
                 }
 

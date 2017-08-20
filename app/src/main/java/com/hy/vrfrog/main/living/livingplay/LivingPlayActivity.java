@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -35,6 +36,7 @@ import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.GiftBean;
 import com.hy.vrfrog.http.responsebean.GiftsBean;
+import com.hy.vrfrog.http.responsebean.GiveRewardBean;
 import com.hy.vrfrog.http.responsebean.MessageBean;
 import com.hy.vrfrog.http.responsebean.VideoTypeBean;
 import com.hy.vrfrog.main.adapter.HomeAdapter;
@@ -175,6 +177,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private String mGifturl;
     private String mGiftName;
     private String mGiftPrice;
+    private String mGid;
     private RelativeLayout mRootView;
     private String mChannelName;
     private TextView mHannelName;
@@ -186,6 +189,14 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private ImageView mIvRoomImg;
     private String mRoomImg = "";
     private Button mBtnClose;
+    private int mVid;
+    private int mYid;
+    private int recLen = 10;
+    private Timer mTimer;
+    private TimerTask task;
+    private int giftTimes;
+    private int giftTimesLast;
+    private int totleNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,6 +261,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mChannelName = intent.getStringExtra(VedioContants.ChannelName);
         mRoomImg = intent.getStringExtra(VedioContants.RoomImg);
         mGiftGroup = intent.getIntExtra(VedioContants.GiftGroup, 0);
+        mVid = intent.getIntExtra(VedioContants.Vid, 0);
+        mYid = intent.getIntExtra(VedioContants.Yid, 0);
         LogUtil.e(mGiftGroup + "=================");
 
     }
@@ -275,6 +288,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 showComfirmDialog(TCConstants.TIPS_MSG_STOP_PUSH, false);
             }
         });
+
         //初始化观众列表
         mUserAvatarList = (RecyclerView) findViewById(R.id.rv_user_avatar);
         mUserAvatarList.setVisibility(View.VISIBLE);
@@ -341,7 +355,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         giftControl.setGiftLayout(false, llgiftparent, 4)
                 .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
 
-
         ll_portrait = (LinearLayout) findViewById(R.id.ll_portrait);
         ll_landscape = (LinearLayout) findViewById(R.id.ll_landscape);
         tvGiftNum = (TextView) findViewById(R.id.toolbox_tv_gift_num);
@@ -398,9 +411,24 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             }
                             giftControl.loadGift(giftModel);
                             Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
-
                             sendGift(giftnum);
 
+                            ++giftTimes;
+                            if (task == null) {
+                                timekeeping();
+                            } else {
+                                recLen = 10;
+                            }
+                            giftTimesLast = giftTimes % 10;
+                            totleNumber = giftnum + totleNumber;
+
+                            if (giftTimesLast == 0 && giftTimes >= 10) {
+                                httpGiftMoney(totleNumber + "");
+                                totleNumber = totleNumber - giftTimes * giftnum;
+                                giftTimes = giftTimes - 10;
+                                LogUtil.e(totleNumber + "");
+                            }
+                            LogUtil.e(giftTimesLast + "," + totleNumber + "," + giftTimes + "===========================" + giftnum);
 
                         }
                     }
@@ -423,7 +451,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         for (int i = 0; i < datas.size(); i++) {
             GiftBean.ResultBean giftListBean = datas.get(i);
             giftModel = new GiftModel();
-            giftModel.setGiftName(giftListBean.getName()).setGiftPic(HttpURL.IV_GIFT_HOST + giftListBean.getGif()).setGiftPrice(giftListBean.getPrice() + "");
+            giftModel.setGiftId(giftListBean.getId() + "").setGiftName(giftListBean.getName()).setGiftPic(HttpURL.IV_GIFT_HOST + giftListBean.getGif()).setGiftPrice(giftListBean.getPrice() + "");
             giftModels.add(giftModel);
         }
         return giftModels;
@@ -456,10 +484,18 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                     giftPanelControl.init(giftModels);//这里如果为null则加载本地礼物图片
                     giftPanelControl.setGiftListener(new GiftPanelControl.GiftListener() {
                         @Override
-                        public void getGiftInfo(String giftPic, String giftName, String giftPrice) {
+                        public void getGiftInfo(String giftPic, String giftName, String giftPrice, String gid) {
                             mGifturl = giftPic;
                             mGiftName = giftName;
                             mGiftPrice = giftPrice;
+                            mGid = gid;
+                            if (totleNumber != 0) {
+                                httpGiftMoney(totleNumber + "");
+                            }
+
+                            giftTimes = 0;
+                            giftTimesLast = 0;
+                            totleNumber = 0;
 
                         }
                     });
@@ -475,47 +511,47 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         });
     }
 
-    private void  InitGife(){
 
+    private void httpGiftMoney(String num) {
 
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
         }
 
-        if (SPUtil.getUser() != null){
+        if (SPUtil.getUser() != null) {
             RequestParams requestParams = new RequestParams(HttpURL.Pay);
             requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
-            requestParams.addBodyParameter("uid",SPUtil.getUser().getResult().getUser().getUid()+"");
-            requestParams.addBodyParameter("type",3+"");
-            requestParams.addBodyParameter("vid",mData.get(position).getId()+ "");
-            requestParams.addBodyParameter("money",price+"");
-            requestParams.addBodyParameter("yid",mData.get(position).getUid()+"");
+            requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");
+            requestParams.addBodyParameter("type", 4 + "");
+            requestParams.addBodyParameter("vid", mVid + "");
+            requestParams.addBodyParameter("money", mGiftPrice + "");
+            requestParams.addBodyParameter("yid", mYid + "");
+            requestParams.addBodyParameter("gid", mGid);
+            requestParams.addBodyParameter("num", num);
 
             LogUtil.i("个人直播支付token = " + SPUtil.getUser().getResult().getUser().getToken());
             LogUtil.i("个人直播支付uid = " + SPUtil.getUser().getResult().getUser().getUid());
-            LogUtil.i("个人直播支付vid = " + mData.get(position).getId());
-            LogUtil.i("个人直播支付yid = " + mData.get(position).getUid());
-            LogUtil.i("个人直播支付money = " + price);
-
+            LogUtil.i("个人直播支付vid = " + mVid + "");
+            LogUtil.i("个人直播支付yid = " + mYid);
+            LogUtil.i("个人直播支付money = " + mGiftPrice + "");
             LogUtil.i("个人直播支付type = " + 3);
+            LogUtil.i("个人直播支付mGid = " + mGid);
 
             //获取数据
             x.http().post(requestParams, new JsonCallBack() {
                 @Override
                 public void onSuccess(String result) {
 
-                    LogUtil.i("支付 = " +  result);
+                    LogUtil.i("支付 = " + result);
 
-                    GiveRewardBean giveBean = new Gson().fromJson(result,GiveRewardBean.class);
-                    mPersonalLiveView.payMoneySuccess(position,giveBean);
-
+                    GiveRewardBean giveBean = new Gson().fromJson(result, GiveRewardBean.class);
 
                 }
+
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 
-                    mPersonalLiveView.payMoneyFailure(ex);
 
                 }
 
@@ -525,19 +561,41 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 }
             });
 
-        }else {
+        } else {
             UIUtils.showTip("请登陆");
         }
 
 
-
-
     }
 
-
-
-
-
+    /**
+     * 计时重新发送验证码
+     */
+    private void timekeeping() {
+        mTimer = new Timer();
+        // UI thread
+        // UI thread
+        //时间到了就可以再次发送了
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {      // UI thread
+                    @Override
+                    public void run() {
+                        recLen--;
+                        if (recLen < 0) {
+                            mTimer.cancel();
+                            if (totleNumber > 0)
+                                LogUtil.i(totleNumber + "===========================");
+                            httpGiftMoney(totleNumber + "");
+                        }
+                    }
+                });
+            }
+        };
+        //从现在起过10毫秒以后，每隔1000毫秒执行一次。
+        mTimer.schedule(task, 10, 1000);    // timeTask
+    }
 
 
     private void showGiftDialog() {
@@ -813,8 +871,13 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                                     notifyMsg(entity);
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
                                     showGift(messageBean);
-                                }else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Exit) {
-                                    showComfirmDialog("主播关播了,下次再来",true);
+                                } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Exit) {
+                                    if (isLiving(LivingPlayActivity.this)){
+                                        showComfirmDialog("主播关播了,下次再来", true);
+                                    }else {
+                                        finish();
+                                        UIUtils.showTip("主播关播了,下次再来");
+                                    }
                                 }
                             }
                         } else if (elemType == TIMElemType.GroupSystem) {
@@ -831,7 +894,28 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         });
     }
 
+    private static boolean isLiving(AppCompatActivity activity) {
 
+        if (activity == null) {
+            Log.d("wisely", "activity == null");
+            return false;
+        }
+
+        if (activity.isFinishing()) {
+            Log.d("wisely", "activity is finishing");
+            return false;
+        }
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {//android 4.2
+//
+//            if (activity.isDestroyed()) {
+//                Log.d("wisely", "activity is destroy");
+//                return false;
+//            }
+//        }
+
+        return true;
+    }
     /**
      * @version 2.0
      * @author 姚中平
@@ -1136,6 +1220,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 //        mLivePlayer.setConfig(mPlayConfig);
 //        mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
 //    }
+
     /**
      * 显示确认消息
      *
@@ -1144,7 +1229,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      */
     public void showComfirmDialog(String msg, Boolean isError) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.ConfirmDialogStyle);
+        AlertDialog.Builder builder = new AlertDialog.Builder(LivingPlayActivity.this, R.style.ConfirmDialogStyle);
         builder.setCancelable(true);
         builder.setTitle(msg);
 
@@ -1236,7 +1321,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         if (event == TXLiveConstants.PLAY_EVT_PLAY_PROGRESS) {
         } else if (event == TXLiveConstants.PLAY_ERR_NET_DISCONNECT) {
             showErrorAndQuit(TCConstants.ERROR_MSG_NET_DISCONNECTED);
-        }else if (event == TXLiveConstants.PLAY_EVT_PLAY_BEGIN) {
+        } else if (event == TXLiveConstants.PLAY_EVT_PLAY_BEGIN) {
             mIvRoomImg.setVisibility(View.GONE);
         }
     }
