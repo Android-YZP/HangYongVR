@@ -225,6 +225,7 @@
             android:id="@+id/btn_log"
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
+            android:visibility="gone"
             android:background="@drawable/live_button_vr"
            />
 

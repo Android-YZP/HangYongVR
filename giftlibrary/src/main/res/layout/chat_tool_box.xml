@@ -24,6 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             android:layout_marginLeft="12dp"
             android:text="蛙豆：" />
 
@@ -33,6 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             android:layout_toRightOf="@+id/toolbox_tv_num_dsc"
             android:text="0" />
 
@@ -41,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@+id/toolbox_tv_num"
             android:clickable="true"

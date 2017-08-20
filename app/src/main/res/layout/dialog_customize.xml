@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:orientation="horizontal">
 
     <EditText
@@ -14,6 +16,7 @@
     <Button
         android:id="@+id/btn_send_massage"
         android:layout_width="wrap_content"
+        android:text="发送"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

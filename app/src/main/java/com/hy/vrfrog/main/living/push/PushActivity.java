@@ -317,11 +317,11 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LogUtil.e(SPUtil.getUser().getResult().getUser().getUid() +"..."+ SPUtil.getUser().getResult().getUser().getToken() + result + "-----------------------------");
+                LogUtil.e(SPUtil.getUser().getResult().getUser().getUid() + "..." + SPUtil.getUser().getResult().getUser().getToken() + result + "-----------------------------");
                 RoomNumberBean roomNumberBean = new Gson().fromJson(result, RoomNumberBean.class);
-               if (roomNumberBean.getCode() == 0){
-                   outRoom(roomNumberBean.getResult()+"");
-               }
+                if (roomNumberBean.getCode() == 0) {
+                    outRoom(roomNumberBean.getResult() + "");
+                }
             }
 
             @Override
@@ -494,6 +494,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                         if (elemType == TIMElemType.Text) {
                             //获取文本信息
                             String text = ((TIMTextElem) elem).getText();
+
                             try {
                                 messageBean = gson.fromJson(text, MessageBean.class);
                             } catch (Exception e) {
@@ -503,7 +504,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                             if (messageBean != null) {
                                 if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Text) {
                                     TCChatEntity entity = new TCChatEntity();
-                                    entity.setSenderName(messageBean.getNickName());
+                                    entity.setSenderName(msg.getSenderProfile().getNickName());
                                     entity.setContext(messageBean.getMsg());
                                     entity.setType(TCConstants.TEXT_TYPE);
                                     notifyMsg(entity);
@@ -887,7 +888,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
             @Override
             public void onClick(View v) {
                 String message = mMessage.getText().toString();
-                sendMessage(message, VedioContants.AVIMCMD_Custom_Text);
+                MessageBean messageBean = new MessageBean();
+                messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Text);
+                messageBean.setMsg(message);
+                sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Text);
             }
         });
 
@@ -902,7 +906,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
      * @date 创建于 2017/8/2
      * @description 发送消息
      */
-    private void sendMessage(String message, final int MessageType) {
+    private void sendMessage(final String message, final int MessageType) {
         if (TextUtils.isEmpty(message)) {
             UIUtils.showTip("发送内容不能为空");
             return;
@@ -916,6 +920,8 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         TIMMessage msg = new TIMMessage();
         //添加文本内容
         TIMTextElem elem = new TIMTextElem();
+
+
         elem.setText(message);
 
         //将elem添加到消息
@@ -939,9 +945,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 //消息回显
                 if (MessageType == VedioContants.AVIMCMD_Custom_Text) {
                     if (mMessage != null) mMessage.setText("");
+
                     TCChatEntity entity = new TCChatEntity();
                     entity.setSenderName("我:");
-                    entity.setContext(((TIMTextElem) msg.getElement(0)).getText());
+                    entity.setContext(gson.fromJson(message, MessageBean.class).getMsg());
                     entity.setType(TCConstants.TEXT_TYPE);
                     notifyMsg(entity);
                 }
@@ -1023,7 +1030,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     HttpMoney();
                     MessageBean messageBean = new MessageBean();
                     messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Exit);
-                    sendMessage(gson.toJson(messageBean),VedioContants.AVIMCMD_Custom_Exit);
+                    sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Exit);
 
                 }
             });

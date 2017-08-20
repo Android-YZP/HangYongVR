@@ -121,6 +121,59 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         initView();
         initListener();
         mPresenter.createHouseData();
+
+        showPermissions();
+
+    }
+
+    private void showPermissions() {
+        String[] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
+        requestRuntimePermission(permissions, new IPermissionListener() {
+            @Override
+            public void onGranted() {
+                //                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
+//                startActivity(intent);
+//
+                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
+                    UIUtils.showTip("房间名称不能为空");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
+                    UIUtils.showTip("收费金额不能为空");
+                    return;
+                }
+
+                if (mAgreeCb.isChecked()) {
+                    UIUtils.showTip("请选择我已阅读并同意直播协议");
+                    return;
+                }
+
+
+                if (SPUtil.getUser() != null) {
+                    mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()), isTranscribe, mHouseNameEdt.getText().toString(), isCharge, mMoneyEdt.getText().toString(), "");
+                }
+
+            }
+
+            @Override
+            public void onDenied(List<String> deniedPermission) {
+                for (String permission : deniedPermission) {
+                    if (permission.equals("android.permission.RECORD_AUDIO")) {
+                        UIUtils.showTip("沒有麦克风权限不能直播");
+                    }else if (permission.equals("android.permission.WRITE_EXTERNAL_STORAGE")){
+                        UIUtils.showTip("沒有读写权限不能直播");
+                    }else if (permission.equals("android.permission.READ_EXTERNAL_STORAGE")){
+                        UIUtils.showTip("沒有读写权限不能直播");
+
+                    }else if (permission.equals("android.permission.CAMERA")){
+                        UIUtils.showTip("沒有相机权限，无法直播");
+
+                    }
+                }
+            }
+        });
+
     }
 
 

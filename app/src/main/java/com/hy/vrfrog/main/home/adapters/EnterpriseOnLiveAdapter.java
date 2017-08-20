@@ -14,10 +14,17 @@ import com.bumptech.glide.Glide;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
+import com.hy.vrfrog.main.home.activitys.VedioDeatilsActivity;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
+import com.hy.vrfrog.vrplayer.Definition;
+import com.hy.vrfrog.vrplayer.PlayActivity;
 import com.hy.vrfrog.vrplayer.VideoPlayActivity;
+
+import org.xutils.common.util.LogUtil;
 
 import java.util.List;
 
@@ -100,20 +107,43 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
 
     @Override
     public void onBindViewHolder(Enterprise1LiveHolder holder, final int position) {
-        if (getItemViewType(position) == TYPE_NORMAL){
+        if (getItemViewType(position) == TYPE_NORMAL) {
             holder.mEnterTitleTv.setText(resultBean.get(position).getChannelName());
             holder.mRnterpriseLiveTvName.setText(String.valueOf(resultBean.get(position).getUsername()));
-            Glide.with(context).load(HttpURL.IV_HOST+resultBean.get(position).getImg()).asBitmap().into(holder.mIvImg);
+            Glide.with(context).load(HttpURL.IV_HOST + resultBean.get(position).getImg1()).asBitmap().into(holder.mIvImg);
             holder.mIvImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(context, LivingPlayActivity.class);
-                    intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
-                    intent.putExtra(VedioContants.ChannelName,resultBean.get(position).getChannelName());
-                    intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
-                    intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
-                    context.startActivity(intent);
+//                    Intent intent = new Intent(context, PlayActivity.class);
+//                    if (resultBean.get(position).getIsall() == VedioContants.TWO_D_VEDIO) {
+//                        intent.putExtra(com.hy.vrfrog.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+//                    } else if (resultBean.get(position).getIsall() == VedioContants.ALL_VIEW_VEDIO) {
+//                        intent.putExtra(com.hy.vrfrog.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+//                    }
+//
+//                    intent.putExtra(com.hy.vrfrog.vrplayer.Definition.KEY_PLAY_URL, resultBean.get(position).getRtmpDownstreamAddress());
+//                    context.startActivity(intent);
+//
+
+                    Intent i = new Intent(context, PlayActivity.class);
+                    int isall = resultBean.get(position).getIsall();
+                    if (isall == VedioContants.TWO_D_VEDIO) {
+                        i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+                    } else if (isall == VedioContants.ALL_VIEW_VEDIO) {
+                        i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                    }
+                    LogUtil.i(resultBean.get(position).getRtmpDownstreamAddress() + "");
+                    i.putExtra(VedioContants.PlayUrl, resultBean.get(position).getRtmpDownstreamAddress() + "");
+                    i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_USER_HOST + resultBean.get(position).getHead() + "");
+                    i.putExtra(VedioContants.KEY_PLAY_USERNAME, resultBean.get(position).getUsername() + "");
+                    i.putExtra(VedioContants.KEY_PLAY_ID, resultBean.get(position).getId() + "");
+                    if (NetUtil.isOpenNetwork()) {
+                        context.startActivity(i);
+                    } else {
+                        UIUtils.showTip("请连接网络");
+                    }
+
 
                 }
             });

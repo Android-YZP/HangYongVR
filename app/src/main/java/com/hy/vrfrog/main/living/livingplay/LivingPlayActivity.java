@@ -197,6 +197,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private int giftTimes;
     private int giftTimesLast;
     private int totleNumber;
+    private TextView mTvMoneyNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -351,6 +352,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         //初始化礼物列表
         Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
         llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
+        mTvMoneyNum = (TextView) findViewById(R.id.toolbox_tv_num);
 
         giftControl.setGiftLayout(false, llgiftparent, 4)
                 .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
@@ -387,7 +389,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 showGiftDialog();
             }
         });
-
+//        mTvMoneyNum.setText();
 
         btnGift.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -462,7 +464,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      * 请求礼物列表
      */
     private void HttpGetGift(String giftGroup) {
-        UIUtils.showTip("请打开网络" + giftGroup);
         LogUtil.e("请求侧边栏列表");
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
@@ -492,7 +493,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             if (totleNumber != 0) {
                                 httpGiftMoney(totleNumber + "");
                             }
-
                             giftTimes = 0;
                             giftTimesLast = 0;
                             totleNumber = 0;
@@ -685,7 +685,12 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             public void onClick(View v) {
                 String message = mEtRoomMessage.getText().toString();
                 if (!TextUtils.isEmpty(message)) {
-                    sendMessage(message, VedioContants.AVIMCMD_Custom_Text);
+                    MessageBean messageBean = new MessageBean();
+                    messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Text);
+                    messageBean.setMsg(message);
+                    messageBean.setGiftPic(mGifturl);
+                    sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Text);
+
                 }
             }
         });
@@ -722,7 +727,11 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             @Override
             public void onClick(View v) {
                 String message = mMessage.getText().toString();
-                sendMessage(message, VedioContants.AVIMCMD_Custom_Text);
+                MessageBean messageBean = new MessageBean();
+                messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Text);
+                messageBean.setMsg(message);
+                messageBean.setGiftPic(mGifturl);
+                sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Text);
             }
         });
 
@@ -855,6 +864,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                         if (elemType == TIMElemType.Text) {
                             //获取文本信息
                             String text = ((TIMTextElem) elem).getText();
+
                             try {
                                 messageBean = gson.fromJson(text, MessageBean.class);
                             } catch (Exception e) {
@@ -865,16 +875,17 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                                 if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Text) {
 
                                     TCChatEntity entity = new TCChatEntity();
-                                    entity.setSenderName(messageBean.getNickName());
+                                    entity.setSenderName(msg.getSenderProfile().getNickName());
                                     entity.setContext(messageBean.getMsg());
                                     entity.setType(TCConstants.TEXT_TYPE);
                                     notifyMsg(entity);
+
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
                                     showGift(messageBean);
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Exit) {
-                                    if (isLiving(LivingPlayActivity.this)){
+                                    if (isLiving(LivingPlayActivity.this)) {
                                         showComfirmDialog("主播关播了,下次再来", true);
-                                    }else {
+                                    } else {
                                         finish();
                                         UIUtils.showTip("主播关播了,下次再来");
                                     }
@@ -916,6 +927,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
         return true;
     }
+
     /**
      * @version 2.0
      * @author 姚中平
@@ -1115,7 +1127,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
      * @date 创建于 2017/8/2
      * @description 发送消息
      */
-    private void sendMessage(String message, final int MessageType) {
+    private void sendMessage(final String message, final int MessageType) {
         if (TextUtils.isEmpty(message)) {
             UIUtils.showTip("发送内容不能为空");
             return;
@@ -1154,11 +1166,13 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                     if (mMessage != null) mMessage.setText("");
                     UIUtils.hideKeyBoard(mMessage);
                     mMessageDialog.dismiss();
+
                     TCChatEntity entity = new TCChatEntity();
                     entity.setSenderName("我:");
-                    entity.setContext(((TIMTextElem) msg.getElement(0)).getText());
+                    entity.setContext(gson.fromJson(message, MessageBean.class).getMsg());
                     entity.setType(TCConstants.TEXT_TYPE);
                     notifyMsg(entity);
+
                 }
 
             }
