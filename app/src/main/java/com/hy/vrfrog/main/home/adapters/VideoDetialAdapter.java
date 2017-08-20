@@ -22,6 +22,7 @@ import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
 import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.ui.CircleImageView;
+import com.hy.vrfrog.ui.VirtuelPayPlayPriceDialog;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.TimeUtils;
 import com.hy.vrfrog.utils.UIUtils;
@@ -51,6 +52,8 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
     /************************************设置点击事件********************************************************/
     private OnItemClickListener mOnItemClickListener = null;
 
+    private IVideoDetailAdapter mCallback;
+
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
@@ -62,6 +65,10 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
     //define interface
     public static interface OnItemClickListener {
         void onItemClick(View view, int position, boolean isup);
+    }
+
+    public void setInnerListener(IVideoDetailAdapter listener){
+        this.mCallback = listener;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -154,14 +161,25 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
                 holder.mVideoPlayMessageTv.setText((String) mData.get(position).getIntroduce());
             }
 
+            holder.mGiveReward.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mCallback.onGiveReward(position);
+                }
+            });
+
             holder.mTvPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+//
                     //进入点播
                     Intent intent = new Intent(context, VideoPlayActivity.class);
                     intent.putExtra(VedioContants.PlayUrl, new Gson().toJson(mData.get(position).getVodInfos()));
                     intent.putExtra(VedioContants.PlayType, VedioContants.Video);
                     intent.putExtra("vid", mData.get(position).getId());
+                    intent.putExtra("position",position);
+                    intent.putExtra("yid",mData.get(position).getUid());
 
 
                     //判断视频类型
@@ -185,6 +203,8 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
 
                 }
             });
+
+
 
         } else if (type == VedioContants.Living) {//直播
             holder.mllRoomName.setVisibility(View.VISIBLE);
@@ -332,6 +352,10 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         private ImageView mIvupgif;
         private ImageView mIvdowngif;
 
+        private ImageButton mDowning;
+        private ImageButton mGiveReward;
+        private ImageButton mShare;
+
 
         MyViewHolder(View view) {
             super(view);
@@ -363,8 +387,17 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             mIvupgif = (ImageView) view.findViewById(R.id.iv_up_gif);
             mIvdowngif = (ImageView) view.findViewById(R.id.iv_down_gif);
 
+            mDowning = (ImageButton)view.findViewById(R.id.ib_video_down);
+            mGiveReward = (ImageButton)view.findViewById(R.id.ib_video_shang);
+            mShare = (ImageButton)view.findViewById(R.id.ib_video_share);
+
+
 
         }
+    }
+
+    public interface IVideoDetailAdapter{
+        void onGiveReward(int position);
     }
 
 }

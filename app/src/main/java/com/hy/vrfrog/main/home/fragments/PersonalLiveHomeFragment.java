@@ -119,16 +119,17 @@ public class PersonalLiveHomeFragment extends Fragment {
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LongLogUtil.e("个人直播---------------", result);
+
                 getLiveHomeBean = new Gson().fromJson(result, GetLiveHomeBean.class);
                 if (getLiveHomeBean.getCode() == 0) {
+                    LongLogUtil.e("个人直播数据---------------", result );
                     mEmptyll.setVisibility(View.GONE);
 
                     if (isLoadingMore) {
                         mList.addAll(getLiveHomeBean.getResult());
                         mAdapter.notifyDataSetChanged();
                     } else {
-                        LogUtil.e("个人直播 =" + getLiveHomeBean.getResult());
+
                         mList = getLiveHomeBean.getResult();
                         mAdapter = new PersonalLiveHomeAdapter(getActivity(),mList);
 
@@ -141,7 +142,7 @@ public class PersonalLiveHomeFragment extends Fragment {
                     }
 
                 }
-                LogUtil.i("个人直播 = " + getLiveHomeBean.getResult());
+
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {

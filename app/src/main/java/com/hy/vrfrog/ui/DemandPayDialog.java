@@ -14,7 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.AccountBean;
+import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.SPUtil;
+import com.hy.vrfrog.utils.UIUtils;
+
+import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 /**
  * Created by qwe on 2017/8/4.
@@ -68,7 +79,48 @@ public class DemandPayDialog {
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setAttributes(lp);
 
+        initAccount();
+
         return this;
+    }
+
+    private void initAccount() {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        if(SPUtil.getUser() != null){
+            RequestParams requestParams = new RequestParams(HttpURL.Remain);
+            requestParams.addHeader("token",SPUtil.getUser().getResult().getUser().getToken());
+            requestParams.addBodyParameter("uid",SPUtil.getUser().getResult().getUser().getUid()+"");
+
+            LogUtil.i("余额token = " + SPUtil.getUser().getResult().getUser().getToken());
+            LogUtil.i("余额uid = " + SPUtil.getUser().getResult().getUser().getUid());
+
+            //获取数据
+            x.http().get(requestParams, new JsonCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    LogUtil.i("余额 = " +  result);
+                    AccountBean accountBean = new Gson().fromJson(result,AccountBean.class);
+                    if (accountBean.getCode() == 0){
+                        LogUtil.i("余额 = " +  accountBean.getResult());
+                        mDemandPayBalancetv.setText(String.valueOf(accountBean.getResult()));
+                    }
+
+                }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("服务端连接失败");
+
+                }
+
+                @Override
+                public void onFinished() {
+                }
+            });
+        }
     }
 
 
@@ -99,6 +151,22 @@ public class DemandPayDialog {
     public DemandPayDialog setPaybalance(String text) {
         if (!TextUtils.isEmpty(text)){
             mDemandPayBalancetv.setText(text);
+        }
+
+        return this;
+    }
+
+    public DemandPayDialog setDemandPayNumber(String text) {
+        if (!TextUtils.isEmpty(text)){
+            mDemandPayNumberTv.setText(text);
+        }
+
+        return this;
+    }
+
+    public DemandPayDialog setPayTitle(String text) {
+        if (!TextUtils.isEmpty(text)){
+            mDemandPayDetailedTv.setText(text);
         }
 
         return this;

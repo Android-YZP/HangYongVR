@@ -14,15 +14,28 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.application.VrApplication;
+import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.AccountBean;
+import com.hy.vrfrog.http.responsebean.RechargeBean;
 import com.hy.vrfrog.main.personal.AuthenticationActivity;
 import com.hy.vrfrog.main.personal.HistoryActivity;
 import com.hy.vrfrog.main.personal.HistoryPayActivity;
 import com.hy.vrfrog.main.personal.LoginActivity;
 import com.hy.vrfrog.main.personal.PersonalActivity;
 import com.hy.vrfrog.main.personal.UploadingDocumentsActivity;
+import com.hy.vrfrog.ui.LoadingDataUtil;
+import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
+import com.hy.vrfrog.utils.ToolToast;
 import com.hy.vrfrog.utils.UIUtils;
+
+import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 
 @SuppressLint("ValidFragment")
@@ -40,6 +53,7 @@ public class MyFragment extends Fragment {
     private RelativeLayout mRootGoLogin1;
     private TextView mTvName;
     private LinearLayout mLlMyPay;
+    private TextView mAccountTv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +67,7 @@ public class MyFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my, container, false);
         initView(view);
+        initData();
         initListener();
         return view;
     }
@@ -61,6 +76,48 @@ public class MyFragment extends Fragment {
     public void onResume() {
         super.onResume();
         initData();
+        initRemain();
+    }
+
+    private void initRemain() {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        if(SPUtil.getUser() != null){
+            RequestParams requestParams = new RequestParams(HttpURL.Remain);
+            requestParams.addHeader("token",SPUtil.getUser().getResult().getUser().getToken());
+            requestParams.addBodyParameter("uid",SPUtil.getUser().getResult().getUser().getUid()+"");
+
+            LogUtil.i("余额token = " + SPUtil.getUser().getResult().getUser().getToken());
+            LogUtil.i("余额uid = " + SPUtil.getUser().getResult().getUser().getUid());
+
+            //获取数据
+            x.http().get(requestParams, new JsonCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    LogUtil.i("余额 = " +  result);
+                    AccountBean accountBean = new Gson().fromJson(result,AccountBean.class);
+                    if (accountBean.getCode() == 0){
+                        LogUtil.i("余额 = " +  accountBean.getResult());
+
+                        mAccountTv.setText(String.valueOf(accountBean.getResult()));
+                    }
+
+                }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("服务端连接失败");
+
+                }
+
+                @Override
+                public void onFinished() {
+                }
+            });
+        }
+
     }
 
     private void initListener() {
@@ -133,11 +190,14 @@ public class MyFragment extends Fragment {
             if (SPUtil.getUser().getResult() != null) {
                 if (SPUtil.getUser().getResult().getUser() != null) {
                     if (SPUtil.getUser().getResult().getUser().getUsername() != null) {
-                        mTvName.setText(SPUtil.getUser().getResult().getUser().getUsername());
+                        mTvName.setText(String.valueOf(SPUtil.getUser().getResult().getUser().getUsername()));
                     }
                 }
             }
         }
+
+
+
         refreshUI();
     }
 
@@ -163,6 +223,7 @@ public class MyFragment extends Fragment {
         mTvName = (TextView) view.findViewById(R.id.tv_my_name);
         mRootGoLogin = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login);
         mRootGoLogin1 = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login1);
+        mAccountTv = (TextView)view.findViewById(R.id.tv_fragment_num);
     }
 
 

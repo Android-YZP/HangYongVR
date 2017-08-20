@@ -2,7 +2,6 @@ package com.hy.vrfrog.main.home.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +14,13 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
+import com.hy.vrfrog.http.responsebean.GiveRewardBean;
 import com.hy.vrfrog.http.responsebean.RechargeBean;
+import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.ui.DemandPayDialog;
 import com.hy.vrfrog.ui.LoadingDataUtil;
-import com.hy.vrfrog.ui.PaySuccessDialog;
 import com.hy.vrfrog.ui.RechargeDialog;
-import com.hy.vrfrog.ui.XCRoundRectImageView;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.ToolToast;
@@ -32,8 +31,6 @@ import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -55,6 +52,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
     private List<GetLiveHomeBean.ResultBean> resultBean;
     private IPersonalLiveAdapter mCallback;
     private Runnable toDo;
+    private int mPosition ;
 
 
     public void setListener(IPersonalLiveAdapter listener){
@@ -123,6 +121,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
 
     @Override
     public void onBindViewHolder(PersonalLiveHomeAdapter.LiveHomeAdapterHolder holder, final int position) {
+
+        mPosition = position;
         if (getItemViewType(position) == TYPE_NORMAL) {
             holder.mLiveHomeTitleTv.setText(resultBean.get(position).getChannelName());
             holder.mLiveHomeHeadNameTv.setText(String.valueOf(resultBean.get(position).getUsername()));
@@ -134,7 +134,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                           if (resultBean.get(position).getPrice() != 0){
                               new DemandPayDialog(context).builder()
                                       .setCanceledOnTouchOutside(true)
-                                      .setPaybalance(String.valueOf(resultBean.get(position).getPrice()))
+                                      .setDemandPayNumber(String.valueOf(resultBean.get(position).getPrice()))
+                                      .setPayTitle("影片名称：" + resultBean.get(position).getUsername() )
                                       .setDeleteListener("", new View.OnClickListener() {
                                           @Override
                                           public void onClick(View view) {
@@ -144,7 +145,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                                       .setPayListener("", new View.OnClickListener() {
                                           @Override
                                           public void onClick(View view) {
-
+                                              initPayData( position);
                                           }
                                       })
                                       .setRechargeListener("", new View.OnClickListener() {
@@ -155,10 +156,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                                                       .setPayListener("", new RechargeDialog.IChargeMoney() {
                                                           @Override
                                                           public void goChargeMoney(int money) {
-                                                              ToolToast.buildToast(context,"",0);
-
                                                               LogUtil.i("money = " + money);
-                                                              initPayData(money);
+                                                              initRechargeData(money);
                                                           }
                                                       })
                                                       .setDeleteListener("", new View.OnClickListener() {
@@ -171,25 +170,6 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                                           }
                                       }).show();
 
-
-
-//                              new VirtualPayDialog(context).builder()
-//                                .setCanceledOnTouchOutside(true)
-//                                .setTitle(resultBean.get(position).getChannelName())
-//                                .setAccountBalance(String.valueOf(resultBean.get(position).getAlipay()))
-//                                .setPrice(String.valueOf(resultBean.get(position).getPrice()))
-//                                .setNegativeButton("", new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View view) {
-//
-//                                    }
-//                                })
-//                                .setPositiveButton("", new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View view) {
-//                                        initPayData();
-//                                    }
-//                                }).show();
                           }else {
                               Intent intent = new Intent(context, LivingPlayActivity.class);
                               intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
@@ -205,9 +185,70 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
 
     }
 
-    private void initPayData(int money) {
+    private void initPayData(final int position) {
 
-        LoadingDataUtil.startLoad("正在加载...");
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+
+        if (SPUtil.getUser() != null){
+            RequestParams requestParams = new RequestParams(HttpURL.Pay);
+            requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
+            requestParams.addBodyParameter("uid",SPUtil.getUser().getResult().getUser().getUid()+"");
+            requestParams.addBodyParameter("type",3+"");
+            requestParams.addBodyParameter("vid",resultBean.get(position).getId()+ "");
+            requestParams.addBodyParameter("money",resultBean.get(position).getPrice()+"");
+            requestParams.addBodyParameter("yid",resultBean.get(position).getUid() +"");
+
+            LogUtil.i("直播支付token = " + SPUtil.getUser().getResult().getUser().getToken());
+            LogUtil.i("直播支付Uid = " + SPUtil.getUser().getResult().getUser().getUid());
+            LogUtil.i("直播支付Id = " + resultBean.get(position).getId());
+            LogUtil.i("直播支付yid = " + resultBean.get(position).getUid());
+            LogUtil.i("打赏money = " + resultBean.get(position).getPrice());
+
+            LogUtil.i("直播支付type = " + 2);
+
+            //获取数据
+            x.http().post(requestParams, new JsonCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    LogUtil.i("直播支付 = " +  result);
+                    GiveRewardBean giveBean = new Gson().fromJson(result,GiveRewardBean.class);
+                    if (giveBean.getCode() == 0){
+                        ToolToast.buildToast(context,"支付成功",1);
+                        Intent intent = new Intent(context, LivingPlayActivity.class);
+                        intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
+                        intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
+                        intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
+                        intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
+                        context.startActivity(intent);
+                    }else {
+                        ToolToast.buildToast(context,"蛙豆不足",1);
+                    }
+
+                }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("服务端连接失败");
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+
+        }else {
+            UIUtils.showTip("请登陆");
+        }
+
+    }
+
+    private void initRechargeData(int money) {
+
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
@@ -216,15 +257,11 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
         RequestParams requestParams = new RequestParams(HttpURL.Add);
         requestParams.addHeader("token",SPUtil.getUser().getResult().getUser().getToken());
         requestParams.addBodyParameter("uid",SPUtil.getUser().getResult().getUser().getUid()+"");
-        requestParams.addBodyParameter("cid",20+"");
+        requestParams.addBodyParameter("cid",30+"");
 
         LogUtil.i("支付token = " + SPUtil.getUser().getResult().getUser().getToken());
         LogUtil.i("支付uid = " + SPUtil.getUser().getResult().getUser().getUid());
 
-
-
-        //包装请求参数
-//        requestParams.addBodyParameter("sourceNum", "111");//
 
 
         //获取数据
@@ -235,16 +272,22 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                 LogUtil.i("充值 = " +  result);
 
                 RechargeBean rechargeBean = new Gson().fromJson(result,RechargeBean.class);
+                LogUtil.i("rechargeBean.getCode() = " +  rechargeBean.getCode() );
                 if (rechargeBean.getCode() == 0){
-
                     ToolToast.buildToast(context,"",1);
+                    Intent intent = new Intent(context, LivingPlayActivity.class);
+                    intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(mPosition).getRtmpDownstreamAddress());
+                    intent.putExtra(VedioContants.ChannelName, resultBean.get(mPosition).getChannelName());
+                    intent.putExtra(VedioContants.ChannelId, resultBean.get(mPosition).getChannelId());
+                    intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(mPosition).getHead());
+                    context.startActivity(intent);
 
                 }
 
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
+                UIUtils.showTip(ex.toString());
 
             }
 
@@ -264,7 +307,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
         private TextView mLiveHomeHeadNameTv;
         private ImageView mLiveHomePlayStateImg;
         private ImageView mLiveHomeHeadImg;
-        private XCRoundRectImageView mXcImg;
+        private ImageView mXcImg;
 
 
         public LiveHomeAdapterHolder(View itemView) {
@@ -278,7 +321,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
             mLiveHomePlayStateImg = (ImageView) itemView.findViewById(R.id.img_live_home_play_state);
             mLiveHomeHeadImg = (ImageView) itemView.findViewById(R.id.img_live_home_head);
 
-            mXcImg = (XCRoundRectImageView) itemView.findViewById(R.id.img_xc_personal);
+            mXcImg = (ImageView) itemView.findViewById(R.id.img_xc_personal);
 
         }
     }

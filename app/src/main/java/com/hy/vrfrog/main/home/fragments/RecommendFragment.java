@@ -4,6 +4,7 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.VrApplication;
 import com.hy.vrfrog.main.home.adapters.MainAdapter;
 import com.hy.vrfrog.main.home.adapters.RecommandAdapter;
+import com.hy.vrfrog.ui.LoadingDataUtil;
 import com.hy.vrfrog.ui.MainRecycleView;
 import com.hy.vrfrog.ui.VerticalViewPager;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
@@ -198,6 +199,7 @@ public class RecommendFragment extends Fragment {
      * 获取话题
      */
     private void HttpTopic(int pager, final boolean islodingMore) {
+
         mRecyclerfreshLayout.setRefreshing(true);
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
@@ -251,6 +253,7 @@ public class RecommendFragment extends Fragment {
             @Override
             public void onFinished() {
                 mRecyclerfreshLayout.setRefreshing(false);
+
             }
         });
     }
