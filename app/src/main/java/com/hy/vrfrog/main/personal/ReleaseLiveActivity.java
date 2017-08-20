@@ -132,28 +132,28 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     private void initView() {
 
-        cachPath = getDiskCacheDir(this) + "/certificate.jpg";//图片路径
-        cacheFile = getCacheFile(new File(getDiskCacheDir(this)), "certificate.jpg");
+        cachPath= getDiskCacheDir(this)+ "/certificate.jpg";//图片路径
+        cacheFile = getCacheFile(new File(getDiskCacheDir(this)),"certificate.jpg");
 
-        mBack = (ImageView) findViewById(R.id.img_release_live_return);
-        mHouseNameEdt = (EditText) findViewById(R.id.edt_release_live_house_name);
-        mMoneyEdt = (EditText) findViewById(R.id.edt_release_live_money);
-        mReleaseBtn = (Button) findViewById(R.id.btn_release_click);
-        mVideoRg = (RadioGroup) findViewById(R.id.rg_release_live_video);
-        mVideoRbYes = (RadioButton) findViewById(R.id.rb_release_live_video_save);
-        mVideoRbNo = (RadioButton) findViewById(R.id.rb_release_live_video_not_save);
+        mBack = (ImageView)findViewById(R.id.img_release_live_return);
+        mHouseNameEdt = (EditText)findViewById(R.id.edt_release_live_house_name);
+        mMoneyEdt = (EditText)findViewById(R.id.edt_release_live_money);
+        mReleaseBtn = (Button)findViewById(R.id.btn_release_click);
+        mVideoRg = (RadioGroup)findViewById(R.id.rg_release_live_video);
+        mVideoRbYes = (RadioButton)findViewById(R.id.rb_release_live_video_save);
+        mVideoRbNo = (RadioButton)findViewById(R.id.rb_release_live_video_not_save);
 
-        mChargeRg = (RadioGroup) findViewById(R.id.rg_release_live_charge);
-        mChargeRbYes = (RadioButton) findViewById(R.id.rb_release_live_charge_save);
-        mChargeRbNo = (RadioButton) findViewById(R.id.rb_release_live_charge_not_save);
+        mChargeRg = (RadioGroup)findViewById(R.id.rg_release_live_charge);
+        mChargeRbYes = (RadioButton)findViewById(R.id.rb_release_live_charge_save);
+        mChargeRbNo = (RadioButton)findViewById(R.id.rb_release_live_charge_not_save);
 
-        mCover = (ImageView) findViewById(R.id.img_release_cover);
+        mCover = (ImageView)findViewById(R.id.img_release_cover);
 
-        mLayout = (RelativeLayout) findViewById(R.id.rl_release_live_money);
-        mAgreeCb = (CheckBox) findViewById(R.id.cb_agree);
+        mLayout = (RelativeLayout)findViewById(R.id.rl_release_live_money);
+        mAgreeCb = (CheckBox)findViewById(R.id.cb_agree);
 
-        mBackGroundImg = (ImageView) findViewById(R.id.img_background);
-        mBackGroundTv = (TextView) findViewById(R.id.tv_background);
+        mBackGroundImg = (ImageView)findViewById(R.id.img_background);
+        mBackGroundTv = (TextView)findViewById(R.id.tv_background);
 
         new PersonalPresenter(this);
 
@@ -190,9 +190,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
 
-
                 if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
-                if (TextUtils.isEmpty(mMoneyEdt.getText().toString())) {
                     UIUtils.showTip("收费金额不能为空");
                     return;
                 }
@@ -535,7 +533,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     /**
      * 将图片存到本地
      * 获得本地图片路径
-     *
      * @param context
      * @return
      */
@@ -576,7 +573,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     /**
      * 转化地址为content开头
-     *
      * @param context
      * @param imageFile
      * @return
@@ -657,7 +653,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
         /**
          * 为获取权限
-         *
          * @param deniedPermission
          */
         void onDenied(List<String> deniedPermission);
