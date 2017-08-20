@@ -24,8 +24,8 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class GiftPanelControl {
 
-    private int columns = 6;
-    private int rows = 4;
+    private int columns = 4;
+    private int rows = 2;
     //每页显示的表情view
     private List<View> views = new ArrayList<>();
     private RecyclerView mRecyclerView;

@@ -3,21 +3,25 @@ package com.hy.vrfrog.main.living.livingplay;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -27,6 +31,7 @@ import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.GiftBean;
+import com.hy.vrfrog.http.responsebean.GiftsBean;
 import com.hy.vrfrog.http.responsebean.MessageBean;
 import com.hy.vrfrog.http.responsebean.VideoTypeBean;
 import com.hy.vrfrog.main.adapter.HomeAdapter;
@@ -34,6 +39,7 @@ import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
 import com.hy.vrfrog.main.living.im.TimConfig;
+import com.hy.vrfrog.main.living.livingplay.ui.GiftDialogFrament;
 import com.hy.vrfrog.main.living.livingplay.ui.TCBaseActivity;
 import com.hy.vrfrog.main.living.livingplay.ui.TCHeartLayout;
 import com.hy.vrfrog.main.living.livingplay.ui.TCInputTextMsgDialog;
@@ -42,6 +48,7 @@ import com.hy.vrfrog.main.living.livingplay.utils.TCFrequeControl;
 import com.hy.vrfrog.main.living.push.ui.FragmentGiftDialog;
 import com.hy.vrfrog.main.living.push.ui.Gift;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
+import com.hy.vrfrog.utils.LongLogUtil;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -81,6 +88,7 @@ import com.tencent.rtmp.TXLivePlayConfig;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+import org.dync.giftlibrary.util.GiftPanelControl;
 import org.dync.giftlibrary.widget.CustormAnim;
 import org.dync.giftlibrary.widget.GiftControl;
 import org.dync.giftlibrary.widget.GiftModel;
@@ -88,7 +96,11 @@ import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -97,7 +109,11 @@ import tencent.tls.platform.TLSErrInfo;
 import tencent.tls.platform.TLSGuestLoginListener;
 import tencent.tls.platform.TLSLoginHelper;
 import tencent.tls.platform.TLSUserInfo;
+
 import android.support.v4.app.FragmentManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayListener {
     private static final String TAG = "--------------------";
@@ -145,6 +161,18 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private String mGroupID;
     public static int mGiftGroup;
     public static GiftBean.ResultBean SendGift;
+    private LinearLayout mGiftLayout;
+    private LinearLayout ll_portrait;
+    private LinearLayout ll_landscape;
+    private TextView tvGiftNum;
+    private ImageView btnGift;
+    private RecyclerView mRecyclerView;
+    private ViewPager mViewpager;
+    private LinearLayout mDotsLayout;
+    private String mGifturl;
+    private String mGiftName;
+    private String mGiftPrice;
+    private RelativeLayout mRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,17 +229,18 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mPlayUrl = intent.getStringExtra(VedioContants.LivingPlayUrl);
         mChannelId = intent.getStringExtra(VedioContants.ChannelId);
         mGroupID = intent.getStringExtra(VedioContants.GroupID);
-        mGiftGroup = intent.getIntExtra(VedioContants.GiftGroup,0);
+        mGiftGroup = intent.getIntExtra(VedioContants.GiftGroup, 0);
         LogUtil.e(mGiftGroup + "=================");
     }
 
-
+    /***************************************礼物*************************************************************/
     private void initData() {
         gson = new Gson();
-        initGift();
         initMessage();
+        initGift();
         //初始化观众列表
         mUserAvatarList = (RecyclerView) findViewById(R.id.rv_user_avatar);
+
         mUserAvatarList.setVisibility(View.VISIBLE);
         mAvatarListAdapter = new TCUserAvatarListAdapter(this, mPusherId);
         mUserAvatarList.setAdapter(mAvatarListAdapter);
@@ -240,45 +269,230 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             }
         });
 
-        //初始化礼物列表
-        Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
-        llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
-        giftControl = new GiftControl(this);
-
-        giftControl.setGiftLayout(false, llgiftparent, 4)
-                .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
-
-        mBtnSendGift.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                MessageBean messageBean = new MessageBean();
-//                messageBean.setGiftCount(1);
-//                messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Gift);
-//                messageBean.setGiftName("棒棒糖");
-//                messageBean.setMsg(1 + "");
-//                messageBean.setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/001.png");
-//                messageBean.setHeadPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/002.png");
-//                messageBean.setNickName("小嘉倪姬");
-//                messageBean.setUserId("小嘉倪姬");
-//                showGift(messageBean);
-//                sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
-
-                FragmentGiftDialog.newInstance().setOnGridViewClickListener(new FragmentGiftDialog.OnGridViewClickListener() {
-                    @Override
-                    public void click(GiftBean.ResultBean gift) {
-                        UIUtils.showTip(gift.getName());
-                    }
-                }).show(getSupportFragmentManager(),"dialog");
-
-            }
-        });
 
     }
 
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {// 横屏
+//            Log.e(TAG, "onConfigurationChanged: " + "横屏");
+            onConfigurationLandScape();
+
+        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            Log.e(TAG, "onConfigurationChanged: " + "竖屏");
+            onConfigurationPortrait();
+        }
+    }
+
+    private void onConfigurationPortrait() {
+        ll_portrait.setVisibility(View.VISIBLE);
+        ll_landscape.setVisibility(View.GONE);
+    }
+
+    private void onConfigurationLandScape() {
+        ll_portrait.setVisibility(View.GONE);
+        ll_landscape.setVisibility(View.VISIBLE);
+    }
 
     private void initGift() {
+        //初始化礼物列表
+        Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
+        llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
+        giftControl = new GiftControl(this);
+        giftControl.setGiftLayout(false, llgiftparent, 4)
+                .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
 
+
+        ll_portrait = (LinearLayout) findViewById(R.id.ll_portrait);
+        ll_landscape = (LinearLayout) findViewById(R.id.ll_landscape);
+        tvGiftNum = (TextView) findViewById(R.id.toolbox_tv_gift_num);
+        btnGift = (ImageView) findViewById(R.id.toolbox_iv_face);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_gift);
+        mViewpager = (ViewPager) findViewById(R.id.toolbox_pagers_face);
+        mDotsLayout = (LinearLayout) findViewById(R.id.face_dots_container);
+        mRootView = (RelativeLayout) findViewById(R.id.rl_root);
+        mGiftLayout = (LinearLayout) findViewById(R.id.giftLayout);
+        mGiftLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //这里的作用是消费掉点击事件
+            }
+        });
+        mGiftLayout.setVisibility(View.GONE);
+        mBtnSendGift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mGiftLayout.getVisibility() == View.VISIBLE) {
+                    mGiftLayout.setVisibility(View.GONE);
+                } else {
+                    mGiftLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        tvGiftNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                showGiftDialog();
+            }
+        });
+
+
+        btnGift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(mGiftName)) {
+                    Toast.makeText(getApplication(), "你还没选择礼物呢", Toast.LENGTH_SHORT).show();
+                } else {
+                    String numStr = tvGiftNum.getText().toString();
+                    if (!TextUtils.isEmpty(numStr)) {
+                        int giftnum = Integer.parseInt(numStr);
+                        if (giftnum == 0) {
+                            return;
+                        } else {
+                            //这里最好不要直接new对象
+                            giftModel = new GiftModel();
+                            giftModel.setGiftId(mGiftName).setGiftName(mGiftName).setGiftCount(giftnum).setGiftPic(mGifturl)
+                                    .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                                    .setCurrentStart(currentStart);
+                            if (currentStart) {
+                                giftModel.setHitCombo(giftnum);
+                            }
+                            giftControl.loadGift(giftModel);
+                            Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
+
+                            sendGift(giftnum);
+
+
+                        }
+                    }
+                }
+            }
+        });
+        HttpGetGift(mGroupId);
+    }
+
+
+    /**
+     * 转化为送礼物的模型
+     *
+     * @param datas
+     * @return
+     */
+    private List<GiftModel> toGiftModel(List<GiftBean.ResultBean> datas) {
+        List<GiftModel> giftModels = new ArrayList<>();
+        GiftModel giftModel;
+        for (int i = 0; i < datas.size(); i++) {
+            GiftBean.ResultBean giftListBean = datas.get(i);
+            giftModel = new GiftModel();
+            giftModel.setGiftName(giftListBean.getName()).setGiftPic(HttpURL.IV_GIFT_HOST + giftListBean.getGif()).setGiftPrice(giftListBean.getPrice() + "");
+            giftModels.add(giftModel);
+        }
+        return giftModels;
+    }
+
+
+    /**
+     * 请求礼物列表
+     */
+    private void HttpGetGift(String giftGroup) {
+        UIUtils.showTip("请打开网络" + giftGroup);
+        LogUtil.e("请求侧边栏列表");
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.getGift);
+        requestParams.addHeader("token", HttpURL.Token);
+        requestParams.addBodyParameter("groupId", giftGroup);
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LongLogUtil.e("礼物-----", result);
+                GiftBean giftBean = new Gson().fromJson(result, GiftBean.class);
+                if (giftBean.getCode() == 0) {
+                    GiftPanelControl giftPanelControl = new GiftPanelControl(LivingPlayActivity.this, mViewpager, mRecyclerView, mDotsLayout);
+                    List<GiftModel> giftModels = toGiftModel(giftBean.getResult());
+                    giftPanelControl.init(giftModels);//这里如果为null则加载本地礼物图片
+                    giftPanelControl.setGiftListener(new GiftPanelControl.GiftListener() {
+                        @Override
+                        public void getGiftInfo(String giftPic, String giftName, String giftPrice) {
+                            mGifturl = giftPic;
+                            mGiftName = giftName;
+                            mGiftPrice = giftPrice;
+                            LogUtil.e(mGifturl + mGiftName + mGiftPrice);
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                ex.printStackTrace();
+            }
+
+        });
+    }
+
+    private void showGiftDialog() {
+        final GiftDialogFrament giftDialogFrament = new GiftDialogFrament();
+        giftDialogFrament.show(getFragmentManager(), "GiftDialogFrament");
+        giftDialogFrament.setGiftListener(new GiftDialogFrament.GiftListener() {
+            @Override
+            public void giftNum(String giftNum) {
+                tvGiftNum.setText(giftNum);
+                giftDialogFrament.dismiss();
+            }
+        });
+    }
+
+    private void sendGift(int giftnum) {
+        MessageBean messageBean = new MessageBean();
+        messageBean.setGiftCount(giftnum);
+        messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Gift);
+        messageBean.setGiftName(mGiftName);
+        messageBean.setMsg(1 + "");
+        messageBean.setGiftPic(mGifturl);
+        messageBean.setHeadPic("");
+        messageBean.setNickName("小嘉倪姬");
+        messageBean.setUserId("小嘉倪姬");
+        sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
+
+
+    }
+
+    private void showGift(MessageBean messageBean) {
+        giftModel = new GiftModel();
+        giftModel.setGiftId(messageBean.getMsg())
+                .setGiftName(messageBean.getGiftName())
+                .setGiftCount(messageBean.getGiftCount())
+                .setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/000.png")
+                .setSendUserId(messageBean.getUserId())
+                .setSendUserName(messageBean.getNickName())
+                .setSendUserPic(messageBean.getHeadPic())
+                .setSendGiftTime(System.currentTimeMillis())
+                .setCurrentStart(currentStart);
+        if (currentStart) {
+            giftModel.setHitCombo(1);
+        }
+        giftControl.loadGift(giftModel);
+        Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                if (mGiftLayout.getVisibility() == View.VISIBLE) {
+                    mGiftLayout.setVisibility(View.GONE);
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 
     /**
@@ -376,24 +590,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 //        }
 //    };
 
-
-    private void showGift(MessageBean messageBean) {
-        giftModel = new GiftModel();
-        giftModel.setGiftId(messageBean.getMsg())
-                .setGiftName(messageBean.getGiftName())
-                .setGiftCount(messageBean.getGiftCount())
-                .setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/000.png")
-                .setSendUserId(messageBean.getUserId())
-                .setSendUserName(messageBean.getNickName())
-                .setSendUserPic(messageBean.getHeadPic())
-                .setSendGiftTime(System.currentTimeMillis())
-                .setCurrentStart(currentStart);
-        if (currentStart) {
-            giftModel.setHitCombo(1);
-        }
-        giftControl.loadGift(giftModel);
-        Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
-    }
 
     private void showKeyBoard(final EditText editText) {
         Timer timer = new Timer();
@@ -901,9 +1097,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         } else if (mTXLivePlayer != null)
             mTXLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
     }
-
-
-
 
 
 }
