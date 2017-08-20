@@ -8,6 +8,7 @@ import com.hy.vrfrog.ui.LoadingDataUtil;
 import com.hy.vrfrog.ui.MainRecycleView;
 import com.hy.vrfrog.ui.VerticalViewPager;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.utils.BasePreferences;
 import com.hy.vrfrog.utils.LoadMoreListView;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.UIUtils;
