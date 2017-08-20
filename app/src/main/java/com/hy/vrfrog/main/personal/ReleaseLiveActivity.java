@@ -190,6 +190,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
 
+
+                if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
                 if (TextUtils.isEmpty(mMoneyEdt.getText().toString())) {
                     UIUtils.showTip("收费金额不能为空");
                     return;
@@ -229,6 +231,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         } else if (i == R.id.rb_release_live_charge_not_save) {
             isCharge = String.valueOf(0);
             mLayout.setVisibility(View.GONE);
+            mMoneyEdt.setText(String.valueOf(0));
         }
 
     }
@@ -355,6 +358,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             } else {
                 mChargeRbNo.setChecked(true);
                 isCharge = String.valueOf(0);
+                mMoneyEdt.setText(String.valueOf(0));
             }
         }
     }
@@ -443,7 +447,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip(ex.getMessage());
+                UIUtils.showTip("网络异常");
             }
 
             @Override
