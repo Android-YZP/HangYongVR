@@ -28,6 +28,7 @@ public class VedioContants {
     public static final String ChannelId = "ChannelId";
     public static final String GroupID = "GroupID";
     public static final String GiftGroup = "GiftGroup";
+    public static final String RoomImg = "RoomImg";
 
 
     public static final int AVIMCMD_None = 0; // 无事件
@@ -37,6 +38,7 @@ public class VedioContants {
     public static final int AVIMCMD_Custom_Like = 4; //点赞消息
     public static final int AVIMCMD_Custom_Danmaku = 5; //弹幕消息
     public static final int AVIMCMD_Custom_Gift = 6; //礼物消息
+    public static final int AVIMCMD_Custom_Exit = 7; //礼物消息
 
     /**
      * 下载文件的路径

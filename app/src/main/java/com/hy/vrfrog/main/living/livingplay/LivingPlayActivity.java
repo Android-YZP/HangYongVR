@@ -1,7 +1,9 @@
 package com.hy.vrfrog.main.living.livingplay;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
@@ -173,6 +176,16 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private String mGiftName;
     private String mGiftPrice;
     private RelativeLayout mRootView;
+    private String mChannelName;
+    private TextView mHannelName;
+    private TextView mTvChannelName;
+    private TextView mTvRoomNum;
+    private int mRoomNum;
+    private ImageView mIvHead;
+    private String mHeadFace;
+    private ImageView mIvRoomImg;
+    private String mRoomImg = "";
+    private Button mBtnClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +235,10 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             }
         });
         stopPlay(false);
+        //销毁动画
+        if (giftControl != null) {
+            giftControl.cleanAll();
+        }
     }
 
     private void initRoomData() {
@@ -229,8 +246,12 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mPlayUrl = intent.getStringExtra(VedioContants.LivingPlayUrl);
         mChannelId = intent.getStringExtra(VedioContants.ChannelId);
         mGroupID = intent.getStringExtra(VedioContants.GroupID);
+        mHeadFace = intent.getStringExtra(VedioContants.HeadFace);
+        mChannelName = intent.getStringExtra(VedioContants.ChannelName);
+        mRoomImg = intent.getStringExtra(VedioContants.RoomImg);
         mGiftGroup = intent.getIntExtra(VedioContants.GiftGroup, 0);
         LogUtil.e(mGiftGroup + "=================");
+
     }
 
     /***************************************礼物*************************************************************/
@@ -238,15 +259,31 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         gson = new Gson();
         initMessage();
         initGift();
+
+        //初始化房间信息
+        mTvRoomNum = (TextView) findViewById(R.id.tv_room_num);
+        mTvChannelName = (TextView) findViewById(R.id.tv_play_channelName);
+        mIvHead = (ImageView) findViewById(R.id.iv_room_head);
+        mBtnClose = (Button) findViewById(R.id.btn_close);
+        mIvRoomImg = (ImageView) findViewById(R.id.iv_living_room_img);
+        mTvChannelName.setText(mChannelName);
+        Glide.with(this).load(mHeadFace).asBitmap().into(mIvHead);
+        Glide.with(this).load(mRoomImg).asBitmap().into(mIvRoomImg);
+        mBtnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showComfirmDialog(TCConstants.TIPS_MSG_STOP_PUSH, false);
+            }
+        });
         //初始化观众列表
         mUserAvatarList = (RecyclerView) findViewById(R.id.rv_user_avatar);
-
         mUserAvatarList.setVisibility(View.VISIBLE);
         mAvatarListAdapter = new TCUserAvatarListAdapter(this, mPusherId);
         mUserAvatarList.setAdapter(mAvatarListAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mUserAvatarList.setLayoutManager(linearLayoutManager);
+
         //点赞爱心动画
         mHeartLayout = (TCHeartLayout) findViewById(R.id.heart_layout);
         mBtnHeartLike = (Button) findViewById(R.id.btn_living_like);
@@ -268,8 +305,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 }
             }
         });
-
-
     }
 
 
@@ -297,10 +332,12 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     }
 
     private void initGift() {
+        giftControl = new GiftControl(UIUtils.getContext());
+
         //初始化礼物列表
         Button mBtnSendGift = (Button) findViewById(R.id.btn_send_gift);
         llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
-        giftControl = new GiftControl(this);
+
         giftControl.setGiftLayout(false, llgiftparent, 4)
                 .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
 
@@ -423,7 +460,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             mGifturl = giftPic;
                             mGiftName = giftName;
                             mGiftPrice = giftPrice;
-                            LogUtil.e(mGifturl + mGiftName + mGiftPrice);
+
                         }
                     });
 
@@ -437,6 +474,71 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
         });
     }
+
+    private void  InitGife(){
+
+
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+
+        if (SPUtil.getUser() != null){
+            RequestParams requestParams = new RequestParams(HttpURL.Pay);
+            requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
+            requestParams.addBodyParameter("uid",SPUtil.getUser().getResult().getUser().getUid()+"");
+            requestParams.addBodyParameter("type",3+"");
+            requestParams.addBodyParameter("vid",mData.get(position).getId()+ "");
+            requestParams.addBodyParameter("money",price+"");
+            requestParams.addBodyParameter("yid",mData.get(position).getUid()+"");
+
+            LogUtil.i("个人直播支付token = " + SPUtil.getUser().getResult().getUser().getToken());
+            LogUtil.i("个人直播支付uid = " + SPUtil.getUser().getResult().getUser().getUid());
+            LogUtil.i("个人直播支付vid = " + mData.get(position).getId());
+            LogUtil.i("个人直播支付yid = " + mData.get(position).getUid());
+            LogUtil.i("个人直播支付money = " + price);
+
+            LogUtil.i("个人直播支付type = " + 3);
+
+            //获取数据
+            x.http().post(requestParams, new JsonCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    LogUtil.i("支付 = " +  result);
+
+                    GiveRewardBean giveBean = new Gson().fromJson(result,GiveRewardBean.class);
+                    mPersonalLiveView.payMoneySuccess(position,giveBean);
+
+
+                }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+
+                    mPersonalLiveView.payMoneyFailure(ex);
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+
+        }else {
+            UIUtils.showTip("请登陆");
+        }
+
+
+
+
+    }
+
+
+
+
+
+
 
     private void showGiftDialog() {
         final GiftDialogFrament giftDialogFrament = new GiftDialogFrament();
@@ -467,10 +569,10 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
     private void showGift(MessageBean messageBean) {
         giftModel = new GiftModel();
-        giftModel.setGiftId(messageBean.getMsg())
-                .setGiftName(messageBean.getGiftName())
+        giftModel.setGiftId(mGiftName)
+                .setGiftName(mGiftName)
                 .setGiftCount(messageBean.getGiftCount())
-                .setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/000.png")
+                .setGiftPic(mGifturl)
                 .setSendUserId(messageBean.getUserId())
                 .setSendUserName(messageBean.getNickName())
                 .setSendUserPic(messageBean.getHeadPic())
@@ -711,9 +813,10 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                                     notifyMsg(entity);
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
                                     showGift(messageBean);
+                                }else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Exit) {
+                                    showComfirmDialog("主播关播了,下次再来",true);
                                 }
                             }
-
                         } else if (elemType == TIMElemType.GroupSystem) {
                             String groupName = ((TIMGroupSystemElem) elem).getOpReason();
 
@@ -785,6 +888,10 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             entity.setContext(elem.getOpUserInfo().getNickName() + "加入直播");
                             entity.setType(TCConstants.MEMBER_ENTER);
                             notifyMsg(entity);
+                            //人数增加
+                            ++mRoomNum;
+                            mTvRoomNum.setText(mRoomNum + "人");
+
                         } else if (elem.getTipsType() == TIMGroupTipsType.Quit) {
 
                             mAvatarListAdapter.removeItem(elem.getOpUserInfo().getIdentifier());
@@ -794,6 +901,10 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             entity.setContext(elem.getOpUserInfo().getNickName() + "退出直播");
                             entity.setType(TCConstants.MEMBER_ENTER);
                             notifyMsg(entity);
+                            //人数减少
+                            --mRoomNum;
+                            if (mRoomNum <= 0) mRoomNum = 0;
+                            mTvRoomNum.setText(mRoomNum + "人");
                         }
                     }
                 })
@@ -985,6 +1096,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
             @Override
             public void onSuccess(List<TIMGroupMemberInfo> timGroupMemberInfos) {
+                mRoomNum = timGroupMemberInfos.size() + mRoomNum;
+                mTvRoomNum.setText(mRoomNum + "人");
+
                 for (int i = 0; i < timGroupMemberInfos.size(); i++) {
                     Log.e(tag, "user: " + timGroupMemberInfos.get(i).getUser() +
                             "join time: " + timGroupMemberInfos.get(i).getJoinTime() +
@@ -1022,6 +1136,47 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 //        mLivePlayer.setConfig(mPlayConfig);
 //        mLivePlayer.startPlay(mPlayUrl, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);//推荐FLV
 //    }
+    /**
+     * 显示确认消息
+     *
+     * @param msg     消息内容
+     * @param isError true错误消息（必须退出） false提示消息（可选择是否退出）
+     */
+    public void showComfirmDialog(String msg, Boolean isError) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.ConfirmDialogStyle);
+        builder.setCancelable(true);
+        builder.setTitle(msg);
+
+        if (!isError) {
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        } else {
+            //当情况为错误的时候，直接停止推流
+
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+        }
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.setCanceledOnTouchOutside(false);
+    }
 
     protected void startPlay() {
 
@@ -1081,6 +1236,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         if (event == TXLiveConstants.PLAY_EVT_PLAY_PROGRESS) {
         } else if (event == TXLiveConstants.PLAY_ERR_NET_DISCONNECT) {
             showErrorAndQuit(TCConstants.ERROR_MSG_NET_DISCONNECTED);
+        }else if (event == TXLiveConstants.PLAY_EVT_PLAY_BEGIN) {
+            mIvRoomImg.setVisibility(View.GONE);
         }
     }
 

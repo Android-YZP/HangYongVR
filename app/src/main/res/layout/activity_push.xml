@@ -38,7 +38,7 @@
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
             android:layout_marginRight="15dp"
-            android:background="@drawable/icon_flash"
+            android:background="@drawable/live_button_chat"
             android:onClick="onClick" />
 
         <TextView
@@ -53,7 +53,6 @@
             android:layout_height="@dimen/live_btn_size"
             android:background="@drawable/music_big"
             android:onClick="onClick" />
-
 
 
         <TextView
@@ -94,8 +93,6 @@
             android:onClick="onClick" />
 
 
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,18 +120,6 @@
 
 
     </LinearLayout>
-
-
-    <com.hy.vrfrog.main.living.push.ui.TCAudioControl
-        android:id="@+id/layoutAudioControlContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#ffffff"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:padding="0dp"
-        android:visibility="gone" />
 
 
     <LinearLayout
@@ -213,20 +198,20 @@
                 android:id="@+id/tv_broadcasting_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:singleLine="true"
                 android:maxLines="1"
-                android:textColor="@color/colorTextWhite"
                 android:paddingTop="2.5dp"
-            />
+                android:singleLine="true"
+                android:textColor="@color/colorTextWhite"
+                android:textSize="10sp" />
 
 
             <TextView
+                android:id="@+id/tv_room_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
-                android:text="正在直播"
+                android:text="100人"
                 android:textColor="#fff"
                 android:textSize="12sp" />
 
@@ -277,7 +262,26 @@
         android:layout_marginLeft="15dp"
         android:orientation="vertical" />
 
+    <com.hy.vrfrog.main.living.push.ui.TCAudioControl
+        android:id="@+id/layoutAudioControlContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:padding="0dp"
+        android:visibility="gone" />
 
+
+    <ImageView
+        android:id="@+id/iv_room_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <include layout="@layout/item_push_over" />
 
 
 </RelativeLayout>

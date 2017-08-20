@@ -1,8 +1,6 @@
 package com.hy.vrfrog.main.personal;
 
 
-
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -67,8 +65,8 @@ import java.util.List;
  * Created by qwe on 2017/8/15.
  */
 
-public class ReleaseLiveActivity extends AppCompatActivity implements View.OnClickListener,RadioGroup.OnCheckedChangeListener
-  ,PersonalContract.View{
+public class ReleaseLiveActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener
+        , PersonalContract.View {
 
     public static final int TAKE_PHOTO = 1;
 
@@ -82,7 +80,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private EditText mHouseNameEdt;
     private EditText mMoneyEdt;
     private Button mReleaseBtn;
-    private String  isTranscribe;
+    private String isTranscribe;
     private String isCharge;
     private String mHouseName;
     private String mMoney;
@@ -91,10 +89,10 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     //动态获取权限监听
     private static IPermissionListener mListener;
 
-    private  String cachPath;
+    private String cachPath;
 
     private File cacheFile;
-    private  File cameraFile;
+    private File cameraFile;
     private Uri imageUri;
     private File mFrontPhoto;
 
@@ -128,7 +126,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonRoom);
         requestParams.addHeader("token", HttpURL.Token);
 
-        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
+        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");//用户名
         //获取数据
         // 有上传文件时使用multipart表单, 否则上传原始文件流.
         requestParams.setMultipart(true);
@@ -155,28 +153,28 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     private void initView() {
 
-        cachPath= getDiskCacheDir(this)+ "/certificate.jpg";//图片路径
-        cacheFile = getCacheFile(new File(getDiskCacheDir(this)),"certificate.jpg");
+        cachPath = getDiskCacheDir(this) + "/certificate.jpg";//图片路径
+        cacheFile = getCacheFile(new File(getDiskCacheDir(this)), "certificate.jpg");
 
-        mBack = (ImageView)findViewById(R.id.img_release_live_return);
-        mHouseNameEdt = (EditText)findViewById(R.id.edt_release_live_house_name);
-        mMoneyEdt = (EditText)findViewById(R.id.edt_release_live_money);
-        mReleaseBtn = (Button)findViewById(R.id.btn_release_click);
-        mVideoRg = (RadioGroup)findViewById(R.id.rg_release_live_video);
-        mVideoRbYes = (RadioButton)findViewById(R.id.rb_release_live_video_save);
-        mVideoRbNo = (RadioButton)findViewById(R.id.rb_release_live_video_not_save);
+        mBack = (ImageView) findViewById(R.id.img_release_live_return);
+        mHouseNameEdt = (EditText) findViewById(R.id.edt_release_live_house_name);
+        mMoneyEdt = (EditText) findViewById(R.id.edt_release_live_money);
+        mReleaseBtn = (Button) findViewById(R.id.btn_release_click);
+        mVideoRg = (RadioGroup) findViewById(R.id.rg_release_live_video);
+        mVideoRbYes = (RadioButton) findViewById(R.id.rb_release_live_video_save);
+        mVideoRbNo = (RadioButton) findViewById(R.id.rb_release_live_video_not_save);
 
-        mChargeRg = (RadioGroup)findViewById(R.id.rg_release_live_charge);
-        mChargeRbYes = (RadioButton)findViewById(R.id.rb_release_live_charge_save);
-        mChargeRbNo = (RadioButton)findViewById(R.id.rb_release_live_charge_not_save);
+        mChargeRg = (RadioGroup) findViewById(R.id.rg_release_live_charge);
+        mChargeRbYes = (RadioButton) findViewById(R.id.rb_release_live_charge_save);
+        mChargeRbNo = (RadioButton) findViewById(R.id.rb_release_live_charge_not_save);
 
-        mCover = (ImageView)findViewById(R.id.img_release_cover);
+        mCover = (ImageView) findViewById(R.id.img_release_cover);
 
-        mLayout = (RelativeLayout)findViewById(R.id.rl_release_live_money);
-        mAgreeCb = (CheckBox)findViewById(R.id.cb_agree);
+        mLayout = (RelativeLayout) findViewById(R.id.rl_release_live_money);
+        mAgreeCb = (CheckBox) findViewById(R.id.cb_agree);
 
-        mBackGroundImg = (ImageView)findViewById(R.id.img_background);
-        mBackGroundTv = (TextView)findViewById(R.id.tv_background);
+        mBackGroundImg = (ImageView) findViewById(R.id.img_background);
+        mBackGroundTv = (TextView) findViewById(R.id.tv_background);
 
         new PersonalPresenter(this);
 
@@ -200,7 +198,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.img_release_live_return:
                 finish();
                 break;
@@ -208,24 +206,24 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 //                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
 //                startActivity(intent);
 //
-                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())){
+                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
                     UIUtils.showTip("房间名称不能为空");
                     return;
                 }
 
-                if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
+                if (TextUtils.isEmpty(mMoneyEdt.getText().toString())) {
                     UIUtils.showTip("收费金额不能为空");
                     return;
                 }
 
-                if (mAgreeCb.isChecked()){
+                if (mAgreeCb.isChecked()) {
                     UIUtils.showTip("请选择我已阅读并同意直播协议");
                     return;
                 }
 
 
-                if (SPUtil.getUser() != null){
-                    mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()),isTranscribe,mHouseNameEdt.getText().toString(),isCharge,mMoneyEdt.getText().toString(),"");
+                if (SPUtil.getUser() != null) {
+                    mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()), isTranscribe, mHouseNameEdt.getText().toString(), isCharge, mMoneyEdt.getText().toString(), "");
                 }
 
                 break;
@@ -236,21 +234,21 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-        if (i == R.id.rb_release_live_video_save){
+        if (i == R.id.rb_release_live_video_save) {
 
             isTranscribe = String.valueOf(1);
 
-        }else if (i == R.id.rb_release_live_video_not_save){
+        } else if (i == R.id.rb_release_live_video_not_save) {
 
-            isTranscribe = String.valueOf(0) ;
+            isTranscribe = String.valueOf(0);
 
-        }else if (i == R.id.rb_release_live_charge_save){
+        } else if (i == R.id.rb_release_live_charge_save) {
 
-            isCharge  = String.valueOf(1) ;
+            isCharge = String.valueOf(1);
             mLayout.setVisibility(View.VISIBLE);
 
-        }else if (i ==  R.id.rb_release_live_charge_not_save){
-            isCharge = String.valueOf(0) ;
+        } else if (i == R.id.rb_release_live_charge_not_save) {
+            isCharge = String.valueOf(0);
             mLayout.setVisibility(View.GONE);
         }
 
@@ -269,7 +267,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void showTakePhotoForAlbum() {
-        String[] permissions={Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         requestRuntimePermission(permissions, new IPermissionListener() {
             @Override
             public void onGranted() {
@@ -287,7 +285,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void showWakePhotoForCamera() {
-        String[] permissions={Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         requestRuntimePermission(permissions, new IPermissionListener() {
             @Override
             public void onGranted() {
@@ -303,7 +301,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void openCamera() {
-        cameraFile = getCacheFile(new File(getDiskCacheDir(this)),"output_image.jpg");
+        cameraFile = getCacheFile(new File(getDiskCacheDir(this)), "output_image.jpg");
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -326,10 +324,10 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void showId(int id,CreateLiveRoom createLiveRoom) {
+    public void showId(int id, CreateLiveRoom createLiveRoom) {
         LogUtil.i("id = " + id);
-        this.mid = id ;
-        uploadCertificaton(mFrontPhoto,mid,createLiveRoom);
+        this.mid = id;
+        uploadCertificaton(mFrontPhoto, mid, createLiveRoom);
 
     }
 
@@ -343,7 +341,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                 if (resultCode == RESULT_OK) {
                     try {
                         // 将拍摄的照片显示出来
-                        startPhotoZoom(cameraFile,350);
+                        startPhotoZoom(cameraFile, 350);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -365,7 +363,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
             case CROP_PHOTO:
                 try {
-                    if (resultCode==RESULT_OK){
+                    if (resultCode == RESULT_OK) {
 
                         mFrontPhoto = new File(cachPath);
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.fromFile(new File(cachPath))));
@@ -375,7 +373,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                         isChoosed = true;//已经选择图片
 
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -383,15 +381,15 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void uploadCertificaton(File frontPhoto, int id, final CreateLiveRoom createLiveRoom){
+    private void uploadCertificaton(File frontPhoto, int id, final CreateLiveRoom createLiveRoom) {
 
         RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonLvbImg);
         requestParams.addHeader("token", HttpURL.Token);
 
         //包装请求参数
         requestParams.addBodyParameter("file", frontPhoto);//用户名
-        requestParams.addBodyParameter("id", id+"");//用户名
-        LogUtil.i(frontPhoto.getPath()+"----------");
+        requestParams.addBodyParameter("id", id + "");//用户名
+        LogUtil.i(frontPhoto.getPath() + "----------");
         //获取数据
         // 有上传文件时使用multipart表单, 否则上传原始文件流.
         requestParams.setMultipart(true);
@@ -401,12 +399,14 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             public void onSuccess(String result) {
                 LogUtil.i("上传证件 =" + result);
                 PictureBean pictureBean = new Gson().fromJson(result, PictureBean.class);
-                if (pictureBean.getCode() == 0){
+                if (pictureBean.getCode() == 0) {
                     UIUtils.showTip("上传成功");
                     Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);
-                    intent.putExtra(VedioContants.LivingPushUrl,createLiveRoom.getResult().getUpstreamAddress());
-                    intent.putExtra(VedioContants.ChannelId,createLiveRoom.getResult().getChannelId());
-                    intent.putExtra(VedioContants.GroupID,(String)createLiveRoom.getResult().getAlipay());
+                    intent.putExtra(VedioContants.LivingPushUrl, createLiveRoom.getResult().getUpstreamAddress());
+                    intent.putExtra(VedioContants.ChannelId, createLiveRoom.getResult().getChannelId());
+                    intent.putExtra(VedioContants.ChannelName, createLiveRoom.getResult().getChannelName());
+                    intent.putExtra(VedioContants.GroupID, (String) createLiveRoom.getResult().getAlipay());
+                    intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + createLiveRoom.getResult().getImg());
                     startActivity(intent);
                 }
 
@@ -421,7 +421,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-    private  File getCacheFile(File parent, String child) {
+    private File getCacheFile(File parent, String child) {
         // 创建File对象，用于存储拍照后的图片
         File file = new File(parent, child);
 
@@ -440,19 +440,19 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private void handleImageOnKitKat(Intent data) {
         Uri uri = data.getData();
         Log.d("TAG", "handleImageOnKitKat: uri is " + uri);
-        String imagePath= uriToPath(uri);
+        String imagePath = uriToPath(uri);
 //        displayImage(imagePath); // 根据图片路径显示图片
 
-        Log.i("TAG","file://"+imagePath+"选择图片的URI"+uri);
-        startPhotoZoom(new File(imagePath),350);
+        Log.i("TAG", "file://" + imagePath + "选择图片的URI" + uri);
+        startPhotoZoom(new File(imagePath), 350);
     }
 
     private String uriToPath(Uri uri) {
-        String path=null;
+        String path = null;
         if (DocumentsContract.isDocumentUri(this, uri)) {
             // 如果是document类型的Uri，则通过document id处理
             String docId = DocumentsContract.getDocumentId(uri);
-            if("com.android.providers.media.documents".equals(uri.getAuthority())) {
+            if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
                 String id = docId.split(":")[1]; // 解析出数字格式的id
                 String selection = MediaStore.Images.Media._ID + "=" + id;
                 path = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
@@ -467,7 +467,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             // 如果是file类型的Uri，直接获取图片路径即可
             path = uri.getPath();
         }
-        return  path;
+        return path;
     }
 
 
@@ -475,8 +475,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         Uri uri = data.getData();
         String imagePath = getImagePath(uri, null);
 //        displayImage(imagePath);
-        Log.i("TAG","file://"+imagePath+"选择图片的URI"+uri);
-        startPhotoZoom(new File(imagePath),350);
+        Log.i("TAG", "file://" + imagePath + "选择图片的URI" + uri);
+        startPhotoZoom(new File(imagePath), 350);
     }
 
     private String getImagePath(Uri uri, String selection) {
@@ -495,6 +495,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     /**
      * 将图片存到本地
      * 获得本地图片路径
+     *
      * @param context
      * @return
      */
@@ -513,15 +514,15 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
      * 剪裁图片
      */
     private void startPhotoZoom(File file, int size) {
-        Log.i("TAG",getImageContentUri(this,file)+"裁剪照片的真实地址");
+        Log.i("TAG", getImageContentUri(this, file) + "裁剪照片的真实地址");
         try {
             Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setDataAndType(getImageContentUri(this,file), "image/*");//自己使用Content Uri替换File Uri
+            intent.setDataAndType(getImageContentUri(this, file), "image/*");//自己使用Content Uri替换File Uri
             intent.putExtra("scale", true);
             intent.putExtra("return-data", false);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1.6);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(cacheFile));//定义输出的File Uri
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cacheFile));//定义输出的File Uri
             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
             intent.putExtra("noFaceDetection", true);
             startActivityForResult(intent, CROP_PHOTO);
@@ -535,6 +536,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
     /**
      * 转化地址为content开头
+     *
      * @param context
      * @param imageFile
      * @return
@@ -543,9 +545,9 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         String filePath = imageFile.getAbsolutePath();
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[] { MediaStore.Images.Media._ID },
+                new String[]{MediaStore.Images.Media._ID},
                 MediaStore.Images.Media.DATA + "=? ",
-                new String[] { filePath }, null);
+                new String[]{filePath}, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             int id = cursor.getInt(cursor
@@ -615,6 +617,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
         /**
          * 为获取权限
+         *
          * @param deniedPermission
          */
         void onDenied(List<String> deniedPermission);

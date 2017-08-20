@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <RelativeLayout
         android:id="@+id/infoRl"
-        android:layout_width="150dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="8dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/bg_giftlayout">
 
         <ImageView
             android:id="@+id/headIv"
             android:layout_width="39dp"
             android:layout_height="39dp"
+            android:layout_centerVertical="true"
             android:layout_margin="3dp"
             android:scaleType="centerCrop"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon" />
+            android:src="@mipmap/icon"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/nickNameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@id/headIv"
             android:text="nickName"
@@ -50,28 +52,28 @@
             android:id="@+id/giftIv"
             android:layout_width="39dp"
             android:layout_height="39dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/infoTv" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp" />
+        android:layout_alignRight="@id/infoRl"
+        android:layout_marginTop="20dp" />
 
 
     <org.dync.giftlibrary.widget.StrokeTextView
         android:id="@+id/animation_num"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="158dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:text="x 1"
+        android:layout_marginLeft="30dp"
         android:textColor="#0076ff"
-        android:textSize="24sp"
+        android:textSize="30sp"
         app:innnerColor="#ffffff"
         app:outerColor="#0076ff" />
 
-</FrameLayout>
+</LinearLayout>

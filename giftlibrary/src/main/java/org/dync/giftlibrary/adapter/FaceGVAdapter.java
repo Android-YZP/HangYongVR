@@ -84,7 +84,8 @@ public class FaceGVAdapter extends RecyclerView.Adapter<FaceGVAdapter.ViewHodler
     public void onBindViewHolder(final ViewHodler holder, final int position) {
         final GiftModel giftModel = list.get(position);
         if (isNetData) {
-            Glide.with(mContext).load(giftModel.getGiftPic()).placeholder(R.mipmap.loading).into(holder.giftImg);
+            Glide.with(mContext).load(giftModel.getGiftPic()).into(holder.giftImg);
+//            Glide.with(mContext).load(giftModel.getGiftPic()).placeholder(R.mipmap.loading).into(holder.giftImg);
         } else {
             try {
                 Bitmap mBitmap = BitmapFactory.decodeStream(mContext.getAssets().open(giftModel.getGiftName()));

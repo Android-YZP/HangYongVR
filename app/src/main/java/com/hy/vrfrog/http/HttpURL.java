@@ -22,6 +22,8 @@ public class HttpURL {
     public static String IV_CHARGE_HOST = "http://123.206.67.115:8080/img/chargr/";
     public static String IV_GIFT_HOST = "http://123.206.67.115:8080/img/gift/";
     public static String IV_PERSON_HOST = "http://123.206.67.115:8080/img/person/";
+    public static String IV_USER_HOST = "http://123.206.67.115:8080/img/user/";
+    public static String IV_HEAD_HOST = "http://123.206.67.115:8080/img/head/";
     public static String IV_APK_HOST = "http://123.206.67.115:8080/img/gift/";
     public static String NOR_IV_HOST = "http://118.89.246.194:8080/head/bf2156e0-ab0a-4199-a0ed-12a4ce4e7c5c.png";
 //    public static String IV_HOST = "http://192.168.1.132:8080/head/";
@@ -178,6 +180,11 @@ public class HttpURL {
      * 编辑直播间
      */
     public static String getGift= Host+"free/gift/get";
+
+  /**
+     * 获取直播间收获的蛙豆
+     */
+    public static String getRoomMoney = Host+"charge/money/get";
 
 
 

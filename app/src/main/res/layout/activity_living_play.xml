@@ -5,7 +5,7 @@
     android:id="@+id/rl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
+    android:background="@color/black"
     tools:context="com.hy.vrfrog.main.living.livingplay.LivingPlayActivity">
 
     <com.tencent.rtmp.ui.TXCloudVideoView
@@ -91,11 +91,12 @@
 
 
             <TextView
+                android:id="@+id/tv_room_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
-                android:text="正在直播"
+                android:text="100人"
                 android:textColor="#fff"
                 android:textSize="12sp" />
 
@@ -112,7 +113,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/pay_layer_list_bg">
 
-        <com.hy.vrfrog.ui.MaequeeText
+        <TextView
             android:id="@+id/tv_play_channelName"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -163,10 +164,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
         android:orientation="vertical" />
-
-
 
     <LinearLayout
         android:id="@+id/tool_bar"
@@ -228,7 +226,7 @@
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
             android:background="@drawable/live_button_vr"
-            android:onClick="onClick" />
+           />
 
 
         <TextView
@@ -240,8 +238,7 @@
             android:id="@+id/btn_close"
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
-            android:background="@drawable/live_button_back"
-            android:onClick="onClick" />
+            android:background="@drawable/live_button_back" />
 
 
     </LinearLayout>
@@ -257,6 +254,12 @@
         <include layout="@layout/chat_tool_box" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_living_room_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
 
 
 

@@ -2028,8 +2028,8 @@ containing a value of this type.
         public static int face_dot=0x7f0b0065;
         public static int face_dots_container=0x7f0b0059;
         public static int face_img=0x7f0b0068;
-        public static int face_name=0x7f0b0069;
-        public static int face_price=0x7f0b006a;
+        public static int face_name=0x7f0b006a;
+        public static int face_price=0x7f0b0069;
         public static int giftIv=0x7f0b006f;
         public static int giftLayout=0x7f0b005c;
         public static int giftToolBox=0x7f0b005e;

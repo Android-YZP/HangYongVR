@@ -203,14 +203,14 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                         intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
                         intent.putExtra(VedioContants.GroupID, (String)resultBean.get(position).getAlipay());
                         intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
-                        intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
+                        intent.putExtra(VedioContants.HeadFace, HttpURL.IV_USER_HOST + resultBean.get(position).getHead());
+                        intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg());
+                        LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg()+"________");
                         context.startActivity(intent);
                     }
                 }
             });
         }
-
-
     }
 
     /**
@@ -258,7 +258,9 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                 intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
                 intent.putExtra(VedioContants.GroupID, (String)resultBean.get(position).getAlipay());
                 intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
-                intent.putExtra(VedioContants.HeadFace, HttpURL.IV_HOST + resultBean.get(position).getHead());
+                intent.putExtra(VedioContants.HeadFace, HttpURL.IV_USER_HOST + resultBean.get(position).getHead());
+                intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg());
+                LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg()+"________");
                 context.startActivity(intent);
 
             }

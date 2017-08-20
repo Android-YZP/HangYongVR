@@ -21,26 +21,33 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.MessageBean;
+import com.hy.vrfrog.http.responsebean.RoomNumberBean;
+import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
+import com.hy.vrfrog.main.home.activitys.VideoListActivity;
+import com.hy.vrfrog.main.home.adapters.VideoListAdapter;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TCSimpleUserInfo;
-import com.hy.vrfrog.main.living.im.TimConfig;
 import com.hy.vrfrog.main.living.livingplay.ui.TCHeartLayout;
 import com.hy.vrfrog.main.living.livingplay.ui.TCUserAvatarListAdapter;
 import com.hy.vrfrog.main.living.push.ui.BeautyDialogFragment;
 import com.hy.vrfrog.main.living.push.ui.TCAudioControl;
 import com.hy.vrfrog.main.living.push.ui.TCChatMsgListAdapter;
 import com.hy.vrfrog.main.living.push.utils.TCUtils;
+import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
@@ -83,6 +90,8 @@ import org.dync.giftlibrary.widget.CustormAnim;
 import org.dync.giftlibrary.widget.GiftControl;
 import org.dync.giftlibrary.widget.GiftModel;
 import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,6 +144,19 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private long mSecond = 0;
     private TCHeartLayout mHeartLayout;
     private String mGroupID;
+    private TextView mTvRoomNum;
+    private int mRoomNum;
+    private TextView mTvChannelName;
+    private String mChannelName;
+    private LinearLayout mLlRootOutRoom;
+    private TextView mLlOutRoomTime;
+    private TextView mLlOutRoomPersons;
+    private TextView mLlOutRoomMoney;
+    private TextView mLlOutRoomLikeNum;
+    private Button mLlOutRoomOut;
+    private ImageView mLlOutRoomOutBg;
+    private int mFavorNumber;
+    private String mRoomImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +176,9 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mListViewMsg = (ListView) findViewById(R.id.im_msg_listview);
         mPushUrl = intent.getStringExtra(VedioContants.LivingPushUrl);
         imRoomId = intent.getStringExtra(VedioContants.ChannelId);
+        mChannelName = intent.getStringExtra(VedioContants.ChannelName);
         mGroupID = intent.getStringExtra(VedioContants.GroupID);
+        mRoomImg = intent.getStringExtra(VedioContants.RoomImg);
         LogUtil.e(mGroupID + "=================");
         initView();
         initData();
@@ -182,7 +206,12 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
             }
         });
+        //销毁动画
+        if (giftControl != null) {
+            giftControl.cleanAll();
+        }
     }
+
 
     private void initView() {
         mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
@@ -192,15 +221,20 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mBtnAudioCtrl = (Button) findViewById(R.id.btn_audio_ctrl);
         mAudioCtrl = (TCAudioControl) findViewById(R.id.layoutAudioControlContainer);
         mAudioPluginLayout = (LinearLayout) findViewById(R.id.audio_plugin);
+        mTvChannelName = (TextView) findViewById(R.id.tv_play_channelName);
         //点赞爱心动画
         mHeartLayout = (TCHeartLayout) findViewById(R.id.heart_layout);
+        mTvRoomNum = (TextView) findViewById(R.id.tv_room_num);
     }
 
     private void initData() {
+        initOutRoom();
+
+        giftControl = new GiftControl(UIUtils.getContext());
         gson = new Gson();
         mChatMsgListAdapter = new TCChatMsgListAdapter(this, mListViewMsg, mArrayListChatEntity);
         mListViewMsg.setAdapter(mChatMsgListAdapter);
-
+        mTvChannelName.setText(mChannelName);
 
         mBeautyDialogFragment = new BeautyDialogFragment();
         mBeautyDialogFragment.setBeautyParamsListner(mBeautyParams, this);
@@ -225,20 +259,88 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
         //初始化礼物列表
         llgiftparent = (LinearLayout) findViewById(R.id.ll_gift_parent);
-        giftControl = new GiftControl(this);
-
         giftControl.setGiftLayout(false, llgiftparent, 4)
                 .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
+
         //发消息
         mSendMessage = (Button) findViewById(R.id.message_btn);
     }
 
 
     /**
+     * 初始化退出房间
+     */
+    private void initOutRoom() {
+        mLlRootOutRoom = (LinearLayout) findViewById(R.id.ll_root_out_room);
+        mLlOutRoomTime = (TextView) findViewById(R.id.tv_out_room_time);
+        mLlOutRoomPersons = (TextView) findViewById(R.id.tv_out_room_persons);
+        mLlOutRoomMoney = (TextView) findViewById(R.id.tv_out_room_money);
+        mLlOutRoomLikeNum = (TextView) findViewById(R.id.tv_out_room_like_num);
+        mLlOutRoomOut = (Button) findViewById(R.id.btn_out_room_out);
+        mLlOutRoomOutBg = (ImageView) findViewById(R.id.iv_room_img);
+        mLlOutRoomOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+
+    private void outRoom(String money) {
+        mLlRootOutRoom.setVisibility(View.VISIBLE);
+        mLlOutRoomOutBg.setVisibility(View.VISIBLE);
+        mLlOutRoomTime.setText(mBroadcastTime.getText().toString());
+        mLlOutRoomPersons.setText(mRoomNum + "");
+        mLlOutRoomLikeNum.setText(mFavorNumber + "");
+        mLlOutRoomMoney.setText(money);
+        Glide.with(UIUtils.getContext()).load(mRoomImg).asBitmap().into(mLlOutRoomOutBg);
+    }
+
+
+    /**
+     * 获取话题
+     */
+    private void HttpMoney() {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.getRoomMoney);
+        requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
+        //包装请求参数
+        requestParams.addBodyParameter("id", SPUtil.getUser().getResult().getUser().getUid() + "");
+        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");
+
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.e(SPUtil.getUser().getResult().getUser().getUid() +"..."+ SPUtil.getUser().getResult().getUser().getToken() + result + "-----------------------------");
+                RoomNumberBean roomNumberBean = new Gson().fromJson(result, RoomNumberBean.class);
+               if (roomNumberBean.getCode() == 0){
+                   outRoom(roomNumberBean.getResult()+"");
+               }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                ex.printStackTrace();
+            }
+
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        showComfirmDialog(TCConstants.TIPS_MSG_STOP_PUSH, false);
+    }
+
+    /**
      * 开启红点与计时动画
      */
     private void startRecordAnimation() {
-
 
         //直播时间
         if (mBroadcastTimer == null) {
@@ -281,7 +383,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     protected void startPublish() {
         if (mTXLivePusher == null) {
             mTXLivePusher = new TXLivePusher(PushActivity.this);
-
             mTXLivePusher.setPushListener(this);
             mTXPushConfig.setAutoAdjustBitrate(false);
 
@@ -401,19 +502,18 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
                             if (messageBean != null) {
                                 if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Text) {
-
                                     TCChatEntity entity = new TCChatEntity();
                                     entity.setSenderName(messageBean.getNickName());
                                     entity.setContext(messageBean.getMsg());
                                     entity.setType(TCConstants.TEXT_TYPE);
                                     notifyMsg(entity);
 
-
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
                                     showGift(messageBean);
 
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Like) {
                                     mHeartLayout.addFavor();
+                                    mFavorNumber++;
                                 }
                             }
 
@@ -490,6 +590,11 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                             entity.setContext(elem.getOpUserInfo().getNickName() + "加入直播");
                             entity.setType(TCConstants.MEMBER_ENTER);
                             notifyMsg(entity);
+
+                            //人数增加
+                            ++mRoomNum;
+                            mTvRoomNum.setText(mRoomNum + "人");
+
                         } else if (elem.getTipsType() == TIMGroupTipsType.Quit) {
                             mAvatarListAdapter.removeItem(elem.getOpUserInfo().getIdentifier());
 
@@ -498,6 +603,11 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                             entity.setContext(elem.getOpUserInfo().getNickName() + "退出直播");
                             entity.setType(TCConstants.MEMBER_ENTER);
                             notifyMsg(entity);
+
+                            //人数减少
+                            --mRoomNum;
+                            if (mRoomNum <= 0) mRoomNum = 0;
+                            mTvRoomNum.setText(mRoomNum + "人");
                         }
                     }
                 })
@@ -663,6 +773,9 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
             @Override
             public void onSuccess(List<TIMGroupMemberInfo> timGroupMemberInfos) {
+                mRoomNum = timGroupMemberInfos.size() + mRoomNum;
+                mTvRoomNum.setText(mRoomNum + "人");
+
                 for (int i = 0; i < timGroupMemberInfos.size(); i++) {
                     Log.e(tag, "user: " + timGroupMemberInfos.get(i).getUser() +
                             "join time: " + timGroupMemberInfos.get(i).getJoinTime() +
@@ -681,10 +794,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
     private void showGift(MessageBean messageBean) {
         giftModel = new GiftModel();
-        giftModel.setGiftId(messageBean.getMsg())
+        giftModel.setGiftId(messageBean.getGiftName())
                 .setGiftName(messageBean.getGiftName())
                 .setGiftCount(messageBean.getGiftCount())
-                .setGiftPic("https://raw.githubusercontent.com/DyncKathline/LiveGiftLayout/master/giftlibrary/src/main/assets/p/000.png")
+                .setGiftPic(messageBean.getGiftPic())
                 .setSendUserId(messageBean.getUserId())
                 .setSendUserName(messageBean.getNickName())
                 .setSendUserPic(messageBean.getHeadPic())
@@ -907,6 +1020,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
+                    HttpMoney();
+                    MessageBean messageBean = new MessageBean();
+                    messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Exit);
+                    sendMessage(gson.toJson(messageBean),VedioContants.AVIMCMD_Custom_Exit);
 
                 }
             });
@@ -923,7 +1040,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-
+                    finish();
                 }
             });
         }
