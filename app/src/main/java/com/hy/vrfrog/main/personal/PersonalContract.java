@@ -29,6 +29,8 @@ public class PersonalContract {
 
         void showCreateHouseData(CreateHouseBean createHouseBean);
 
+        void goLogin();
+
 
     }
 

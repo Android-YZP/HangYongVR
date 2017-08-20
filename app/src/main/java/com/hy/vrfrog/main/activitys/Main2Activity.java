@@ -21,6 +21,7 @@ import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.main.living.push.PushActivity;
 import com.hy.vrfrog.main.living.push.PushSettingActivity;
 import com.hy.vrfrog.main.personal.AuthenticationActivity;
+import com.hy.vrfrog.main.personal.LoginActivity;
 import com.hy.vrfrog.main.personal.ReleaseLiveActivity;
 import com.hy.vrfrog.ui.BottomBar;
 import com.hy.vrfrog.utils.SPUtil;
@@ -46,7 +47,6 @@ public class Main2Activity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        initAuditStatus();
         initView();
         initData();
     }
@@ -73,12 +73,19 @@ public class Main2Activity extends BaseActivity {
         mIvLivingPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (channelStatusBean.getCode() == 0){
-                    startActivity(new Intent(Main2Activity.this,ReleaseLiveActivity.class));
+                if (SPUtil.getUser() != null){
+                    if (channelStatusBean != null){
+                        if (channelStatusBean.getCode() == 0){
+                            startActivity(new Intent(Main2Activity.this,ReleaseLiveActivity.class));
+                        }else {
+                            Intent intent = new Intent(Main2Activity.this, AuthenticationActivity.class);
+                            startActivity(intent);
+                        }
+                    }
                 }else {
-                    Intent intent = new Intent(Main2Activity.this, AuthenticationActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(Main2Activity.this,LoginActivity.class));
                 }
+
             }
         });
     }
@@ -98,19 +105,17 @@ public class Main2Activity extends BaseActivity {
                 @Override
                 public void onSuccess(String result) {
                     channelStatusBean = new Gson().fromJson(result, ChannelStatusBean.class);
-
                 }
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 
-
                     UIUtils.showTip("服务端连接失败");
-
                 }
 
                 @Override
                 public void onFinished() {
+
                 }
             });
         }
