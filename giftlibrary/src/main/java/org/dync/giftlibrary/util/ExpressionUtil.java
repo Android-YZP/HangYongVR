@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -151,10 +153,11 @@ public class ExpressionUtil {
             @Override
             public void onItemClick(View view, GiftModel giftModel, int position) {
                 try {
-                    String giftPic = giftModel.getGiftPic();
+                    String giftPic = giftModel.getSendUserPic();
                     String giftName = giftModel.getGiftName();
                     String giftPrice = giftModel.getGiftPrice();
                     String giftId = giftModel.getGiftId();
+
 //                    mGvAdapter.setSeclection(position);
 //                    mGvAdapter.notifyDataSetChanged();
                     if (giftClickListener != null) {
@@ -200,11 +203,12 @@ public class ExpressionUtil {
             @Override
             public void onItemClick(View view, GiftModel giftModel, int position) {
                 try {
-                    String giftPic = giftModel.getGiftPic();
+                    String giftPic = giftModel.getSendUserPic();
                     String pngStr = giftModel.getGiftName();
                     String giftPrice = giftModel.getGiftPrice();
                     String giftId= giftModel.getGiftId();
                     setView(context, showView, pngStr);
+
 //                    mGvAdapter.setSeclection(position);
 //                    mGvAdapter.notifyDataSetChanged();
                     if (giftClickListener != null) {

@@ -104,11 +104,7 @@ import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -118,7 +114,6 @@ import tencent.tls.platform.TLSGuestLoginListener;
 import tencent.tls.platform.TLSLoginHelper;
 import tencent.tls.platform.TLSUserInfo;
 
-import android.support.v4.app.FragmentManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -194,7 +189,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private Button mBtnClose;
     private int mVid;
     private int mYid;
-    private int recLen = 10;
+    private int recLen = 3;
     private Timer mTimer;
     private TimerTask task;
     private int giftTimes;
@@ -228,6 +223,11 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        outRoom();
+    }
+
+
+    public void outRoom() {
         TIMGroupManager.getInstance().quitGroup(mGroupID, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
@@ -269,7 +269,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mVid = intent.getIntExtra(VedioContants.Vid, 0);
         mYid = intent.getIntExtra(VedioContants.Yid, 0);
         LogUtil.e(mGiftGroup + "=================");
-
     }
 
     /***************************************礼物*************************************************************/
@@ -309,7 +308,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mBtnHeartLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SPUtil.getUser()!=null){
+                if (SPUtil.getUser() != null) {
                     if (mHeartLayout != null) {
                         mHeartLayout.addFavor();
                     }
@@ -323,7 +322,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                     if (mLikeFrequeControl.canTrigger()) {//发送IM点赞的消息
                         sendLikeMessage();
                     }
-                }else {
+                } else {
                     UIUtils.showTip("请先登录");
                 }
 
@@ -386,17 +385,15 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mBtnSendGift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(SPUtil.getUser()!=null){
-
+                if (SPUtil.getUser() != null) {
                     if (mGiftLayout.getVisibility() == View.VISIBLE) {
                         mGiftLayout.setVisibility(View.GONE);
                     } else {
                         mGiftLayout.setVisibility(View.VISIBLE);
                     }
-                }else{
+                } else {
                     UIUtils.showTip("请先登录");
                 }
-
 
 
             }
@@ -437,23 +434,29 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             String a = phone.substring(0, 3);
                             String a1 = phone.substring(7, 11);
 
-                            //这里最好不要直接new对象
+                            //这里最好不要直接new对象//直接显示礼物
                             giftModel = new GiftModel();
-                            giftModel.setGiftId(mGiftName).setGiftName(mGiftName).setGiftCount(giftnum).setGiftPic(mGifturl)
-                                    .setSendUserId("1234").setSendUserName(a + a1).setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                            LogUtil.e(mGifturl +","+ mGid + "++++++++++++++");
+
+                            //setSendUserPic为自己界面显示的礼物//mGifturl礼物界面显示的礼物
+                            giftModel.setGiftId(mGid).setGiftName(mGiftName).setGiftCount(giftnum).setGiftPic(mGifturl)
+                                    .setSendUserId("1234").setSendUserName(a + a1)
+                                    .setSendUserPic(mGifturl).setSendGiftTime(System.currentTimeMillis())
                                     .setCurrentStart(currentStart);
+
+
                             if (currentStart) {
                                 giftModel.setHitCombo(giftnum);
                             }
                             giftControl.loadGift(giftModel);
-                            Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
+
                             sendGift(giftnum);
 
                             ++giftTimes;
                             if (task == null) {
                                 timekeeping();
                             } else {
-                                recLen = 10;
+                                recLen = 3;
                             }
                             giftTimesLast = giftTimes % 10;
                             totleNumber = giftnum + totleNumber;
@@ -487,7 +490,13 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         for (int i = 0; i < datas.size(); i++) {
             GiftBean.ResultBean giftListBean = datas.get(i);
             giftModel = new GiftModel();
-            giftModel.setGiftId(giftListBean.getId() + "").setGiftName(giftListBean.getName()).setGiftPic(HttpURL.IV_GIFT_HOST + giftListBean.getGif()).setGiftPrice(giftListBean.getPrice() + "");
+            giftModel
+                    .setGiftId(giftListBean.getId() + "")
+                    .setSendUserPic(HttpURL.IV_GIFT_HOST + giftListBean.getIcon())
+                    .setGiftName(giftListBean.getName())
+                    .setGiftPic(HttpURL.IV_GIFT_HOST + giftListBean.getGif())
+                    .setGiftPrice(giftListBean.getPrice() + "");
+            LogUtil.e("123456" + HttpURL.IV_GIFT_HOST + giftListBean.getIcon());
             giftModels.add(giftModel);
         }
         return giftModels;
@@ -507,6 +516,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         RequestParams requestParams = new RequestParams(HttpURL.getGift);
         requestParams.addHeader("token", HttpURL.Token);
         requestParams.addBodyParameter("groupId", giftGroup);
+        requestParams.addBodyParameter("order", "sort");
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
@@ -524,6 +534,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             mGiftName = giftName;
                             mGiftPrice = giftPrice;
                             mGid = gid;
+                            LogUtil.e(mGifturl+"+++++++++++++++++++");
+
+
                             if (totleNumber != 0) {
                                 httpGiftMoney(totleNumber + "");
                             }
@@ -646,30 +659,27 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
     private void sendGift(int giftnum) {
         MessageBean messageBean = new MessageBean();
-        messageBean.setGiftCount(giftnum);
         messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Gift);
+        messageBean.setGiftCount(giftnum);
         messageBean.setGiftName(mGiftName);
-        messageBean.setMsg(1 + "");
         messageBean.setGiftPic(mGifturl);
-        messageBean.setHeadPic("");
-        messageBean.setNickName("小嘉倪姬");
-        messageBean.setUserId("小嘉倪姬");
+        messageBean.setUserId(mGid);
         sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Gift);
-
-
     }
 
     private void showGift(MessageBean messageBean, String nickName) {
+        //setSendUserPic为自己界面显示的礼物//mGifturl礼物界面显示的礼物
         giftModel = new GiftModel();
-        giftModel.setGiftId(mGiftName)
-                .setGiftName(mGiftName)
+        giftModel.setGiftId(messageBean.getUserId())
+                .setGiftName(messageBean.getGiftName())
                 .setGiftCount(messageBean.getGiftCount())
-                .setGiftPic(mGifturl)
-                .setSendUserId(messageBean.getUserId())
-                .setSendUserName(nickName)
-                .setSendUserPic(messageBean.getHeadPic())
+                .setGiftPic(messageBean.getGiftPic())
+                .setSendUserPic(messageBean.getGiftPic())
+                .setSendUserId(nickName)
+                .setSendUserName(nickName+"")
                 .setSendGiftTime(System.currentTimeMillis())
                 .setCurrentStart(currentStart);
+
         if (currentStart) {
             giftModel.setHitCombo(1);
         }
@@ -708,7 +718,13 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMessageDialog();
+                if (SPUtil.getUser() != null) {
+                    showMessageDialog();
+                } else {
+                    UIUtils.showTip("请先登录");
+                }
+
+
             }
         });
 
@@ -717,19 +733,15 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mBtnSendMassage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SPUtil.getUser()!=null){
-                    String message = mEtRoomMessage.getText().toString();
-                    if (!TextUtils.isEmpty(message)) {
-                        MessageBean messageBean = new MessageBean();
-                        messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Text);
-                        messageBean.setMsg(message);
-                        messageBean.setGiftPic(mGifturl);
-                        sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Text);
-                    }
-                }else {
-                   UIUtils.showTip("请先登录");
-                }
 
+                String message = mEtRoomMessage.getText().toString();
+                if (!TextUtils.isEmpty(message)) {
+                    MessageBean messageBean = new MessageBean();
+                    messageBean.setUserAction(VedioContants.AVIMCMD_Custom_Text);
+                    messageBean.setMsg(message);
+                    messageBean.setGiftPic(mGifturl);
+                    sendMessage(gson.toJson(messageBean), VedioContants.AVIMCMD_Custom_Text);
+                }
 
 
             }
@@ -923,13 +935,12 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
 
-                                    showGift(messageBean, msg.getSenderProfile().getNickName());
+                                    showGift(messageBean, msg.getSenderProfile().getNickName() + "");
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Exit) {
                                     if (isLiving(LivingPlayActivity.this)) {
                                         showComfirmDialog("主播关播了,下次再来", true);
                                     } else {
                                         finish();
-                                        UIUtils.showTip("主播关播了,下次再来");
                                     }
                                 }
                             }
@@ -938,7 +949,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
                         } else if (elemType == TIMElemType.GroupTips) {
                             String groupName = ((TIMGroupTipsElem) elem).getGroupName();
-
                         }
                     }
                 }
