@@ -589,9 +589,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
                             TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(elem.getOpUserInfo().getIdentifier()
                                     , elem.getOpUserInfo().getNickName(), elem.getOpUserInfo().getFaceUrl());
-
                             mAvatarListAdapter.addItem(tcSimpleUserInfo);
-
 
                             TCChatEntity entity = new TCChatEntity();
                             entity.setSenderName("通知");

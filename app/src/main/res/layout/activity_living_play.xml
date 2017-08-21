@@ -179,8 +179,7 @@
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
             android:layout_marginRight="15dp"
-            android:background="@drawable/live_button_chat"
-             />
+            android:background="@drawable/live_button_chat" />
 
 
         <Button

@@ -1254,14 +1254,10 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             "join time: " + timGroupMemberInfos.get(i).getJoinTime() +
                             "role: " + timGroupMemberInfos.get(i).getRole());
 
-
                     TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(timGroupMemberInfos.get(i).getJoinTime() + ""
                             , timGroupMemberInfos.get(i).getUser(), HttpURL.NOR_IV_HOST);
-
                     mAvatarListAdapter.addItem(tcSimpleUserInfo);
                 }
-
-
             }
         });
 

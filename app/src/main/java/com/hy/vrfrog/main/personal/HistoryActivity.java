@@ -223,7 +223,7 @@ public class HistoryActivity extends SwipeBackActivity {
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LogUtil.i(result);
+                LogUtil.i("---------------"+result);
             }
 
             @Override
