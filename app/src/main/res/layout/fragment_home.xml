@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.hy.vrfrog.main.home.HomeFragment"
+    android:background="@color/main_background"
    >
 
     <RelativeLayout
@@ -87,6 +88,7 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
              />
 
     </RelativeLayout>

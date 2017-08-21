@@ -104,11 +104,17 @@ public class MyFragment extends Fragment {
             x.http().get(requestParams, new JsonCallBack() {
                 @Override
                 public void onSuccess(String result) {
+                    BasePreferences basePreferences = new BasePreferences(getActivity());
+
+                    LogUtil.i("certificate =" + basePreferences.getPrefString("certificate"));
                     channelStatusBean = new Gson().fromJson(result,ChannelStatusBean.class);
-                    if (channelStatusBean.getCode() == 0){
-                        mCertificationTv.setText("已认证");
-                    }else {
-                        mCertificationTv.setText("未认证");
+                    if ( Integer.valueOf(basePreferences.getPrefString("certificate"))  == 110 || Integer.valueOf(basePreferences.getPrefString("certificate")) == 0){
+
+                        if (channelStatusBean.getCode() == 0){
+                            mCertificationTv.setText("已认证");
+                        }else {
+                            mCertificationTv.setText("未认证");
+                        }
                     }
 
                 }
@@ -226,6 +232,7 @@ public class MyFragment extends Fragment {
         mCertification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
                 if (channelStatusBean != null){
                     if (channelStatusBean.getCode() == 0){

@@ -15,6 +15,8 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.CertificationBean;
+import com.hy.vrfrog.utils.BasePreferences;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -96,7 +98,11 @@ public class AuthenticationActivity extends AppCompatActivity{
             @Override
             public void onSuccess(String result) {
                 LogUtil.i("实名认证 = " + result);
+                CertificationBean certificationBean = new Gson().fromJson(result,CertificationBean.class);
+
                 startActivity(new Intent(AuthenticationActivity.this,ReleaseLiveActivity.class));
+                BasePreferences basePreferences = new BasePreferences(AuthenticationActivity.this);
+                basePreferences.setPrefString("certificate",certificationBean.getCode());
             }
 
             @Override

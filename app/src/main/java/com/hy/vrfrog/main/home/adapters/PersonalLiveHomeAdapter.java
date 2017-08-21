@@ -112,58 +112,70 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
 
     //创建View，如果是HeaderView或者是FooterView，直接在Holder中返回
     @Override
-    public PersonalLiveHomeAdapter.LiveHomeAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LiveHomeAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mHeaderView != null && viewType == TYPE_HEADER) {
-            return new PersonalLiveHomeAdapter.LiveHomeAdapterHolder(mHeaderView);
+            return new LiveHomeAdapterHolder(mHeaderView);
         }
         if (mFooterView != null && viewType == TYPE_FOOTER) {
-            return new PersonalLiveHomeAdapter.LiveHomeAdapterHolder(mFooterView);
+            return new LiveHomeAdapterHolder(mFooterView);
         }
         View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_live_home, parent, false);
-        return new PersonalLiveHomeAdapter.LiveHomeAdapterHolder(layout);
+        return new LiveHomeAdapterHolder(layout);
     }
 
     @Override
-    public void onBindViewHolder(PersonalLiveHomeAdapter.LiveHomeAdapterHolder holder, final int position) {
+    public void onBindViewHolder(LiveHomeAdapterHolder holder, final int position) {
 
         mPosition = position;
+        holder.mLiveHomeTitleTv.setText(resultBean.get(position).getChannelName());
+        holder.mLiveHomeHeadNameTv.setText(String.valueOf(resultBean.get(position).getUsername()));
+        Glide.with(context).load(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg()).asBitmap().into(holder.mXcImg);
+//        holder.mLiveHomePeopleNumberTv.setText(String.valueOf( resultBean.get(position).getClicknum()));
 
         if (resultBean.get(position).getPrice() != 0) {
             holder.mPayTv.setVisibility(View.VISIBLE);
         } else {
             holder.mPayTv.setVisibility(View.GONE);
         }
-        if (getItemViewType(position) == TYPE_NORMAL) {
-            holder.mLiveHomeTitleTv.setText(resultBean.get(position).getChannelName());
-            holder.mLiveHomeHeadNameTv.setText(String.valueOf(resultBean.get(position).getUsername()));
-            Glide.with(context).load(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg()).asBitmap().into(holder.mXcImg);
 
+        if (resultBean.get(position).getLvbStatus() == 1){
+            holder.mLiveHomePlayStateTv.setText("直播");
+            holder.mLiveHomePlayStateImg.setImageResource(R.drawable.live_icon_play);
+        }else if (resultBean.get(position).getLvbChannelRecords().size() != 0){
+            holder.mLiveHomePlayStateTv.setText("回放");
+            holder.mLiveHomePlayStateImg.setImageResource(R.drawable.live_icon_look_circle);
+
+        }
+
+
+        if (getItemViewType(position) == TYPE_NORMAL) {
             holder.mXcImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    if (resultBean.get(position).getPrice() != 0) {
-                        mCallback.onPayMoney(position);
-                    } else {
-                        Intent intent = new Intent(context, LivingPlayActivity.class);
-                        intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
-                        intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
-                        intent.putExtra(VedioContants.GroupID, resultBean.get(position).getAlipay() + "");
-                        intent.putExtra(VedioContants.HeadFace, HttpURL.IV_USER_HOST + resultBean.get(position).getHead() + "");
-                        intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
-                        intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg());
-                        intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
-                        intent.putExtra(VedioContants.Vid, resultBean.get(position).getId());
-                        intent.putExtra(VedioContants.Yid, resultBean.get(position).getUid());
-                        LogUtil.e(resultBean.get(position).getId() + "<" + VedioContants.Yid + resultBean.get(position).getUid());
-                        LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg() + "________");
-                        context.startActivity(intent);
+                    if (resultBean.get(position).getLvbStatus() == 1){
+                        if (resultBean.get(position).getPrice() != 0) {
+                                mCallback.onPayMoney(position);
+                         } else {
+                                Intent intent = new Intent(context, LivingPlayActivity.class);
+                                intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
+                                intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
+                                intent.putExtra(VedioContants.GroupID, resultBean.get(position).getAlipay() + "");
+                                intent.putExtra(VedioContants.HeadFace, HttpURL.IV_USER_HOST + resultBean.get(position).getHead() + "");
+                                intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
+                                intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg());
+                                intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
+                                intent.putExtra(VedioContants.Vid, resultBean.get(position).getId());
+                                intent.putExtra(VedioContants.Yid, resultBean.get(position).getUid());
+                                LogUtil.e(resultBean.get(position).getId() + "<" + VedioContants.Yid + resultBean.get(position).getUid());
+                                LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg() + "________");
+                                context.startActivity(intent);
+                         }
+                    }else {
+                        mCallback.onReViewPLay(position);
                     }
-
                 }
             });
         }
-
 
     }
 
@@ -216,6 +228,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
     public interface IPersonalLiveAdapter {
 
         void onPayMoney(int position);
+
+        void onReViewPLay(int position);
 
     }
 

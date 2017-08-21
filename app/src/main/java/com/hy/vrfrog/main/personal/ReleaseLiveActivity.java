@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -52,6 +53,7 @@ import com.hy.vrfrog.utils.ImageUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
+import com.kyleduo.switchbutton.SwitchButton;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
@@ -104,6 +106,9 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private RadioButton mChargeRbYes;
     private RadioButton mChargeRbNo;
 
+    private CheckBox mChargeCb;
+    private CheckBox mVideoCb;
+
     private int mid;
     private boolean isChoosed = false;
 
@@ -112,6 +117,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private CheckBox mAgreeCb;
     private ImageView mBackGroundImg;
     private TextView mBackGroundTv;
+
+    private SwitchButton mButton ;
 
 
     @Override
@@ -208,6 +215,10 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         mBackGroundImg = (ImageView)findViewById(R.id.img_background);
         mBackGroundTv = (TextView)findViewById(R.id.tv_background);
 
+        mChargeCb = (CheckBox)findViewById(R.id.cb_release_live_charge);
+        mVideoCb = (CheckBox)findViewById(R.id.cb_release_live_video);
+
+
         new PersonalPresenter(this);
 
     }
@@ -217,6 +228,33 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         mBack.setOnClickListener(this);
         mVideoRg.setOnCheckedChangeListener(this);
         mChargeRg.setOnCheckedChangeListener(this);
+
+        mChargeCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    isCharge = String.valueOf(0);
+                    mLayout.setVisibility(View.GONE);
+                    mMoneyEdt.setText(String.valueOf(0));
+                }else {
+                    isCharge = String.valueOf(1);
+                    mLayout.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+
+        mVideoCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    isTranscribe = String.valueOf(0);
+                }else {
+                    isTranscribe = String.valueOf(1);
+                }
+            }
+        });
+
         mReleaseBtn.setOnClickListener(this);
         mCover.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,9 +273,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                 finish();
                 break;
             case R.id.btn_release_click:
-//                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
-//                startActivity(intent);
-//
+
                 if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
                     UIUtils.showTip("房间名称不能为空");
                     return;
@@ -385,6 +421,9 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
                 if (createHouseBean.getResult().getPrice() != 0) {
                     mMoneyEdt.setText(String.valueOf(createHouseBean.getResult().getPrice()));
+                }else {
+                    mLayout.setVisibility(View.GONE);
+                    mChargeRbNo.setChecked(true);
                 }
 
                 if (createHouseBean.getResult().getImg() != null) {
@@ -397,20 +436,24 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                 if (createHouseBean.getResult().getIsTranscribe() == 1) {
                     mVideoRbYes.setChecked(true);
                     isTranscribe = String.valueOf(1);
+                    mVideoCb.setChecked(true);
 
                 } else {
                     mVideoRbNo.setChecked(true);
                     isTranscribe = String.valueOf(0);
+                    mVideoCb.setChecked(false);
                 }
 
                 if ((Integer) createHouseBean.getResult().getIsCharge() == 1) {
                     mChargeRbYes.setChecked(true);
                     isCharge = String.valueOf(1);
+                    mChargeCb.setChecked(true);
 
                 } else {
                     mChargeRbNo.setChecked(true);
                     isCharge = String.valueOf(0);
                     mMoneyEdt.setText(String.valueOf(0));
+                    mChargeCb.setChecked(false);
                 }
             }
         }
@@ -511,7 +554,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onFinished() {
                 super.onFinished();
-                UIUtils.showTip("ex.getMessage()");
             }
         });
 
@@ -615,7 +657,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         try {
             Intent intent = new Intent("com.android.camera.action.CROP");
             intent.setDataAndType(getImageContentUri(this, file), "image/*");//自己使用Content Uri替换File Uri
-            intent.putExtra("scale", true);
+            intent.putExtra("scale", false);
             intent.putExtra("return-data", false);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1.6);
@@ -704,6 +746,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             mListener.onGranted();
         }
     }
+
 
     public interface IPermissionListener {
         /**

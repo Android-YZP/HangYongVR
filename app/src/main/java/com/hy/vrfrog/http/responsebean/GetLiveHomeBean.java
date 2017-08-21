@@ -12,8 +12,8 @@ public class GetLiveHomeBean {
     /**
      * code : 0
      * msg : success
-     * result : [{"id":334,"uid":null,"username":"18626361403","channelName":"vfdvf","isall":0,"status":2,"lvbStatus":0,"price":12,"img":"2f5aca46-1402-4fc8-bdce-433c1d626bd5.jpg","head":null,"createDate":"2017-08-12 17:33:08","alipay":null,"place":null,"outputsourcetype":3,"upstreamAddress":"rtmp://10263.livepush.myqcloud.com/live/10263_671a015b565e455198e3d6b3dda456e4?bizid=10263&txSecret=7d4188d355257bd1ccb04cf660f5ac26&txTime=5990777F","rtmpDownstreamAddress":"rtmp://10263.liveplay.myqcloud.com/live/10263_671a015b565e455198e3d6b3dda456e4","flvDownstreamAddress":"http://10263.liveplay.myqcloud.com/live/10263_671a015b565e455198e3d6b3dda456e4.flv","hlsDownstreamAddress":"http://10263.liveplay.myqcloud.com/10263_671a015b565e455198e3d6b3dda456e4.m3u8","channelId":"10263_671a015b565e455198e3d6b3dda456e4","playerpassword":null,"watermarkid":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"maxnum":null,"clicknum":null,"typeId":null,"typeName":null,"topicId":null,"topicName":null,"img1":"66ec375e-960f-4948-8165-793d1925d4ab.jpg","size":null,"type":2,"sort":null,"vodStatus":null,"isVip":0,"isCharge":1,"chick":null,"isTranscribe":0,"worth":null,"sweepimg":"f65bdef7-0407-4886-ac4a-fd79e5cb2d84.jpg","noticeimg":"005a0bb5-2472-4d83-b66a-78a431d8fa50.jpg","sweepnoticeimg":"396a0955-58bb-44b7-ae2d-b6cfea75f3bd.jpg","introduce":null,"updateDate":"2017-08-15 10:43:35","giftGroup":1,"lvbChannelRecords":[]},{"id":336,"uid":null,"username":"李杰","channelName":"sasaas","isall":0,"status":0,"lvbStatus":0,"price":0,"img":null,"head":null,"createDate":"2017-08-14 17:57:53","alipay":null,"place":null,"outputsourcetype":3,"upstreamAddress":null,"rtmpDownstreamAddress":null,"flvDownstreamAddress":null,"hlsDownstreamAddress":null,"channelId":"10263_84d4f3ba28b84c5888be3b0abca03454","playerpassword":null,"watermarkid":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"maxnum":null,"clicknum":null,"typeId":null,"typeName":null,"topicId":null,"topicName":null,"img1":null,"size":null,"type":2,"sort":null,"vodStatus":null,"isVip":null,"isCharge":null,"chick":null,"isTranscribe":null,"worth":null,"sweepimg":null,"noticeimg":null,"sweepnoticeimg":null,"introduce":null,"updateDate":"2017-08-15 09:47:09","giftGroup":1,"lvbChannelRecords":[{"id":9,"lvbchannelid":"10263_84d4f3ba28b84c5888be3b0abca03454","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":11,"lvbchannelid":"10263_84d4f3ba28b84c5888be3b0abca03454","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":13,"lvbchannelid":"10263_84d4f3ba28b84c5888be3b0abca03454","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":2},{"id":14,"lvbchannelid":"10263_84d4f3ba28b84c5888be3b0abca03454","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":15,"lvbchannelid":"10263_84d4f3ba28b84c5888be3b0abca03454","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":112,"lvbchannelid":"10263_84d4f3ba28b84c5888be3b0abca03454","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0}]}]
-     * page : {"total":2,"totalPage":1,"page":1,"count":10,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"type":2,"lvbStatus":null,"isVip":null,"isCharge":null,"sourceNum":null,"startIndex":0}
+     * result : [{"id":333,"uid":null,"username":"sasaa","channelName":"sun","isall":0,"status":2,"lvbStatus":0,"price":10,"img":"86fba2b9-31b1-4288-b32b-bebcd5323a91.jpg","head":null,"createDate":"2017-08-12 14:17:48","alipay":null,"place":null,"outputsourcetype":3,"upstreamAddress":"rtmp://10263.livepush.myqcloud.com/live/10263_56784498183c4d9d8211c243e60e1f71?bizid=10263&txSecret=951b9be9b06649882126345138166b7b&txTime=5991C8FF","rtmpDownstreamAddress":"rtmp://10263.liveplay.myqcloud.com/live/10263_90cc6e99e089450fb5e2c5acc57574b4","flvDownstreamAddress":"http://10263.liveplay.myqcloud.com/live/10263_90cc6e99e089450fb5e2c5acc57574b4.flv","hlsDownstreamAddress":"http://10263.liveplay.myqcloud.com/10263_90cc6e99e089450fb5e2c5acc57574b4.m3u8","channelId":"10263_90cc6e99e089450fb5e2c5acc57574b4","playerpassword":null,"watermarkid":null,"outputrateOne":null,"outputrateTow":null,"outputrateThree":null,"maxnum":null,"clicknum":null,"typeId":null,"typeName":null,"topicId":null,"topicName":null,"img1":"93417830-41d2-45e6-8dd2-eff672bf369b.jpg","size":null,"type":1,"sort":null,"vodStatus":null,"isVip":1,"isCharge":1,"chick":null,"isTranscribe":1,"worth":null,"sweepimg":"fff4b503-7065-4711-986f-35a427ad5c30.jpg","noticeimg":"ca5061f0-232d-499a-9c62-818ad2082412.jpg","sweepnoticeimg":null,"introduce":null,"updateDate":"2017-08-14 17:00:02","giftGroup":1,"lvbChannelRecords":[{"id":3,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":1},{"id":4,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":5,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":6,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":7,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":8,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0}]}]
+     * page : {"total":2,"totalPage":1,"page":1,"count":20,"startDate":null,"endDate":null,"keywords":null,"order":null,"asc":null,"partition":null,"status":null,"getAllRecord":false,"countAllRecord":true,"channelName":null,"type":1,"lvbStatus":null,"isVip":null,"isCharge":null,"sourceNum":111,"startIndex":0}
      */
 
     private int code;
@@ -58,7 +58,7 @@ public class GetLiveHomeBean {
          * total : 2
          * totalPage : 1
          * page : 1
-         * count : 10
+         * count : 20
          * startDate : null
          * endDate : null
          * keywords : null
@@ -69,11 +69,11 @@ public class GetLiveHomeBean {
          * getAllRecord : false
          * countAllRecord : true
          * channelName : null
-         * type : 2
+         * type : 1
          * lvbStatus : null
          * isVip : null
          * isCharge : null
-         * sourceNum : null
+         * sourceNum : 111
          * startIndex : 0
          */
 
@@ -95,7 +95,7 @@ public class GetLiveHomeBean {
         private Object lvbStatus;
         private Object isVip;
         private Object isCharge;
-        private Object sourceNum;
+        private int sourceNum;
         private int startIndex;
 
         public int getTotal() {
@@ -242,11 +242,11 @@ public class GetLiveHomeBean {
             this.isCharge = isCharge;
         }
 
-        public Object getSourceNum() {
+        public int getSourceNum() {
             return sourceNum;
         }
 
-        public void setSourceNum(Object sourceNum) {
+        public void setSourceNum(int sourceNum) {
             this.sourceNum = sourceNum;
         }
 
@@ -261,25 +261,25 @@ public class GetLiveHomeBean {
 
     public static class ResultBean {
         /**
-         * id : 334
+         * id : 333
          * uid : null
-         * username : 18626361403
-         * channelName : vfdvf
+         * username : sasaa
+         * channelName : sun
          * isall : 0
          * status : 2
          * lvbStatus : 0
-         * price : 12
-         * img : 2f5aca46-1402-4fc8-bdce-433c1d626bd5.jpg
+         * price : 10
+         * img : 86fba2b9-31b1-4288-b32b-bebcd5323a91.jpg
          * head : null
-         * createDate : 2017-08-12 17:33:08
+         * createDate : 2017-08-12 14:17:48
          * alipay : null
          * place : null
          * outputsourcetype : 3
-         * upstreamAddress : rtmp://10263.livepush.myqcloud.com/live/10263_671a015b565e455198e3d6b3dda456e4?bizid=10263&txSecret=7d4188d355257bd1ccb04cf660f5ac26&txTime=5990777F
-         * rtmpDownstreamAddress : rtmp://10263.liveplay.myqcloud.com/live/10263_671a015b565e455198e3d6b3dda456e4
-         * flvDownstreamAddress : http://10263.liveplay.myqcloud.com/live/10263_671a015b565e455198e3d6b3dda456e4.flv
-         * hlsDownstreamAddress : http://10263.liveplay.myqcloud.com/10263_671a015b565e455198e3d6b3dda456e4.m3u8
-         * channelId : 10263_671a015b565e455198e3d6b3dda456e4
+         * upstreamAddress : rtmp://10263.livepush.myqcloud.com/live/10263_56784498183c4d9d8211c243e60e1f71?bizid=10263&txSecret=951b9be9b06649882126345138166b7b&txTime=5991C8FF
+         * rtmpDownstreamAddress : rtmp://10263.liveplay.myqcloud.com/live/10263_90cc6e99e089450fb5e2c5acc57574b4
+         * flvDownstreamAddress : http://10263.liveplay.myqcloud.com/live/10263_90cc6e99e089450fb5e2c5acc57574b4.flv
+         * hlsDownstreamAddress : http://10263.liveplay.myqcloud.com/10263_90cc6e99e089450fb5e2c5acc57574b4.m3u8
+         * channelId : 10263_90cc6e99e089450fb5e2c5acc57574b4
          * playerpassword : null
          * watermarkid : null
          * outputrateOne : null
@@ -291,23 +291,23 @@ public class GetLiveHomeBean {
          * typeName : null
          * topicId : null
          * topicName : null
-         * img1 : 66ec375e-960f-4948-8165-793d1925d4ab.jpg
+         * img1 : 93417830-41d2-45e6-8dd2-eff672bf369b.jpg
          * size : null
-         * type : 2
+         * type : 1
          * sort : null
          * vodStatus : null
-         * isVip : 0
+         * isVip : 1
          * isCharge : 1
          * chick : null
-         * isTranscribe : 0
+         * isTranscribe : 1
          * worth : null
-         * sweepimg : f65bdef7-0407-4886-ac4a-fd79e5cb2d84.jpg
-         * noticeimg : 005a0bb5-2472-4d83-b66a-78a431d8fa50.jpg
-         * sweepnoticeimg : 396a0955-58bb-44b7-ae2d-b6cfea75f3bd.jpg
+         * sweepimg : fff4b503-7065-4711-986f-35a427ad5c30.jpg
+         * noticeimg : ca5061f0-232d-499a-9c62-818ad2082412.jpg
+         * sweepnoticeimg : null
          * introduce : null
-         * updateDate : 2017-08-15 10:43:35
+         * updateDate : 2017-08-14 17:00:02
          * giftGroup : 1
-         * lvbChannelRecords : []
+         * lvbChannelRecords : [{"id":3,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":1},{"id":4,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":5,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":6,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":7,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0},{"id":8,"lvbchannelid":"10263_90cc6e99e089450fb5e2c5acc57574b4","taskid":18148738,"fileid":"9031868223088821583","fileurl":"http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8","time":77,"size":1703,"recordname":"玉玉","createDate":null,"updateDate":null,"img":"","img1":"","status":0}]
          */
 
         private int id;
@@ -352,11 +352,11 @@ public class GetLiveHomeBean {
         private Object worth;
         private String sweepimg;
         private String noticeimg;
-        private String sweepnoticeimg;
+        private Object sweepnoticeimg;
         private Object introduce;
         private String updateDate;
         private int giftGroup;
-        private List<?> lvbChannelRecords;
+        private List<LvbChannelRecordsBean> lvbChannelRecords;
 
         public int getId() {
             return id;
@@ -694,11 +694,11 @@ public class GetLiveHomeBean {
             this.noticeimg = noticeimg;
         }
 
-        public String getSweepnoticeimg() {
+        public Object getSweepnoticeimg() {
             return sweepnoticeimg;
         }
 
-        public void setSweepnoticeimg(String sweepnoticeimg) {
+        public void setSweepnoticeimg(Object sweepnoticeimg) {
             this.sweepnoticeimg = sweepnoticeimg;
         }
 
@@ -726,12 +726,148 @@ public class GetLiveHomeBean {
             this.giftGroup = giftGroup;
         }
 
-        public List<?> getLvbChannelRecords() {
+        public List<LvbChannelRecordsBean> getLvbChannelRecords() {
             return lvbChannelRecords;
         }
 
-        public void setLvbChannelRecords(List<?> lvbChannelRecords) {
+        public void setLvbChannelRecords(List<LvbChannelRecordsBean> lvbChannelRecords) {
             this.lvbChannelRecords = lvbChannelRecords;
+        }
+
+        public static class LvbChannelRecordsBean {
+            /**
+             * id : 3
+             * lvbchannelid : 10263_90cc6e99e089450fb5e2c5acc57574b4
+             * taskid : 18148738
+             * fileid : 9031868223088821583
+             * fileurl : http://1253690353.vod2.myqcloud.com/3308ed44vodgzp1253690353/b06098ea9031868223088821583/playlist.m3u8
+             * time : 77
+             * size : 1703
+             * recordname : 玉玉
+             * createDate : null
+             * updateDate : null
+             * img :
+             * img1 :
+             * status : 1
+             */
+
+            private int id;
+            private String lvbchannelid;
+            private int taskid;
+            private String fileid;
+            private String fileurl;
+            private int time;
+            private int size;
+            private String recordname;
+            private Object createDate;
+            private Object updateDate;
+            private String img;
+            private String img1;
+            private int status;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getLvbchannelid() {
+                return lvbchannelid;
+            }
+
+            public void setLvbchannelid(String lvbchannelid) {
+                this.lvbchannelid = lvbchannelid;
+            }
+
+            public int getTaskid() {
+                return taskid;
+            }
+
+            public void setTaskid(int taskid) {
+                this.taskid = taskid;
+            }
+
+            public String getFileid() {
+                return fileid;
+            }
+
+            public void setFileid(String fileid) {
+                this.fileid = fileid;
+            }
+
+            public String getFileurl() {
+                return fileurl;
+            }
+
+            public void setFileurl(String fileurl) {
+                this.fileurl = fileurl;
+            }
+
+            public int getTime() {
+                return time;
+            }
+
+            public void setTime(int time) {
+                this.time = time;
+            }
+
+            public int getSize() {
+                return size;
+            }
+
+            public void setSize(int size) {
+                this.size = size;
+            }
+
+            public String getRecordname() {
+                return recordname;
+            }
+
+            public void setRecordname(String recordname) {
+                this.recordname = recordname;
+            }
+
+            public Object getCreateDate() {
+                return createDate;
+            }
+
+            public void setCreateDate(Object createDate) {
+                this.createDate = createDate;
+            }
+
+            public Object getUpdateDate() {
+                return updateDate;
+            }
+
+            public void setUpdateDate(Object updateDate) {
+                this.updateDate = updateDate;
+            }
+
+            public String getImg() {
+                return img;
+            }
+
+            public void setImg(String img) {
+                this.img = img;
+            }
+
+            public String getImg1() {
+                return img1;
+            }
+
+            public void setImg1(String img1) {
+                this.img1 = img1;
+            }
+
+            public int getStatus() {
+                return status;
+            }
+
+            public void setStatus(int status) {
+                this.status = status;
+            }
         }
     }
 }

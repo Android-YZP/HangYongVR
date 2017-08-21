@@ -74,7 +74,7 @@ public class PersonalLivePresenter implements PersonalLiveContract.Presenter{
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LongLogUtil.e("个人直播数据---------------", result );
+//                LongLogUtil.e("个人直播数据---------------", result );
 
                 GetLiveHomeBean getLiveHomeBean = new Gson().fromJson(result, GetLiveHomeBean.class);
 

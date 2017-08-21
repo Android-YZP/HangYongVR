@@ -102,17 +102,34 @@
                         android:id="@+id/tv_release_live_video"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="视频:"
+                        android:text="保存视频:"
                         android:textColor="#bfbfbf"
                         android:textSize="16sp"
+                        android:layout_marginLeft="16dp"
+                        android:gravity="center"
+                        android:layout_marginTop="15dp"
 
                         />
+
+                    <CheckBox
+                        android:id="@+id/cb_release_live_video"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/tv_release_live_video"
+                        android:button="@null"
+                        android:background="@drawable/img_checkbox_save_video"
+                        android:gravity="center"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="15dp"
+                        />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:layout_marginTop="12dp"
+                        android:visibility="gone"
                         >
 
                             <RadioGroup
@@ -122,6 +139,7 @@
                                 android:gravity="center"
                                 android:orientation="horizontal"
                                 android:layout_marginTop="2dp"
+                                android:visibility="gone"
                                 >
                                 <RadioButton
                                     android:id="@+id/rb_release_live_video_save"
@@ -181,7 +199,7 @@
                         android:text="房间名称："
                         android:textColor="#bfbfbf"
                         android:textSize="16sp"
-
+                        android:layout_marginLeft="16dp"
                         />
 
                     <EditText
@@ -190,11 +208,12 @@
                         android:layout_height="match_parent"
                         android:layout_below="@+id/tv_release_live_house_name"
                         android:background="@drawable/bg_release_live_one"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginBottom="6dp"
                         android:cursorVisible="false"
                         android:paddingLeft="10dp"
-                        android:textColor="@color/white"
+                        android:textColor="#8e8e8e"
+                        android:layout_marginLeft="16dp"
                         />
 
                 </RelativeLayout>
@@ -210,6 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+
                     >
 
                     <TextView
@@ -219,8 +239,25 @@
                         android:text="是否收费:"
                         android:textColor="#bfbfbf"
                         android:textSize="16sp"
-
+                        android:gravity="center"
+                        android:layout_marginTop="27dp"
+                        android:layout_marginLeft="16dp"
                         />
+
+                    <CheckBox
+                        android:id="@+id/cb_release_live_charge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/tv_release_live_charge"
+                        android:button="@null"
+                        android:background="@drawable/img_checkbox_save_video"
+                        android:gravity="center"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="27dp"
+                        />
+
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -228,6 +265,7 @@
                         android:weightSum="2"
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp"
+
 
                         />
 
@@ -238,6 +276,7 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:layout_marginTop="15dp"
+                        android:visibility="gone"
                         >
                         <RadioButton
                             android:id="@+id/rb_release_live_charge_save"
@@ -299,21 +338,23 @@
                         android:text="收费金额："
                         android:textColor="#bfbfbf"
                         android:textSize="16sp"
+                        android:layout_marginLeft="16dp"
 
                         />
 
                     <EditText
                         android:id="@+id/edt_release_live_money"
-                        android:layout_width="120dp"
+                        android:layout_width="110dp"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/tv_release_live_money"
                         android:background="@drawable/bg_release_live_one"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginBottom="6dp"
-                        android:numeric="integer"
+                        android:inputType="number"
                         android:cursorVisible="false"
                         android:paddingLeft="10dp"
-                        android:textColor="@color/white"
+                        android:textColor="#8e8e8e"
+                        android:layout_marginLeft="16dp"
 
                         />
 
@@ -322,13 +363,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="蛙豆"
-                        android:textColor="@color/white"
-                        android:layout_marginLeft="10dp"
+                        android:textColor="#8e8e8e"
+                        android:layout_marginLeft="5dp"
                         android:gravity="center"
                         android:paddingTop="20dp"
                         android:layout_alignParentTop="true"
                         android:layout_toEndOf="@+id/edt_release_live_money"
-                        android:layout_marginStart="11dp"
                         android:textSize="16sp"
                         />
 
@@ -360,7 +400,6 @@
             android:checked="false"
             android:text="@null"
             android:background="@drawable/img_checkbox"
-            android:padding="30dp"
             />
 
         <TextView

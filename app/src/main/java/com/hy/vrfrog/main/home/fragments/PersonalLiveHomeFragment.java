@@ -159,7 +159,7 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
 
     @Override
     public void getPersonalLiveDataFail(Throwable throwable) {
-        UIUtils.showTip("服务端连接失败");
+//        UIUtils.showTip("服务端连接失败");
         mSwipeRefresh.setRefreshing(false);
     }
 
@@ -189,7 +189,6 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
             intent.putExtra(VedioContants.Vid, mList.get(position).getId());
             intent.putExtra(VedioContants.Yid, mList.get(position).getUid());
             LogUtil.e(mList.get(position).getId()+"<"+VedioContants.Yid+mList.get(position).getUid());
-
             getActivity().startActivity(intent);
         } else {
             ToolToast.buildToast(getActivity(), "蛙豆不足", 1);
@@ -218,7 +217,8 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
             intent.putExtra(VedioContants.Yid, mList.get(position).getUid());
             LogUtil.e(mList.get(position).getId()+"<"+VedioContants.Yid+mList.get(position).getUid());
             getActivity().startActivity(intent);
-
+        }else {
+            ToolToast.buildToast(getActivity(), "充值失败", 1);
         }
     }
 
@@ -279,5 +279,23 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
                     }
                 }).show();
 
+    }
+
+    @Override
+    public void onReViewPLay(int position) {
+        if (mList.get(position).getLvbChannelRecords().size() != 0){
+            Intent intent = new Intent(getActivity(), LivingPlayActivity.class);
+            intent.putExtra(VedioContants.LivingPlayUrl, mList.get(position).getLvbChannelRecords().get(0).getFileurl());
+            intent.putExtra(VedioContants.ChannelId, mList.get(position).getLvbChannelRecords().get(0).getLvbchannelid());
+            intent.putExtra(VedioContants.ChannelName, mList.get(position).getLvbChannelRecords().get(0).getRecordname());
+            intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + mList.get(position).getLvbChannelRecords().get(0).getImg());
+            intent.putExtra(VedioContants.Vid, mList.get(position).getLvbChannelRecords().get(0).getId());
+
+            LogUtil.e(mList.get(position).getId() + "<" + VedioContants.Yid + mList.get(position).getUid());
+
+            getActivity().startActivity(intent);
+        }else {
+            UIUtils.showTip("无回看记录");
+        }
     }
 }
