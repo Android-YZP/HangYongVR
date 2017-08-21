@@ -412,7 +412,7 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
         isShowing = true;
         isEnd = false;
 
-        if (mGift.getSendUserPic().equals("")) {
+        if (TextUtils.isEmpty(mGift.getSendUserPic())) {
             Glide.with(mContext).load(R.mipmap.icon).transform(new GlideCircleTransform(mContext)).into(anim_header);
         } else {
             Glide.with(mContext).load(mGift.getSendUserPic()).transform(new GlideCircleTransform(mContext)).into(anim_header);
@@ -421,9 +421,8 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
             mCombo = mGift.getHitCombo();
         }
         anim_num.setText("x " + mCombo);
-
-        if (!mGift.getGiftPic().equals("")) {
-            Glide.with(mContext).load(mGift.getGiftPic()).placeholder(R.mipmap.loading).into(new SimpleTarget<GlideDrawable>() {
+        if (!TextUtils.isEmpty(mGift.getSendUserPic())) {
+            Glide.with(mContext).load(mGift.getSendUserPic()).placeholder(R.mipmap.loading).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     anim_gift.setImageDrawable(resource);

@@ -170,7 +170,8 @@ public class SearchActivity extends SwipeBackActivity {
     }
 
     private void search(String keywords, String page) {
-        HttpSearchTopic(keywords, 1 + "");
+//        HttpSearchTopic(keywords, 1 + "");
+        HttpSearchVod(keywords, 1 + "");
     }
 
     /**
@@ -219,7 +220,7 @@ public class SearchActivity extends SwipeBackActivity {
         RequestParams requestParams = new RequestParams(HttpURL.vod);
         requestParams.addHeader("token", HttpURL.Token);
         requestParams.addBodyParameter("keywords", keywords);
-        requestParams.addBodyParameter("count", "5");
+        requestParams.addBodyParameter("count", "15");
         requestParams.addBodyParameter("page", page);
         requestParams.addBodyParameter("sourceNum", "222");
         //获取数据

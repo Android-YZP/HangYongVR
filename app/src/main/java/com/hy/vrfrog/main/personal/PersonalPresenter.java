@@ -1,8 +1,10 @@
 package com.hy.vrfrog.main.personal;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.View;
+
 import com.google.gson.Gson;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
@@ -27,7 +29,7 @@ public class PersonalPresenter implements PersonalContract.Presenter {
 
     private PersonalContract.View mView;
 
-    PersonalPresenter( PersonalContract.View view) {
+    PersonalPresenter(PersonalContract.View view) {
 
         this.mView = view;
 
@@ -36,7 +38,7 @@ public class PersonalPresenter implements PersonalContract.Presenter {
     }
 
     @Override
-    public void getHttpEditRoom(String uid, String isTranscribe, String channelName, String isCharge, String price, String introduce) {
+    public void getHttpEditRoom(String uid, String isTranscribe, String channelName, String isCharge, String price, String introduce, final ProgressDialog mProgressDialog) {
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
@@ -63,7 +65,7 @@ public class PersonalPresenter implements PersonalContract.Presenter {
                 LongLogUtil.e("开始直播-----------", result);
                 CreateLiveRoom createLiveRoom = new Gson().fromJson(result, CreateLiveRoom.class);
                 int id = createLiveRoom.getResult().getId();
-                mView.showId(id,createLiveRoom);
+                mView.showId(id, createLiveRoom);
 
             }
 
@@ -74,6 +76,7 @@ public class PersonalPresenter implements PersonalContract.Presenter {
             @Override
             public void onFinished() {
                 super.onFinished();
+                if (mProgressDialog != null) mProgressDialog.dismiss();
             }
         });
     }
@@ -117,11 +120,11 @@ public class PersonalPresenter implements PersonalContract.Presenter {
     @Override
     public void createHouseData() {
 
-        if (SPUtil.getUser() != null){
+        if (SPUtil.getUser() != null) {
             RequestParams requestParams = new RequestParams(HttpURL.UpdatePersonRoom);
             requestParams.addHeader("token", HttpURL.Token);
 
-            requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
+            requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");//用户名
             //获取数据
             // 有上传文件时使用multipart表单, 否则上传原始文件流.
             requestParams.setMultipart(true);
@@ -130,7 +133,7 @@ public class PersonalPresenter implements PersonalContract.Presenter {
                 @Override
                 public void onSuccess(String result) {
                     LogUtil.i("创建房间 =" + result);
-                    CreateHouseBean createHouseBean =  new Gson().fromJson(result,CreateHouseBean.class);
+                    CreateHouseBean createHouseBean = new Gson().fromJson(result, CreateHouseBean.class);
                     mView.showCreateHouseData(createHouseBean);
 
                 }
@@ -140,7 +143,7 @@ public class PersonalPresenter implements PersonalContract.Presenter {
 
                 }
             });
-        }else {
+        } else {
             mView.goLogin();
         }
 

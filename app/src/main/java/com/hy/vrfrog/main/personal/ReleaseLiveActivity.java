@@ -4,6 +4,7 @@ package com.hy.vrfrog.main.personal;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -117,6 +118,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     private CheckBox mAgreeCb;
     private ImageView mBackGroundImg;
     private TextView mBackGroundTv;
+    private ProgressDialog mProgressDialog;
 
     private SwitchButton mButton ;
 
@@ -129,11 +131,13 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         initListener();
         mPresenter.createHouseData();
 
-        showPermissions();
+
 
     }
 
     private void showPermissions() {
+        mProgressDialog = ProgressDialog.show(ReleaseLiveActivity.this, null, "正在创建房间...", true, true);
+
         String[] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
         requestRuntimePermission(permissions, new IPermissionListener() {
             @Override
@@ -158,7 +162,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
 
                 if (SPUtil.getUser() != null) {
-                    mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()), isTranscribe, mHouseNameEdt.getText().toString(), isCharge, mMoneyEdt.getText().toString(), "");
+                    mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()), isTranscribe, mHouseNameEdt.getText().toString(), isCharge, mMoneyEdt.getText().toString(), "",mProgressDialog);
                 }
 
             }
@@ -273,26 +277,29 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                 finish();
                 break;
             case R.id.btn_release_click:
-
-                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
-                    UIUtils.showTip("房间名称不能为空");
-                    return;
-                }
-
-                if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
-                    UIUtils.showTip("收费金额不能为空");
-                    return;
-                }
-
-                if (mAgreeCb.isChecked()) {
-                    UIUtils.showTip("请选择我已阅读并同意直播协议");
-                    return;
-                }
-
-
-                if (SPUtil.getUser() != null) {
-                    mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()), isTranscribe, mHouseNameEdt.getText().toString(), isCharge, mMoneyEdt.getText().toString(), "");
-                }
+//                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
+//                startActivity(intent);
+                showPermissions();
+//
+//                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
+//                    UIUtils.showTip("房间名称不能为空");
+//                    return;
+//                }
+//
+//                if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
+//                    UIUtils.showTip("收费金额不能为空");
+//                    return;
+//                }
+//
+//                if (mAgreeCb.isChecked()) {
+//                    UIUtils.showTip("请选择我已阅读并同意直播协议");
+//                    return;
+//                }
+//
+//
+//                if (SPUtil.getUser() != null) {
+//                    mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()), isTranscribe, mHouseNameEdt.getText().toString(), isCharge, mMoneyEdt.getText().toString(), "");
+//                }
 
                 break;
 
@@ -657,7 +664,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         try {
             Intent intent = new Intent("com.android.camera.action.CROP");
             intent.setDataAndType(getImageContentUri(this, file), "image/*");//自己使用Content Uri替换File Uri
-            intent.putExtra("scale", false);
+            intent.putExtra("scale", true);
             intent.putExtra("return-data", false);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1.6);
@@ -746,7 +753,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             mListener.onGranted();
         }
     }
-
 
     public interface IPermissionListener {
         /**

@@ -119,6 +119,7 @@ public class HttpURL {
      */
     public static String vod = Host + "login/search/vod";
     public static String Topic = Host + "login/search/topic";
+
     /**
      * 添加用户的观看历史
      */

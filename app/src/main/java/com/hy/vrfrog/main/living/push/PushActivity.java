@@ -193,6 +193,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        outRoom();
+    }
+
+    public void outRoom() {
         stopPublish();
         stopRecordAnimation();
         TIMManager.getInstance().logout(new TIMCallBack() {
@@ -295,7 +299,10 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mLlOutRoomLikeNum.setText(mFavorNumber + "");
         mLlOutRoomMoney.setText(money);
         Glide.with(UIUtils.getContext()).load(mRoomImg).asBitmap().into(mLlOutRoomOutBg);
+        outRoom();
     }
+
+
 
 
     /**
@@ -510,7 +517,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                                     notifyMsg(entity);
 
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Gift) {
-                                    showGift(messageBean,msg.getSenderProfile().getNickName());
+                                    showGift(messageBean, msg.getSenderProfile().getNickName());
 
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Like) {
                                     mHeartLayout.addFavor();
@@ -582,9 +589,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
                             TCSimpleUserInfo tcSimpleUserInfo = new TCSimpleUserInfo(elem.getOpUserInfo().getIdentifier()
                                     , elem.getOpUserInfo().getNickName(), elem.getOpUserInfo().getFaceUrl());
-
                             mAvatarListAdapter.addItem(tcSimpleUserInfo);
-
 
                             TCChatEntity entity = new TCChatEntity();
                             entity.setSenderName("通知");
@@ -793,15 +798,18 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
 
     }
 
+
+
     private void showGift(MessageBean messageBean, String nickName) {
+        //setSendUserPic为自己界面显示的礼物//mGifturl礼物界面显示的礼物
         giftModel = new GiftModel();
-        giftModel.setGiftId(messageBean.getGiftName())
+        giftModel.setGiftId(messageBean.getUserId())
                 .setGiftName(messageBean.getGiftName())
                 .setGiftCount(messageBean.getGiftCount())
                 .setGiftPic(messageBean.getGiftPic())
-                .setSendUserId(messageBean.getUserId())
-                .setSendUserName(nickName)
-                .setSendUserPic(messageBean.getHeadPic())
+                .setSendUserPic(messageBean.getGiftPic())
+                .setSendUserId(nickName)
+                .setSendUserName(nickName+"")
                 .setSendGiftTime(System.currentTimeMillis())
                 .setCurrentStart(currentStart);
         if (currentStart) {
@@ -810,7 +818,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         giftControl.loadGift(giftModel);
         Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
     }
-
 
     @Override
     public void onClick(View v) {

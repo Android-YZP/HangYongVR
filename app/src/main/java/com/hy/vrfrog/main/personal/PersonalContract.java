@@ -1,13 +1,12 @@
 package com.hy.vrfrog.main.personal;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.hy.vrfrog.base.BasePresenter;
 import com.hy.vrfrog.base.BaseView;
 import com.hy.vrfrog.http.responsebean.CreateHouseBean;
 import com.hy.vrfrog.http.responsebean.CreateLiveRoom;
-
-import java.util.List;
 
 /**
  * Created by qwe on 2017/8/16.
@@ -36,7 +35,7 @@ public class PersonalContract {
 
     interface Presenter extends BasePresenter {
 
-        void getHttpEditRoom(String uid, String isTranscribe, String channelName, String isCharge, String price, String introduce);
+        void getHttpEditRoom(String uid, String isTranscribe, String channelName, String isCharge, String price, String introduce, ProgressDialog mProgressDialog);
 
         void showPhotoDialog(Context context);
 
