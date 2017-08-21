@@ -19,6 +19,7 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.AccountBean;
+import com.hy.vrfrog.utils.BasePreferences;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -107,6 +108,8 @@ public class DemandPayDialog {
                     if (accountBean.getCode() == 0){
                         LogUtil.i("余额 = " +  accountBean.getResult());
                         mDemandPayBalancetv.setText(String.valueOf(accountBean.getResult()));
+                        BasePreferences basePreferences = new BasePreferences(context);
+                        basePreferences.setPrefString("account",accountBean.getResult());
                     }
 
                 }
