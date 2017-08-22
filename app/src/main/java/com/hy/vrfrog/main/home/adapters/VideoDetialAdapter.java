@@ -103,8 +103,8 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
         if (type == VedioContants.Video) {//点播
             holder.mllRoomName.setVisibility(View.GONE);
             holder.mRlPersonName.setVisibility(View.GONE);
-            holder.mVideoLiveLl.setVisibility(View.VISIBLE);
-            holder.mVideoName.setVisibility(View.VISIBLE);
+//            holder.mVideoLiveLl.setVisibility(View.VISIBLE);
+//            holder.mVideoName.setVisibility(View.VISIBLE);
 
             if (mData.size() != 1) {
                 if (position == 0) {

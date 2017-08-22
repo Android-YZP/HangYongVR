@@ -119,6 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="39dp"
         android:layout_marginTop="45dp"
+        android:visibility="gone"
         android:background="@drawable/pay_layer_list_bg"
         android:orientation="horizontal"
 
@@ -185,11 +186,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_root_room_name"
         android:layout_marginTop="8dp"
+        android:visibility="gone"
         android:background="@drawable/pay_layer_list_bg">
 
         <com.hy.vrfrog.ui.MaequeeText
             android:id="@+id/tv_play_channelName"
             android:layout_width="60dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="5dp"

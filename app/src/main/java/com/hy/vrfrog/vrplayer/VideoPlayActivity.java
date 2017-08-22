@@ -90,7 +90,7 @@ public class VideoPlayActivity extends AppCompatActivity {
     private GestureDetector mGestureDetector = null;
 
     private int yid;
-    private int position ;
+    private int position;
 
     private static final int GESTURE_TYPE_NO = 0;
     private static final int GESTURE_TYPE_HRO = 1;
@@ -131,6 +131,7 @@ public class VideoPlayActivity extends AppCompatActivity {
 
     private static final int SHOW_PROGRESS = 2;
     int mReloading = 1;
+    private boolean isPlaying = false;
 
     /**
      * 最大声音
@@ -361,6 +362,7 @@ public class VideoPlayActivity extends AppCompatActivity {
                 } else if (what == EventType.PLAYER_EVENT_BUFFERED) {
                     Log.i(TAG, "PLAYER_EVENT_BUFFERED");
                     mBufferingView.setVisibility(View.GONE);
+                    isPlaying = true;
                 } else if (what == EventType.PLAYER_EVENT_FINISHED) {
                     Log.d(TAG, "PLAYER_EVENT_FINISHED ");
                     mIsPrepared = false;
@@ -496,8 +498,8 @@ public class VideoPlayActivity extends AppCompatActivity {
         desc = intent.getStringExtra(VedioContants.Desc);
         mVid = intent.getIntExtra(VedioContants.Vid, 0);
         mVideoPosition = intent.getIntExtra(VedioContants.Position, 0);
-        position = intent.getIntExtra("position",0);
-        yid = intent.getIntExtra("yid",0);
+        position = intent.getIntExtra("position", 0);
+        yid = intent.getIntExtra("yid", 0);
         TextView title = (TextView) findViewById(R.id.tv_play_title);
         title.setText(desc);
 
@@ -533,7 +535,7 @@ public class VideoPlayActivity extends AppCompatActivity {
      */
     private void timekeeping() {
 
-        recLen = 3;
+        recLen = 20;
         mTimer = new Timer();
         // UI thread
         task = new TimerTask() {
@@ -545,6 +547,9 @@ public class VideoPlayActivity extends AppCompatActivity {
                         recLen--;
                         if (recLen < 0) {
                             toggleMediaControlsVisiblity();
+                            if (!isPlaying){
+                                showNetErrorDialog();
+                            }
                         }
                     }
                 });
@@ -808,6 +813,7 @@ public class VideoPlayActivity extends AppCompatActivity {
         if (user != null) {
             HttpHistory(user.getResult().getUser().getUid() + "", "" + currentPersent());
         }
+        mTimer.cancel();
         mHandler.removeMessages(SHOW_PROGRESS);
         if (mVideoView != null) {
             mVideoView.pause();
@@ -1092,23 +1098,23 @@ public class VideoPlayActivity extends AppCompatActivity {
 
     private void showToastStyleDialog() {
 
-       new GiveRewardDialog(VideoPlayActivity.this).builder()
-               .setCanceledOnTouchOutside(true)
-               .setNegativeButton("", new OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
+        new GiveRewardDialog(VideoPlayActivity.this).builder()
+                .setCanceledOnTouchOutside(true)
+                .setNegativeButton("", new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                   }
-               })
-               .setPositiveButton("", new GiveRewardDialog.IGiveReward() {
-                   @Override
-                   public void GoGiveReward(int count) {
+                    }
+                })
+                .setPositiveButton("", new GiveRewardDialog.IGiveReward() {
+                    @Override
+                    public void GoGiveReward(int count) {
 
-                       LogUtil.i("打赏 = " + count);
-                       getRewardData(count,position);
+                        LogUtil.i("打赏 = " + count);
+                        getRewardData(count, position);
 
-                   }
-               }).show();
+                    }
+                }).show();
 
     }
 
@@ -1119,14 +1125,14 @@ public class VideoPlayActivity extends AppCompatActivity {
             return;
         }
 
-        if (SPUtil.getUser() != null){
+        if (SPUtil.getUser() != null) {
             RequestParams requestParams = new RequestParams(HttpURL.Pay);
             requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
-            requestParams.addBodyParameter("uid",SPUtil.getUser().getResult().getUser().getUid()+"");
-            requestParams.addBodyParameter("type",2+"");
-            requestParams.addBodyParameter("vid",mVid+ "");
-            requestParams.addBodyParameter("money",count+"");
-            requestParams.addBodyParameter("yid",yid+"");
+            requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");
+            requestParams.addBodyParameter("type", 2 + "");
+            requestParams.addBodyParameter("vid", mVid + "");
+            requestParams.addBodyParameter("money", count + "");
+            requestParams.addBodyParameter("yid", yid + "");
 
             LogUtil.i("播放打赏token = " + SPUtil.getUser().getResult().getUser().getToken());
             LogUtil.i("播放打赏uid = " + SPUtil.getUser().getResult().getUser().getUid());
@@ -1141,17 +1147,18 @@ public class VideoPlayActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(String result) {
 
-                    GiveRewardBean giveBean = new Gson().fromJson(result,GiveRewardBean.class);
-                    if (giveBean.getCode() == 0){
-                        ToolToast.buildToast(VideoPlayActivity.this,"打赏成功",1);
-                    }else {
-                        ToolToast.buildToast(VideoPlayActivity.this,"蛙豆不足",1);
+                    GiveRewardBean giveBean = new Gson().fromJson(result, GiveRewardBean.class);
+                    if (giveBean.getCode() == 0) {
+                        ToolToast.buildToast(VideoPlayActivity.this, "打赏成功", 1);
+                    } else {
+                        ToolToast.buildToast(VideoPlayActivity.this, "蛙豆不足", 1);
                     }
 
-                    LogUtil.i("打赏 = " +  result);
+                    LogUtil.i("打赏 = " + result);
 
 
                 }
+
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
                     UIUtils.showTip("服务端连接失败");
@@ -1164,7 +1171,7 @@ public class VideoPlayActivity extends AppCompatActivity {
                 }
             });
 
-        }else {
+        } else {
             UIUtils.showTip("请登陆");
         }
 

@@ -17,10 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.HeadFaceBean;
 import com.hy.vrfrog.main.personal.takepic.PermissionsActivity;
 import com.hy.vrfrog.main.personal.takepic.PermissionsChecker;
 import com.hy.vrfrog.main.personal.takepic.PhotoUtil;
@@ -72,12 +75,12 @@ public class PersonalActivity extends SwipeBackActivity {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            透明状态栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_personal);
-            initView();
-            initData();
-            initListener();
-            photoUtil = new PhotoUtil(PersonalActivity.this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_personal);
+        initView();
+        initData();
+        initListener();
+        photoUtil = new PhotoUtil(PersonalActivity.this);
     }
 
 
@@ -103,15 +106,18 @@ public class PersonalActivity extends SwipeBackActivity {
     }
 //
 //
+
     /**
      * 更新头像
      */
     private void HttpUpdatePic(File file) {
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.UpdateHeadPic);
-        requestParams.addHeader("token", HttpURL.Token);
+        requestParams.addHeader("token", SPUtil.getUser().getResult().getToken());
         //包装请求参数
         requestParams.addBodyParameter(file.getPath().replace("/", ""), file);//用户名
+//        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
+        requestParams.addBodyParameter("uid", "20");//用户名
         //获取数据
         // 有上传文件时使用multipart表单, 否则上传原始文件流.
         requestParams.setMultipart(true);
@@ -119,7 +125,13 @@ public class PersonalActivity extends SwipeBackActivity {
 
             @Override
             public void onSuccess(String result) {
-                LogUtil.i(result);
+                HeadFaceBean headFaceBean = new Gson().fromJson(result, HeadFaceBean.class);
+                if (headFaceBean.getCode() == 0) {
+                    User user = SPUtil.getUser();
+                    user.getResult().getUser().setHead(HttpURL.IV_USER_HOST + headFaceBean.getMsg());
+                    SPUtil.putUser(user);
+                }
+                LogUtil.i("==================>" + result);
             }
 
             @Override
@@ -129,6 +141,7 @@ public class PersonalActivity extends SwipeBackActivity {
         });
     }
 //
+
     /**
      * 更新用户信息
      */
@@ -159,6 +172,7 @@ public class PersonalActivity extends SwipeBackActivity {
     }
 //
 //
+
     /**
      * 保存文件
      *
@@ -166,7 +180,7 @@ public class PersonalActivity extends SwipeBackActivity {
      * @throws IOException
      */
     public File saveFile(Bitmap bm) throws IOException {
-        File path = Environment.getExternalStorageDirectory() ;
+        File path = Environment.getExternalStorageDirectory();
         File dirFile = new File(path.toString());
         if (!dirFile.exists()) {
             dirFile.mkdir();
@@ -223,16 +237,16 @@ public class PersonalActivity extends SwipeBackActivity {
 
 
     public void initView() {
-        mIvPersonalhead = (ImageView)findViewById(R.id.img_personal_head);
-        mTvPersonalNum = (TextView)findViewById(R.id.tv_personal_num);
-        mTvPersonalName = (TextView)findViewById(R.id.tv_personal_name);
-        mTvPersonalSax = (TextView)findViewById(R.id.tv_personal_xb);
-        mTvPersonalDay = (TextView)findViewById(R.id.tv_personal_day);
-        mTvPersonalZy = (TextView)findViewById(R.id.tv_personal_zy);
-        mTvPersonalEmail = (TextView)findViewById(R.id.tv_personal_email_num);
+        mIvPersonalhead = (ImageView) findViewById(R.id.img_personal_head);
+        mTvPersonalNum = (TextView) findViewById(R.id.tv_personal_num);
+        mTvPersonalName = (TextView) findViewById(R.id.tv_personal_name);
+        mTvPersonalSax = (TextView) findViewById(R.id.tv_personal_xb);
+        mTvPersonalDay = (TextView) findViewById(R.id.tv_personal_day);
+        mTvPersonalZy = (TextView) findViewById(R.id.tv_personal_zy);
+        mTvPersonalEmail = (TextView) findViewById(R.id.tv_personal_email_num);
 //        mTvReturn = (TextView)findViewById(R.id.tv_personal_return);
-        mRootReturn = (ImageButton)findViewById(R.id.ib_personal_back);
-        mPersonalHead = (RelativeLayout)findViewById(R.id.rl_personal_head);
+        mRootReturn = (ImageButton) findViewById(R.id.ib_personal_back);
+        mPersonalHead = (RelativeLayout) findViewById(R.id.rl_personal_head);
     }
 
     public void initListener() {
@@ -287,11 +301,13 @@ public class PersonalActivity extends SwipeBackActivity {
     }
 
     public void initData() {
-         mPermissionsChecker = new PermissionsChecker(PersonalActivity.this);
+        mPermissionsChecker = new PermissionsChecker(PersonalActivity.this);
         User user = SPUtil.getUser();
-//        bindCircularImage(mIvPersonalhead,user.getResult().getUser().getHead());
+        LogUtil.e(user.getResult().getUser().getHead()+"========================》");
+        Glide.with(this).load(user.getResult().getUser().getHead()+"").asBitmap().into(mIvPersonalhead);
         mTvPersonalNum.setText(user.getResult().getUser().getPhone());
         mTvPersonalName.setText(user.getResult().getUser().getUsername());
+
     }
 
     /**
@@ -301,8 +317,8 @@ public class PersonalActivity extends SwipeBackActivity {
      * @param url
      */
     public void bindCircularImage(ImageView iv, String url) {
-            options = new ImageOptions.Builder().setLoadingDrawableId(R.drawable.my_head).setFailureDrawableId(R.drawable.my_head).setCircular(true).build();
-            x.image().bind(iv, url, options);
+        options = new ImageOptions.Builder().setLoadingDrawableId(R.drawable.my_head).setFailureDrawableId(R.drawable.my_head).setCircular(true).build();
+        x.image().bind(iv, url, options);
     }
 
 }

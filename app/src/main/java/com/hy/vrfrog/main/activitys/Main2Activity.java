@@ -48,6 +48,7 @@ public class Main2Activity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        startActivity(new Intent(this, SplashActivity.class));
         initView();
         initData();
     }
@@ -79,7 +80,6 @@ public class Main2Activity extends BaseActivity {
                     if (SPUtil.getUser() != null){
 
                     startActivity(new Intent(Main2Activity.this,ReleaseLiveActivity.class));
-                    finish();
                     }else {
                     startActivity(new Intent(Main2Activity.this, LoginActivity.class));
                 }

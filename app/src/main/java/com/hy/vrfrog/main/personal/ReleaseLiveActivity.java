@@ -668,8 +668,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             intent.setDataAndType(getImageContentUri(this, file), "image/*");//自己使用Content Uri替换File Uri
             intent.putExtra("scale", true);
             intent.putExtra("return-data", false);
-            intent.putExtra("aspectX", 1);
-            intent.putExtra("aspectY", 1.6);
+            intent.putExtra("aspectX", 10);
+            intent.putExtra("aspectY", 16);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cacheFile));//定义输出的File Uri
             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
             intent.putExtra("noFaceDetection", true);
