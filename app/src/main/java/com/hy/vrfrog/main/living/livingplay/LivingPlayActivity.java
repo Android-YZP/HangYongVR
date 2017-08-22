@@ -197,6 +197,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private int totleNumber;
     private TextView mTvMoneyNum;
     private BasePreferences basePreferences;
+    private boolean isSendLike = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,6 +227,10 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         outRoom();
     }
 
+    @Override
+    public void onBackPressed() {
+        showComfirmDialog(TCConstants.TIPS_MSG_STOP_PUSH, false);
+    }
 
     public void outRoom() {
         TIMGroupManager.getInstance().quitGroup(mGroupID, new TIMCallBack() {
@@ -268,6 +273,10 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         mGiftGroup = intent.getIntExtra(VedioContants.GiftGroup, 0);
         mVid = intent.getIntExtra(VedioContants.Vid, 0);
         mYid = intent.getIntExtra(VedioContants.Yid, 0);
+        Boolean isRoomNoData = intent.getBooleanExtra(VedioContants.RoomNoData, false);
+        if (isRoomNoData) {
+            showComfirmDialog("主播正在赶来的路上", true);
+        }
         LogUtil.e(mGiftGroup + "=================");
     }
 
@@ -311,16 +320,28 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 if (SPUtil.getUser() != null) {
                     if (mHeartLayout != null) {
                         mHeartLayout.addFavor();
+
                     }
 
                     //点赞发送请求限制
                     if (mLikeFrequeControl == null) {
                         mLikeFrequeControl = new TCFrequeControl();
                         mLikeFrequeControl.init(2, 1);//一秒内允许2次触发
+
                     }
 
                     if (mLikeFrequeControl.canTrigger()) {//发送IM点赞的消息
+
                         sendLikeMessage();
+                        if (isSendLike){
+                            TCChatEntity entity = new TCChatEntity();
+                            entity.setSenderName("我");
+                            entity.setContext("点了一个赞");
+                            entity.setType(TCConstants.TEXT_TYPE);
+                            notifyMsg(entity);
+                            isSendLike = true;
+                        }
+
                     }
                 } else {
                     UIUtils.showTip("请先登录");
@@ -436,7 +457,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
                             //这里最好不要直接new对象//直接显示礼物
                             giftModel = new GiftModel();
-                            LogUtil.e(mGifturl +","+ mGid + "++++++++++++++");
+                            LogUtil.e(mGifturl + "," + mGid + "++++++++++++++");
 
                             //setSendUserPic为自己界面显示的礼物//mGifturl礼物界面显示的礼物
                             giftModel.setGiftId(mGid).setGiftName(mGiftName).setGiftCount(giftnum).setGiftPic(mGifturl)
@@ -534,7 +555,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             mGiftName = giftName;
                             mGiftPrice = giftPrice;
                             mGid = gid;
-                            LogUtil.e(mGifturl+"+++++++++++++++++++");
+                            LogUtil.e(mGifturl + "+++++++++++++++++++");
 
 
                             if (totleNumber != 0) {
@@ -676,7 +697,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 .setGiftPic(messageBean.getGiftPic())
                 .setSendUserPic(messageBean.getGiftPic())
                 .setSendUserId(nickName)
-                .setSendUserName(nickName+"")
+                .setSendUserName(nickName + "")
                 .setSendGiftTime(System.currentTimeMillis())
                 .setCurrentStart(currentStart);
 
@@ -910,7 +931,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 for (int j = 0; j < list.size(); j++) {
                     TIMMessage msg = list.get(j);
 
-                    LogUtil.e(msg.getSender()+"-----------------");
+                    LogUtil.e(msg.getSender() + "-----------------");
 
                     for (int i = 0; i < msg.getElementCount(); ++i) {
                         TIMElem elem = msg.getElement(i);
@@ -920,7 +941,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                         if (elemType == TIMElemType.Text) {
                             //获取文本信息
                             String text = ((TIMTextElem) elem).getText();
-
                             try {
                                 messageBean = gson.fromJson(text, MessageBean.class);
                             } catch (Exception e) {
@@ -929,9 +949,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
                             if (messageBean != null) {
                                 if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Text) {
-
-                                    LogUtil.e(text+"-----------------");
-
+                                    LogUtil.e(text + "-----------------");
                                     TCChatEntity entity = new TCChatEntity();
                                     entity.setSenderName(msg.getSenderProfile().getNickName());
                                     entity.setContext(messageBean.getMsg());
@@ -1000,6 +1018,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                     public void onForceOffline() {
                         //被其他终端踢下线
                         Log.i(tag, "onForceOffline");
+                        showComfirmDialog("您的账号在其他地方登陆，请重新进入直播间", true);
                     }
 
                     @Override
