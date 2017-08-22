@@ -1,5 +1,6 @@
 package com.hy.vrfrog.main.home.adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
 import com.hy.vrfrog.http.responsebean.PayStatus;
 import com.hy.vrfrog.http.responsebean.RechargeBean;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
+import com.hy.vrfrog.main.personal.ReleaseLiveActivity;
 import com.hy.vrfrog.ui.DemandPayDialog;
 import com.hy.vrfrog.ui.LoadingDataUtil;
 import com.hy.vrfrog.ui.PaySuccessDialog;
@@ -60,6 +62,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
     private IPersonalLiveAdapter mCallback;
     private Runnable toDo;
     private int mPosition;
+    private ProgressDialog mProgressDialog;
 
 
     public void setListener(IPersonalLiveAdapter listener) {
@@ -141,12 +144,13 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
             holder.mPayTv.setVisibility(View.GONE);
         }
 
-        if (resultBean.get(position).getLvbStatus() == 1){
+        if (resultBean.get(position).getLvbStatus() == 1) {
             holder.mLiveHomePlayStateTv.setText("直播中");
-        }else if (resultBean.get(position).getLvbChannelRecords().size() != 0){
+            holder.mLiveHomePlayStateTv.setVisibility(View.VISIBLE);
+            holder.mLiveHomePlayStateImg.setVisibility(View.VISIBLE);
+        } else {
             holder.mLiveHomePlayStateTv.setVisibility(View.GONE);
             holder.mLiveHomePlayStateImg.setVisibility(View.GONE);
-
         }
 
 
@@ -155,14 +159,15 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                 @Override
                 public void onClick(View view) {
 
-
                     if (resultBean.get(position).getLvbStatus() == 1) {
+
+
                         if (resultBean.get(position).getPrice() != 0) {
                             if (SPUtil.getUser() == null) {
                                 UIUtils.showTip("请登录后付费体验");
                             } else {
                                 //是否还要付费接口
-                                HttpPayStatus(resultBean.get(position).getId() + "", SPUtil.getUser().getResult().getUser().getUid() + "",position);
+                                HttpPayStatus(resultBean.get(position).getId() + "", SPUtil.getUser().getResult().getUser().getUid() + "", position);
                             }
 
                         } else {
@@ -194,7 +199,7 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
      * 是否还要付费
      */
     private void HttpPayStatus(String vid, String uid, final int position) {
-
+        mProgressDialog = ProgressDialog.show(context, null, "正在进入房间...", true, true);
         if (!NetUtil.isOpenNetwork()) {
             UIUtils.showTip("请打开网络");
             return;
@@ -212,9 +217,9 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                 LogUtil.i("是否还要付费=====================" + result);
                 PayStatus payStatus = new Gson().fromJson(result, PayStatus.class);
                 if (payStatus.getCode() == 0) {
-                    if (payStatus.isResult()){//钱付过了
+                    if (!payStatus.isResult()) {//钱付过了
                         mCallback.onPayMoney(position);
-                    }else {
+                    } else {
                         Intent intent = new Intent(context, LivingPlayActivity.class);
                         intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
                         intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
@@ -228,23 +233,18 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                         LogUtil.e(resultBean.get(position).getId() + "<" + VedioContants.Yid + resultBean.get(position).getUid());
                         LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg() + "________");
                         context.startActivity(intent);
-
-
                     }
-
                 }
-
-
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
+                UIUtils.showTip("查询是否付过费用--服务端连接失败");
             }
 
             @Override
             public void onFinished() {
-
+                mProgressDialog.dismiss();
             }
 
         });

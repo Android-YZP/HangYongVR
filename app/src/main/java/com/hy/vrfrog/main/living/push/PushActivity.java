@@ -610,6 +610,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                     public void onForceOffline() {
                         //被其他终端踢下线
                         Log.i(tag, "onForceOffline");
+                        showComfirmDialog("您的账号在其他地方登陆，请重新进入直播间",true);
                     }
 
                     @Override

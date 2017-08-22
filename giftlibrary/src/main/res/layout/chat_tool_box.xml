@@ -80,10 +80,11 @@
 
         <ImageView
             android:id="@+id/toolbox_iv_face"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:src="@drawable/btn_chat_emo_selector" />
 
     </RelativeLayout>
