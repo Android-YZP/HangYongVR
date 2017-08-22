@@ -116,8 +116,8 @@ public class PersonalActivity extends SwipeBackActivity {
         requestParams.addHeader("token", SPUtil.getUser().getResult().getToken());
         //包装请求参数
         requestParams.addBodyParameter(file.getPath().replace("/", ""), file);//用户名
-//        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
-        requestParams.addBodyParameter("uid", "20");//用户名
+        requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid()+"");//用户名
+//        requestParams.addBodyParameter("uid", "20");//用户名
         //获取数据
         // 有上传文件时使用multipart表单, 否则上传原始文件流.
         requestParams.setMultipart(true);
@@ -131,7 +131,7 @@ public class PersonalActivity extends SwipeBackActivity {
                     user.getResult().getUser().setHead(HttpURL.IV_USER_HOST + headFaceBean.getMsg());
                     SPUtil.putUser(user);
                 }
-                LogUtil.i("==================>" + result);
+                LogUtil.i("==================>" + HttpURL.IV_USER_HOST + headFaceBean.getMsg());
             }
 
             @Override

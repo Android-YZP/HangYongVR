@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hy.vrfrog.R;
@@ -65,6 +67,7 @@ public class MyFragment extends Fragment {
     private BasePreferences mBasePreferences;
     private ChannelStatusBean channelStatusBean;
     private CertificationBean certificationBean;
+    private ImageView mIvHead;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,7 @@ public class MyFragment extends Fragment {
         initRemain();
         if (SPUtil.getUser() != null){
             HttpCreatRoom(SPUtil.getUser().getResult().getUser().getUid() + "");
+            Glide.with(this).load(SPUtil.getUser().getResult().getUser().getHead()+"").asBitmap().into(mIvHead);
         }
 
 //        initAuditStatus();
@@ -290,6 +294,7 @@ public class MyFragment extends Fragment {
         mCertification = (LinearLayout) view.findViewById(R.id.ll_my_certification);
         mLlMyPay = (LinearLayout) view.findViewById(R.id.ll_my_pay);
         mTvName = (TextView) view.findViewById(R.id.tv_my_name);
+        mIvHead = (ImageView) view.findViewById(R.id.iv_head);
         mRootGoLogin = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login);
         mRootGoLogin1 = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login1);
         mAccountTv = (TextView)view.findViewById(R.id.tv_fragment_num);

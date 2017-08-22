@@ -549,6 +549,7 @@ public class VideoPlayActivity extends AppCompatActivity {
                             toggleMediaControlsVisiblity();
                             if (!isPlaying){
                                 showNetErrorDialog();
+                                mTimer.cancel();
                             }
                         }
                     }
