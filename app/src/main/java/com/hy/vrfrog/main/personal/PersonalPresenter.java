@@ -71,7 +71,9 @@ public class PersonalPresenter implements PersonalContract.Presenter {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("网络错误");
             }
+
 
             @Override
             public void onFinished() {

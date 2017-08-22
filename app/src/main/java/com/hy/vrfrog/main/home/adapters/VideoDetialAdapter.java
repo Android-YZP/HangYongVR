@@ -191,28 +191,28 @@ public class VideoDetialAdapter extends RecyclerView.Adapter<VideoDetialAdapter.
             holder.mVideoLiveLl.setVisibility(View.GONE);
             holder.mVideoName.setVisibility(View.GONE);
             //加载圆形头像
-            ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
-            x.image().bind(holder.mIvRoomHead, HttpURL.IV_HOST + mData.get(position).getHead(), imageOptions, new Callback.CommonCallback<Drawable>() {
-                @Override
-                public void onSuccess(Drawable result) {
-
-                }
-
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
-                    ex.printStackTrace();
-                    UIUtils.showTip("背景图片加载失败,请刷新重试");
-                }
-
-                @Override
-                public void onCancelled(CancelledException cex) {
-                }
-
-
-                @Override
-                public void onFinished() {
-                }
-            });
+//            ImageOptions imageOptions = new ImageOptions.Builder().setCircular(true).build(); //淡入效果
+//            x.image().bind(holder.mIvRoomHead, HttpURL.IV_HOST + mData.get(position).getHead(), imageOptions, new Callback.CommonCallback<Drawable>() {
+//                @Override
+//                public void onSuccess(Drawable result) {
+//
+//                }
+//
+//                @Override
+//                public void onError(Throwable ex, boolean isOnCallback) {
+//                    ex.printStackTrace();
+//                    UIUtils.showTip("背景图片加载失败,请刷新重试");
+//                }
+//
+//                @Override
+//                public void onCancelled(CancelledException cex) {
+//                }
+//
+//
+//                @Override
+//                public void onFinished() {
+//                }
+//            });
 
             holder.mTvPersonName.setText(mData.get(position).getUsername());
             holder.mTvChannelName.setText(mData.get(position).getChannelName());

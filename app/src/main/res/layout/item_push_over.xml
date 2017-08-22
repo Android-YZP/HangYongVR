@@ -144,8 +144,13 @@
         android:id="@+id/btn_out_room_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:layout_marginTop="100dp"
-        android:text="确定" />
+        android:background="@drawable/bottom_fragment"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 
 </LinearLayout>

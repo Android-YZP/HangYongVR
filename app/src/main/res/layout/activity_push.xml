@@ -64,7 +64,7 @@
             android:id="@+id/flash_btn"
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
-            android:background="@drawable/live_button_lamp"
+            android:background="@drawable/icon_flash"
             android:onClick="onClick" />
 
         <TextView
@@ -279,6 +279,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        android:background="@mipmap/push_over_bg"
         android:visibility="gone" />
 
     <include layout="@layout/item_push_over" />

@@ -171,7 +171,27 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
                         }
 
                     }else {
-                        UIUtils.showTip("不能开播");
+
+                        UIUtils.showTip("直播尚未开始，敬请期待");
+//                        Intent i = new Intent(context, PlayActivity.class);
+//                        int isall = resultBean.get(position).getIsall();
+//                        if (isall == VedioContants.TWO_D_VEDIO) {
+//                            i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+//                        } else if (isall == VedioContants.ALL_VIEW_VEDIO) {
+//                            i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+//                        }
+//
+//                        LogUtil.i(resultBean.get(position).getRtmpDownstreamAddress() + "");
+//                        i.putExtra(VedioContants.PlayUrl, resultBean.get(position).getRtmpDownstreamAddress() + "");
+//                        i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_USER_HOST + resultBean.get(position).getHead() + "");
+//                        i.putExtra(VedioContants.KEY_PLAY_USERNAME, resultBean.get(position).getUsername() + "");
+//                        i.putExtra(VedioContants.KEY_PLAY_ID, resultBean.get(position).getId() + "");
+//                        i.putExtra(VedioContants.RoomNoData, true);
+//                        if (NetUtil.isOpenNetwork()) {
+//                            context.startActivity(i);
+//                        } else {
+//                            UIUtils.showTip("请连接网络");
+//                        }
                     }
 
                 }

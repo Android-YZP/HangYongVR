@@ -132,9 +132,12 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         mPresenter.createHouseData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void showPermissions() {
-
-
         String[] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
         requestRuntimePermission(permissions, new IPermissionListener() {
             @Override
@@ -186,6 +189,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LogUtil.e("+++++++++++++++++" + "onDestroy");
         isChoosed = false;
     }
 

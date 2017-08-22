@@ -224,6 +224,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         outRoom();
     }
 
@@ -320,20 +321,16 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 if (SPUtil.getUser() != null) {
                     if (mHeartLayout != null) {
                         mHeartLayout.addFavor();
-
                     }
-
                     //点赞发送请求限制
                     if (mLikeFrequeControl == null) {
                         mLikeFrequeControl = new TCFrequeControl();
                         mLikeFrequeControl.init(2, 1);//一秒内允许2次触发
-
                     }
-
                     if (mLikeFrequeControl.canTrigger()) {//发送IM点赞的消息
 
                         sendLikeMessage();
-                        if (isSendLike){
+                        if (isSendLike) {
                             TCChatEntity entity = new TCChatEntity();
                             entity.setSenderName("我");
                             entity.setContext("点了一个赞");
@@ -341,7 +338,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             notifyMsg(entity);
                             isSendLike = true;
                         }
-
                     }
                 } else {
                     UIUtils.showTip("请先登录");
@@ -1335,7 +1331,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             });
         } else {
             //当情况为错误的时候，直接停止推流
-
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -1346,7 +1341,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
         }
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.setCanceledOnTouchOutside(false);
+//        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
     }
 
     protected void startPlay() {
