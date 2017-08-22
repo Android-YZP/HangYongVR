@@ -130,13 +130,10 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         initView();
         initListener();
         mPresenter.createHouseData();
-
-
-
     }
 
     private void showPermissions() {
-        mProgressDialog = ProgressDialog.show(ReleaseLiveActivity.this, null, "正在创建房间...", true, true);
+
 
         String[] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
         requestRuntimePermission(permissions, new IPermissionListener() {
@@ -160,8 +157,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
 
-
                 if (SPUtil.getUser() != null) {
+                    mProgressDialog = ProgressDialog.show(ReleaseLiveActivity.this, null, "正在创建房间...", true, true);
                     mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()), isTranscribe, mHouseNameEdt.getText().toString(), isCharge, mMoneyEdt.getText().toString(), "",mProgressDialog);
                 }
 
@@ -176,10 +173,8 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                         UIUtils.showTip("沒有读写权限不能直播");
                     }else if (permission.equals("android.permission.READ_EXTERNAL_STORAGE")){
                         UIUtils.showTip("沒有读写权限不能直播");
-
                     }else if (permission.equals("android.permission.CAMERA")){
                         UIUtils.showTip("沒有相机权限，无法直播");
-
                     }
                 }
             }
@@ -280,26 +275,6 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 //                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
 //                startActivity(intent);
                 showPermissions();
-//
-//                if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
-//                    UIUtils.showTip("房间名称不能为空");
-//                    return;
-//                }
-//
-//                if (TextUtils.isEmpty(mMoneyEdt.getText().toString()) ){
-//                    UIUtils.showTip("收费金额不能为空");
-//                    return;
-//                }
-//
-//                if (mAgreeCb.isChecked()) {
-//                    UIUtils.showTip("请选择我已阅读并同意直播协议");
-//                    return;
-//                }
-//
-//
-//                if (SPUtil.getUser() != null) {
-//                    mPresenter.getHttpEditRoom(String.valueOf(SPUtil.getUser().getResult().getUser().getUid()), isTranscribe, mHouseNameEdt.getText().toString(), isCharge, mMoneyEdt.getText().toString(), "");
-//                }
 
                 break;
 
@@ -354,7 +329,16 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onDenied(List<String> deniedPermission) {
-
+                for (String permission : deniedPermission) {
+                    if (permission.equals("android.permission.RECORD_AUDIO")) {
+                    }else if (permission.equals("android.permission.WRITE_EXTERNAL_STORAGE")){
+                        UIUtils.showTip("沒有读写权限，不能打开相册");
+                    }else if (permission.equals("android.permission.READ_EXTERNAL_STORAGE")){
+                        UIUtils.showTip("沒有读写权限，不能打开相册");
+                    }else if (permission.equals("android.permission.CAMERA")){
+                        UIUtils.showTip("沒有相机权限，不能打开相册");
+                    }
+                }
             }
         });
     }
@@ -370,7 +354,17 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onDenied(List<String> deniedPermission) {
-
+                for (String permission : deniedPermission) {
+                    if (permission.equals("android.permission.RECORD_AUDIO")) {
+                        UIUtils.showTip("沒有麦克风权限，不能打开相机");
+                    }else if (permission.equals("android.permission.WRITE_EXTERNAL_STORAGE")){
+                        UIUtils.showTip("沒有读写权限，不能打开相机");
+                    }else if (permission.equals("android.permission.READ_EXTERNAL_STORAGE")){
+                        UIUtils.showTip("沒有读写权限，不能打开相机");
+                    }else if (permission.equals("android.permission.CAMERA")){
+                        UIUtils.showTip("沒有相机权限，不能打开相机");
+                    }
+                }
             }
         });
     }
@@ -430,7 +424,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     mMoneyEdt.setText(String.valueOf(createHouseBean.getResult().getPrice()));
                 }else {
                     mLayout.setVisibility(View.GONE);
-                    mChargeRbNo.setChecked(true);
+                    mMoneyEdt.setText(String.valueOf(createHouseBean.getResult().getPrice()));
                 }
 
                 if (createHouseBean.getResult().getImg() != null) {
@@ -443,24 +437,26 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                 if (createHouseBean.getResult().getIsTranscribe() == 1) {
                     mVideoRbYes.setChecked(true);
                     isTranscribe = String.valueOf(1);
-                    mVideoCb.setChecked(true);
+                    mVideoCb.setChecked(false);
 
                 } else {
                     mVideoRbNo.setChecked(true);
                     isTranscribe = String.valueOf(0);
-                    mVideoCb.setChecked(false);
+                    mVideoCb.setChecked(true);
                 }
 
-                if ((Integer) createHouseBean.getResult().getIsCharge() == 1) {
+                if ( createHouseBean.getResult().getIsCharge() == 1) {
                     mChargeRbYes.setChecked(true);
                     isCharge = String.valueOf(1);
-                    mChargeCb.setChecked(true);
+                    mChargeCb.setChecked(false);
+                    mLayout.setVisibility(View.VISIBLE);
 
                 } else {
                     mChargeRbNo.setChecked(true);
                     isCharge = String.valueOf(0);
                     mMoneyEdt.setText(String.valueOf(0));
-                    mChargeCb.setChecked(false);
+                    mChargeCb.setChecked(true);
+                    mLayout.setVisibility(View.GONE);
                 }
             }
         }

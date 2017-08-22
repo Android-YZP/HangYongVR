@@ -147,7 +147,7 @@ public class CreateHouseBean {
         private Object sort;
         private Object vodStatus;
         private Object isVip;
-        private Object isCharge;
+        private int isCharge;
         private Object chick;
         private int isTranscribe;
         private Object worth;
@@ -447,11 +447,11 @@ public class CreateHouseBean {
             this.isVip = isVip;
         }
 
-        public Object getIsCharge() {
+        public int getIsCharge() {
             return isCharge;
         }
 
-        public void setIsCharge(Object isCharge) {
+        public void setIsCharge(int isCharge) {
             this.isCharge = isCharge;
         }
 

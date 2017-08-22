@@ -63,7 +63,7 @@
                     android:id="@+id/rl_personal_head"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:visibility="gone">
+                    >
 
                     <TextView
                         android:id="@+id/tv_personal_head_portrait"
@@ -75,7 +75,7 @@
                         android:layout_marginStart="20dp"
                         android:gravity="center"
                         android:text="头像"
-                        android:textColor="#000000"
+                        android:textColor="@color/white"
                         android:textSize="15sp" />
 
                     <com.hy.vrfrog.ui.CircleImageView
@@ -112,7 +112,7 @@
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="25dp"
                     android:background="#3d304f"
-                    android:visibility="gone" />
+                     />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

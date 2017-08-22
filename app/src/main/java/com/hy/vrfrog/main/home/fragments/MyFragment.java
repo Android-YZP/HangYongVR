@@ -113,7 +113,7 @@ public class MyFragment extends Fragment {
                         if (channelStatusBean.getCode() == 0){
                             mCertificationTv.setText("已认证");
                         }else {
-                            mCertificationTv.setText("未认证");
+                            mCertificationTv.setText("审核中");
                         }
                     }
 

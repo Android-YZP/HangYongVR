@@ -39,7 +39,6 @@
                     android:text="88蛙豆"
                     android:textColor="@drawable/exceptional_font"
                     android:textSize="18sp"
-                    android:padding="10dp"
                     />
 
             </LinearLayout>
@@ -62,7 +61,6 @@
                     android:text="188蛙豆"
                     android:textColor="@drawable/exceptional_font"
                     android:textSize="18sp"
-                    android:padding="10dp"
                     />
 
             </LinearLayout>
@@ -84,7 +82,7 @@
                     android:text="288蛙豆"
                     android:textColor="@drawable/exceptional_font"
                     android:textSize="18sp"
-                    android:padding="10dp"
+
                    />
 
             </LinearLayout>
