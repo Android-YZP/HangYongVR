@@ -39,7 +39,7 @@ public class VedioContants {
     public static final int AVIMCMD_Custom_Like = 4; //点赞消息
     public static final int AVIMCMD_Custom_Danmaku = 5; //弹幕消息
     public static final int AVIMCMD_Custom_Gift = 6; //礼物消息
-    public static final int AVIMCMD_Custom_Exit = 7; //礼物消息
+    public static final int AVIMCMD_Custom_Exit = 7; //退出房间
 
     /**
      * 下载文件的路径

@@ -203,5 +203,11 @@ public class HttpURL {
     public static String getRoomMoney = Host+"charge/money/get";
 
 
+  /**
+     * 获取直播间是否要收费
+     */
+    public static String payStatus = Host+"charge/live/pay/status";
+
+
 
 }
