@@ -57,8 +57,8 @@ public class AuthenticationActivity extends AppCompatActivity{
                     int uid = user.getResult().getUser().getUid();
                     HttpCreatRoom(uid + "");
                     startActivity(new Intent(AuthenticationActivity.this,ReleaseLiveActivity.class));
-//                    BasePreferences basePreferences = new BasePreferences(AuthenticationActivity.this);
-//                    basePreferences.setPrefBoolean("certificate",true);
+                    BasePreferences basePreferences = new BasePreferences(AuthenticationActivity.this);
+                    basePreferences.setPrefBoolean("certificate",true);
                 } else {
                     UIUtils.showTip("请先登录");
                 }

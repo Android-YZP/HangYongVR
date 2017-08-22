@@ -41,7 +41,7 @@ public class PhotoUtil {
     public Uri takePhoto(int requestCode) {
         File file = new FileStorage().createIconFile();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            imageUri = FileProvider.getUriForFile(activity, "com.jt.fileprovider", file);//通过FileProvider创建一个content类型的Uri
+            imageUri = FileProvider.getUriForFile(activity, "com.hy.vrfrog.fileprovider", file);//通过FileProvider创建一个content类型的Uri
         } else {
             imageUri = Uri.fromFile(file);
         }

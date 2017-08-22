@@ -51,6 +51,7 @@ import com.hy.vrfrog.http.responsebean.CreateLiveRoom;
 import com.hy.vrfrog.http.responsebean.PictureBean;
 import com.hy.vrfrog.main.living.push.PushActivity;
 import com.hy.vrfrog.utils.ImageUtil;
+import com.hy.vrfrog.utils.MyPhotoUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
@@ -376,6 +377,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void openCamera() {
         cameraFile = getCacheFile(new File(getDiskCacheDir(this)), "output_image.jpg");
+
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
