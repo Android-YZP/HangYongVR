@@ -42,6 +42,7 @@ public class DemandPayDialog {
     private LinearLayout mDemandPayDeleteLl;
     private Button mDemandPayBtn;
     private RelativeLayout mDemandPayRl;
+    private TextView mDemandPayDetailedIdTv;
 
     public DemandPayDialog(Context context) {
         this.context = context;
@@ -60,6 +61,7 @@ public class DemandPayDialog {
         mDemandPayNumberTv = (TextView) view.findViewById(R.id.tv_demand_pay_number);
         mDemandPayDetailedTv = (TextView)view.findViewById(R.id.tv_demand_pay_detailed);
         mDemandPayBalancetv = (TextView)view.findViewById(R.id.tv_demand_pay_balance);
+        mDemandPayDetailedIdTv = (TextView)view.findViewById(R.id.tv_demand_pay_detailed_id);
 
         mDemandPayDeleteLl = (LinearLayout)view.findViewById(R.id.ll_demand_pay_delete);
         mDemandPayBtn = (Button)view.findViewById(R.id.btn_demand_pay);
@@ -170,6 +172,14 @@ public class DemandPayDialog {
     public DemandPayDialog setPayTitle(String text) {
         if (!TextUtils.isEmpty(text)){
             mDemandPayDetailedTv.setText(text);
+        }
+
+        return this;
+    }
+
+    public DemandPayDialog setPayId(String text) {
+        if (!TextUtils.isEmpty(text)){
+            mDemandPayDetailedIdTv.setText(text);
         }
 
         return this;
