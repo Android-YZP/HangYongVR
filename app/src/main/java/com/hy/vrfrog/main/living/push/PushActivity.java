@@ -160,6 +160,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private ImageView mLlOutRoomOutBg;
     private int mFavorNumber;
     private String mRoomImg;
+    private boolean isSendLike = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -576,6 +577,15 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                                 } else if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Like) {
                                     mHeartLayout.addFavor();
                                     mFavorNumber++;
+                                    if (isSendLike){
+                                        TCChatEntity entity = new TCChatEntity();
+                                        entity.setSenderName(msg.getSenderProfile().getNickName());
+                                        entity.setContext("点了一个赞");
+                                        entity.setType(TCConstants.TEXT_TYPE);
+                                        notifyMsg(entity);
+                                        isSendLike = true;
+                                    }
+
                                 }
                             }
 

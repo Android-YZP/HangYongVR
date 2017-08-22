@@ -197,6 +197,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
     private int totleNumber;
     private TextView mTvMoneyNum;
     private BasePreferences basePreferences;
+    private boolean isSendLike = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -319,16 +320,28 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 if (SPUtil.getUser() != null) {
                     if (mHeartLayout != null) {
                         mHeartLayout.addFavor();
+
                     }
 
                     //点赞发送请求限制
                     if (mLikeFrequeControl == null) {
                         mLikeFrequeControl = new TCFrequeControl();
                         mLikeFrequeControl.init(2, 1);//一秒内允许2次触发
+
                     }
 
                     if (mLikeFrequeControl.canTrigger()) {//发送IM点赞的消息
+
                         sendLikeMessage();
+                        if (isSendLike){
+                            TCChatEntity entity = new TCChatEntity();
+                            entity.setSenderName("我");
+                            entity.setContext("点了一个赞");
+                            entity.setType(TCConstants.TEXT_TYPE);
+                            notifyMsg(entity);
+                            isSendLike = true;
+                        }
+
                     }
                 } else {
                     UIUtils.showTip("请先登录");
