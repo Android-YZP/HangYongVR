@@ -861,7 +861,7 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             TLSLoginHelper.getInstance().TLSGuestLogin(new TLSGuestLoginListener() {
                 @Override
                 public void OnGuestLoginSuccess(TLSUserInfo tlsUserInfo) {
-                    UIUtils.showTip("游客登陸");
+                    UIUtils.showTip("游客登陆");
                     addGroup();
                 }
 
@@ -909,6 +909,9 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
             public boolean onNewMessages(List<TIMMessage> list) {
                 for (int j = 0; j < list.size(); j++) {
                     TIMMessage msg = list.get(j);
+
+                    LogUtil.e(msg.getSender()+"-----------------");
+
                     for (int i = 0; i < msg.getElementCount(); ++i) {
                         TIMElem elem = msg.getElement(i);
 
@@ -926,6 +929,8 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
 
                             if (messageBean != null) {
                                 if (messageBean.getUserAction() == VedioContants.AVIMCMD_Custom_Text) {
+
+                                    LogUtil.e(text+"-----------------");
 
                                     TCChatEntity entity = new TCChatEntity();
                                     entity.setSenderName(msg.getSenderProfile().getNickName());

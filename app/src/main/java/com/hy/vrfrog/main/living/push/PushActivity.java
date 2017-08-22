@@ -2,6 +2,7 @@ package com.hy.vrfrog.main.living.push;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -182,12 +185,66 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         LogUtil.e(mGroupID + "=================");
         initView();
         initData();
+
+        TelephonyManager tm = (TelephonyManager) this.getApplicationContext().getSystemService(Service.TELEPHONY_SERVICE);
+        tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
     }
+
+    final PhoneStateListener listener = new PhoneStateListener() {
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            super.onCallStateChanged(state, incomingNumber);
+            switch (state) {
+                //电话等待接听
+                case TelephonyManager.CALL_STATE_RINGING:
+                    if (mTXLivePusher != null) mTXLivePusher.pausePusher();
+                    break;
+                //电话接听
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    if (mTXLivePusher != null) mTXLivePusher.pausePusher();
+                    break;
+                //电话挂机
+                case TelephonyManager.CALL_STATE_IDLE:
+                    if (mTXLivePusher != null) mTXLivePusher.resumePusher();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onResume() {
         super.onResume();
+        mTXCloudVideoView.onResume();
+
+
+        if (mTXLivePusher != null) {
+            mTXLivePusher.resumePusher();
+        }
+
+        if (mTXLivePusher != null) {
+            mTXLivePusher.resumeBGM();
+        }
         startPublish();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mTXCloudVideoView.onPause();
+        if (mTXLivePusher != null) {
+            mTXLivePusher.pauseBGM();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mTXLivePusher != null) {
+//            mTXLivePusher.stopCameraPreview(false);
+            mTXLivePusher.pausePusher();
+        }
     }
 
     @Override
@@ -303,8 +360,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     }
 
 
-
-
     /**
      * 获取话题
      */
@@ -407,7 +462,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         }
 
         mAudioCtrl.setPusher(mTXLivePusher);
-
         if (mTXCloudVideoView != null) {
             mTXCloudVideoView.setVisibility(View.VISIBLE);
             mTXCloudVideoView.clearLog();
@@ -799,7 +853,6 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     }
 
 
-
     private void showGift(MessageBean messageBean, String nickName) {
         //setSendUserPic为自己界面显示的礼物//mGifturl礼物界面显示的礼物
         giftModel = new GiftModel();
@@ -809,7 +862,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
                 .setGiftPic(messageBean.getGiftPic())
                 .setSendUserPic(messageBean.getGiftPic())
                 .setSendUserId(nickName)
-                .setSendUserName(nickName+"")
+                .setSendUserName(nickName + "")
                 .setSendGiftTime(System.currentTimeMillis())
                 .setCurrentStart(currentStart);
         if (currentStart) {
