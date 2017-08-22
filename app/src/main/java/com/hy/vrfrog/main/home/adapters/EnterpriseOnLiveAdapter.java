@@ -108,6 +108,21 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
     @Override
     public void onBindViewHolder(Enterprise1LiveHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_NORMAL) {
+
+
+            if (resultBean.get(position).getLvbStatus() == 1){
+                holder.mEnterZhiBoTv.setText("直播中");
+                holder.mRnterprise1LiveImg.setImageResource(R.drawable.live_icon_play);
+            }else if (resultBean.get(position).getLvbChannelRecords().size() != 0){
+//            holder.mLiveHomePlayStateTv.setText("回放");
+//            holder.mLiveHomePlayStateImg.setImageResource(R.drawable.live_icon_look_circle);
+                holder.mEnterZhiBoTv.setVisibility(View.GONE);
+                holder.mRnterprise1LiveImg.setVisibility(View.GONE);
+            }else {
+                holder.mEnterZhiBoTv.setVisibility(View.GONE);
+                holder.mRnterprise1LiveImg.setVisibility(View.GONE);
+            }
+
             holder.mEnterTitleTv.setText(resultBean.get(position).getChannelName());
             holder.mRnterpriseLiveTvName.setText(String.valueOf(resultBean.get(position).getUsername()));
             Glide.with(context).load(HttpURL.IV_HOST + resultBean.get(position).getImg1()).asBitmap().into(holder.mIvImg);
@@ -159,7 +174,7 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
         private final TextView mEnterTvNum;
         private final TextView mEnterZhiBoTv;
         private final TextView mRnterpriseLiveTvName;
-        private final ImageView mRnterprise1LiveIv;
+        private final ImageView mRnterprise1LiveImg;
 
 
         public Enterprise1LiveHolder(View itemView) {
@@ -170,7 +185,7 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
             mEnterTvNum = (TextView) itemView.findViewById(R.id.tv_enter_home_people_number);
             mEnterZhiBoTv = (TextView) itemView.findViewById(R.id.tv_enter_home_live_state);
             mRnterpriseLiveTvName = (TextView) itemView.findViewById(R.id.tv_enter_home_name);
-            mRnterprise1LiveIv = (ImageView) itemView.findViewById(R.id.img_enter_home_play_state);
+            mRnterprise1LiveImg = (ImageView) itemView.findViewById(R.id.img_enter_home_play_state);
 
         }
     }

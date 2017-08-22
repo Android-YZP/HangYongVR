@@ -21,6 +21,7 @@ import com.hy.vrfrog.application.VrApplication;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.AccountBean;
+import com.hy.vrfrog.http.responsebean.CertificationBean;
 import com.hy.vrfrog.http.responsebean.ChannelStatusBean;
 import com.hy.vrfrog.http.responsebean.RechargeBean;
 import com.hy.vrfrog.main.personal.AuthenticationActivity;
@@ -63,6 +64,7 @@ public class MyFragment extends Fragment {
     private TextView mCertificationTv;
     private BasePreferences mBasePreferences;
     private ChannelStatusBean channelStatusBean;
+    private CertificationBean certificationBean;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,11 @@ public class MyFragment extends Fragment {
         super.onResume();
         initData();
         initRemain();
-        initAuditStatus();
+        if (SPUtil.getUser() != null){
+            HttpCreatRoom(SPUtil.getUser().getResult().getUser().getUid() + "");
+        }
+
+//        initAuditStatus();
     }
 
     private void initAuditStatus() {
@@ -108,21 +114,20 @@ public class MyFragment extends Fragment {
 
                     LogUtil.i("certificate =" + basePreferences.getPrefString("certificate"));
                     channelStatusBean = new Gson().fromJson(result,ChannelStatusBean.class);
-                    if ( Integer.valueOf(basePreferences.getPrefString("certificate"))  == 110 || Integer.valueOf(basePreferences.getPrefString("certificate")) == 0){
 
-                        if (channelStatusBean.getCode() == 0){
+                        if (channelStatusBean.getCode() == 0 || channelStatusBean.getCode() == 110){
                             mCertificationTv.setText("已认证");
                         }else {
-                            mCertificationTv.setText("审核中");
+                            mCertificationTv.setText("未认证");
                         }
-                    }
+
 
                 }
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 
 
-                    UIUtils.showTip("服务端连接失败");
+//                    UIUtils.showTip("服务端连接失败");
 
                 }
 
@@ -233,14 +238,14 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+//                BasePreferences basePreferences = new BasePreferences(getActivity());
+//                LogUtil.i("certificate =" + basePreferences.getPrefBoolean("certificate"));
+//                boolean certificate = basePreferences.getPrefBoolean("certificate");
+                if (certificationBean.getCode() == 0 || certificationBean.getCode() == 110){
 
-                if (channelStatusBean != null){
-                    if (channelStatusBean.getCode() == 0){
-
-                    }else {
-                        startActivity(new Intent(getActivity(), AuthenticationActivity.class));
-                        getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-                    }
+                }else {
+                    startActivity(new Intent(getActivity(), AuthenticationActivity.class));
+                    getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                 }
 
             }
@@ -289,6 +294,56 @@ public class MyFragment extends Fragment {
         mRootGoLogin1 = (RelativeLayout) mRootUnLogin.findViewById(R.id.lll_root_login1);
         mAccountTv = (TextView)view.findViewById(R.id.tv_fragment_num);
         mCertificationTv = (TextView)view.findViewById(R.id.tv_my_certification);
+
+//        BasePreferences basePreferences = new BasePreferences(getActivity());
+////        LogUtil.i("certificate =" + basePreferences.getPrefBoolean("certificate");
+//        boolean certificate = basePreferences.getPrefBoolean("certificate");
+//        if (certificate){
+//            mCertificationTv.setText("已认证");
+//        }else {
+//            mCertificationTv.setText("未认证");
+//
+//        }
+
+
+    }
+
+
+    private void HttpCreatRoom(final String UID) {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.createRoom);
+        requestParams.addHeader("token", HttpURL.Token);
+        requestParams.addBodyParameter("uid", UID);
+
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i("实名认证 = " + result);
+                certificationBean = new Gson().fromJson(result,CertificationBean.class);
+                if (certificationBean.getCode() == 0 || certificationBean.getCode() == 110){
+                    mCertificationTv.setText("已认证");
+                }else {
+                    mCertificationTv.setText("未认证");
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+            }
+
+            @Override
+            public void onFinished() {
+                super.onFinished();
+
+            }
+        });
     }
 
 

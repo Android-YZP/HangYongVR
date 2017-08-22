@@ -139,12 +139,17 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
         }
 
         if (resultBean.get(position).getLvbStatus() == 1){
-            holder.mLiveHomePlayStateTv.setText("直播");
+            holder.mLiveHomePlayStateTv.setText("直播中");
             holder.mLiveHomePlayStateImg.setImageResource(R.drawable.live_icon_play);
         }else if (resultBean.get(position).getLvbChannelRecords().size() != 0){
-            holder.mLiveHomePlayStateTv.setText("回放");
-            holder.mLiveHomePlayStateImg.setImageResource(R.drawable.live_icon_look_circle);
+//            holder.mLiveHomePlayStateTv.setText("回放");
+//            holder.mLiveHomePlayStateImg.setImageResource(R.drawable.live_icon_look_circle);
+            holder.mLiveHomePlayStateTv.setVisibility(View.GONE);
+            holder.mLiveHomePlayStateImg.setVisibility(View.GONE);
 
+        }else {
+            holder.mLiveHomePlayStateTv.setVisibility(View.GONE);
+            holder.mLiveHomePlayStateImg.setVisibility(View.GONE);
         }
 
 
@@ -171,7 +176,8 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                                 context.startActivity(intent);
                          }
                     }else {
-                        mCallback.onReViewPLay(position);
+                          UIUtils.showTip("主播正在赶来的路上~");
+//                        mCallback.onReViewPLay(position);
                     }
                 }
             });

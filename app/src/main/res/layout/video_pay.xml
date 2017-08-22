@@ -10,12 +10,23 @@
         android:layout_width="match_parent"
         android:layout_height="226dp"
         android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/main_background">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp">
+
+
+
+            <ImageView
+                android:id="@+id/img_demand_pay_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/big_bean"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                />
 
             <TextView
                 android:id="@+id/tv_demand_pay_number"
@@ -23,16 +34,10 @@
                 android:layout_height="wrap_content"
                 android:text="10"
                 android:textSize="38sp"
-                android:textColor="#000"
-                android:layout_marginLeft="17dp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/big_bean"
-                android:layout_centerVertical="true"
+                android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/tv_demand_pay_number"
+                android:layout_toRightOf="@id/img_demand_pay_number"
+
                 />
 
          <LinearLayout
@@ -58,7 +63,7 @@
             android:layout_height="wrap_content"
             android:text="影片名称：疯狂的蛙豆"
             android:textSize="17dp"
-            android:textColor="#666666"
+            android:textColor="@color/white"
             android:layout_marginLeft="17dp"/>
         <Button
             android:id="@+id/btn_demand_pay"
@@ -111,7 +116,7 @@
                 android:layout_height="match_parent"
                 android:text="充值"
                 android:textSize="15sp"
-                android:textColor="#00f5d3"
+                android:textColor="#42b3e1"
                 android:gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/tv_demand_pay_balance"

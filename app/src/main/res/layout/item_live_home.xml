@@ -9,10 +9,16 @@
     <ImageView
         android:id="@+id/img_xc_personal"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="220dp"
         android:src="@mipmap/recommend_seat_background"
         android:scaleType="centerCrop"
 
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@mipmap/play_mask_top"
         />
 
     <LinearLayout
@@ -41,6 +47,7 @@
                 android:lines="1"
                 android:layout_gravity="center_vertical"
                 android:maxEms="4"
+                android:textSize="10dp"
                 />
         <View
             android:layout_width="0dp"
@@ -58,14 +65,14 @@
             >
             <ImageView
                 android:id="@+id/img_live_home_play_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:src="@drawable/live_icon_play"
-                android:paddingTop="5dp"
+                android:paddingTop="2dp"
                 android:layout_marginLeft="5dp"
-                android:paddingBottom="5dp"
+                android:paddingBottom="2dp"
                 android:layout_gravity="center"
-                android:paddingLeft="5dp"
+                android:paddingLeft="2dp"
                 />
 
             <TextView
@@ -81,6 +88,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:ellipsize="end"
+                android:textSize="10dp"
                 android:maxLength="3"
                 android:paddingRight="5dp"
                 />
@@ -89,9 +97,14 @@
     </LinearLayout>
 
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@mipmap/play_mask_bottom"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="180dp"
 
-
-
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -99,7 +112,7 @@
         android:orientation="vertical"
         android:layout_marginLeft="10dp"
         android:layout_below="@id/ll_live_title"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="170dp"
         >
 
         <TextView
@@ -112,6 +125,7 @@
             android:layout_marginLeft="5dp"
             android:ellipsize="end"
             android:paddingTop="5dp"
+            android:textSize="10dp"
             />
 
         <TextView
@@ -127,8 +141,6 @@
             android:visibility="gone"
             />
 
-
-
     </LinearLayout>
 
     <TextView
@@ -141,13 +153,14 @@
         android:layout_gravity="center"
         android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="170dp"
         android:layout_below="@id/ll_live_title"
         android:background="@drawable/bg_personal_live_pay"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
+        android:textSize="10dp"
         />
 
 

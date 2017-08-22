@@ -197,6 +197,7 @@
             android:id="@+id/ll_my_pay"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:visibility="gone"
             >
 
             <ImageView
@@ -236,6 +237,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:background="#343449"
+            android:visibility="gone"
             />
         <LinearLayout
             android:id="@+id/ll_my_yindao"

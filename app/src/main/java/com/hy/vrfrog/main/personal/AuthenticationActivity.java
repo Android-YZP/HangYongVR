@@ -56,6 +56,9 @@ public class AuthenticationActivity extends AppCompatActivity{
                 if (user != null) {
                     int uid = user.getResult().getUser().getUid();
                     HttpCreatRoom(uid + "");
+                    startActivity(new Intent(AuthenticationActivity.this,ReleaseLiveActivity.class));
+//                    BasePreferences basePreferences = new BasePreferences(AuthenticationActivity.this);
+//                    basePreferences.setPrefBoolean("certificate",true);
                 } else {
                     UIUtils.showTip("请先登录");
                 }
@@ -100,9 +103,6 @@ public class AuthenticationActivity extends AppCompatActivity{
                 LogUtil.i("实名认证 = " + result);
                 CertificationBean certificationBean = new Gson().fromJson(result,CertificationBean.class);
 
-                startActivity(new Intent(AuthenticationActivity.this,ReleaseLiveActivity.class));
-                BasePreferences basePreferences = new BasePreferences(AuthenticationActivity.this);
-                basePreferences.setPrefString("certificate",certificationBean.getCode());
             }
 
             @Override
