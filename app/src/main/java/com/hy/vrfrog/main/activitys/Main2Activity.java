@@ -24,6 +24,7 @@ import com.hy.vrfrog.main.personal.AuthenticationActivity;
 import com.hy.vrfrog.main.personal.LoginActivity;
 import com.hy.vrfrog.main.personal.ReleaseLiveActivity;
 import com.hy.vrfrog.ui.BottomBar;
+import com.hy.vrfrog.utils.BasePreferences;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 
@@ -73,18 +74,34 @@ public class Main2Activity extends BaseActivity {
         mIvLivingPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SPUtil.getUser() != null){
-                    if (channelStatusBean != null){
-                        if (channelStatusBean.getCode() == 0){
-                            startActivity(new Intent(Main2Activity.this,ReleaseLiveActivity.class));
-                        }else {
-                            Intent intent = new Intent(Main2Activity.this, AuthenticationActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                }else {
-                    startActivity(new Intent(Main2Activity.this,LoginActivity.class));
+                BasePreferences basePreferences = new BasePreferences(Main2Activity.this);
+                if(basePreferences.getPrefBoolean("certificate")){
+                    if (SPUtil.getUser() != null){
+
+                    startActivity(new Intent(Main2Activity.this,ReleaseLiveActivity.class));
+                    finish();
+                    }else {
+                    startActivity(new Intent(Main2Activity.this, LoginActivity.class));
                 }
+                }else {
+                    Intent intent = new Intent(Main2Activity.this, AuthenticationActivity.class);
+                    startActivity(intent);
+                }
+
+
+
+//                if (SPUtil.getUser() != null){
+//                    if (channelStatusBean != null){
+//                        if (channelStatusBean.getCode() == 0){
+//                            startActivity(new Intent(Main2Activity.this,ReleaseLiveActivity.class));
+//                        }else {
+//                            Intent intent = new Intent(Main2Activity.this, AuthenticationActivity.class);
+//                            startActivity(intent);
+//                        }
+//                    }
+//                }else {
+//                    startActivity(new Intent(Main2Activity.this,LoginActivity.class));
+//                }
 
             }
         });

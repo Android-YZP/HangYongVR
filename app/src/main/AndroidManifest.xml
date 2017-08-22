@@ -236,8 +236,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/PlayerTheme"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".main.living.push.PushSettingActivity"></activity>
-        <activity android:name=".main.personal.ReleaseLiveActivity" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".main.living.push.PushSettingActivity"/>
+        <activity android:name=".main.personal.ReleaseLiveActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
 
     </application>
 
