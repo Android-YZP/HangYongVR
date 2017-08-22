@@ -11,13 +11,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.JsonCallBack;
 import com.hy.vrfrog.http.responsebean.GetLiveHomeBean;
+import com.hy.vrfrog.http.responsebean.PayStatus;
 import com.hy.vrfrog.main.home.activitys.VedioDeatilsActivity;
+import com.hy.vrfrog.main.home.fragments.EnterpriseLiveHomeFragment;
 import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
 import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 import com.hy.vrfrog.vrplayer.Definition;
@@ -25,6 +30,8 @@ import com.hy.vrfrog.vrplayer.PlayActivity;
 import com.hy.vrfrog.vrplayer.VideoPlayActivity;
 
 import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -46,6 +53,11 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
     private View mFooterView;
     private Context context;
     private List<GetLiveHomeBean.ResultBean> resultBean;
+    private IEnterpriseLiveAdapter mCallback;
+
+    public void setEnterpriseLiveListener(IEnterpriseLiveAdapter listener){
+        this.mCallback = listener;
+    }
 
     public EnterpriseOnLiveAdapter(Context context, List<GetLiveHomeBean.ResultBean> resultBean) {
         this.context = context;
@@ -130,39 +142,101 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
                 @Override
                 public void onClick(View v) {
 
-//                    Intent intent = new Intent(context, PlayActivity.class);
-//                    if (resultBean.get(position).getIsall() == VedioContants.TWO_D_VEDIO) {
-//                        intent.putExtra(com.hy.vrfrog.vrplayer.Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-//                    } else if (resultBean.get(position).getIsall() == VedioContants.ALL_VIEW_VEDIO) {
-//                        intent.putExtra(com.hy.vrfrog.vrplayer.Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
-//                    }
-//
-//                    intent.putExtra(com.hy.vrfrog.vrplayer.Definition.KEY_PLAY_URL, resultBean.get(position).getRtmpDownstreamAddress());
-//                    context.startActivity(intent);
-//
+                    if (resultBean.get(position).getLvbStatus() == 1){
+                        if(resultBean.get(position).getPrice() != 0){
+                            if (SPUtil.getUser() == null) {
+                                UIUtils.showTip("请登录后付费体验");
+                            } else {
+                                //是否还要付费接口
+                                HttpPayStatus(resultBean.get(position).getId() + "", SPUtil.getUser().getResult().getUser().getUid() + "",position);
+                            }
+                        }else {
+                            Intent i = new Intent(context, PlayActivity.class);
+                            int isall = resultBean.get(position).getIsall();
+                            if (isall == VedioContants.TWO_D_VEDIO) {
+                                i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+                            } else if (isall == VedioContants.ALL_VIEW_VEDIO) {
+                                i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                            }
+                            LogUtil.i(resultBean.get(position).getRtmpDownstreamAddress() + "");
+                            i.putExtra(VedioContants.PlayUrl, resultBean.get(position).getRtmpDownstreamAddress() + "");
+                            i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_USER_HOST + resultBean.get(position).getHead() + "");
+                            i.putExtra(VedioContants.KEY_PLAY_USERNAME, resultBean.get(position).getUsername() + "");
+                            i.putExtra(VedioContants.KEY_PLAY_ID, resultBean.get(position).getId() + "");
+                            if (NetUtil.isOpenNetwork()) {
+                                context.startActivity(i);
+                            } else {
+                                UIUtils.showTip("请连接网络");
+                            }
+                        }
 
-                    Intent i = new Intent(context, PlayActivity.class);
-                    int isall = resultBean.get(position).getIsall();
-                    if (isall == VedioContants.TWO_D_VEDIO) {
-                        i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
-                    } else if (isall == VedioContants.ALL_VIEW_VEDIO) {
-                        i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+                    }else {
+                        UIUtils.showTip("不能开播");
                     }
-                    LogUtil.i(resultBean.get(position).getRtmpDownstreamAddress() + "");
-                    i.putExtra(VedioContants.PlayUrl, resultBean.get(position).getRtmpDownstreamAddress() + "");
-                    i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_USER_HOST + resultBean.get(position).getHead() + "");
-                    i.putExtra(VedioContants.KEY_PLAY_USERNAME, resultBean.get(position).getUsername() + "");
-                    i.putExtra(VedioContants.KEY_PLAY_ID, resultBean.get(position).getId() + "");
-                    if (NetUtil.isOpenNetwork()) {
-                        context.startActivity(i);
-                    } else {
-                        UIUtils.showTip("请连接网络");
-                    }
-
 
                 }
             });
         }
+    }
+
+
+    /**
+     * 是否还要付费
+     */
+    private void HttpPayStatus(String vid, String uid, final int position) {
+
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        //使用xutils3访问网络并获取返回值
+        RequestParams requestParams = new RequestParams(HttpURL.payStatus);
+        requestParams.addHeader("token", SPUtil.getUser().getResult().getToken());
+        //包装请求参数
+        requestParams.addBodyParameter("vid", vid);//用户名
+        requestParams.addBodyParameter("uid", uid);//用户名
+        //获取数据
+        x.http().post(requestParams, new JsonCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                LogUtil.i("是否还要付费=====================" + result);
+                PayStatus payStatus = new Gson().fromJson(result, PayStatus.class);
+                if (payStatus.getCode() == 0) {
+                    if (payStatus.isResult()){//钱付过了
+                        Intent intent = new Intent(context, LivingPlayActivity.class);
+                        intent.putExtra(VedioContants.LivingPlayUrl, resultBean.get(position).getRtmpDownstreamAddress());
+                        intent.putExtra(VedioContants.ChannelId, resultBean.get(position).getChannelId());
+                        intent.putExtra(VedioContants.GroupID, resultBean.get(position).getAlipay() + "");
+                        intent.putExtra(VedioContants.HeadFace, HttpURL.IV_USER_HOST + resultBean.get(position).getHead() + "");
+                        intent.putExtra(VedioContants.ChannelName, resultBean.get(position).getChannelName());
+                        intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg());
+                        intent.putExtra(VedioContants.GiftGroup, resultBean.get(position).getGiftGroup());
+                        intent.putExtra(VedioContants.Vid, resultBean.get(position).getId());
+                        intent.putExtra(VedioContants.Yid, resultBean.get(position).getUid());
+                        LogUtil.e(resultBean.get(position).getId() + "<" + VedioContants.Yid + resultBean.get(position).getUid());
+                        LogUtil.e(HttpURL.IV_PERSON_HOST + resultBean.get(position).getImg() + "________");
+                        context.startActivity(intent);
+
+                    }else {
+                        mCallback.onPayMoney(position);
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.showTip("服务端连接失败");
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
+
     }
 
 
@@ -204,6 +278,15 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
 
             return resultBean.size() + 2;
         }
+    }
+
+    public interface IEnterpriseLiveAdapter{
+
+
+        void onPayMoney(int position);
+
+        void onReViewPLay(int position);
+
     }
 
 }

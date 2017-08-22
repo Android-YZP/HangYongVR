@@ -198,7 +198,7 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
 
     @Override
     public void payMoneyFailure(Throwable throwable) {
-        UIUtils.showTip(throwable.toString());
+        UIUtils.showTip("网络异常");
     }
 
     @Override
@@ -240,8 +240,9 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
                     public void onClick(View view) {
                         new DemandPayDialog(getActivity()).builder()
                                 .setCanceledOnTouchOutside(true)
+                                .setPayId("ID:" + mList.get(position).getId() + "")
                                 .setDemandPayNumber(String.valueOf(mList.get(position).getPrice()))
-                                .setPayTitle("影片名称：" + mList.get(position).getUsername())
+                                .setPayTitle("主播:" + mList.get(position).getUsername())
                                 .setDeleteListener("", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
