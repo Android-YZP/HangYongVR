@@ -95,6 +95,7 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
+
         android:theme="@style/BaseAppTheme">
         <activity
             android:name=".main.activitys.Main2Activity"
@@ -229,17 +230,22 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".main.activitys.MainActivity" />
-        <activity android:name=".main.living.push.PushActivity" />
+        <activity
+            android:name=".main.activitys.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.living.push.PushActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".main.living.livingplay.LivingPlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PlayerTheme"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".main.living.push.PushSettingActivity"/>
-        <activity android:name=".main.personal.ReleaseLiveActivity"
+        <activity android:name=".main.living.push.PushSettingActivity" />
+        <activity
+            android:name=".main.personal.ReleaseLiveActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
     </application>
 

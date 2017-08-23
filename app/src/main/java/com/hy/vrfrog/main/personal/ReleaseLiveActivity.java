@@ -410,6 +410,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
             intent.putExtra(VedioContants.ChannelName, createLiveRoom.getResult().getChannelName());
             intent.putExtra(VedioContants.GroupID, (String) createLiveRoom.getResult().getAlipay());
             intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + createLiveRoom.getResult().getImg());
+            intent.putExtra(VedioContants.RoomId, createLiveRoom.getResult().getId()+"");
             startActivity(intent);
             ReleaseLiveActivity.this.finish();
         } else {
@@ -549,6 +550,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
                     intent.putExtra(VedioContants.ChannelName, createLiveRoom.getResult().getChannelName());
                     intent.putExtra(VedioContants.GroupID, (String) createLiveRoom.getResult().getAlipay());
                     intent.putExtra(VedioContants.RoomImg, HttpURL.IV_PERSON_HOST + createLiveRoom.getResult().getImg());
+                    intent.putExtra(VedioContants.RoomId, createLiveRoom.getResult().getId()+"");
                     startActivity(intent);
                     ReleaseLiveActivity.this.finish();
                 }

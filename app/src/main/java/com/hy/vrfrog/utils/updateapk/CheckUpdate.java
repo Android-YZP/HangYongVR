@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.CheckNumBean;
 import com.hy.vrfrog.http.responsebean.UpdateVersionBean;
 import com.hy.vrfrog.utils.DialogUtils;
 import com.hy.vrfrog.utils.NetUtil;
@@ -56,45 +57,39 @@ public class CheckUpdate {
     }
 
 
-    private void compareVersion(int newVersion, String intro, final String url) {
+    private void compareVersion( String intro, final String url) {
         WindowManager wm = (WindowManager) mcontext
                 .getSystemService(Context.WINDOW_SERVICE);
 
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
+        final DialogUtils dialogUtils = new DialogUtils(mcontext);
 
-
-        int versionCode = getVerCode(mcontext);
-
-        if (newVersion > versionCode) {
-            final DialogUtils dialogUtils = new DialogUtils(mcontext);
-
-            View contentView = LayoutInflater.from(mcontext).inflate(
-                    R.layout.update, null);
-            dialogUtils.setContentView(contentView).setContentViewSize(width * 2 / 3, height * 3 / 4);//ps获取议一下屏幕宽和高，然后通过设置百分比形式适配屏幕
-            dialogUtils.setXY(0, height / 4);
-            dialogUtils.setGravity(Gravity.CENTER_HORIZONTAL);
-            dialogUtils.show();
-            mUpdate = (Button) contentView.findViewById(R.id.btn_update);
-            mClose = (Button) contentView.findViewById(R.id.btn_update_close);
-            TextView mUpdateContent = (TextView) contentView.findViewById(R.id.tv_update_content);
-            mUpdateContent.setText(intro);
-            mClose.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialogUtils.getBaseDialog().dismiss();
-                }
-            });
-            mUpdate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mcontext, DownloadService.class);
-                    intent.putExtra("url", url);
-                    mcontext.startService(intent);
-                    dialogUtils.getBaseDialog().dismiss();
-                }
-            });
-        }
+        View contentView = LayoutInflater.from(mcontext).inflate(
+                R.layout.update, null);
+        dialogUtils.setContentView(contentView).setContentViewSize(width * 2 / 3, height * 3 / 4);//ps获取议一下屏幕宽和高，然后通过设置百分比形式适配屏幕
+        dialogUtils.setXY(0, height / 4);
+        dialogUtils.setGravity(Gravity.CENTER_HORIZONTAL);
+        dialogUtils.show();
+        mUpdate = (Button) contentView.findViewById(R.id.btn_update);
+        mClose = (Button) contentView.findViewById(R.id.btn_update_close);
+        TextView mUpdateContent = (TextView) contentView.findViewById(R.id.tv_update_content);
+        mUpdateContent.setText(intro);
+        mClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogUtils.getBaseDialog().dismiss();
+            }
+        });
+        mUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mcontext, DownloadService.class);
+                intent.putExtra("url", url);
+                mcontext.startService(intent);
+                dialogUtils.getBaseDialog().dismiss();
+            }
+        });
     }
 
 
@@ -124,19 +119,20 @@ public class CheckUpdate {
         RequestParams requestParams = new RequestParams(HttpURL.UpdateVersion);
         requestParams.addHeader("token", HttpURL.Token);
         //包装请求参数
-        requestParams.addBodyParameter("sourceNum", sourceNum);//用户名
+        requestParams.addBodyParameter("channelNum", sourceNum);//用户名
+        requestParams.addBodyParameter("versionNum", "1.0.2.1");//用户名
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-                UpdateVersionBean updateVersionBean = new Gson().fromJson(result, UpdateVersionBean.class);
+                CheckNumBean updateVersionBean = new Gson().fromJson(result, CheckNumBean.class);
                 if (updateVersionBean.getCode() == HTTP_SUCCESS) {
-                    int version = updateVersionBean.getResult().getVersionNum();
-
-                    compareVersion(version, updateVersionBean.getResult().getIntroduce(), HttpURL.APK_HOST + updateVersionBean.getResult().getUrl()); //与本地版本进行比较
+                    if (updateVersionBean.getResult() != null) {
+                        compareVersion( updateVersionBean.getResult().getName(), HttpURL.APK_HOST + updateVersionBean.getResult().getUrl()); //与本地版本进行比较
+                        LogUtil.e( HttpURL.APK_HOST + updateVersionBean.getResult().getUrl()+"============");
+                    }
                 }
-
             }
 
             @Override

@@ -94,7 +94,7 @@ public class MyFragment extends Fragment {
         initRemain();
         if (SPUtil.getUser() != null){
             HttpCreatRoom(SPUtil.getUser().getResult().getUser().getUid() + "");
-            Glide.with(this).load(SPUtil.getUser().getResult().getUser().getHead()+"").asBitmap().into(mIvHead);
+            Glide.with(this).load(HttpURL.IV_USER_HOST +SPUtil.getUser().getResult().getUser().getHead()+"").asBitmap().into(mIvHead);
         }
 
 //        initAuditStatus();

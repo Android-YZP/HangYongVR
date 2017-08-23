@@ -422,10 +422,12 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
         }
         anim_num.setText("x " + mCombo);
         if (!TextUtils.isEmpty(mGift.getSendUserPic())) {
+            anim_gift.setVisibility(GONE);
             Glide.with(mContext).load(mGift.getSendUserPic()).placeholder(R.mipmap.loading).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                    anim_gift.setImageDrawable(resource);
+                    anim_gift.setImageDrawable(resource);anim_gift.setVisibility(VISIBLE);
+
                 }
             });
         } else {

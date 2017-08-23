@@ -31,6 +31,7 @@ public class VedioContants {
     public static final String GiftGroup = "GiftGroup";
     public static final String RoomImg = "RoomImg";
     public static final String RoomNoData= "RoomNoData";
+    public static final String RoomId= "RoomId";
 
 
     public static final int AVIMCMD_None = 0; // 无事件

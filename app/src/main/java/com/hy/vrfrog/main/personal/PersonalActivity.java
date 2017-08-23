@@ -128,8 +128,9 @@ public class PersonalActivity extends SwipeBackActivity {
                 HeadFaceBean headFaceBean = new Gson().fromJson(result, HeadFaceBean.class);
                 if (headFaceBean.getCode() == 0) {
                     User user = SPUtil.getUser();
-                    user.getResult().getUser().setHead(HttpURL.IV_USER_HOST + headFaceBean.getMsg());
+                    user.getResult().getUser().setHead(headFaceBean.getMsg());
                     SPUtil.putUser(user);
+                    Glide.with(PersonalActivity.this).load(HttpURL.IV_USER_HOST + user.getResult().getUser().getHead()+"").asBitmap().into(mIvPersonalhead);
                 }
                 LogUtil.i("==================>" + HttpURL.IV_USER_HOST + headFaceBean.getMsg());
             }
@@ -159,8 +160,6 @@ public class PersonalActivity extends SwipeBackActivity {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i(result);
-
-
             }
 
             @Override
@@ -304,10 +303,9 @@ public class PersonalActivity extends SwipeBackActivity {
         mPermissionsChecker = new PermissionsChecker(PersonalActivity.this);
         User user = SPUtil.getUser();
         LogUtil.e(user.getResult().getUser().getHead()+"========================》");
-        Glide.with(this).load(user.getResult().getUser().getHead()+"").asBitmap().into(mIvPersonalhead);
+        Glide.with(this).load(HttpURL.IV_USER_HOST + user.getResult().getUser().getHead()+"").asBitmap().into(mIvPersonalhead);
         mTvPersonalNum.setText(user.getResult().getUser().getPhone());
         mTvPersonalName.setText(user.getResult().getUser().getUsername());
-
     }
 
     /**

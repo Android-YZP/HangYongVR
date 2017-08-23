@@ -104,7 +104,6 @@ import java.util.TimerTask;
 
 public class PushActivity extends AppCompatActivity implements ITXLivePushListener, View.OnClickListener, BeautyDialogFragment.OnBeautyParamsChangeListener {
     protected String mPushUrl;
-    private String mRoomId;
     protected String mUserId;
     private String mTitle;
     private String mCoverPicUrl;
@@ -161,6 +160,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
     private int mFavorNumber;
     private String mRoomImg;
     private boolean isSendLike = false;
+    private String mRoomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +183,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mChannelName = intent.getStringExtra(VedioContants.ChannelName);
         mGroupID = intent.getStringExtra(VedioContants.GroupID);
         mRoomImg = intent.getStringExtra(VedioContants.RoomImg);
+        mRoomId = intent.getStringExtra(VedioContants.RoomId);
         LogUtil.e(mGroupID + "=================");
         initView();
         initData();
@@ -369,12 +370,16 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
             UIUtils.showTip("请打开网络");
             return;
         }
+
+
+
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.getRoomMoney);
         requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
         //包装请求参数
-        requestParams.addBodyParameter("id", SPUtil.getUser().getResult().getUser().getUid() + "");
+        requestParams.addBodyParameter("id", mRoomId);
         requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");
+
 
         //获取数据
         x.http().post(requestParams, new JsonCallBack() {

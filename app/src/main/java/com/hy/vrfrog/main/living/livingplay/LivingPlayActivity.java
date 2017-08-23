@@ -342,8 +342,6 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                 } else {
                     UIUtils.showTip("请先登录");
                 }
-
-
             }
         });
     }
@@ -552,18 +550,14 @@ public class LivingPlayActivity extends TCBaseActivity implements ITXLivePlayLis
                             mGiftPrice = giftPrice;
                             mGid = gid;
                             LogUtil.e(mGifturl + "+++++++++++++++++++");
-
-
                             if (totleNumber != 0) {
                                 httpGiftMoney(totleNumber + "");
                             }
                             giftTimes = 0;
                             giftTimesLast = 0;
                             totleNumber = 0;
-
                         }
                     });
-
                 }
             }
 

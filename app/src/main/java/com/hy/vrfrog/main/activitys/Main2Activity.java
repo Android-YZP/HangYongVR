@@ -1,9 +1,14 @@
 package com.hy.vrfrog.main.activitys;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -27,6 +32,8 @@ import com.hy.vrfrog.ui.BottomBar;
 import com.hy.vrfrog.utils.BasePreferences;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
+import com.hy.vrfrog.utils.UserInfoUtil;
+import com.hy.vrfrog.utils.updateapk.CheckUpdate;
 
 import org.xutils.common.util.LogUtil;
 import org.xutils.http.RequestParams;
@@ -51,6 +58,23 @@ public class Main2Activity extends BaseActivity {
         startActivity(new Intent(this, SplashActivity.class));
         initView();
         initData();
+
+        if (SPUtil.getUser() != null) {
+            String phone = (String) SPUtil.get(Main2Activity.this, "phone", "");
+            String password = (String) SPUtil.get(Main2Activity.this, "password", "");
+            if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(password)) {
+                UserInfoUtil.getInstance().HttpLogin(this, phone, password);
+            }
+        }
+
+        //检查版本更新
+        CheckUpdate.getInstance().startCheck(Main2Activity.this, true);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
     }
 
     @Override
@@ -66,7 +90,6 @@ public class Main2Activity extends BaseActivity {
         mVpMain.setAdapter(new MainAdapter(getSupportFragmentManager()));
         mVpMain.setCurrentItem(1);
         linearLayout = (RelativeLayout) findViewById(R.id.ll_height);
-
     }
 
 
