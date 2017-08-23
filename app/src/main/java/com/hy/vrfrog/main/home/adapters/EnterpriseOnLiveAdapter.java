@@ -265,7 +265,7 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
         private final LinearLayout linear;
         private final XCRoundRectImageView mIvImg;
         private final TextView mEnterTitleTv;
-        private final TextView mEnterTvNum;
+//        private final TextView mEnterTvNum;
         private final TextView mEnterZhiBoTv;
         private final TextView mRnterpriseLiveTvName;
         private final ImageView mRnterprise1LiveImg;
@@ -276,7 +276,7 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
             linear = (LinearLayout) itemView.findViewById(R.id.ll_enter_title);
             mIvImg = (XCRoundRectImageView) itemView.findViewById(R.id.xri_enter_img);
             mEnterTitleTv = (TextView) itemView.findViewById(R.id.tv_enter_home_title);
-            mEnterTvNum = (TextView) itemView.findViewById(R.id.tv_enter_home_people_number);
+//            mEnterTvNum = (TextView) itemView.findViewById(R.id.tv_enter_home_people_number);
             mEnterZhiBoTv = (TextView) itemView.findViewById(R.id.tv_enter_home_live_state);
             mRnterpriseLiveTvName = (TextView) itemView.findViewById(R.id.tv_enter_home_name);
             mRnterprise1LiveImg = (ImageView) itemView.findViewById(R.id.img_enter_home_play_state);
