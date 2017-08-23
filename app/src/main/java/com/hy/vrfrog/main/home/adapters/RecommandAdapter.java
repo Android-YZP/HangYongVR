@@ -121,7 +121,7 @@ public class RecommandAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
                     ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
                     linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    RecommendOneAdapter mainVideosAdapter = new RecommendOneAdapter(context, topicBean.get(position + 2).getResult(), topicBean.get(position + 2).getCode());
+                    RecommendOneAdapter mainVideosAdapter = new RecommendOneAdapter(context, topicBean.get(position - 1).getResult(), topicBean.get(position - 1).getCode());
                     ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
                 }else {
                     int type = UIUtils.typeRandom(3);

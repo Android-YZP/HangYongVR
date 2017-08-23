@@ -66,10 +66,14 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_live_home, container, false);
         initView(view);
-        mPresenter.getPersonalLiveData(pager, 10, 2);
-
+        initData();
         initListener();
         return view;
+    }
+
+    private void initData() {
+        mAdapter = new PersonalLiveHomeAdapter(getActivity(), mList);
+        mPresenter.getPersonalLiveData(pager, 10, 2);
     }
 
     private void initListener() {
@@ -80,7 +84,8 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
                 if (mList.size() != 0) {
                     mList.clear();
                 }
-                mPresenter.getPersonalLiveData(pager, 10, 2);
+                initData();
+
             }
         });
 

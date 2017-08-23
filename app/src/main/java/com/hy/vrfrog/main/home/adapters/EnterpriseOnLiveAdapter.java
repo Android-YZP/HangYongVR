@@ -135,9 +135,19 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
                 holder.mRnterprise1LiveImg.setVisibility(View.GONE);
             }
 
+            if (resultBean.get(position).getPrice() == 0){
+                holder.mEnterPrisePriceTv.setVisibility(View.VISIBLE);
+            }else {
+                holder.mEnterPrisePriceTv.setVisibility(View.GONE);
+            }
+
             holder.mEnterTitleTv.setText(resultBean.get(position).getChannelName());
             holder.mRnterpriseLiveTvName.setText(String.valueOf(resultBean.get(position).getUsername()));
             Glide.with(context).load(HttpURL.IV_HOST + resultBean.get(position).getImg1()).asBitmap().into(holder.mIvImg);
+            LogUtil.i("企業直播 = " +  HttpURL.IV_USER_HOST + resultBean.get(position).getHead());
+//            if (!resultBean.get(position).getHead() .equals("")  && resultBean.get(position).getHead() != null)
+//                Glide.with(context).load(HttpURL.IV_USER_HOST + resultBean.get(position).getHead()).asBitmap().into(holder.mHeadImg);
+
             holder.mIvImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -269,6 +279,8 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
         private final TextView mEnterZhiBoTv;
         private final TextView mRnterpriseLiveTvName;
         private final ImageView mRnterprise1LiveImg;
+        private TextView mEnterPrisePriceTv;
+        private ImageView mHeadImg;
 
 
         public Enterprise1LiveHolder(View itemView) {
@@ -280,6 +292,8 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
             mEnterZhiBoTv = (TextView) itemView.findViewById(R.id.tv_enter_home_live_state);
             mRnterpriseLiveTvName = (TextView) itemView.findViewById(R.id.tv_enter_home_name);
             mRnterprise1LiveImg = (ImageView) itemView.findViewById(R.id.img_enter_home_play_state);
+            mEnterPrisePriceTv = (TextView)itemView.findViewById(R.id.tv_enterprise_live_pay);
+            mHeadImg = (ImageView)itemView.findViewById(R.id.img_enter_home_head);
 
         }
     }

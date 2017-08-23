@@ -284,13 +284,12 @@
         <item name="colorAccent">@color/black</item>  <!-- 重点 -->
     </style>
 
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+    <style name="DialogTheme" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <!-- 设置背景是否灰掉 -->
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowCloseOnTouchOutside">false</item>

@@ -61,8 +61,8 @@ public class EnterpriseLiveHomeFragment extends Fragment implements EnterpriseLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_live_home, container, false);
         initView(view);
-//        initData(pager);
-        mPresenter.getEnterpriseLiveData(pager, 10, 1);
+        initData();
+
         initListener();
         return view;
     }
@@ -75,8 +75,7 @@ public class EnterpriseLiveHomeFragment extends Fragment implements EnterpriseLi
                 if (mList.size() != 0){
                     mList.clear();
                 }
-//                initData(pager);
-                mPresenter.getEnterpriseLiveData(pager, 10, 1);
+                initData();
 
             }
         });
@@ -90,7 +89,6 @@ public class EnterpriseLiveHomeFragment extends Fragment implements EnterpriseLi
                     if (mAdapter.getFooterView() == null) {
                         ++ pager;
                         isLoadingMore = true;
-//                        initData(pager);
                         mPresenter.getEnterpriseLiveData(pager, 10, 1);
                     } else {
                         return;
@@ -119,41 +117,9 @@ public class EnterpriseLiveHomeFragment extends Fragment implements EnterpriseLi
 
     }
 
-    private void initData(int pager) {
-        if (!NetUtil.isOpenNetwork()) {
-            UIUtils.showTip("请打开网络");
-            mEmptyll.setVisibility(View.VISIBLE);
-            return;
-        }
-        //使用xutils3访问网络并获取返回值
-        RequestParams requestParams = new RequestParams(HttpURL.AllLive);
-        requestParams.addHeader("token", HttpURL.Token);
-        //包装请求参数
-        requestParams.addBodyParameter("sourceNum", "111");//
-        requestParams.addBodyParameter("page", pager + "");//
-        requestParams.addBodyParameter("count", 10 +"");//
-        requestParams.addBodyParameter("type", 1 + "");//
-
-        //获取数据
-        x.http().post(requestParams, new JsonCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                LongLogUtil.e("企业直播---------------", result);
-                getLiveHomeBean = new Gson().fromJson(result, GetLiveHomeBean.class);
-
-
-            }
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-//                UIUtils.showTip("企业直播----服务端连接失败");
-                mSwipeRefresh.setRefreshing(false);
-            }
-
-            @Override
-            public void onFinished() {
-                mSwipeRefresh.setRefreshing(false);
-            }
-        });
+    private void initData() {
+        mAdapter = new EnterpriseOnLiveAdapter(getActivity(),mList);
+        mPresenter.getEnterpriseLiveData(pager, 10, 1);
     }
 
     @Override
@@ -173,7 +139,6 @@ public class EnterpriseLiveHomeFragment extends Fragment implements EnterpriseLi
                     mAdapter.setFooterView(v);
                 }
                 mRecyclerView.setAdapter(mAdapter);
-
             }
 
         }
