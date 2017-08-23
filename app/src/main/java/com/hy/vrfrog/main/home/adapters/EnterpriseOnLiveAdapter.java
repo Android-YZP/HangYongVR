@@ -145,8 +145,8 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
             holder.mRnterpriseLiveTvName.setText(String.valueOf(resultBean.get(position).getUsername()));
             Glide.with(context).load(HttpURL.IV_HOST + resultBean.get(position).getImg1()).asBitmap().into(holder.mIvImg);
             LogUtil.i("企業直播 = " +  HttpURL.IV_USER_HOST + resultBean.get(position).getHead());
-            if (!resultBean.get(position).getHead() .equals("")  && resultBean.get(position).getHead() != null)
-                Glide.with(context).load(HttpURL.IV_USER_HOST + resultBean.get(position).getHead()).asBitmap().into(holder.mHeadImg);
+//            if (!resultBean.get(position).getHead() .equals("")  && resultBean.get(position).getHead() != null)
+//                Glide.with(context).load(HttpURL.IV_USER_HOST + resultBean.get(position).getHead()).asBitmap().into(holder.mHeadImg);
 
             holder.mIvImg.setOnClickListener(new View.OnClickListener() {
                 @Override

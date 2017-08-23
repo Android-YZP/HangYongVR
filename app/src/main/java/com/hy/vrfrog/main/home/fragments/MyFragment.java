@@ -65,6 +65,7 @@ public class MyFragment extends Fragment {
     private BasePreferences mBasePreferences;
     private ChannelStatusBean channelStatusBean;
     private CertificationBean certificationBean;
+    private boolean isAuthentication = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,9 +90,16 @@ public class MyFragment extends Fragment {
         super.onResume();
         initData();
         initRemain();
-        if (SPUtil.getUser() != null){
-            HttpCreatRoom(SPUtil.getUser().getResult().getUser().getUid() + "");
-        }
+//        if (SPUtil.getUser() != null){
+//            HttpCreatRoom(SPUtil.getUser().getResult().getUser().getUid() + "");
+            if (mBasePreferences.getPrefBoolean("certificate")){
+                mCertificationTv.setText("已认证");
+                isAuthentication = true;
+            }else {
+                mCertificationTv.setText("未认证");
+                isAuthentication = false;
+            }
+//        }
 
 //        initAuditStatus();
     }
@@ -238,15 +246,13 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-//                BasePreferences basePreferences = new BasePreferences(getActivity());
-//                LogUtil.i("certificate =" + basePreferences.getPrefBoolean("certificate"));
-//                boolean certificate = basePreferences.getPrefBoolean("certificate");
-                if (certificationBean.getCode() == 0 || certificationBean.getCode() == 110){
+        if (!isAuthentication){
+         startActivity(new Intent(getActivity(), AuthenticationActivity.class));
+         getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+    }else {
+            UIUtils.showTip("正在审核中");
+        }
 
-                }else {
-                    startActivity(new Intent(getActivity(), AuthenticationActivity.class));
-                    getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-                }
 
             }
         });
@@ -325,12 +331,13 @@ public class MyFragment extends Fragment {
             @Override
             public void onSuccess(String result) {
                 LogUtil.i("实名认证 = " + result);
-                certificationBean = new Gson().fromJson(result,CertificationBean.class);
-                if (certificationBean.getCode() == 0 || certificationBean.getCode() == 110){
-                    mCertificationTv.setText("已认证");
-                }else {
-                    mCertificationTv.setText("未认证");
-                }
+//                certificationBean = new Gson().fromJson(result,CertificationBean.class);
+//                if (certificationBean.getCode() == 0 || certificationBean.getCode() == 110){
+//                    mCertificationTv.setText("已认证");
+//                }else {
+//                    mCertificationTv.setText("未认证");
+//                }
+
 
             }
 
