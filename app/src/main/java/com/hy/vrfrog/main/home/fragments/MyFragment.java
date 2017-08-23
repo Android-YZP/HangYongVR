@@ -208,7 +208,6 @@ public class MyFragment extends Fragment {
                 if (isLogin) {
                     startActivity(new Intent(getActivity(), PersonalActivity.class));
                     getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
-
                 } else {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                 }
@@ -249,6 +248,7 @@ public class MyFragment extends Fragment {
         if (!isAuthentication){
          startActivity(new Intent(getActivity(), AuthenticationActivity.class));
          getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+
     }else {
             UIUtils.showTip("正在审核中");
         }

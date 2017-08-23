@@ -59,6 +59,7 @@ public class AuthenticationActivity extends AppCompatActivity{
                     startActivity(new Intent(AuthenticationActivity.this,ReleaseLiveActivity.class));
                     BasePreferences basePreferences = new BasePreferences(AuthenticationActivity.this);
                     basePreferences.setPrefBoolean("certificate",true);
+                    finish();
                 } else {
                     UIUtils.showTip("请先登录");
                 }
