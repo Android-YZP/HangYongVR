@@ -72,8 +72,8 @@ public class PersonalLiveHomeFragment extends Fragment implements PersonalLiveCo
     }
 
     private void initData() {
-        mAdapter = new PersonalLiveHomeAdapter(getActivity(), mList);
         mPresenter.getPersonalLiveData(pager, 10, 2);
+        mAdapter = new PersonalLiveHomeAdapter(getActivity(), mList);
     }
 
     private void initListener() {
