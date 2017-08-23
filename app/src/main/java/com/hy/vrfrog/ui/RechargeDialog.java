@@ -10,12 +10,24 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hy.vrfrog.R;
+import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.AccountBean;
+import com.hy.vrfrog.utils.NetUtil;
+import com.hy.vrfrog.utils.SPUtil;
+import com.hy.vrfrog.utils.UIUtils;
+
+import org.xutils.common.util.LogUtil;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 /**
  * Created by qwe on 2017/8/4.
@@ -45,7 +57,10 @@ public class RechargeDialog {
     private TextView mTopChooseRightTv;
     private TextView mUpChooseRightTv;
     private RelativeLayout mTopUpChooseRightRl;
+    private int mRechargeCount;
 
+    private IChargeMoney mCallback;
+    private ImageButton mBack;
 
 
     public RechargeDialog(Context context) {
@@ -83,6 +98,8 @@ public class RechargeDialog {
         mUpChooseRightTv = (TextView)view.findViewById(R.id.tv_top_up_price_right);
         mTopUpChooseRightRl = (RelativeLayout)view.findViewById(R.id.rl_top_up_right);
 
+        mBack = (ImageButton)view.findViewById(R.id.ib_top_up_back);
+
 
 
         // 定义Dialog布局和参数
@@ -95,7 +112,50 @@ public class RechargeDialog {
 
         initListener();
 
+        initAccount();
+
+
         return this;
+    }
+
+    private void initAccount() {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+        if (SPUtil.getUser() != null) {
+            RequestParams requestParams = new RequestParams(HttpURL.Remain);
+            requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
+            requestParams.addBodyParameter("uid", SPUtil.getUser().getResult().getUser().getUid() + "");
+
+            LogUtil.i("余额token = " + SPUtil.getUser().getResult().getUser().getToken());
+            LogUtil.i("余额uid = " + SPUtil.getUser().getResult().getUser().getUid());
+
+            //获取数据
+            x.http().get(requestParams, new JsonCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    LogUtil.i("余额 = " + result);
+                    AccountBean accountBean = new Gson().fromJson(result, AccountBean.class);
+                    if (accountBean.getCode() == 0) {
+                        LogUtil.i("余额 = " + accountBean.getResult());
+                        mVideoRechargeBalanceTv.setText(String.valueOf(accountBean.getResult()) + "蛙豆");
+                    }
+
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("服务端连接失败");
+
+                }
+
+                @Override
+                public void onFinished() {
+                }
+            });
+        }
     }
 
     private void initListener() {
@@ -113,6 +173,8 @@ public class RechargeDialog {
                 mTopUpChooseRightImg.setImageResource(R.mipmap.pay_wave);
                 mTopChooseRightTv.setTextColor(Color.parseColor("#666666"));
                 mUpChooseRightTv.setTextColor(Color.parseColor("#666666"));
+                mRechargeCount = 10 ;
+                initRechargeRule();
             }
         });
 
@@ -130,6 +192,8 @@ public class RechargeDialog {
                 mTopUpChooseRightImg.setImageResource(R.mipmap.pay_wave);
                 mTopChooseRightTv.setTextColor(Color.parseColor("#666666"));
                 mUpChooseRightTv.setTextColor(Color.parseColor("#666666"));
+
+                mRechargeCount = 100;
             }
         });
 
@@ -147,16 +211,61 @@ public class RechargeDialog {
                 mTopUpChooseRightImg.setImageResource(R.mipmap.pay_waves);
                 mTopChooseRightTv.setTextColor(Color.WHITE);
                 mUpChooseRightTv.setTextColor(Color.WHITE);
+                mRechargeCount = 200;
             }
         });
 
 
     }
 
+    private void initRechargeRule() {
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+
+        if (SPUtil.getUser() != null){
+            RequestParams requestParams = new RequestParams(HttpURL.Get);
+
+            requestParams.addBodyParameter("page",1+"");
+            requestParams.addBodyParameter("count",20+"");
+
+
+            LogUtil.i("充值规则page = " + 1);
+            LogUtil.i("充值规则 count " + 20);
+
+
+            //获取数据
+            x.http().post(requestParams, new JsonCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    LogUtil.i("打赏 = " +  result);
+
+
+                }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("服务端连接失败");
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+
+        }else {
+            UIUtils.showTip("请登陆");
+        }
+
+    }
+
 
     public RechargeDialog setDeleteListener(String text, final View.OnClickListener listener) {
 
-        mVideoRechargeDeleteLl.setOnClickListener(new View.OnClickListener() {
+        mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onClick(v);
@@ -166,12 +275,12 @@ public class RechargeDialog {
         return this;
     }
 
-    public RechargeDialog setPayListener(String text, final View.OnClickListener listener) {
+    public RechargeDialog setPayListener(String text, final IChargeMoney listener) {
 
         mVideoRechargeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClick(v);
+                listener.goChargeMoney(mRechargeCount);
                 dialog.dismiss();
             }
         });
@@ -191,5 +300,11 @@ public class RechargeDialog {
     public RechargeDialog dissmiss() {
         dialog.dismiss();
         return this ;
+    }
+
+    public interface IChargeMoney{
+
+        void goChargeMoney(int money);
+
     }
 }

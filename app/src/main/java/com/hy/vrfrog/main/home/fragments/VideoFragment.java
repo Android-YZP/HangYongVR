@@ -222,7 +222,7 @@ public class VideoFragment extends Fragment {
     }
 
 
-    //    /**
+//        /**
 //     * 设置头布局
 //     */
 //    private void setHeaderView(RecyclerView view) {

@@ -29,8 +29,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:background="@drawable/personal_center_background" />
-
+                android:background="@mipmap/personal_center_background"
+                 />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -63,8 +63,8 @@
             >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:src="@mipmap/personal_center_icon_balance" />
@@ -110,8 +110,8 @@
             android:layout_height="50dp">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:src="@mipmap/personal_center_icon_person" />
@@ -155,8 +155,8 @@
             >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:background="@mipmap/personal_center_icon_history" />
@@ -197,11 +197,12 @@
             android:id="@+id/ll_my_pay"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:visibility="gone"
             >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:background="@mipmap/personal_center_icon_pay" />
@@ -236,16 +237,18 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:background="#343449"
+            android:visibility="gone"
             />
         <LinearLayout
             android:id="@+id/ll_my_yindao"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:visibility="gone"
             >
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:background="@mipmap/personal_center_icon_novices" />
@@ -273,14 +276,7 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:background="#343449"
-            />
+
 
         <LinearLayout
             android:id="@+id/ll_my_certification"
@@ -288,8 +284,8 @@
             android:layout_height="50dp">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp"
                 android:background="@mipmap/personal_center_icon_real_name" />
@@ -307,6 +303,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_my_certification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:text="@string/my_fragment_no_certification"
+                android:textColor="#fff"
+                android:textSize="17sp"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"

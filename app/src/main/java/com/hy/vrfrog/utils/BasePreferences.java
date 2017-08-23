@@ -1,5 +1,6 @@
 package com.hy.vrfrog.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -11,11 +12,9 @@ public class BasePreferences {
     private static SharedPreferences instance;
 
 
-    public static SharedPreferences getInstance(){
-        if (instance == null){
-            instance = PreferenceManager.getDefaultSharedPreferences(UIUtils.getContext());
-        }
-        return instance;
+    public BasePreferences(Context context) {
+        // TODO Auto-generated constructor stub
+        instance = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     /**
@@ -42,7 +41,6 @@ public class BasePreferences {
         } else {
             return false;
         }
-
     }
 
     /**
@@ -62,8 +60,8 @@ public class BasePreferences {
      *            Preference key值
      * @return key对应的value值
      */
-    public void getPrefString(String key) {
-         instance.getString(key, null);
+    public String getPrefString(String key) {
+         return instance.getString(key, null);
     }
 
     /**
@@ -95,9 +93,9 @@ public class BasePreferences {
      *            Preference key值
      * @return key对应的value值
      */
-    public void getPrefInteger(String key) {
+    public int getPrefInteger(String key) {
 
-       instance.getInt(key, 0);
+       return instance.getInt(key, 0);
     }
 
     /**
@@ -113,14 +111,12 @@ public class BasePreferences {
     }
 
     /**
-     *
-     * @param key
+     *  @param key
      *            Preference key值
      * @param value
-     *            设置的value值
      */
-    public void setPrefString(String key, String value) {
-        instance.edit().putString(key, value).commit();
+    public void setPrefString(String key, int value) {
+        instance.edit().putString(key, String.valueOf(value)).commit();
     }
 
     /**

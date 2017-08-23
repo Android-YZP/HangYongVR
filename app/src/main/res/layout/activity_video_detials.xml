@@ -53,74 +53,6 @@
     </LinearLayout>
 
 
-    <ImageButton
-        android:id="@+id/ibt_video_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/on_demand_button_close"
-        android:layout_marginTop="48dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="22dp"/>
-
-    <LinearLayout
-        android:id="@+id/ll_video_up"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:visibility="gone"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="23dp"
-            android:text="上一个视频"
-            android:textColor="#66ffffff"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/iv_up_gif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY"
-            android:layout_marginTop="8dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_video_down"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone"
-        >
-
-        <ImageView
-            android:id="@+id/iv_down_gif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY"
-            android:layout_marginBottom="8dp"/>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="11dp"
-            android:text="下一个视频"
-            android:textColor="#66ffffff"
-            android:textSize="12sp" />
-    </LinearLayout>
-
     <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/sf_detail_SwipeRefreshLayout"
         android:layout_width="match_parent"
@@ -139,4 +71,14 @@
             app:rvp_triggerOffset="0.2" />
 
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+    <ImageView
+        android:id="@+id/ibt_video_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/on_demand_button_close"
+        android:layout_marginTop="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="22dp"
+        />
 </RelativeLayout>

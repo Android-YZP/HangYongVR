@@ -21,7 +21,26 @@ public class VedioContants {
     public static final String See = "See";
     public static final String Desc = "desc";
     public static final String Vid = "vid";
+    public static final String Yid = "Yid";
+    public static final String LivingPlayUrl = "LivingPlayUrl";
+    public static final String ChannelName = "ChannelName";
+    public static final String HeadFace = "Head";
+    public static final String LivingPushUrl = "LivingPushUrl";
+    public static final String ChannelId = "ChannelId";
+    public static final String GroupID = "GroupID";
+    public static final String GiftGroup = "GiftGroup";
+    public static final String RoomImg = "RoomImg";
+    public static final String RoomNoData= "RoomNoData";
 
+
+    public static final int AVIMCMD_None = 0; // 无事件
+    public static final int AVIMCMD_Custom_Text = 1;//文本消息
+    public static final int AVIMCMD_Custom_EnterLive = 2; //用户加入直播
+    public static final int AVIMCMD_Custom_ExitLive = 3; //用户推出直播
+    public static final int AVIMCMD_Custom_Like = 4; //点赞消息
+    public static final int AVIMCMD_Custom_Danmaku = 5; //弹幕消息
+    public static final int AVIMCMD_Custom_Gift = 6; //礼物消息
+    public static final int AVIMCMD_Custom_Exit = 7; //退出房间
 
     /**
      * 下载文件的路径

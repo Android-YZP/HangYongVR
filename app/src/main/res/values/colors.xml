@@ -142,6 +142,9 @@
     <color name="umeng_text_color">#575A5C</color>
     <color name="umeng_divide">#C3C6C9</color>
     <color name="translate">#00000000</color>
+    <color name="divider">#3d3c4f</color>
+
+
 
     <!-- 对话框 -->
     <color name="alertdialog_line">#c6c6c6</color>
@@ -153,5 +156,7 @@
     <color name="gray">#666666</color>
     <color name="cai">#e4572e</color>
     <color name="zhuangtai">#202020</color>
+
+    <color name="main_background">#1c1c34</color>
 
 </resources>

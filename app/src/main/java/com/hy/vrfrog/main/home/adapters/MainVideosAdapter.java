@@ -12,11 +12,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.HttpURL;
+import com.hy.vrfrog.http.responsebean.RecommendBean;
 import com.hy.vrfrog.http.responsebean.TopicBean;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
 import com.hy.vrfrog.utils.TimeUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
+
+import org.xutils.common.util.LogUtil;
 
 import java.util.List;
 
@@ -40,13 +43,15 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     private List<TopicBean.ResultBeanX.ResultBean> resultBean;
     private int TopicId;
     //构造函数
+    private int type ;
 
 
-    public MainVideosAdapter(Activity context, ViewPager mViewpager, List<TopicBean.ResultBeanX.ResultBean> resultBean, int TopicId) {
+    public MainVideosAdapter(Activity context, ViewPager mViewpager, List<TopicBean.ResultBeanX.ResultBean> resultBean, int TopicId,int type) {
         this.context = context;
         this.mViewpager = mViewpager;
         this.resultBean = resultBean;
         this.TopicId = TopicId;
+        this.type = type ;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -105,8 +110,6 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     @Override
     public void onBindViewHolder(ListHolder holder, final int position) {
 
-        //图片
-        if (position < getItemCount() - 1) {
             Glide.with(context)
                     .load(HttpURL.IV_HOST + resultBean.get(position).getImg1())
                     .asBitmap()
@@ -128,9 +131,7 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
                     context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
                 }
             });
-        } else if (position == getItemCount() - 1) {//脚布局
 
-        }
     }
 
     //在这里面加载ListView中的每个item的布局
@@ -158,13 +159,25 @@ public class MainVideosAdapter extends RecyclerView.Adapter<MainVideosAdapter.Li
     //返回View中Item的个数，这个时候，总的个数应该是ListView中Item的个数加上HeaderView和FooterView
     @Override
     public int getItemCount() {
+        LogUtil.i("type is =" + type);
         if (mHeaderView == null && mFooterView == null) {
+            if (type == 1){
+                if (resultBean.size() > 3){
+                    return 3;
+                }
+
+            }else if (type == 2) {
+                if (resultBean.size() > 7) {
+                    return 7;
+                }
+            }
             return resultBean.size();
         } else if (mHeaderView == null && mFooterView != null) {
             return resultBean.size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
             return resultBean.size() + 1;
         } else {
+
             return resultBean.size() + 2;
         }
     }

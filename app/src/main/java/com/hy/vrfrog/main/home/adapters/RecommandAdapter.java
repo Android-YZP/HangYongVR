@@ -1,45 +1,59 @@
 package com.hy.vrfrog.main.home.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hy.vrfrog.R;
 import com.hy.vrfrog.http.responsebean.RecommendBean;
-import com.hy.vrfrog.ui.XCRoundRectImageView;
-import com.hy.vrfrog.utils.TimeUtils;
+import com.hy.vrfrog.http.responsebean.TopicBean;
+import com.hy.vrfrog.main.home.activitys.VideoListActivity;
+import com.hy.vrfrog.utils.UIUtils;
+import com.hy.vrfrog.videoDetails.VedioContants;
 
-import java.util.ArrayList;
+import org.xutils.common.util.LogUtil;
+
 import java.util.List;
+import java.util.Random;
 
 /**
- * Created by Smith on 2017/7/4.
+ * Created by Smith on 2017/6/29.
  */
 
-public class RecommandAdapter extends RecyclerView.Adapter<RecommandAdapter.ListHolder> {
+public class RecommandAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_HEADER = 0;  //说明是带有Header的
     public static final int TYPE_FOOTER = 1;  //说明是带有Footer的
     public static final int TYPE_NORMAL = 2;  //说明是不带有header和footer的
-    private static final String ACTION = "com.jt.base.SENDBROADCAST";
+
     //获取从Activity中传递过来每个item的数据集合
     private List<String> mDatas;
     //HeaderView, FooterView
     private View mHeaderView;
     private View mFooterView;
     private Activity context;
-    private int position;
-    private ArrayList<RecommendBean> mList;
-    private int TopicId;
+    private SwipeRefreshLayout mRecyclerfreshLayout;
+    private RecyclerView mRecycler;
+    private ViewPager mViewpager;
+    private TextView mTvMore1;
+    private List<RecommendBean.ResultBeanX> topicBean;
     //构造函数
 
-
-    public RecommandAdapter(Activity context, ArrayList<RecommendBean> resultBean, int TopicId) {
+    public RecommandAdapter(Activity context, SwipeRefreshLayout mRecyclerfreshLayout, List<RecommendBean.ResultBeanX> topicBean) {
+        this.mRecyclerfreshLayout = mRecyclerfreshLayout;
         this.context = context;
-        this.mList = resultBean;
-        this.TopicId = TopicId;
+        this.mRecycler = mRecycler;
+        this.mViewpager = mViewpager;
+        this.topicBean = topicBean;
     }
 
     //HeaderView和FooterView的get和set函数
@@ -71,11 +85,11 @@ public class RecommandAdapter extends RecyclerView.Adapter<RecommandAdapter.List
         if (mHeaderView == null && mFooterView == null) {
             return TYPE_NORMAL;
         }
-        if (position == 0) {
+        if (position == 0 && mHeaderView != null) {
             //第一个item应该加载Header
             return TYPE_HEADER;
         }
-        if (position == getItemCount() - 1) {
+        if (position == getItemCount() - 1 && mFooterView != null) {
             //最后一个,应该加载Footer
             return TYPE_FOOTER;
         }
@@ -84,36 +98,149 @@ public class RecommandAdapter extends RecyclerView.Adapter<RecommandAdapter.List
 
     //创建View，如果是HeaderView或者是FooterView，直接在Holder中返回
     @Override
-    public ListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mHeaderView != null && viewType == TYPE_HEADER) {
-            return new RecommandAdapter.ListHolder(mHeaderView);
+            return new ListHolder(mHeaderView);
         }
+
         if (mFooterView != null && viewType == TYPE_FOOTER) {
-            return new RecommandAdapter.ListHolder(mFooterView);
+            return new ListHolder(mFooterView);
         }
-        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.re_video_item_main, parent, false);
-        return new RecommandAdapter.ListHolder(layout);
+
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.reitem_main, parent, false);
+        return new ListHolder(layout);
     }
 
+    //绑定View，这里是根据返回的这个position的类型，从而进行绑定的，   HeaderView和FooterView, 就不同绑定了
     @Override
-    public void onBindViewHolder(ListHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        if (getItemViewType(position) == TYPE_NORMAL) {
+            if (holder instanceof ListHolder) {
+                if (position == 1){
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                    ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                    ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    RecommendOneAdapter mainVideosAdapter = new RecommendOneAdapter(context, topicBean.get(position + 2).getResult(), topicBean.get(position + 2).getCode());
+                    ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                }else {
+                    int type = UIUtils.typeRandom(3);
 
-        //图片
+                    LogUtil.i("type = " +  type);
+//
+                    if ( type== 0 ){
+
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                        ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                        ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        RecommendOneAdapter mainVideosAdapter = new RecommendOneAdapter(context,topicBean.get(position -1).getResult(), topicBean.get(position-1).getCode());
+                        ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+
+                    } else if (type == 1){
+
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                        ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                        ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        RecommendThreeAdapter mainVideosAdapter = new RecommendThreeAdapter(context, topicBean.get(position-1).getResult(), topicBean.get(position-1).getCode(),type);
+                        ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
 
 
-            //设置视频的描述信息
-//            holder.mTvVideoDesc.setText(mList.get(position).getTitle());
-//            if (mList.get(position).getTitle() != null)
-//                holder.mTvVideoTime.setText(TimeUtils.generateTime(Integer.parseInt(mList.get(position).getTitle())));//设置时间
+                    }else  if (type == 2){
+                        int typeOne = new Random().nextInt(2) ;
+                        if (topicBean.get(position -1).getResult().size() >= 3){
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                            ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                            ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                            RecommendTwoAdapter mainVideosAdapter = new RecommendTwoAdapter(context,topicBean.get(position-1).getResult(), topicBean.get(position-1).getCode(),type);
+                            ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                        }else {
+
+                            if (typeOne == 0){
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                                ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                                RecommendOneAdapter mainVideosAdapter = new RecommendOneAdapter(context,topicBean.get(position -1).getResult(), topicBean.get(position-1).getCode());
+                                ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                            }else {
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                                ((ListHolder) holder).mRvVideoList.setNestedScrollingEnabled(false);
+                                ((ListHolder) holder).mRvVideoList.setLayoutManager(linearLayoutManager);
+                                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                                RecommendThreeAdapter mainVideosAdapter = new RecommendThreeAdapter(context, topicBean.get(position-1).getResult(), topicBean.get(position-1).getCode(),type);
+                                ((ListHolder) holder).mRvVideoList.setAdapter(mainVideosAdapter);
+                            }
+
+                        }
+
+                    }
+                }
 
 
+                ((ListHolder) holder).mTvTopicTitle.setText(topicBean.get(position -1).getMsg());
+                ((ListHolder) holder).mTvTotalVideos.setText(topicBean.get(position -1).getPage().getTotal() + "个视频");
+                if (topicBean.get(position - 1).getResult() .size() != 0){
+                    ((ListHolder) holder).mSortMessageTv.setText((String)topicBean.get(position - 1).getResult().get(0).getTypeName());
+                }
+
+                ((ListHolder) holder).mRlMainMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, VideoListActivity.class);
+                        intent.putExtra(VedioContants.TopicId, topicBean.get(position -1).getCode());
+                        intent.putExtra(VedioContants.TopicTitle, topicBean.get(position -1).getMsg());
+                        context.startActivity(intent);
+                        context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+                    }
+                });
+
+
+                //修复滑动事件的冲突
+                ((ListHolder) holder).mRvVideoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {//滑动停止后
+                            mRecyclerfreshLayout.setEnabled(true);
+                        } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                            mRecyclerfreshLayout.setEnabled(false);
+                        }
+                    }
+                });
+
+                ((ListHolder) holder).mRvVideoList.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                break;
+                            default:
+                        }
+                        return false;
+                    }
+                });
+                return;
+            }
+            return;
+        } else if (getItemViewType(position) == TYPE_HEADER) {
+            return;
+        } else {
+            return;
+        }
     }
 
     //在这里面加载ListView中的每个item的布局
     class ListHolder extends RecyclerView.ViewHolder {
-        private XCRoundRectImageView mivVideoImg;
-        private TextView mTvVideoDesc;
-        private TextView mTvVideoTime;
+        RecyclerView mRvVideoList;
+        private TextView mTvTopicTitle;
+        private RelativeLayout mRlMainMore;
+        private TextView mTvTotalVideos;
+        private TextView mSortMessageTv;
 
         public ListHolder(View itemView) {
             super(itemView);
@@ -124,24 +251,26 @@ public class RecommandAdapter extends RecyclerView.Adapter<RecommandAdapter.List
             if (itemView == mFooterView) {
                 return;
             }
-            mivVideoImg = (XCRoundRectImageView) itemView.findViewById(R.id.iv_video_img);
-            mTvVideoDesc = (TextView) itemView.findViewById(R.id.tv_video_desc);
-            mTvVideoTime = (TextView) itemView.findViewById(R.id.tv_video_time);
+            mRvVideoList = (RecyclerView) itemView.findViewById(R.id.rv_video_sort_list);
+            mTvTopicTitle = (TextView) itemView.findViewById(R.id.tv_video_sort_title);
+            mRlMainMore = (RelativeLayout) itemView.findViewById(R.id.rl_main_sort_more);
+            mTvTotalVideos = (TextView) itemView.findViewById(R.id.tv_video_sort_num);
+            mSortMessageTv = (TextView)itemView.findViewById(R.id.tv_video_message);
+
         }
     }
-
 
     //返回View中Item的个数，这个时候，总的个数应该是ListView中Item的个数加上HeaderView和FooterView
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {
-            return mList.size();
+            return topicBean.size();
         } else if (mHeaderView == null && mFooterView != null) {
-            return mList.size() + 1;
+            return topicBean.size() + 1;
         } else if (mHeaderView != null && mFooterView == null) {
-            return mList.size() + 1;
+            return topicBean.size() + 1;
         } else {
-            return mList.size() + 2;
+            return topicBean.size() + 2;
         }
     }
 

@@ -8,13 +8,39 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="196dp">
+        android:layout_height="196dp"
+        >
 
         <ImageView
             android:id="@+id/tv_video_list_header"
             android:layout_width="match_parent"
             android:scaleType="fitXY"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="#1c1c34"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:scaleType="fitXY"
+            android:layout_height="match_parent"
+            android:background="#A61c1c34"
+            />
+
+        <TextView
+            android:id="@+id/tv_video_list_attention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="+关注"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:background="@drawable/topic_concern"
+            android:gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="25dp"
+            android:padding="5dp"
+            />
+
         <ImageView
             android:id="@+id/tv_video_list_mask"
             android:layout_width="match_parent"
@@ -22,6 +48,8 @@
             android:scaleType="fitXY"
             android:layout_height="30dp"
             android:background="@mipmap/hua_ti"/>
+
+
 
         <TextView
             android:id="@+id/video_list_topic_desc"
@@ -32,8 +60,20 @@
             android:layout_marginTop="170dp"
             android:lines="1"
             android:text="关键词的形式发布微博，括号内的关键词即为"
-            android:textColor="#666666"
-            android:textSize="15sp" />
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="140dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/video_list_describe"
+            android:layout_marginLeft="29dp"
+
+            />
 
     </RelativeLayout>
 
@@ -67,7 +107,7 @@
                 android:layout_marginLeft="8dp"
                 android:text="视频"
                 android:textColor="@color/white"
-                android:textSize="21sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <TextView

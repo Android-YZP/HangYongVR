@@ -2,11 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#1c1c34"
+    >
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#1c1c34">
+    >
 
 
     <LinearLayout
@@ -37,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
-                android:hint=" 搜索视频和话题"
+                android:hint=" 搜索视频"
                 android:layout_centerVertical="true"
                 android:imeOptions="actionSearch"
                 android:maxLines="1"
@@ -46,7 +48,9 @@
                 android:textColorHint="#bdbdc3"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="15sp"
-                android:theme="@style/MyEditText" />
+                android:theme="@style/MyEditText"
+
+                />
         </RelativeLayout>
 
 
@@ -105,8 +109,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#f3f3f3" />
+            android:layout_height="0.5dp"
+            android:background="#454558"
+            android:layout_marginTop="1dp"
+            ></View>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_search_video"

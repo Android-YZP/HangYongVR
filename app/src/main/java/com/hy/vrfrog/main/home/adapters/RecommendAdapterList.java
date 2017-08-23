@@ -1,5 +1,6 @@
 package com.hy.vrfrog.main.home.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,12 +28,12 @@ import java.util.List;
 
 public class RecommendAdapterList extends BaseAdapter {
 
-    private Context mContext;
+    private Activity mContext;
     private List<RecommendBean.ResultBeanX> mList;
     private final int TYPE_STYLE_ONE = 0 ;
     private final int TYPE_STYLE_TWO = 1;
     private final int TYPE_STYLE_THREE = 2;
-    public RecommendAdapterList(Context context ,List<RecommendBean.ResultBeanX>list){
+    public RecommendAdapterList(Activity context ,List<RecommendBean.ResultBeanX>list){
         this.mList = list;
         this.mContext = context;
     }
@@ -130,7 +131,7 @@ public class RecommendAdapterList extends BaseAdapter {
             switch (type){
                 case TYPE_STYLE_ONE:
                     if (mList != null && mList.size() != 0){
-                        holder.image.setImageResource(R.mipmap.img1);
+
 //                        holder.mTitle.setText((String)mList.get(position + 1 ).getResult().get(position).getTopicName());
 //                        holder.mMessage.setText(mList.get(position + 1).getResult().get(position).getTopicName());
 //                        holder.mType.setText(mList.get(position + 1).getResult().get(position).getTopicName());
@@ -185,8 +186,8 @@ public class RecommendAdapterList extends BaseAdapter {
                         mOneHolder.mRecyclerOneTitle.setNestedScrollingEnabled(false);
                         mOneHolder.mRecyclerOneTitle.setLayoutManager(mLinearLayoutManager);
                         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        RecommendTwoAdapter mAdapter = new RecommendTwoAdapter(mContext,mList.get(position).getResult(),mList.get(position).getCode());
-                        mOneHolder.mRecyclerOneTitle.setAdapter(mAdapter);
+//                        RecommendTwoAdapter mAdapter = new RecommendTwoAdapter(mContext,mList.get(position).getResult(),mList.get(position).getCode());
+//                        mOneHolder.mRecyclerOneTitle.setAdapter(mAdapter);
                         mOneHolder.mOneTitleRl.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

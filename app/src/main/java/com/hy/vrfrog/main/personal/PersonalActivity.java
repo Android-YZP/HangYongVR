@@ -88,7 +88,7 @@ public class PersonalActivity extends SwipeBackActivity {
         // 裁剪图片意图
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
+//        intent.putExtra("crop", "true");
         // 裁剪框的比例，1：1
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
@@ -287,10 +287,11 @@ public class PersonalActivity extends SwipeBackActivity {
     }
 
     public void initData() {
+         mPermissionsChecker = new PermissionsChecker(PersonalActivity.this);
         User user = SPUtil.getUser();
 //        bindCircularImage(mIvPersonalhead,user.getResult().getUser().getHead());
         mTvPersonalNum.setText(user.getResult().getUser().getPhone());
-        mTvPersonalName.setText(user.getResult().getUser().getPhone());
+        mTvPersonalName.setText(user.getResult().getUser().getUsername());
     }
 
     /**

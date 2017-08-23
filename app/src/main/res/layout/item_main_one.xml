@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1c1c34"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_main_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="立秋后北京依旧酷热，井盖10分钟能烤熟虾"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:layout_marginBottom="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:lineSpacingExtra="2dp"
+        />
+
+
+        <com.hy.vrfrog.ui.XCRoundRectImageView
+            android:id="@+id/xri_main_img"
+            android:layout_width="match_parent"
+            android:layout_height="223dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/recommend_seat_background" />
+
+</LinearLayout>

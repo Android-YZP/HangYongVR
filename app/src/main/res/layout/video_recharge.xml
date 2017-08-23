@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="262dp"
+        android:layout_height="300dp"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -27,18 +27,22 @@
 
          <LinearLayout
              android:id="@+id/ll_video_recharge_cancel"
-             android:layout_width="40dp"
-             android:layout_height="40dp"
+             android:layout_width="60dp"
+             android:layout_height="60dp"
              android:layout_gravity="center"
              android:gravity="center"
              android:layout_alignParentRight="true"
+
              >
              <ImageButton
                  android:id="@+id/ib_top_up_back"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_gravity="center_horizontal"
-                 android:background="@mipmap/pay_cha" />
+                 android:background="@mipmap/pay_cha"
+                 android:layout_marginTop="10dp"
+                 android:padding="10dp"
+                 />
          </LinearLayout>
 
         </RelativeLayout>
@@ -172,7 +176,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#d9d9d9"
-            android:layout_marginTop="31dp"/>
+            android:layout_marginTop="10dp"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

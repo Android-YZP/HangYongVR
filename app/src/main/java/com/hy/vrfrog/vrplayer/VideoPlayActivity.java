@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,7 +30,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,9 +37,13 @@ import com.hy.vrfrog.R;
 import com.hy.vrfrog.application.User;
 import com.hy.vrfrog.http.HttpURL;
 import com.hy.vrfrog.http.JsonCallBack;
+import com.hy.vrfrog.http.responsebean.GiveRewardBean;
 import com.hy.vrfrog.http.responsebean.VodbyTopicBean;
+import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
+import com.hy.vrfrog.ui.GiveRewardDialog;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
+import com.hy.vrfrog.utils.ToolToast;
 import com.hy.vrfrog.utils.UIUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 import com.hy.vrfrog.vrplayer.SnailNetReceiver.NetStateChangedListener;
@@ -86,6 +88,9 @@ public class VideoPlayActivity extends AppCompatActivity {
     private String mPlayUrl = "";
 
     private GestureDetector mGestureDetector = null;
+
+    private int yid;
+    private int position ;
 
     private static final int GESTURE_TYPE_NO = 0;
     private static final int GESTURE_TYPE_HRO = 1;
@@ -491,6 +496,8 @@ public class VideoPlayActivity extends AppCompatActivity {
         desc = intent.getStringExtra(VedioContants.Desc);
         mVid = intent.getIntExtra(VedioContants.Vid, 0);
         mVideoPosition = intent.getIntExtra(VedioContants.Position, 0);
+        position = intent.getIntExtra("position",0);
+        yid = intent.getIntExtra("yid",0);
         TextView title = (TextView) findViewById(R.id.tv_play_title);
         title.setText(desc);
 
@@ -910,7 +917,6 @@ public class VideoPlayActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIUtils.showTip("服务端连接失败");
             }
 
             @Override
@@ -1086,33 +1092,81 @@ public class VideoPlayActivity extends AppCompatActivity {
 
     private void showToastStyleDialog() {
 
-        final com.hy.vrfrog.utils.DialogUtils dialogUtils = new com.hy.vrfrog.utils.DialogUtils(VideoPlayActivity.this);
-        View contentView = LayoutInflater.from(VideoPlayActivity.this).inflate(
-                R.layout.video_exceptional, null);
-        dialogUtils.setContentView(contentView);
-        dialogUtils.setGravity(Gravity.CENTER);
-        dialogUtils.show();
-        TextView no = (TextView) contentView.findViewById(R.id.tv_exceptional_no);
-        TextView yes = (TextView) contentView.findViewById(R.id.tv_exceptional_yes);
-        RadioButton rb1 = (RadioButton) contentView.findViewById(R.id.rb_1);
-        LinearLayout num = (LinearLayout) contentView.findViewById(R.id.ll_exceptional);
-        LinearLayout num1 = (LinearLayout) contentView.findViewById(R.id.ll_exceptional1);
-        LinearLayout num2 = (LinearLayout) contentView.findViewById(R.id.ll_exceptional2);
-        EditText num3 = (EditText) contentView.findViewById(R.id.ed_exceptional_num3);
-        changeText(rb1, 88 + "", true);
+       new GiveRewardDialog(VideoPlayActivity.this).builder()
+               .setCanceledOnTouchOutside(true)
+               .setNegativeButton("", new OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
 
-        yes.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UIUtils.showTip("敬请期待");
-            }
-        });
-        no.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogUtils.getBaseDialog().dismiss();
-            }
-        });
+                   }
+               })
+               .setPositiveButton("", new GiveRewardDialog.IGiveReward() {
+                   @Override
+                   public void GoGiveReward(int count) {
+
+                       LogUtil.i("打赏 = " + count);
+                       getRewardData(count,position);
+
+                   }
+               }).show();
+
+    }
+
+    private void getRewardData(int count, int position) {
+
+        if (!NetUtil.isOpenNetwork()) {
+            UIUtils.showTip("请打开网络");
+            return;
+        }
+
+        if (SPUtil.getUser() != null){
+            RequestParams requestParams = new RequestParams(HttpURL.Pay);
+            requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken());
+            requestParams.addBodyParameter("uid",SPUtil.getUser().getResult().getUser().getUid()+"");
+            requestParams.addBodyParameter("type",2+"");
+            requestParams.addBodyParameter("vid",mVid+ "");
+            requestParams.addBodyParameter("money",count+"");
+            requestParams.addBodyParameter("yid",yid+"");
+
+            LogUtil.i("播放打赏token = " + SPUtil.getUser().getResult().getUser().getToken());
+            LogUtil.i("播放打赏uid = " + SPUtil.getUser().getResult().getUser().getUid());
+            LogUtil.i("播放打赏vid = " + mVid);
+            LogUtil.i("播放打赏yid = " + yid);
+            LogUtil.i("播放打赏money = " + count);
+
+            LogUtil.i("播放打赏type = " + 2);
+
+            //获取数据
+            x.http().post(requestParams, new JsonCallBack() {
+                @Override
+                public void onSuccess(String result) {
+
+                    GiveRewardBean giveBean = new Gson().fromJson(result,GiveRewardBean.class);
+                    if (giveBean.getCode() == 0){
+                        ToolToast.buildToast(VideoPlayActivity.this,"打赏成功",1);
+                    }else {
+                        ToolToast.buildToast(VideoPlayActivity.this,"蛙豆不足",1);
+                    }
+
+                    LogUtil.i("打赏 = " +  result);
+
+
+                }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.showTip("服务端连接失败");
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+
+        }else {
+            UIUtils.showTip("请登陆");
+        }
 
     }
 

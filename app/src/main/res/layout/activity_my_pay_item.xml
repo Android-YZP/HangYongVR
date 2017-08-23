@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/main_background">
 
     <RelativeLayout
         android:id="@+id/rl_my_pay_list"
@@ -30,7 +30,7 @@
             android:layout_marginTop="25dp"
             android:singleLine="true"
             android:text="科幻之旅"
-            android:textColor="#000000"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"/>
 
@@ -63,5 +63,5 @@
         android:layout_height="1dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
-        android:background="#d9d9d9" />
+        android:background="@color/divider" />
 </LinearLayout>

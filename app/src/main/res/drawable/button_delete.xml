@@ -4,7 +4,7 @@
 
 
     <!-- 填充 -->
-    <solid android:color="#fff" /> <!-- 定义填充的颜色值 -->
+    <solid android:color="#02d3f3" /> <!-- 定义填充的颜色值 -->
 
     <!-- 圆角 -->
     <corners
@@ -16,5 +16,7 @@
     <size
     android:width="30dp"
     android:height="12dp" />
+
+    <stroke android:color="#02d3f3" android:width="0.5dp"></stroke>
 
 </shape>

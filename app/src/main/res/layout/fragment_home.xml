@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.hy.vrfrog.main.home.HomeFragment"
+    android:background="@color/main_background"
    >
 
     <RelativeLayout
@@ -46,6 +47,7 @@
             <net.lucode.hackware.magicindicator.MagicIndicator
                 android:id="@+id/magic_indicator"
                 android:layout_width="match_parent"
+                android:paddingLeft="5dp"
                 android:layout_height="45dp" />
 
         </LinearLayout>
@@ -86,6 +88,7 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
              />
 
     </RelativeLayout>

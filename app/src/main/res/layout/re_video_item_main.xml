@@ -3,10 +3,11 @@
     android:layout_width="147dp"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_marginRight="18dp">
+    android:layout_marginRight="10dp">
 
 
     <LinearLayout
+        android:id="@+id/ll_item_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -26,7 +27,7 @@
             android:ellipsize="end"
             android:text="科幻的電影有多少"
             android:textColor="#fff"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -45,5 +46,6 @@
         android:textColor="#fff"
         android:text="03:08"
         android:textSize="12sp" />
+
 
 </RelativeLayout>

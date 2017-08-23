@@ -250,7 +250,7 @@
     <string name="dialog_pay_virtual_house_id">房间id</string>
     <string name="dialog_pay_virtual_house_live">当前直播</string>
     <string name="dialog_pay_virtual_cancel">取消</string>
-    <string name="dialog_pay_virtual_confirm_pay">确定支付</string>
+    <string name="dialog_pay_virtual_confirm_pay">去支付</string>
 
     <!--举报-->
     <string name="dialog_report_rumor">政治谣言</string>
@@ -264,5 +264,8 @@
     <!--实名认证-->
     <string name="dialog_verified_title">实名认证</string>
     <string name="dialog_verified_message">你还没有实名认证哦~</string>
+    <string name="my_fragment_no_certification">未认证</string>
+
+
 
 </resources>
