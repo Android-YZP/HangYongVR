@@ -68,6 +68,7 @@ public class MyFragment extends Fragment {
     private ChannelStatusBean channelStatusBean;
     private CertificationBean certificationBean;
     private boolean isAuthentication = false;
+    private ImageView mIvHead;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -315,7 +316,6 @@ public class MyFragment extends Fragment {
 //            mCertificationTv.setText("已认证");
 //        }else {
 //            mCertificationTv.setText("未认证");
-//
 //        }
 
 

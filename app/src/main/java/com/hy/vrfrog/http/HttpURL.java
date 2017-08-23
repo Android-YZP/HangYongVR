@@ -14,8 +14,8 @@ public class HttpURL {
 //    private static String Host = "http://118.89.246.194:8080/api/";
 
 
-        private static String Root_Host = "http://123.206.67.115:8080";
-//    private static String Root_Host = "http://118.89.246.194:8080";
+//        private static String Root_Host = "http://123.206.67.115:8080";
+    private static String Root_Host = "http://118.89.246.194:8080";
     private static String Host = Root_Host + "/api/";
 
     //        public static String IV_HOST = Root_Host+"/head/";
