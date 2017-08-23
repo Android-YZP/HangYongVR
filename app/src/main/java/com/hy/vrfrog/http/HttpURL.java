@@ -12,23 +12,26 @@ public class HttpURL {
 //    private static String Host = "http://192.168.1.99:8080/hyplatform/api/";
 //    private static String Host = "http://192.168.1.140:8080/hyplatform/api/";
 //    private static String Host = "http://118.89.246.194:8080/api/";
-    private static String Host = "http://123.206.67.115:8080/api/";
 
+
+        private static String Root_Host = "http://123.206.67.115:8080";
+//    private static String Root_Host = "http://118.89.246.194:8080";
+    private static String Host = Root_Host + "/api/";
+
+    //        public static String IV_HOST = Root_Host+"/head/";
+//    public static String IV_HOST = Root_Host+"/api/";
+    public static String IV_HOST = Root_Host + "/img/live/";
+    public static String IV_CHARGE_HOST = Root_Host + "/img/chargr/";
+    public static String IV_GIFT_HOST = Root_Host + "/img/gift/";
+    public static String IV_PERSON_HOST = Root_Host + "/img/person/";
+    public static String IV_USER_HOST = Root_Host + "/img/user/";
+    public static String IV_HEAD_HOST = Root_Host + "/img/head/";
+    public static String IV_APK_HOST = Root_Host + "/img/apk/";
+    public static String NOR_IV_HOST = Root_Host + "/head/bf2156e0-ab0a-4199-a0ed-12a4ce4e7c5c.png";
+    public static String APK_HOST = Root_Host + "/head/apk/";
     public static String Token = "C47B1071";
     public static String SourceNum = "222";
-//        public static String IV_HOST = "http://118.89.246.194:8080/head/";
-//    public static String IV_HOST = "http://123.206.67.115:8080/api/";
-    public static String IV_HOST = "http://123.206.67.115:8080/img/live/";
-    public static String IV_CHARGE_HOST = "http://123.206.67.115:8080/img/chargr/";
-    public static String IV_GIFT_HOST = "http://123.206.67.115:8080/img/gift/";
-    public static String IV_PERSON_HOST = "http://123.206.67.115:8080/img/person/";
-    public static String IV_USER_HOST = "http://123.206.67.115:8080/img/user/";
-    public static String IV_HEAD_HOST = "http://123.206.67.115:8080/img/head/";
-    public static String IV_APK_HOST = "http://123.206.67.115:8080/img/apk/";
-    public static String NOR_IV_HOST = "http://118.89.246.194:8080/head/bf2156e0-ab0a-4199-a0ed-12a4ce4e7c5c.png";
-//    public static String IV_HOST = "http://192.168.1.132:8080/head/";
-        public static String APK_HOST = "http://118.89.246.194:8080/head/apk/";
-//    public static String APK_HOST = "";
+
 
     /**
      * 登录
@@ -48,7 +51,7 @@ public class HttpURL {
     /**
      * 上传头像
      */
-    public static String UpdateHeadPic = Host+ "user/update/android/img";
+    public static String UpdateHeadPic = Host + "user/update/android/img";
 
     /**
      * 更新密码
@@ -138,77 +141,76 @@ public class HttpURL {
 
 
     /**
-     *首页数据
+     * 首页数据
      */
     public static String Resource = Host + "login/get/resource";
     /**
-     *首页推荐数据 http://192.168.1.141:8080/hyplatform/api/
+     * 首页推荐数据 http://192.168.1.141:8080/hyplatform/api/
      */
-    public static String VodByCommendTopic = Host+"login/get/vodByCommendTopic";
+    public static String VodByCommendTopic = Host + "login/get/vodByCommendTopic";
 
     /**
-     *首页推荐数据 http://192.168.1.141:8080/hyplatform/api/
+     * 首页推荐数据 http://192.168.1.141:8080/hyplatform/api/
      */
-    public static String AllLive = Host+"login/get/allLive";
+    public static String AllLive = Host + "login/get/allLive";
 
     /**
-     *充值
+     * 充值
      */
-    public static String Add = Host+"charge/android/add";
+    public static String Add = Host + "charge/android/add";
 
     /**
-     *打赏
+     * 打赏
      */
-    public static String Pay = Host+"charge/pay";
+    public static String Pay = Host + "charge/pay";
 
     /**
-     *获取充值规则列表
+     * 获取充值规则列表
      */
-    public static String Get = Host+"charge/get";
+    public static String Get = Host + "charge/get";
 
     /**
-     *获得用户余额
+     * 获得用户余额
      */
-    public static String Remain = Host+"charge/remain/get";
+    public static String Remain = Host + "charge/remain/get";
 
     /**
-     *获得用户审核状态
+     * 获得用户审核状态
      */
-    public static String ChannelStatus = Host+"login/user/channelStatus/get";
+    public static String ChannelStatus = Host + "login/user/channelStatus/get";
 
 
     /**
-     *获取消费记录
+     * 获取消费记录
      */
-    public static String RechargeRecode = Host+"charge/history/get";
+    public static String RechargeRecode = Host + "charge/history/get";
 
-   /**
+    /**
      * 创建直播间
      */
-    public static String createRoom = Host+"personLvb/create";
+    public static String createRoom = Host + "personLvb/create";
 
 
     /**
      * 编辑直播间
      */
-    public static String editRoom = Host+"personLvb/updatePersonRoom";
+    public static String editRoom = Host + "personLvb/updatePersonRoom";
 
     /**
      * 编辑直播间
      */
-    public static String getGift= Host+"free/gift/get";
+    public static String getGift = Host + "free/gift/get";
 
-  /**
+    /**
      * 获取直播间收获的蛙豆
      */
-    public static String getRoomMoney = Host+"charge/money/get";
+    public static String getRoomMoney = Host + "charge/money/get";
 
 
-  /**
+    /**
      * 获取直播间是否要收费
      */
-    public static String payStatus = Host+"charge/live/pay/status";
-
+    public static String payStatus = Host + "charge/live/pay/status";
 
 
 }
