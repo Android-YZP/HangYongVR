@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
-                android:hint=" 搜索视频和话题"
+                android:hint=" 搜索视频"
                 android:layout_centerVertical="true"
                 android:imeOptions="actionSearch"
                 android:maxLines="1"

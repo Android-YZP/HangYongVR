@@ -163,8 +163,6 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                 public void onClick(View view) {
 
                     if (resultBean.get(position).getLvbStatus() == 1) {
-
-
                         if (resultBean.get(position).getPrice() != 0) {
                             if (SPUtil.getUser() == null) {
                                 UIUtils.showTip("请登录后付费体验");
@@ -189,7 +187,12 @@ public class PersonalLiveHomeAdapter extends RecyclerView.Adapter<PersonalLiveHo
                             context.startActivity(intent);
                         }
                     } else {
-                        UIUtils.showTip("主播正在赶来的路上~");
+                        UIUtils.showTip("主播狂奔而来中~~~");
+
+//                        Intent intent = new Intent(context, LivingPlayActivity.class);
+//                        intent.putExtra(VedioContants.RoomNoData, true);
+//                        context.startActivity(intent);
+
 //                        mCallback.onReViewPLay(position);
                     }
                 }

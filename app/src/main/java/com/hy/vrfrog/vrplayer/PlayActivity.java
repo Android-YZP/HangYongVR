@@ -32,6 +32,7 @@ import com.hy.vrfrog.http.responsebean.RoomNumberBean;
 import com.hy.vrfrog.main.living.im.TCChatEntity;
 import com.hy.vrfrog.main.living.im.TCConstants;
 import com.hy.vrfrog.main.living.im.TimConfig;
+import com.hy.vrfrog.main.living.livingplay.LivingPlayActivity;
 import com.hy.vrfrog.utils.NetUtil;
 import com.hy.vrfrog.utils.SPUtil;
 import com.hy.vrfrog.utils.UIUtils;
@@ -210,17 +211,16 @@ public class PlayActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_play);
-        initPlayView();
-        playControll();
-        playGesture();
-        initPlayMode();
-        initInfo();
+        Boolean isRoomNoData = getIntent().getBooleanExtra(VedioContants.RoomNoData, false);
+        if (isRoomNoData) {
+            showComfirmDialog("主播正在赶来的路上", true);
+        }
+            initPlayView();
+            playControll();
+            playGesture();
+            initPlayMode();
+            initInfo();
     }
-
-
-
-
-
 
     private void playGesture() {
         mBufferingView = (RelativeLayout) findViewById(R.id.id_mediaplay_buffering_view);
@@ -272,7 +272,6 @@ public class PlayActivity extends AppCompatActivity {
                     Log.i(TAG, "PLAYER_EVENT_BUFFERING");
                     mBufferingView.setVisibility(View.VISIBLE);
                 } else if (what == EventType.PLAYER_EVENT_BUFFERED) {
-
                     Log.i(TAG, "PLAYER_EVENT_BUFFERED");
                     mBufferingView.setVisibility(View.GONE);
                 } else if (what == EventType.PLAYER_EVENT_FINISHED) {
@@ -287,7 +286,6 @@ public class PlayActivity extends AppCompatActivity {
         mVideoView.setOnErrorListener(new ISnailPlayerErrorNotification() {
             @Override
             public void onError(ISnailPlayer mp, ISnailPlayer.ErrorType error, int extra) {
-
                 if (error.equals("PLAYER_ERROR_EXIT")) {
                     LogUtil.i("11111111111" + error);
                     showErrorDialog();
@@ -683,6 +681,50 @@ public class PlayActivity extends AppCompatActivity {
 
         });
     }
+
+    /**
+     * 显示确认消息
+     *
+     * @param msg     消息内容
+     * @param isError true错误消息（必须退出） false提示消息（可选择是否退出）
+     */
+    public void showComfirmDialog(String msg, Boolean isError) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(PlayActivity.this, R.style.ConfirmDialogStyle);
+        builder.setCancelable(true);
+        builder.setTitle(msg);
+
+        if (!isError) {
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        } else {
+            //当情况为错误的时候，直接停止推流
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+        }
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+//        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+    }
+
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

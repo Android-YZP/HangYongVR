@@ -181,7 +181,27 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
                         }
 
                     }else {
-                        UIUtils.showTip("不能开播");
+
+                        UIUtils.showTip("直播尚未开始，敬请期待");
+//                        Intent i = new Intent(context, PlayActivity.class);
+//                        int isall = resultBean.get(position).getIsall();
+//                        if (isall == VedioContants.TWO_D_VEDIO) {
+//                            i.putExtra(Definition.PLEAR_MODE, VedioContants.TWO_D_VEDIO);
+//                        } else if (isall == VedioContants.ALL_VIEW_VEDIO) {
+//                            i.putExtra(Definition.PLEAR_MODE, VedioContants.ALL_VIEW_VEDIO);
+//                        }
+//
+//                        LogUtil.i(resultBean.get(position).getRtmpDownstreamAddress() + "");
+//                        i.putExtra(VedioContants.PlayUrl, resultBean.get(position).getRtmpDownstreamAddress() + "");
+//                        i.putExtra(VedioContants.KEY_PLAY_HEAD, HttpURL.IV_USER_HOST + resultBean.get(position).getHead() + "");
+//                        i.putExtra(VedioContants.KEY_PLAY_USERNAME, resultBean.get(position).getUsername() + "");
+//                        i.putExtra(VedioContants.KEY_PLAY_ID, resultBean.get(position).getId() + "");
+//                        i.putExtra(VedioContants.RoomNoData, true);
+//                        if (NetUtil.isOpenNetwork()) {
+//                            context.startActivity(i);
+//                        } else {
+//                            UIUtils.showTip("请连接网络");
+//                        }
                     }
 
                 }
@@ -255,7 +275,7 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
         private final LinearLayout linear;
         private final XCRoundRectImageView mIvImg;
         private final TextView mEnterTitleTv;
-        private final TextView mEnterTvNum;
+//        private final TextView mEnterTvNum;
         private final TextView mEnterZhiBoTv;
         private final TextView mRnterpriseLiveTvName;
         private final ImageView mRnterprise1LiveImg;
@@ -268,7 +288,7 @@ public class EnterpriseOnLiveAdapter extends RecyclerView.Adapter<EnterpriseOnLi
             linear = (LinearLayout) itemView.findViewById(R.id.ll_enter_title);
             mIvImg = (XCRoundRectImageView) itemView.findViewById(R.id.xri_enter_img);
             mEnterTitleTv = (TextView) itemView.findViewById(R.id.tv_enter_home_title);
-            mEnterTvNum = (TextView) itemView.findViewById(R.id.tv_enter_home_people_number);
+//            mEnterTvNum = (TextView) itemView.findViewById(R.id.tv_enter_home_people_number);
             mEnterZhiBoTv = (TextView) itemView.findViewById(R.id.tv_enter_home_live_state);
             mRnterpriseLiveTvName = (TextView) itemView.findViewById(R.id.tv_enter_home_name);
             mRnterprise1LiveImg = (ImageView) itemView.findViewById(R.id.img_enter_home_play_state);

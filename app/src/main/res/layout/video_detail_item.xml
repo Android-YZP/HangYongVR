@@ -87,6 +87,7 @@
         android:layout_marginTop="45dp"
         android:background="@drawable/pay_layer_list_bg"
         android:orientation="horizontal"
+        android:visibility="gone"
         >
 
         <com.hy.vrfrog.ui.CircleImageView
@@ -120,6 +121,7 @@
         android:layout_marginTop="45dp"
         android:background="@drawable/pay_layer_list_bg"
         android:orientation="horizontal"
+
         >
 
         <ImageView

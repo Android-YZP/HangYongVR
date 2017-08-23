@@ -356,7 +356,7 @@ public class PushActivity extends AppCompatActivity implements ITXLivePushListen
         mLlOutRoomPersons.setText(mRoomNum + "");
         mLlOutRoomLikeNum.setText(mFavorNumber + "");
         mLlOutRoomMoney.setText(money);
-        Glide.with(UIUtils.getContext()).load(mRoomImg).asBitmap().into(mLlOutRoomOutBg);
+//        Glide.with(UIUtils.getContext()).load(mRoomImg).asBitmap().into(mLlOutRoomOutBg);
         outRoom();
     }
 
