@@ -78,7 +78,7 @@ public class DemandPayDialog {
         dialog = new Dialog(context,R.style.DialogTheme);
         dialog.setContentView(view);
         Window dialogWindow = dialog.getWindow();
-        dialogWindow.setGravity( Gravity.CENTER);
+        dialogWindow.setGravity( Gravity.BOTTOM);
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setAttributes(lp);
 

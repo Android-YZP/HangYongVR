@@ -15,6 +15,7 @@ import com.hy.vrfrog.http.responsebean.RecommendBean;
 import com.hy.vrfrog.http.responsebean.TopicBean;
 import com.hy.vrfrog.main.home.activitys.VideoDetialActivity;
 import com.hy.vrfrog.ui.XCRoundRectImageView;
+import com.hy.vrfrog.utils.TimeUtils;
 import com.hy.vrfrog.videoDetails.VedioContants;
 
 import org.xutils.common.util.LogUtil;
@@ -65,6 +66,9 @@ public class RecommendOneAdapter extends RecyclerView.Adapter<RecommendOneAdapte
             //设置视频的描述信息
             holder.mMessage.setText((String)resultBean.get(position).getIntroduce());
 
+            if (resultBean.get(position).getTime() != null)
+                holder.mTimeTv.setText(TimeUtils.generateTime(Integer.parseInt(resultBean.get(position).getTime())));//设置时间
+
             holder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -88,12 +92,14 @@ public class RecommendOneAdapter extends RecyclerView.Adapter<RecommendOneAdapte
 
         private TextView mMessage;
         private XCRoundRectImageView image;
+        private TextView mTimeTv;
 
         public ListHolder(View itemView) {
             super(itemView);
 
             mMessage = (TextView)itemView.findViewById(R.id.tv_main_name);
             image = (XCRoundRectImageView)itemView.findViewById(R.id.xri_main_img);
+            mTimeTv = (TextView)itemView.findViewById(R.id.tv_video_one_time);
         }
     }
 

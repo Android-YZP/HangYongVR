@@ -140,9 +140,7 @@ public class ReleaseLiveActivity extends AppCompatActivity implements View.OnCli
         requestRuntimePermission(permissions, new IPermissionListener() {
             @Override
             public void onGranted() {
-                //                Intent intent = new Intent(ReleaseLiveActivity.this, PushActivity.class);//测试数据
-//                startActivity(intent);
-//
+
                 if (TextUtils.isEmpty(mHouseNameEdt.getText().toString())) {
                     UIUtils.showTip("房间名称不能为空");
                     return;

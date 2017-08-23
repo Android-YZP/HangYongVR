@@ -15,7 +15,7 @@
             android:id="@+id/iv_main_fragment_bg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#fff"
+            android:background="@color/main_background"
             android:visibility="gone"
             android:orientation="vertical"
             android:layout_centerInParent="true"

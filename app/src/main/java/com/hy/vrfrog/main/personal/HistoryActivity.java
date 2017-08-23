@@ -211,6 +211,13 @@ public class HistoryActivity extends SwipeBackActivity {
             UIUtils.showTip("请打开网络");
             return;
         }
+
+        LogUtil.i("历史观看token =" + SPUtil.getUser().getResult().getUser().getToken());
+        LogUtil.i("历史观看vid =" + vid);
+        LogUtil.i("历史观看uid =" + SPUtil.getUser().getResult().getUser().getUid());
+
+
+
         //使用xutils3访问网络并获取返回值
         RequestParams requestParams = new RequestParams(HttpURL.DeleteHistory);
         requestParams.addHeader("token", SPUtil.getUser().getResult().getUser().getToken() + "");
@@ -223,7 +230,7 @@ public class HistoryActivity extends SwipeBackActivity {
         x.http().post(requestParams, new JsonCallBack() {
             @Override
             public void onSuccess(String result) {
-                LogUtil.i("---------------"+result);
+                LogUtil.i("历史观看---------------" + result);
             }
 
             @Override
@@ -259,6 +266,7 @@ public class HistoryActivity extends SwipeBackActivity {
                 if (!NetUtil.isOpenNetwork()) {
                     UIUtils.showTip("请打开网络");
                 } else {
+                    LogUtil.i("vid = " + resultData.get(position).getVid());
                     HttpDeleteHistory(resultData.get(position).getVid() + "");
                     resultData.remove(position);
                     adapter.notifyDataSetChanged();
